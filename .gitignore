@@ -7,3 +7,12 @@ data/processed/
 
 .DS_Store
 .vscode/
+# Local environment
+venv/
+.env
+__pycache__/
+*.pyc
+.DS_Store
+
+# Local model/cache files
+.ollama/

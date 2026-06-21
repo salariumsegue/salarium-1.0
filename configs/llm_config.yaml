@@ -1,0 +1,5 @@
+model: llama3.2:1b
+base_url: http://localhost:11434
+temperature: 0
+input_file: data/raw/macro_events_seed.csv
+output_file: data/processed/macro_llm_features.csv

@@ -1,0 +1,3 @@
+model,train_rows,test_rows,test_start,test_end,accuracy,auc,avg_all_5d_return,avg_top5_5d_return,excess_top5_return
+baseline_technical_only,25120,6280,2025-03-13,2026-06-11,0.5508,0.5082,0.00528,0.00615,0.00087
+technical_plus_macro_llm,25120,6280,2025-03-13,2026-06-11,0.5408,0.51,0.00528,0.00646,0.00118
