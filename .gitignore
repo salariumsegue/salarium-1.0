@@ -29,3 +29,7 @@ data/processed/training_data_model_safe.csv
 
 # Generated macro-aware model-safe training data
 data/processed/training_data_model_safe_with_macro.csv
+
+# Generated top-125 model-safe training data
+data/processed/training_data_top125_model_safe.csv
+data/processed/training_data_top125_model_safe_with_macro.csv

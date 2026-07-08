@@ -39,13 +39,13 @@
 
 ## Macro Presence In Training Data
 
-- Model-safe training file: `data/processed/training_data_model_safe_with_macro.csv`
+- Model-safe training file: `data/processed/training_data_top125_model_safe_with_macro.csv`
 - Model-safe macro columns: `['macro_tone_num', 'surprise_num', 'inflation_num', 'growth_num', 'rate_policy_num', 'liquidity_num', 'reaction_quality_num', 'five_day_bias_num', 'macro_tone_score', 'five_day_market_bias_score', 'macro_confidence', 'macro_signal_score', 'has_macro_context']`
 - Existing training files with macro columns: `1`
 
 | File | Exists | Macro-like columns | Expected macro columns present |
 |---|---:|---|---|
-| `data/processed/training_data_model_safe_with_macro.csv` | True | `['macro_tone_num', 'surprise_num', 'inflation_num', 'growth_num', 'rate_policy_num', 'liquidity_num', 'reaction_quality_num', 'five_day_bias_num', 'macro_tone_score', 'five_day_market_bias_score', 'macro_confidence', 'macro_signal_score', 'has_macro_context']` | `['macro_signal_score', 'macro_tone_score', 'surprise_num', 'inflation_num', 'growth_num', 'rate_policy_num', 'liquidity_num', 'reaction_quality_num', 'five_day_market_bias_score']` |
+| `data/processed/training_data_top125_model_safe_with_macro.csv` | True | `['macro_tone_num', 'surprise_num', 'inflation_num', 'growth_num', 'rate_policy_num', 'liquidity_num', 'reaction_quality_num', 'five_day_bias_num', 'macro_tone_score', 'five_day_market_bias_score', 'macro_confidence', 'macro_signal_score', 'has_macro_context']` | `['macro_signal_score', 'macro_tone_score', 'surprise_num', 'inflation_num', 'growth_num', 'rate_policy_num', 'liquidity_num', 'reaction_quality_num', 'five_day_market_bias_score']` |
 | `data/processed/training_data_with_macro.csv` | False | `[]` | `[]` |
 | `data/processed/stock_training_data_with_macro.csv` | False | `[]` | `[]` |
 | `data/processed/merged_stock_macro_features.csv` | False | `[]` | `[]` |
@@ -55,11 +55,12 @@
 
 ## Available Macro-Related Files
 
-- Files found: `7`
+- Files found: `8`
 - `data/processed/macro_llm_features.csv`
 - `data/processed/macro_model_features.csv`
 - `data/processed/salarium_training_with_macro.csv`
 - `data/processed/training_data_model_safe_with_macro.csv`
+- `data/processed/training_data_top125_model_safe_with_macro.csv`
 - `results/macro_feature_audit_summary.csv`
 - `results/macro_feature_importance.csv`
 - `results/macro_model_comparison.csv`
@@ -68,7 +69,7 @@
 
 - Groups: `['macro_holdout', 'strategy_walkforward', 'walkforward_rank']`
 - Macro candidates: `['technical_plus_macro_llm', 'macro_signal_score_only', 'macro_tone_score_only', 'technical_plus_macro_combo']`
-- Positive strategy walk-forward baselines: `6`
+- Positive strategy walk-forward baselines: `5`
 
 ## Warnings
 
