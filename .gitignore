@@ -16,3 +16,6 @@ __pycache__/
 
 # Local model/cache files
 .ollama/
+
+# Agent run artifacts
+reports/agent_runs/
