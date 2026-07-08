@@ -482,12 +482,15 @@ class StrategyWalkforwardAgent(BaseAgent):
             net_excess_return = net_top_return - universe_return
             long_short_return = gross_top_return - bottom_return
 
-            score_rank = group[score_col].rank(method="average")
-            return_rank = group[return_col].rank(method="average")
-            spearman_ic = score_rank.corr(return_rank)
-
-            if pd.isna(spearman_ic):
+            if group[score_col].nunique(dropna=True) < 2 or group[return_col].nunique(dropna=True) < 2:
                 spearman_ic = 0.0
+            else:
+                score_rank = group[score_col].rank(method="average")
+                return_rank = group[return_col].rank(method="average")
+                spearman_ic = score_rank.corr(return_rank)
+
+                if pd.isna(spearman_ic):
+                    spearman_ic = 0.0
 
             rows.append(
                 {
@@ -678,8 +681,11 @@ class StrategyWalkforwardAgent(BaseAgent):
         best_weak_count = self._float_or_none(best.get("weak_period_count"))
         best_turnover = self._float_or_none(best.get("avg_turnover"))
 
-        if best_ic is not None and best_ic < 0.01:
-            warnings.append("Best strategy has positive but weak Spearman IC.")
+        if best_ic is not None:
+            if best_ic < 0:
+                warnings.append("Best strategy has negative Spearman IC.")
+            elif best_ic < 0.01:
+                warnings.append("Best strategy has positive but weak Spearman IC.")
 
         if best_drawdown is not None and best_drawdown < -0.25:
             warnings.append("Best strategy max drawdown is worse than -25%.")

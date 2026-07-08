@@ -8,23 +8,21 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from src.agents.strategy_walkforward_agent import StrategyWalkforwardAgent
+from src.agents.data_quality_leakage_agent import DataQualityLeakageAgent
 
 
 def main() -> int:
-    run_id = datetime.now().strftime("%Y-%m-%d_%H%M%S_strategy_walkforward")
+    run_id = datetime.now().strftime("%Y-%m-%d_%H%M%S_data_quality_leakage")
 
     context = {
         "run_id": run_id,
         "reports_dir": "reports/agent_runs",
         "results_dir": "results",
+        "universe_path": "configs/stock_universe_current_training.csv",
         "training_data_path": "data/processed/training_data_model_safe.csv",
-        "top_n": 10,
-        "rebalance_step": 5,
-        "transaction_cost_per_turnover": 0.001,
     }
 
-    agent = StrategyWalkforwardAgent()
+    agent = DataQualityLeakageAgent()
     result = agent.run(context)
 
     print(json.dumps(result.to_dict(), indent=2, default=str))
