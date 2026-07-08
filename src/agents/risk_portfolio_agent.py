@@ -188,9 +188,36 @@ class RiskPortfolioAgent(BaseAgent):
         }
 
         date_col = self._find_col(df, ["date", "rebalance_date", "timestamp"])
-        top_col = self._find_col(df, ["top_tickers", "selected_tickers", "tickers"])
-        net_col = self._find_col(df, ["net_top10_5d", "net_return", "portfolio_return", "avg_net_top10_5d"])
-        excess_col = self._find_col(df, ["net_excess_5d", "excess_return", "avg_net_excess_5d"])
+        top_col = self._find_col(
+            df,
+            [
+                "top10_holdings",
+                "top_10_holdings",
+                "top_tickers",
+                "selected_tickers",
+                "holdings",
+                "tickers",
+            ],
+        )
+        net_col = self._find_col(
+            df,
+            [
+                "net_top10_5d_return",
+                "net_top10_5d",
+                "net_return",
+                "portfolio_return",
+                "avg_net_top10_5d",
+            ],
+        )
+        excess_col = self._find_col(
+            df,
+            [
+                "net_excess_vs_universe",
+                "net_excess_5d",
+                "excess_return",
+                "avg_net_excess_5d",
+            ],
+        )
 
         out["date_column"] = date_col
         out["top_tickers_column"] = top_col
@@ -303,7 +330,15 @@ class RiskPortfolioAgent(BaseAgent):
         total_portfolios = 0
 
         for value in ticker_series.dropna().astype(str):
-            tickers = [ticker.strip().upper() for ticker in value.split(",") if ticker.strip()]
+            cleaned = (
+                value.replace("[", "")
+                .replace("]", "")
+                .replace("'", "")
+                .replace('"', "")
+                .replace(";", ",")
+                .replace("|", ",")
+            )
+            tickers = [ticker.strip().upper() for ticker in cleaned.split(",") if ticker.strip()]
             if not tickers:
                 continue
 

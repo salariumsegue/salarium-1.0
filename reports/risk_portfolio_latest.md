@@ -2,7 +2,7 @@
 
 **Status:** warn
 
-**Summary:** Risk portfolio status: warn. Net excess 5D: 0.001446. Max drawdown: -50.22%. Avg turnover: 1.083. Weak years: 6. Warnings: 7. Errors: 0.
+**Summary:** Risk portfolio status: warn. Net excess 5D: 0.001446. Max drawdown: -50.22%. Avg turnover: 1.083. Weak years: 6. Warnings: 9. Errors: 0.
 
 ## Overall Portfolio Risk
 
@@ -33,6 +33,21 @@
 | 2025 | 0.006338 | 0.061748 | 0.008585 | -0.272591 | 1.184000 | drawdown_worse_than_20pct, high_turnover |
 | 2026 | 0.003914 | -0.012897 | -0.003857 | -0.072980 | 1.104348 | negative_spearman_ic, negative_long_short, high_turnover |
 
+## Top Name Concentration
+
+| Ticker | Count | Frequency |
+|---|---:|---:|
+| `COIN` | 117 | 42.39% |
+| `ROKU` | 116 | 42.03% |
+| `NET` | 112 | 40.58% |
+| `MDB` | 109 | 39.49% |
+| `SHOP` | 105 | 38.04% |
+| `WBD` | 87 | 31.52% |
+| `ALB` | 82 | 29.71% |
+| `UAL` | 69 | 25.00% |
+| `AMD` | 64 | 23.19% |
+| `INTC` | 61 | 22.10% |
+
 ## Tournament Risk Context
 
 - Groups: `macro_holdout, strategy_walkforward, walkforward_rank`
@@ -45,6 +60,8 @@
 - Current walk-forward model has high average turnover.
 - Current walk-forward model has weak excess Sharpe.
 - Current walk-forward model has weak ranking IC.
+- At least one rebalance period has a net return worse than -10%.
+- One ticker appears in more than 35% of selected portfolios.
 - No simple strategy walk-forward baseline has positive net excess return.
 - Best simple strategy baseline has non-positive net excess return.
 - Best simple strategy baseline has non-positive Spearman IC.
