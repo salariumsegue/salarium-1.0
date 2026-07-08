@@ -19,7 +19,7 @@ def main() -> int:
         "reports_dir": "reports/agent_runs",
         "results_dir": "results",
         "universe_path": "configs/stock_universe_current_training.csv",
-        "training_data_path": "data/processed/training_data_model_safe.csv",
+        "training_data_path": "data/processed/training_data_model_safe_with_macro.csv",
     }
 
     agent = DataQualityLeakageAgent()

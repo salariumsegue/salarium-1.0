@@ -2,7 +2,7 @@
 
 **Status:** warn
 
-**Summary:** Macro feature audit status: warn. Macro holdout excess Top-5 delta: 0.000310. Relative excess lift: 35.63%. AUC delta: 0.001800. Model-safe macro columns: 0. Warnings: 5. Errors: 0.
+**Summary:** Macro feature audit status: warn. Macro holdout excess Top-5 delta: 0.000310. Relative excess lift: 35.63%. AUC delta: 0.001800. Model-safe macro columns: 13. Warnings: 2. Errors: 0.
 
 ## Macro Holdout Comparison
 
@@ -39,13 +39,13 @@
 
 ## Macro Presence In Training Data
 
-- Model-safe training file: `data/processed/training_data_model_safe.csv`
-- Model-safe macro columns: `[]`
-- Existing training files with macro columns: `0`
+- Model-safe training file: `data/processed/training_data_model_safe_with_macro.csv`
+- Model-safe macro columns: `['macro_tone_num', 'surprise_num', 'inflation_num', 'growth_num', 'rate_policy_num', 'liquidity_num', 'reaction_quality_num', 'five_day_bias_num', 'macro_tone_score', 'five_day_market_bias_score', 'macro_confidence', 'macro_signal_score', 'has_macro_context']`
+- Existing training files with macro columns: `1`
 
 | File | Exists | Macro-like columns | Expected macro columns present |
 |---|---:|---|---|
-| `data/processed/training_data_model_safe.csv` | True | `[]` | `[]` |
+| `data/processed/training_data_model_safe_with_macro.csv` | True | `['macro_tone_num', 'surprise_num', 'inflation_num', 'growth_num', 'rate_policy_num', 'liquidity_num', 'reaction_quality_num', 'five_day_bias_num', 'macro_tone_score', 'five_day_market_bias_score', 'macro_confidence', 'macro_signal_score', 'has_macro_context']` | `['macro_signal_score', 'macro_tone_score', 'surprise_num', 'inflation_num', 'growth_num', 'rate_policy_num', 'liquidity_num', 'reaction_quality_num', 'five_day_market_bias_score']` |
 | `data/processed/training_data_with_macro.csv` | False | `[]` | `[]` |
 | `data/processed/stock_training_data_with_macro.csv` | False | `[]` | `[]` |
 | `data/processed/merged_stock_macro_features.csv` | False | `[]` | `[]` |
@@ -55,25 +55,24 @@
 
 ## Available Macro-Related Files
 
-- Files found: `5`
+- Files found: `7`
 - `data/processed/macro_llm_features.csv`
 - `data/processed/macro_model_features.csv`
 - `data/processed/salarium_training_with_macro.csv`
+- `data/processed/training_data_model_safe_with_macro.csv`
+- `results/macro_feature_audit_summary.csv`
 - `results/macro_feature_importance.csv`
 - `results/macro_model_comparison.csv`
 
 ## Tournament Context
 
 - Groups: `['macro_holdout', 'strategy_walkforward', 'walkforward_rank']`
-- Macro candidates: `['technical_plus_macro_llm']`
-- Positive strategy walk-forward baselines: `0`
+- Macro candidates: `['technical_plus_macro_llm', 'macro_signal_score_only', 'macro_tone_score_only', 'technical_plus_macro_combo']`
+- Positive strategy walk-forward baselines: `6`
 
 ## Warnings
 
 - Macro model has lower accuracy than baseline. This may be acceptable if ranking return improves.
-- Model-safe walk-forward training file has no macro columns. Macro holdout edge is not currently tested in the strategy walk-forward agent.
-- No local training dataset with macro-like columns was found in standard paths.
-- Macro holdout improved excess return, but model-safe walk-forward data has no macro columns. Next required upgrade: build macro-aware model-safe training data.
 - Macro holdout and strategy walk-forward candidates are still not directly comparable. Macro needs to be tested through the same walk-forward engine.
 
 ## Required Next Upgrade

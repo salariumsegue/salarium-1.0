@@ -26,3 +26,6 @@ EOFgrep -q "data/processed/training_data_model_safe.csv" .gitignore || cat >> .g
 
 # Generated model-safe training data
 data/processed/training_data_model_safe.csv
+
+# Generated macro-aware model-safe training data
+data/processed/training_data_model_safe_with_macro.csv
