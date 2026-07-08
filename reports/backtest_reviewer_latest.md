@@ -2,7 +2,7 @@
 
 **Status:** warn
 
-**Summary:** Backtest review status: warn. Overall avg net excess 5D return: 0.001446. Overall Spearman IC: 0.006883. Overall long/short 5D return: 0.001887. Diagnosis: Promising but not proven. The ranking signal appears positive overall, but weak periods need investigation. Warnings: 2. Errors: 0.
+**Summary:** Backtest review status: warn. Overall avg net excess 5D return: 0.001446. Overall Spearman IC: 0.006883. Overall long/short 5D return: 0.001887. Diagnosis: Promising but not proven. The ranking signal appears positive overall, but weak periods need investigation. Warnings: 4. Errors: 0.
 
 ## Diagnosis
 
@@ -20,6 +20,14 @@ Promising but not proven. The ranking signal appears positive overall, but weak 
 | `avg_bottom10_5d` | 0.003862 |
 | `avg_long_short_5d` | 0.001887 |
 | `avg_spearman_ic` | 0.006883 |
+| `avg_turnover` | 1.082609 |
+| `avg_transaction_cost` | 0.001083 |
+| `net_hit_rate` | 0.565217 |
+| `excess_hit_rate` | 0.510870 |
+| `annualized_net_return` | 0.202255 |
+| `net_sharpe` | 0.738870 |
+| `excess_sharpe` | 0.362395 |
+| `max_drawdown` | -0.502249 |
 
 ## Weak Periods
 
@@ -32,25 +40,27 @@ Promising but not proven. The ranking signal appears positive overall, but weak 
 
 | Feature | Importance |
 |---|---:|
-| `relative_strength` | 0.159223 |
-| `price_vs_ma50` | 0.154306 |
-| `momentum_5d` | 0.151726 |
-| `volatility_20d` | 0.134328 |
-| `price_vs_ma20` | 0.125531 |
 | `surprise_num` | 0.113848 |
-| `momentum_20d` | 0.106605 |
-| `rsi_14d` | 0.102467 |
 | `macro_signal_score` | 0.099349 |
 | `price_vs_ma50` | 0.088557 |
 | `macro_tone_score` | 0.079520 |
 | `momentum_5d` | 0.074742 |
 | `momentum_20d` | 0.070021 |
 | `volatility_20d` | 0.066428 |
-| `return_1d` | 0.065813 |
+| `price_vs_ma20` | 0.065425 |
+| `relative_strength` | 0.064841 |
+| `rsi_14d` | 0.052530 |
+| `liquidity_num` | 0.049985 |
+| `five_day_market_bias_score` | 0.047156 |
+| `return_1d` | 0.032768 |
+| `reaction_quality_num` | 0.022999 |
+| `growth_num` | 0.022259 |
 
 ## Warnings
 
 - Overall Spearman IC is positive but weak.
+- Overall max drawdown is worse than -15%.
+- Average turnover is high; transaction costs may be understated.
 - Weak walk-forward periods detected: [{'period': '2021', 'flags': ['negative_net_excess', 'negative_spearman_ic', 'negative_long_short', 'bottom10_beats_top10']}, {'period': '2022', 'flags': ['negative_net_excess', 'negative_spearman_ic', 'negative_long_short', 'bottom10_beats_top10']}, {'period': '2024', 'flags': ['negative_net_excess']}, {'period': '2026', 'flags': ['negative_spearman_ic', 'negative_long_short', 'bottom10_beats_top10']}]
 
 ## Raw Metrics
@@ -86,7 +96,15 @@ Promising but not proven. The ranking signal appears positive overall, but weak 
       "avg_net_excess_5d": 0.0014456049996195,
       "avg_bottom10_5d": 0.0038615486070645,
       "avg_long_short_5d": 0.0018873576176775,
-      "avg_spearman_ic": 0.0068833980452429
+      "avg_spearman_ic": 0.0068833980452429,
+      "avg_turnover": 1.082608695652174,
+      "avg_transaction_cost": 0.0010826086956521,
+      "net_hit_rate": 0.5652173913043478,
+      "excess_hit_rate": 0.5108695652173914,
+      "annualized_net_return": 0.2022548862013262,
+      "net_sharpe": 0.7388699754621311,
+      "excess_sharpe": 0.3623946317566217,
+      "max_drawdown": -0.5022489201869706
     },
     "yearly_periods": 6,
     "weak_periods": [
@@ -179,38 +197,11 @@ Promising but not proven. The ranking signal appears positive overall, but weak 
     ],
     "feature_column": "feature",
     "importance_column": "importance",
+    "selected_model_scope": "macro_model_only",
     "top_15_features": [
-      {
-        "feature": "relative_strength",
-        "importance": 0.1592231974319241
-      },
-      {
-        "feature": "price_vs_ma50",
-        "importance": 0.1543055171452665
-      },
-      {
-        "feature": "momentum_5d",
-        "importance": 0.1517257809957416
-      },
-      {
-        "feature": "volatility_20d",
-        "importance": 0.1343278433923035
-      },
-      {
-        "feature": "price_vs_ma20",
-        "importance": 0.1255314609065023
-      },
       {
         "feature": "surprise_num",
         "importance": 0.1138484033719946
-      },
-      {
-        "feature": "momentum_20d",
-        "importance": 0.1066054867975335
-      },
-      {
-        "feature": "rsi_14d",
-        "importance": 0.1024672505849132
       },
       {
         "feature": "macro_signal_score",
@@ -237,14 +228,44 @@ Promising but not proven. The ranking signal appears positive overall, but weak 
         "importance": 0.066427948061625
       },
       {
+        "feature": "price_vs_ma20",
+        "importance": 0.0654248142575871
+      },
+      {
+        "feature": "relative_strength",
+        "importance": 0.0648408455064529
+      },
+      {
+        "feature": "rsi_14d",
+        "importance": 0.0525302418282831
+      },
+      {
+        "feature": "liquidity_num",
+        "importance": 0.0499846564266092
+      },
+      {
+        "feature": "five_day_market_bias_score",
+        "importance": 0.0471559179072824
+      },
+      {
         "feature": "return_1d",
-        "importance": 0.065813462745815
+        "importance": 0.032767500482838
+      },
+      {
+        "feature": "reaction_quality_num",
+        "importance": 0.0229991726954077
+      },
+      {
+        "feature": "growth_num",
+        "importance": 0.022259158744012
       }
     ],
     "macro_like_features_in_top_15": [
       "surprise_num",
       "macro_signal_score",
-      "macro_tone_score"
+      "macro_tone_score",
+      "liquidity_num",
+      "growth_num"
     ]
   }
 }

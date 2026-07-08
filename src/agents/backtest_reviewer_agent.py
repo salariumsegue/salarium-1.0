@@ -161,6 +161,14 @@ class BacktestReviewerAgent(BaseAgent):
             "avg_bottom10_5d",
             "avg_long_short_5d",
             "avg_spearman_ic",
+            "avg_turnover",
+            "avg_transaction_cost",
+            "net_hit_rate",
+            "excess_hit_rate",
+            "annualized_net_return",
+            "net_sharpe",
+            "excess_sharpe",
+            "max_drawdown",
         ]
 
         overall_metrics = {}
@@ -178,6 +186,10 @@ class BacktestReviewerAgent(BaseAgent):
         long_short = overall_metrics.get("avg_long_short_5d")
         net_top10 = overall_metrics.get("avg_net_top10_5d")
         bottom10 = overall_metrics.get("avg_bottom10_5d")
+        net_sharpe = overall_metrics.get("net_sharpe")
+        excess_sharpe = overall_metrics.get("excess_sharpe")
+        max_drawdown = overall_metrics.get("max_drawdown")
+        avg_turnover = overall_metrics.get("avg_turnover")
 
         if isinstance(net_excess, float):
             if net_excess <= 0:
@@ -200,6 +212,18 @@ class BacktestReviewerAgent(BaseAgent):
         if isinstance(net_top10, float) and isinstance(bottom10, float):
             if bottom10 >= net_top10:
                 warnings.append("Overall bottom-10 return is greater than or equal to top-10 return.")
+
+        if isinstance(net_sharpe, float) and net_sharpe < 0.5:
+            warnings.append("Overall net Sharpe is below 0.50.")
+
+        if isinstance(excess_sharpe, float) and excess_sharpe < 0.25:
+            warnings.append("Overall excess Sharpe is below 0.25.")
+
+        if isinstance(max_drawdown, float) and max_drawdown < -0.15:
+            warnings.append("Overall max drawdown is worse than -15%.")
+
+        if isinstance(avg_turnover, float) and avg_turnover > 0.75:
+            warnings.append("Average turnover is high; transaction costs may be understated.")
 
         yearly_df = df[df["period"].str.lower() != "overall"].copy()
         weak_periods = []
@@ -336,7 +360,22 @@ class BacktestReviewerAgent(BaseAgent):
             warnings.append("Feature importance file is missing a feature or importance column.")
             return out
 
-        top = df.sort_values(importance_col, ascending=False).head(15)
+        selected_df = df.copy()
+
+        if "model" in selected_df.columns:
+            macro_model_df = selected_df[
+                selected_df["model"].astype(str).str.contains("macro", case=False, na=False)
+            ]
+            if not macro_model_df.empty:
+                selected_df = macro_model_df
+                out["selected_model_scope"] = "macro_model_only"
+            else:
+                out["selected_model_scope"] = "all_models"
+        else:
+            out["selected_model_scope"] = "all_models"
+
+        selected_df = selected_df.drop_duplicates(subset=[feature_col], keep="first")
+        top = selected_df.sort_values(importance_col, ascending=False).head(15)
         out["top_15_features"] = top[[feature_col, importance_col]].to_dict(orient="records")
 
         macro_like = []
