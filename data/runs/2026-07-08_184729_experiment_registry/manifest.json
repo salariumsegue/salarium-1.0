@@ -1,0 +1,257 @@
+{
+  "run_id": "2026-07-08_184729_experiment_registry",
+  "created_at": "2026-07-08T22:47:29.401118+00:00",
+  "agent": "experiment_registry_agent",
+  "status": "pass",
+  "summary": "Experiment registry status: pass. Run ID: 2026-07-08_184729_experiment_registry. Branch: phase1-agentic-capabilities. Commit: 29cb33c6a8506a9a9c379c7ecf6996d7838524bc. Latest agent report statuses: {'warn': 6}. Warnings: 0. Errors: 0.",
+  "git": {
+    "commit": "29cb33c6a8506a9a9c379c7ecf6996d7838524bc",
+    "branch": "phase1-agentic-capabilities",
+    "status_short": "",
+    "dirty": false
+  },
+  "environment": {
+    "python_executable": "/Users/niallgillen/Documents/Solarium-1.0/venv/bin/python",
+    "python_version": "3.14.6 (v3.14.6:c63aec69bd5, Jun 10 2026, 08:07:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "platform": "macOS-14.2-arm64-arm-64bit-Mach-O",
+    "working_directory": "/Users/niallgillen/Documents/Solarium-1.0",
+    "created_at_utc": "2026-07-08T22:47:29.387665+00:00"
+  },
+  "agent_report_status_counts": {
+    "warn": 6
+  },
+  "agent_reports": {
+    "backtest_reviewer": {
+      "kind": "report",
+      "path": "reports/backtest_reviewer_latest.md",
+      "exists": true,
+      "sha256": "86ae104871bc207438ca81d85f0343fd5d45d3c5074b5ebe6a69d1dbb336a504",
+      "size_bytes": 7545,
+      "modified_at": "2026-07-08T21:44:43.558015+00:00",
+      "status": "warn",
+      "summary": "Backtest review status: warn. Overall avg net excess 5D return: 0.001446. Overall Spearman IC: 0.006883. Overall long/short 5D return: 0.001887. Diagnosis: Promising but not proven. The ranking signal appears positive overall, but weak periods need investigation. Warnings: 4. Errors: 0."
+    },
+    "model_tournament": {
+      "kind": "report",
+      "path": "reports/model_tournament_latest.md",
+      "exists": true,
+      "sha256": "7ade91e90aecdebaae904a03d648b64f6ba18393abcb2eef5dd00760c5516897",
+      "size_bytes": 3196,
+      "modified_at": "2026-07-08T22:25:31.942922+00:00",
+      "status": "warn",
+      "summary": "Model tournament status: warn. Candidates evaluated: 11. Best in macro_holdout: technical_plus_macro_llm (score 1.3616). Best in strategy_walkforward: price_vs_ma50_only (score -3.2631). Best in walkforward_rank: current_walkforward_rank_model (score 1.4581). Warnings: 4. Errors: 0."
+    },
+    "strategy_walkforward": {
+      "kind": "report",
+      "path": "reports/strategy_walkforward_latest.md",
+      "exists": true,
+      "sha256": "a44262ee46460857442fca9aa676e7adb7618c63cf81918028fa199f5dba0637",
+      "size_bytes": 2015,
+      "modified_at": "2026-07-08T22:25:31.414000+00:00",
+      "status": "warn",
+      "summary": "Strategy walk-forward status: warn. Strategies evaluated: 8. Best strategy: price_vs_ma50_only (score -3.3951, net excess 5D -0.000168, IC -0.009880). Warnings: 5. Errors: 0."
+    },
+    "data_quality_leakage": {
+      "kind": "report",
+      "path": "reports/data_quality_leakage_latest.md",
+      "exists": true,
+      "sha256": "5c380be7edbcd4116b58fecfb57cbca080fc92aaedcd6fe4b583998fd060d641",
+      "size_bytes": 3018,
+      "modified_at": "2026-07-08T22:25:33.855517+00:00",
+      "status": "warn",
+      "summary": "Data quality and leakage status: warn. Universe tickers: 138. Training rows: 289527. Training tickers: 138. Suspicious leakage columns: 0. Warnings: 3. Errors: 0."
+    },
+    "risk_portfolio": {
+      "kind": "report",
+      "path": "reports/risk_portfolio_latest.md",
+      "exists": true,
+      "sha256": "ca01f859c77ae62d104ec6f35fdc9f437d7a5ea4ca5d35da6281c138713425c6",
+      "size_bytes": 2915,
+      "modified_at": "2026-07-08T22:36:37.945241+00:00",
+      "status": "warn",
+      "summary": "Risk portfolio status: warn. Net excess 5D: 0.001446. Max drawdown: -50.22%. Avg turnover: 1.083. Weak years: 6. Warnings: 9. Errors: 0."
+    },
+    "macro_feature_audit": {
+      "kind": "report",
+      "path": "reports/macro_feature_audit_latest.md",
+      "exists": true,
+      "sha256": "3de3c3f0f75a09d30590cf0a3f060ccb16459ff3ab3373f382c4441126b5a484",
+      "size_bytes": 3416,
+      "modified_at": "2026-07-08T22:42:18.368906+00:00",
+      "status": "warn",
+      "summary": "Macro feature audit status: warn. Macro holdout excess Top-5 delta: 0.000310. Relative excess lift: 35.63%. AUC delta: 0.001800. Model-safe macro columns: 0. Warnings: 5. Errors: 0."
+    }
+  },
+  "result_artifacts": {
+    "walkforward_rank_summary": {
+      "kind": "result",
+      "path": "results/walkforward_rank_backtest_summary.csv",
+      "exists": true,
+      "sha256": "448caf6645baf2bb71ba17c9dec689a1b039628b45d4cdd130064ecdbede028d",
+      "size_bytes": 2416,
+      "modified_at": "2026-06-23T05:54:16.565810+00:00"
+    },
+    "walkforward_rank_detail": {
+      "kind": "result",
+      "path": "results/walkforward_rank_backtest_results.csv",
+      "exists": true,
+      "sha256": "5d470fe31ebf4c076ac2e196e21f3173bfa9b4376e996e47d513aeeb40f5ae44",
+      "size_bytes": 67054,
+      "modified_at": "2026-06-23T05:54:16.557265+00:00"
+    },
+    "model_tournament_leaderboard": {
+      "kind": "result",
+      "path": "results/model_tournament_leaderboard.csv",
+      "exists": true,
+      "sha256": "fdfe68b6848bd4e07447ae1d830b8075e54193f75f0e75bb5010e389fb839264",
+      "size_bytes": 5078,
+      "modified_at": "2026-07-08T22:25:31.938312+00:00"
+    },
+    "strategy_walkforward_summary": {
+      "kind": "result",
+      "path": "results/strategy_walkforward_tournament_summary.csv",
+      "exists": true,
+      "sha256": "ebba0b5ca31fe2a903ec418409b826399ab0a115213e354c33c0336846901732",
+      "size_bytes": 4225,
+      "modified_at": "2026-07-08T22:25:31.368701+00:00"
+    },
+    "strategy_walkforward_detail": {
+      "kind": "result",
+      "path": "results/strategy_walkforward_tournament_results.csv",
+      "exists": true,
+      "sha256": "a85b72bc61768daf2cebe32fe902b1ba3df94dacc3b4ce9fd5425cfdadb9afc8",
+      "size_bytes": 886554,
+      "modified_at": "2026-07-08T22:25:31.410041+00:00"
+    },
+    "model_tournament_inputs": {
+      "kind": "result",
+      "path": "results/model_tournament_inputs.csv",
+      "exists": true,
+      "sha256": "ebba0b5ca31fe2a903ec418409b826399ab0a115213e354c33c0336846901732",
+      "size_bytes": 4225,
+      "modified_at": "2026-07-08T22:25:31.370390+00:00"
+    },
+    "data_quality_leakage_summary": {
+      "kind": "result",
+      "path": "results/data_quality_leakage_summary.csv",
+      "exists": true,
+      "sha256": "9f84b10382bd1c6d5608ed2f61634735d010e5104feb8428219067d42609c5e0",
+      "size_bytes": 1466,
+      "modified_at": "2026-07-08T22:25:33.853989+00:00"
+    },
+    "risk_portfolio_summary": {
+      "kind": "result",
+      "path": "results/risk_portfolio_summary.csv",
+      "exists": true,
+      "sha256": "3b1b81cc84e23c359b9e618e4561bd41e565a852c8842e00da37ea5e28cf30ac",
+      "size_bytes": 2552,
+      "modified_at": "2026-07-08T22:36:37.942546+00:00"
+    },
+    "macro_feature_audit_summary": {
+      "kind": "result",
+      "path": "results/macro_feature_audit_summary.csv",
+      "exists": true,
+      "sha256": "93da8c454feb8b4b4cd568f42bf75a4c6d5f21f8c2c530d5ff887b282457d089",
+      "size_bytes": 482,
+      "modified_at": "2026-07-08T22:42:18.367992+00:00"
+    },
+    "macro_model_comparison": {
+      "kind": "result",
+      "path": "results/macro_model_comparison.csv",
+      "exists": true,
+      "sha256": "3a5ac7b5931bcd5bc1f9e9234f8462debad826cb50229016d6f62e96e2a56f70",
+      "size_bytes": 305,
+      "modified_at": "2026-06-21T17:02:56.323246+00:00"
+    },
+    "macro_feature_importance": {
+      "kind": "result",
+      "path": "results/macro_feature_importance.csv",
+      "exists": true,
+      "sha256": "de6d8dd052d1abc6dee9d2b9dbd3c5893ce237855d8372154c00c6d2f7f55fad",
+      "size_bytes": 1673,
+      "modified_at": "2026-06-21T17:02:56.324209+00:00"
+    }
+  },
+  "code_artifacts": {
+    "base_agent": {
+      "kind": "code",
+      "path": "src/agents/base_agent.py",
+      "exists": true,
+      "sha256": "4bad3d3bd6b8407cb9086b1e652085a4d4f6f7ad2b72d7caee937696d585ea92",
+      "size_bytes": 986,
+      "modified_at": "2026-07-08T21:35:21.427770+00:00"
+    },
+    "backtest_reviewer_agent": {
+      "kind": "code",
+      "path": "src/agents/backtest_reviewer_agent.py",
+      "exists": true,
+      "sha256": "1a2188359948b29c5585b8c26c919e260230f11f137dbdf29b25d74160f98c1b",
+      "size_bytes": 19320,
+      "modified_at": "2026-07-08T21:44:35.020086+00:00"
+    },
+    "model_tournament_agent": {
+      "kind": "code",
+      "path": "src/agents/model_tournament_agent.py",
+      "exists": true,
+      "sha256": "52bfa5d9bb8a0d3c71d67f792ce4a7a5e7a988f72ef3e1683258955ec94b3688",
+      "size_bytes": 21972,
+      "modified_at": "2026-07-08T21:49:32.662671+00:00"
+    },
+    "strategy_walkforward_agent": {
+      "kind": "code",
+      "path": "src/agents/strategy_walkforward_agent.py",
+      "exists": true,
+      "sha256": "a15eb9f6837e9e3319ea7d64630fd1ad44500d2304bb3085a69790fd82f95d65",
+      "size_bytes": 32609,
+      "modified_at": "2026-07-08T22:25:07.952794+00:00"
+    },
+    "data_quality_leakage_agent": {
+      "kind": "code",
+      "path": "src/agents/data_quality_leakage_agent.py",
+      "exists": true,
+      "sha256": "a6c4492283d60e7c45a6b1ec9dc3e54d90608b47e72c926c6f50728c164d42ca",
+      "size_bytes": 37447,
+      "modified_at": "2026-07-08T22:08:11.448781+00:00"
+    },
+    "risk_portfolio_agent": {
+      "kind": "code",
+      "path": "src/agents/risk_portfolio_agent.py",
+      "exists": true,
+      "sha256": "bde67582625efdf848c24148ed0ec760a3f9bd4fd6146e4a09477b12c977dd1f",
+      "size_bytes": 23045,
+      "modified_at": "2026-07-08T22:36:27.801126+00:00"
+    },
+    "macro_feature_audit_agent": {
+      "kind": "code",
+      "path": "src/agents/macro_feature_audit_agent.py",
+      "exists": true,
+      "sha256": "7cfbcaa4a89f3853543103ad4aa8c33b5cfcdbcf19866efc3b6f257d87356eed",
+      "size_bytes": 28983,
+      "modified_at": "2026-07-08T22:41:23.217496+00:00"
+    },
+    "experiment_registry_agent": {
+      "kind": "code",
+      "path": "src/agents/experiment_registry_agent.py",
+      "exists": true,
+      "sha256": "797d362b1c3b9b8f452e8c63f655e8ca1b427cbfd62c8af970613b54f16a28ef",
+      "size_bytes": 17547,
+      "modified_at": "2026-07-08T22:46:57.552933+00:00"
+    },
+    "build_model_safe_training_data": {
+      "kind": "code",
+      "path": "scripts/build_model_safe_training_data.py",
+      "exists": true,
+      "sha256": "7fbd17752c9a3c82c5ac8f2b5f35a5216c671e9876077f22089a434b3371f296",
+      "size_bytes": 3528,
+      "modified_at": "2026-07-08T22:14:42.669171+00:00"
+    }
+  },
+  "known_limitations": [
+    "Macro holdout signal is not yet tested in the model-safe walk-forward dataset.",
+    "Current temporary universe has 138 tickers, not the intended final top-125 market-cap universe.",
+    "Current walk-forward rank model still has material drawdown and turnover risk.",
+    "Macro holdout and walk-forward rank tests are still not directly comparable."
+  ],
+  "warnings": [],
+  "errors": []
+}
