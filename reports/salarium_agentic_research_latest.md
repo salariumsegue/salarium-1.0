@@ -2,7 +2,7 @@
 
 **Status:** warn
 
-**Summary:** Final research report status: warn. Phase status: complete_with_warnings. Agent report statuses: {'warn': 6, 'pass': 1}. Warnings: 1. Errors: 0.
+**Summary:** Final research report status: warn. Phase status: complete_with_warnings. Agent report statuses: {'warn': 7}. Warnings: 1. Errors: 0.
 
 ## Phase Verdict
 
@@ -14,23 +14,23 @@ The v0.1 agentic research layer is structurally complete. It should be treated a
 
 | Field | Value |
 |---|---|
-| Branch | `phase1-agentic-capabilities` |
-| Commit | `2762c2ef611eecebcd9499e3fe9987e44add6318` |
+| Branch | `phase2-open-source-dashboard-universe` |
+| Commit | `c33c0c77ce895cf1244a8d9d1b2ce000a55e3e16` |
 | Dirty at final report run | `True` |
-| Latest registry manifest | `data/runs/2026-07-08_184729_experiment_registry/manifest.json` |
-| Latest registry run ID | `2026-07-08_184729_experiment_registry` |
+| Latest registry manifest | `data/runs/2026-07-08_195751_experiment_registry/manifest.json` |
+| Latest registry run ID | `2026-07-08_195751_experiment_registry` |
 
 ## Agent Status Table
 
 | Agent | Status | Summary |
 |---|---|---|
 | `backtest_reviewer` | `warn` | Backtest review status: warn. Overall avg net excess 5D return: 0.001446. Overall Spearman IC: 0.006883. Overall long/short 5D return: 0.001887. Diagnosis: Promising but not proven. The ranking signal appears positive overall, but weak periods need investigation. Warnings: 4. Errors: 0. |
-| `model_tournament` | `warn` | Model tournament status: warn. Candidates evaluated: 11. Best in macro_holdout: technical_plus_macro_llm (score 1.3616). Best in strategy_walkforward: price_vs_ma50_only (score -3.2631). Best in walkforward_rank: current_walkforward_rank_model (score 1.4581). Warnings: 4. Errors: 0. |
-| `strategy_walkforward` | `warn` | Strategy walk-forward status: warn. Strategies evaluated: 8. Best strategy: price_vs_ma50_only (score -3.3951, net excess 5D -0.000168, IC -0.009880). Warnings: 5. Errors: 0. |
-| `data_quality_leakage` | `warn` | Data quality and leakage status: warn. Universe tickers: 138. Training rows: 289527. Training tickers: 138. Suspicious leakage columns: 0. Warnings: 3. Errors: 0. |
-| `risk_portfolio` | `warn` | Risk portfolio status: warn. Net excess 5D: 0.001446. Max drawdown: -50.22%. Avg turnover: 1.083. Weak years: 6. Warnings: 9. Errors: 0. |
-| `macro_feature_audit` | `warn` | Macro feature audit status: warn. Macro holdout excess Top-5 delta: 0.000310. Relative excess lift: 35.63%. AUC delta: 0.001800. Model-safe macro columns: 0. Warnings: 5. Errors: 0. |
-| `experiment_registry` | `pass` | Experiment registry status: pass. Run ID: 2026-07-08_184729_experiment_registry. Branch: phase1-agentic-capabilities. Commit: 29cb33c6a8506a9a9c379c7ecf6996d7838524bc. Latest agent report statuses: {'warn': 6}. Warnings: 0. Errors: 0. |
+| `model_tournament` | `warn` | Model tournament status: warn. Candidates evaluated: 18. Best in macro_holdout: technical_plus_macro_llm (score 1.3616). Best in strategy_walkforward: macro_signal_score_only (score -1.0661). Best in walkforward_rank: current_walkforward_rank_model (score 1.4581). Warnings: 4. Errors: 0. |
+| `strategy_walkforward` | `warn` | Strategy walk-forward status: warn. Strategies evaluated: 15. Best strategy: macro_signal_score_only (score -1.0518, net excess 5D 0.000633, IC -0.001839). Warnings: 3. Errors: 0. |
+| `data_quality_leakage` | `warn` | Data quality and leakage status: warn. Universe tickers: 125. Training rows: 261993. Training tickers: 125. Suspicious leakage columns: 0. Warnings: 3. Errors: 0. |
+| `risk_portfolio` | `warn` | Risk portfolio status: warn. Net excess 5D: 0.001446. Max drawdown: -50.22%. Avg turnover: 1.083. Weak years: 6. Warnings: 7. Errors: 0. |
+| `macro_feature_audit` | `warn` | Macro feature audit status: warn. Macro holdout excess Top-5 delta: 0.000310. Relative excess lift: 35.63%. AUC delta: 0.001800. Model-safe macro columns: 13. Warnings: 2. Errors: 0. |
+| `experiment_registry` | `warn` | Experiment registry status: warn. Run ID: 2026-07-08_195751_experiment_registry. Branch: phase2-open-source-dashboard-universe. Commit: c33c0c77ce895cf1244a8d9d1b2ce000a55e3e16. Latest agent report statuses: {'warn': 6}. Warnings: 1. Errors: 0. |
 
 ## Strategic Read
 

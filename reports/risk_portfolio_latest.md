@@ -2,7 +2,7 @@
 
 **Status:** warn
 
-**Summary:** Risk portfolio status: warn. Net excess 5D: 0.001446. Max drawdown: -50.22%. Avg turnover: 1.083. Weak years: 6. Warnings: 9. Errors: 0.
+**Summary:** Risk portfolio status: warn. Net excess 5D: 0.001446. Max drawdown: -50.22%. Avg turnover: 1.083. Weak years: 6. Warnings: 7. Errors: 0.
 
 ## Overall Portfolio Risk
 
@@ -52,7 +52,7 @@
 
 - Groups: `macro_holdout, strategy_walkforward, walkforward_rank`
 - Best overall candidate by tournament score: `current_walkforward_rank_model` from `walkforward_rank` with score `1.4581177889106796`
-- Positive simple strategy baselines: `0`
+- Positive simple strategy baselines: `5`
 
 ## Warnings
 
@@ -62,8 +62,6 @@
 - Current walk-forward model has weak ranking IC.
 - At least one rebalance period has a net return worse than -10%.
 - One ticker appears in more than 35% of selected portfolios.
-- No simple strategy walk-forward baseline has positive net excess return.
-- Best simple strategy baseline has non-positive net excess return.
 - Best simple strategy baseline has non-positive Spearman IC.
 
 ## Interpretation
