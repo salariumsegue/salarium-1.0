@@ -1,33 +1,16 @@
 # Salarium Experiment Registry Agent Report
 
-**Status:** warn
+**Status:** pass
 
-**Summary:** Experiment registry status: warn. Run ID: 2026-07-08_195751_experiment_registry. Branch: phase2-open-source-dashboard-universe. Commit: c33c0c77ce895cf1244a8d9d1b2ce000a55e3e16. Latest agent report statuses: {'warn': 6}. Warnings: 1. Errors: 0.
+**Summary:** Experiment registry status: pass. Run ID: 2026-07-08_200623_experiment_registry. Branch: phase2-open-source-dashboard-universe. Commit: 8a440dd7d29f7cef0398ef3f68a7451764dbc97f. Latest agent report statuses: {'warn': 6}. Warnings: 0. Errors: 0.
 
 ## Git Snapshot
 
 | Field | Value |
 |---|---|
 | Branch | `phase2-open-source-dashboard-universe` |
-| Commit | `c33c0c77ce895cf1244a8d9d1b2ce000a55e3e16` |
-| Dirty before registry run | `True` |
-
-### Dirty Files
-
-```text
-M reports/experiment_registry_latest.md
- M reports/risk_portfolio_latest.md
- M reports/salarium_agentic_research_latest.md
- M results/experiment_registry_summary.csv
- M results/salarium_agentic_research_summary.csv
-?? .streamlit/
-?? LICENSE
-?? app/streamlit_app.py
-?? data/runs/2026-07-08_195413_experiment_registry/
-?? data/runs/2026-07-08_195638_experiment_registry/
-?? docs/
-?? requirements.txt
-```
+| Commit | `8a440dd7d29f7cef0398ef3f68a7451764dbc97f` |
+| Dirty before registry run | `False` |
 
 ## Latest Agent Reports
 
@@ -61,13 +44,9 @@ M reports/experiment_registry_latest.md
 - Current walk-forward rank model still has material drawdown and turnover risk.
 - Macro holdout and walk-forward rank tests are still not directly comparable.
 
-## Warnings
-
-- Git working tree was dirty when registry was created.
-
 ## Manifest
 
-`data/runs/2026-07-08_195751_experiment_registry/manifest.json`
+`data/runs/2026-07-08_200623_experiment_registry/manifest.json`
 
 ## Next Step
 
