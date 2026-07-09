@@ -2,7 +2,7 @@
 
 **Status:** warn
 
-**Summary:** Model tournament status: warn. Candidates evaluated: 18. Best in macro_holdout: technical_plus_macro_llm (score 1.3616). Best in strategy_walkforward: macro_signal_score_only (score -1.0661). Best in walkforward_rank: current_walkforward_rank_model (score 1.4581). Warnings: 4. Errors: 0.
+**Summary:** Model tournament status: warn. Candidates evaluated: 18. Best in macro_holdout: technical_plus_macro_llm (score 1.3616). Best in strategy_walkforward: price_vs_ma50_only (score -2.8353). Best in walkforward_rank: current_walkforward_rank_model (score 1.4581). Warnings: 4. Errors: 0.
 
 ## Tournament Leaderboard
 
@@ -10,18 +10,18 @@
 |---|---:|---|---:|---|---:|---:|---:|---:|---:|---:|
 | macro_holdout | 1 | `technical_plus_macro_llm` | 1.361600 | single_train_test_top5 |  |  |  | 0.001180 | 0.510000 |  |
 | macro_holdout | 2 | `baseline_technical_only` | 1.053600 | single_train_test_top5 |  |  |  | 0.000870 | 0.508200 |  |
-| strategy_walkforward | 1 | `macro_signal_score_only` | -1.066116 | top10_walkforward | 0.000633 | 0.000639 | -0.001839 |  |  | 8 |
-| strategy_walkforward | 2 | `growth_num_only` | -1.536944 | top10_walkforward | 0.000406 | 0.000094 | 0.001038 |  |  | 8 |
-| strategy_walkforward | 3 | `macro_tone_score_only` | -1.565598 | top10_walkforward | 0.000410 | 0.000176 | -0.006310 |  |  | 8 |
-| strategy_walkforward | 4 | `surprise_num_only` | -1.580295 | top10_walkforward | -0.000112 | 0.000983 | 0.004027 |  |  | 8 |
-| strategy_walkforward | 5 | `five_day_market_bias_score_only` | -1.706250 | top10_walkforward | 0.000510 | 0.000261 | -0.009682 |  |  | 9 |
-| strategy_walkforward | 6 | `price_vs_ma50_only` | -2.835320 | top10_walkforward | 0.000002 | -0.000960 | -0.010685 |  |  | 9 |
-| strategy_walkforward | 7 | `liquidity_num_only` | -3.367398 | top10_walkforward | -0.001315 | 0.000345 | 0.002470 |  |  | 9 |
-| strategy_walkforward | 8 | `technical_plus_macro_combo` | -3.577492 | top10_walkforward | -0.000804 | -0.000788 | -0.012955 |  |  | 9 |
-| strategy_walkforward | 9 | `momentum_20d_only` | -3.917253 | top10_walkforward | -0.001167 | -0.000841 | -0.007959 |  |  | 9 |
-| strategy_walkforward | 10 | `relative_strength_only` | -3.917253 | top10_walkforward | -0.001167 | -0.000841 | -0.007959 |  |  | 9 |
-| strategy_walkforward | 11 | `rsi_14d_only` | -3.972016 | top10_walkforward | -0.001220 | -0.000819 | -0.009278 |  |  | 9 |
-| strategy_walkforward | 12 | `technical_combo` | -4.657787 | top10_walkforward | -0.001380 | -0.001771 | -0.014210 |  |  | 9 |
+| strategy_walkforward | 1 | `price_vs_ma50_only` | -2.835320 | top10_walkforward | 0.000002 | -0.000960 | -0.010685 |  |  | 9 |
+| strategy_walkforward | 2 | `macro_signal_score_only` | -3.323006 | top10_walkforward | -0.001178 | 0.000211 | 0.000000 |  |  | 9 |
+| strategy_walkforward | 3 | `macro_tone_score_only` | -3.323006 | top10_walkforward | -0.001178 | 0.000211 | 0.000000 |  |  | 9 |
+| strategy_walkforward | 4 | `surprise_num_only` | -3.323006 | top10_walkforward | -0.001178 | 0.000211 | 0.000000 |  |  | 9 |
+| strategy_walkforward | 5 | `liquidity_num_only` | -3.323006 | top10_walkforward | -0.001178 | 0.000211 | 0.000000 |  |  | 9 |
+| strategy_walkforward | 6 | `five_day_market_bias_score_only` | -3.323006 | top10_walkforward | -0.001178 | 0.000211 | 0.000000 |  |  | 9 |
+| strategy_walkforward | 7 | `growth_num_only` | -3.323006 | top10_walkforward | -0.001178 | 0.000211 | 0.000000 |  |  | 9 |
+| strategy_walkforward | 8 | `momentum_20d_only` | -3.917253 | top10_walkforward | -0.001167 | -0.000841 | -0.007959 |  |  | 9 |
+| strategy_walkforward | 9 | `relative_strength_only` | -3.917253 | top10_walkforward | -0.001167 | -0.000841 | -0.007959 |  |  | 9 |
+| strategy_walkforward | 10 | `rsi_14d_only` | -3.972016 | top10_walkforward | -0.001220 | -0.000819 | -0.009278 |  |  | 9 |
+| strategy_walkforward | 11 | `technical_combo` | -4.657787 | top10_walkforward | -0.001380 | -0.001771 | -0.014210 |  |  | 9 |
+| strategy_walkforward | 12 | `technical_plus_macro_combo` | -4.657787 | top10_walkforward | -0.001380 | -0.001771 | -0.014210 |  |  | 9 |
 | strategy_walkforward | 13 | `price_vs_ma20_only` | -5.065396 | top10_walkforward | -0.001509 | -0.002231 | -0.019117 |  |  | 9 |
 | strategy_walkforward | 14 | `momentum_5d_only` | -6.939803 | top10_walkforward | -0.002344 | -0.004703 | -0.024450 |  |  | 8 |
 | strategy_walkforward | 15 | `low_volatility_only` | -7.781169 | top10_walkforward | -0.002625 | -0.005995 | -0.015925 |  |  | 8 |
@@ -30,7 +30,7 @@
 ## Group Winners
 
 - **macro_holdout**: `technical_plus_macro_llm` (score 1.3616, scope `single_train_test_top5`)
-- **strategy_walkforward**: `macro_signal_score_only` (score -1.0661, scope `top10_walkforward`)
+- **strategy_walkforward**: `price_vs_ma50_only` (score -2.8353, scope `top10_walkforward`)
 - **walkforward_rank**: `current_walkforward_rank_model` (score 1.4581, scope `top10_walkforward`)
 
 ## Interpretation

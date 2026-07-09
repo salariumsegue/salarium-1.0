@@ -20,7 +20,7 @@ def main() -> int:
         "results_dir": "results",
         "macro_comparison_path": "results/macro_model_comparison.csv",
         "feature_importance_path": "results/macro_feature_importance.csv",
-        "model_safe_training_path": "data/processed/training_data_top125_model_safe_with_macro.csv",
+        "model_safe_training_path": "data/processed/training_data_top125_model_safe_with_global_macro.csv",
         "walkforward_summary_path": "results/walkforward_rank_backtest_summary.csv",
         "model_tournament_path": "results/model_tournament_leaderboard.csv",
     }
