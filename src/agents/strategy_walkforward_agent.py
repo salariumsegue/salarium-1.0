@@ -490,6 +490,172 @@ class StrategyWalkforwardAgent(BaseAgent):
             warnings.append("No macro score columns found. Macro interaction strategies will be skipped.")
             return strategy_cols
 
+        def global_zscore(value_col: str) -> pd.Series:
+            values = pd.to_numeric(df[value_col], errors="coerce")
+            std = values.std(ddof=0)
+
+            if pd.isna(std) or std == 0:
+                return pd.Series(0.0, index=df.index)
+
+            return (values - values.mean()) / std
+
+        def add_score_strategy(strategy_name: str, score: pd.Series) -> None:
+            score_col = f"score_{strategy_name}"
+            score = pd.to_numeric(score, errors="coerce").replace([float("inf"), float("-inf")], pd.NA)
+            valid = score.dropna()
+
+            if valid.empty:
+                warnings.append(f"Strategy {strategy_name} skipped because score has no valid values.")
+                return
+
+            if valid.nunique(dropna=True) <= 1:
+                warnings.append(f"Strategy {strategy_name} skipped because score has no variation.")
+                return
+
+            df[score_col] = score
+            strategy_cols[strategy_name] = score_col
+
+        def add_interaction_strategy(
+            strategy_name: str,
+            macro_col: str,
+            technical_col: str,
+            macro_sign: float = 1.0,
+            technical_sign: float = 1.0,
+        ) -> None:
+            if macro_col not in df.columns or technical_col not in df.columns:
+                return
+
+            df[macro_col] = pd.to_numeric(df[macro_col], errors="coerce")
+            df[technical_col] = pd.to_numeric(df[technical_col], errors="coerce")
+
+            macro_regime = macro_sign * global_zscore(macro_col).fillna(0.0)
+            technical_rank = technical_sign * self._zscore_by_date(df, date_col, technical_col).fillna(0.0)
+
+            add_score_strategy(strategy_name, macro_regime * technical_rank)
+
+        # Global macro features should not be used as pure cross-sectional rankers.
+        # They are identical across tickers on a given date, so they only become useful
+        # when interacted with stock-specific technical signals.
+
+        add_interaction_strategy(
+            "macro_signal_x_relative_strength",
+            "macro_signal_score",
+            "relative_strength",
+        )
+        add_interaction_strategy(
+            "macro_signal_x_momentum_20d",
+            "macro_signal_score",
+            "momentum_20d",
+        )
+        add_interaction_strategy(
+            "macro_signal_x_price_vs_ma50",
+            "macro_signal_score",
+            "price_vs_ma50",
+        )
+        add_interaction_strategy(
+            "macro_tone_x_relative_strength",
+            "macro_tone_score",
+            "relative_strength",
+        )
+        add_interaction_strategy(
+            "five_day_bias_x_momentum_20d",
+            "five_day_market_bias_score",
+            "momentum_20d",
+        )
+        add_interaction_strategy(
+            "liquidity_x_momentum_20d",
+            "liquidity_num",
+            "momentum_20d",
+        )
+        add_interaction_strategy(
+            "liquidity_x_relative_strength",
+            "liquidity_num",
+            "relative_strength",
+        )
+        add_interaction_strategy(
+            "growth_x_relative_strength",
+            "growth_num",
+            "relative_strength",
+        )
+        add_interaction_strategy(
+            "rate_policy_x_price_vs_ma50",
+            "rate_policy_num",
+            "price_vs_ma50",
+        )
+        add_interaction_strategy(
+            "surprise_x_relative_strength",
+            "surprise_num",
+            "relative_strength",
+        )
+        add_interaction_strategy(
+            "surprise_x_low_volatility",
+            "surprise_num",
+            "volatility_20d",
+            macro_sign=1.0,
+            technical_sign=-1.0,
+        )
+        add_interaction_strategy(
+            "rate_policy_x_low_volatility",
+            "rate_policy_num",
+            "volatility_20d",
+            macro_sign=1.0,
+            technical_sign=-1.0,
+        )
+        add_interaction_strategy(
+            "inflation_x_low_volatility",
+            "inflation_num",
+            "volatility_20d",
+            macro_sign=1.0,
+            technical_sign=-1.0,
+        )
+
+        risk_on_cols = [
+            col for col in [
+                "macro_signal_score",
+                "liquidity_num",
+                "growth_num",
+                "five_day_market_bias_score",
+            ]
+            if col in df.columns
+        ]
+
+        if risk_on_cols and "momentum_20d" in df.columns:
+            risk_on = pd.Series(0.0, index=df.index)
+
+            for col in risk_on_cols:
+                risk_on += global_zscore(col).fillna(0.0)
+
+            risk_on = risk_on / max(len(risk_on_cols), 1)
+            momentum = self._zscore_by_date(df, date_col, "momentum_20d").fillna(0.0)
+            add_score_strategy("risk_on_x_momentum_20d", risk_on * momentum)
+
+        if risk_on_cols and "relative_strength" in df.columns:
+            risk_on = pd.Series(0.0, index=df.index)
+
+            for col in risk_on_cols:
+                risk_on += global_zscore(col).fillna(0.0)
+
+            risk_on = risk_on / max(len(risk_on_cols), 1)
+            rel_strength = self._zscore_by_date(df, date_col, "relative_strength").fillna(0.0)
+            add_score_strategy("risk_on_x_relative_strength", risk_on * rel_strength)
+
+        if risk_on_cols and "volatility_20d" in df.columns:
+            risk_off = pd.Series(0.0, index=df.index)
+
+            for col in risk_on_cols:
+                risk_off += -global_zscore(col).fillna(0.0)
+
+            risk_off = risk_off / max(len(risk_on_cols), 1)
+            low_vol = -self._zscore_by_date(df, date_col, "volatility_20d").fillna(0.0)
+            add_score_strategy("risk_off_x_low_volatility", risk_off * low_vol)
+
+        if "score_technical_combo" in df.columns and "macro_signal_score" in df.columns:
+            macro_regime = global_zscore("macro_signal_score").fillna(0.0)
+            technical_combo = pd.to_numeric(df["score_technical_combo"], errors="coerce").fillna(0.0)
+            add_score_strategy("macro_signal_x_technical_combo", macro_regime * technical_combo)
+
+        return strategy_cols
+
         # Pure global macro columns are not valid cross-sectional rankers because
         # every ticker has the same macro value on a given date. We intentionally
         # do not add macro_signal_score_only, surprise_num_only, etc. here.

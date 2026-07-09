@@ -70,8 +70,8 @@
 ## Tournament Context
 
 - Groups: `['macro_holdout', 'strategy_walkforward', 'walkforward_rank']`
-- Macro candidates: `['technical_plus_macro_llm', 'macro_signal_score_only', 'macro_tone_score_only', 'technical_plus_macro_combo']`
-- Positive strategy walk-forward baselines: `1`
+- Macro candidates: `['technical_plus_macro_llm', 'macro_tone_x_relative_strength', 'macro_signal_x_momentum_20d', 'macro_signal_x_relative_strength', 'macro_signal_x_technical_combo', 'macro_signal_x_price_vs_ma50']`
+- Positive strategy walk-forward baselines: `14`
 
 ## Warnings
 
