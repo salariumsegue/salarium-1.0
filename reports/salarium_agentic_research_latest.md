@@ -2,7 +2,7 @@
 
 **Status:** warn
 
-**Summary:** Final research report status: warn. Phase status: complete_with_warnings. Agent report statuses: {'warn': 7}. Warnings: 1. Errors: 0.
+**Summary:** Final research report status: warn. Phase status: complete_with_warnings. Agent report statuses: {'warn': 6, 'pass': 1}. Warnings: 1. Errors: 0.
 
 ## Phase Verdict
 
@@ -15,10 +15,10 @@ The v0.1 agentic research layer is structurally complete. It should be treated a
 | Field | Value |
 |---|---|
 | Branch | `phase2-open-source-dashboard-universe` |
-| Commit | `c33c0c77ce895cf1244a8d9d1b2ce000a55e3e16` |
-| Dirty at final report run | `True` |
-| Latest registry manifest | `data/runs/2026-07-08_195751_experiment_registry/manifest.json` |
-| Latest registry run ID | `2026-07-08_195751_experiment_registry` |
+| Commit | `6fddb79a9bbe39cacfc03bfeadbe17ae1349ea43` |
+| Dirty at final report run | `False` |
+| Latest registry manifest | `data/runs/2026-07-08_200623_experiment_registry/manifest.json` |
+| Latest registry run ID | `2026-07-08_200623_experiment_registry` |
 
 ## Agent Status Table
 
@@ -30,7 +30,7 @@ The v0.1 agentic research layer is structurally complete. It should be treated a
 | `data_quality_leakage` | `warn` | Data quality and leakage status: warn. Universe tickers: 125. Training rows: 261993. Training tickers: 125. Suspicious leakage columns: 0. Warnings: 3. Errors: 0. |
 | `risk_portfolio` | `warn` | Risk portfolio status: warn. Net excess 5D: 0.001446. Max drawdown: -50.22%. Avg turnover: 1.083. Weak years: 6. Warnings: 7. Errors: 0. |
 | `macro_feature_audit` | `warn` | Macro feature audit status: warn. Macro holdout excess Top-5 delta: 0.000310. Relative excess lift: 35.63%. AUC delta: 0.001800. Model-safe macro columns: 13. Warnings: 2. Errors: 0. |
-| `experiment_registry` | `warn` | Experiment registry status: warn. Run ID: 2026-07-08_195751_experiment_registry. Branch: phase2-open-source-dashboard-universe. Commit: c33c0c77ce895cf1244a8d9d1b2ce000a55e3e16. Latest agent report statuses: {'warn': 6}. Warnings: 1. Errors: 0. |
+| `experiment_registry` | `pass` | Experiment registry status: pass. Run ID: 2026-07-08_200623_experiment_registry. Branch: phase2-open-source-dashboard-universe. Commit: 8a440dd7d29f7cef0398ef3f68a7451764dbc97f. Latest agent report statuses: {'warn': 6}. Warnings: 0. Errors: 0. |
 
 ## Strategic Read
 
