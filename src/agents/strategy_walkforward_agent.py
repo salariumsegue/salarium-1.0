@@ -333,15 +333,86 @@ class StrategyWalkforwardAgent(BaseAgent):
     ) -> Dict[str, str]:
         strategy_cols: Dict[str, str] = {}
 
+        excluded_feature_cols = {
+            "target",
+            "label",
+            "target_5d_return",
+            "future_close_5d",
+            "forward_return_5d",
+            "future_return_5d",
+            "fwd_return_5d",
+            "target_return_5d",
+            "next_5d_return",
+        }
+
+        def global_zscore(value_col: str) -> pd.Series:
+            values = pd.to_numeric(df[value_col], errors="coerce")
+            std = values.std(ddof=0)
+
+            if pd.isna(std) or std == 0:
+                return pd.Series(0.0, index=df.index)
+
+            return (values - values.mean()) / std
+
+        def add_score_strategy(strategy_name: str, score: pd.Series) -> None:
+            score_col = f"score_{strategy_name}"
+            score = pd.to_numeric(score, errors="coerce").replace([float("inf"), float("-inf")], pd.NA)
+
+            valid = score.dropna()
+
+            if valid.empty:
+                warnings.append(f"Strategy {strategy_name} skipped because score has no valid values.")
+                return
+
+            if valid.nunique(dropna=True) <= 1:
+                warnings.append(f"Strategy {strategy_name} skipped because score has no variation.")
+                return
+
+            df[score_col] = score
+            strategy_cols[strategy_name] = score_col
+
         def add_single_feature_strategy(strategy_name: str, feature_col: str, sign: float = 1.0) -> None:
             if feature_col not in df.columns:
                 return
 
-            score_col = f"score_{strategy_name}"
-            df[feature_col] = pd.to_numeric(df[feature_col], errors="coerce")
-            df[score_col] = sign * self._zscore_by_date(df, date_col, feature_col)
-            strategy_cols[strategy_name] = score_col
+            if feature_col in excluded_feature_cols:
+                return
 
+            df[feature_col] = pd.to_numeric(df[feature_col], errors="coerce")
+            score = sign * self._zscore_by_date(df, date_col, feature_col)
+            add_score_strategy(strategy_name, score)
+
+        def add_interaction_strategy(
+            strategy_name: str,
+            macro_col: str,
+            technical_col: str,
+            macro_sign: float = 1.0,
+            technical_sign: float = 1.0,
+        ) -> None:
+            if macro_col not in df.columns or technical_col not in df.columns:
+                return
+
+            df[macro_col] = pd.to_numeric(df[macro_col], errors="coerce")
+            df[technical_col] = pd.to_numeric(df[technical_col], errors="coerce")
+
+            # Macro is global-by-date, so we scale it across time.
+            macro_regime = macro_sign * global_zscore(macro_col).fillna(0.0)
+
+            # Technical feature ranks stocks cross-sectionally on each date.
+            technical_rank = technical_sign * self._zscore_by_date(df, date_col, technical_col).fillna(0.0)
+
+            score = macro_regime * technical_rank
+            add_score_strategy(strategy_name, score)
+
+        # Lightweight/current dataset strategies.
+        add_single_feature_strategy("return_1d_momentum", "return_1d", 1.0)
+        add_single_feature_strategy("return_1d_reversal", "return_1d", -1.0)
+        add_single_feature_strategy("return_5d_momentum", "return_5d", 1.0)
+        add_single_feature_strategy("volume_change_1d_only", "volume_change_1d", 1.0)
+        add_single_feature_strategy("low_high_low_spread", "high_low_spread", -1.0)
+        add_single_feature_strategy("open_close_spread_only", "open_close_spread", 1.0)
+
+        # Core technical strategies.
         add_single_feature_strategy("momentum_5d_only", "momentum_5d", 1.0)
         add_single_feature_strategy("momentum_20d_only", "momentum_20d", 1.0)
         add_single_feature_strategy("relative_strength_only", "relative_strength", 1.0)
@@ -369,28 +440,33 @@ class StrategyWalkforwardAgent(BaseAgent):
             ("price_vs_ma20", 0.5),
             ("price_vs_ma50", 0.75),
             ("volatility_20d", -0.75),
+            ("return_5d", 0.75),
+            ("return_1d", 0.25),
+            ("volume_change_1d", 0.15),
+            ("high_low_spread", -0.25),
+            ("open_close_spread", 0.25),
         ]
 
         available_technical = [
             (col, weight)
             for col, weight in technical_components
-            if col in df.columns
+            if col in df.columns and col not in excluded_feature_cols
         ]
 
         if len(available_technical) >= 2:
             score_col = "score_technical_combo"
-            df[score_col] = 0.0
+            combo = pd.Series(0.0, index=df.index)
             total_abs_weight = 0.0
 
             for col, weight in available_technical:
                 df[col] = pd.to_numeric(df[col], errors="coerce")
-                df[score_col] += weight * self._zscore_by_date(df, date_col, col).fillna(0.0)
+                combo += weight * self._zscore_by_date(df, date_col, col).fillna(0.0)
                 total_abs_weight += abs(weight)
 
             if total_abs_weight > 0:
-                df[score_col] = df[score_col] / total_abs_weight
+                combo = combo / total_abs_weight
 
-            strategy_cols["technical_combo"] = score_col
+            add_score_strategy("technical_combo", combo)
         else:
             warnings.append("Not enough technical columns to create technical_combo.")
 
@@ -398,23 +474,146 @@ class StrategyWalkforwardAgent(BaseAgent):
             "macro_signal_score",
             "macro_tone_score",
             "surprise_num",
-            "liquidity_num",
-            "five_day_market_bias_score",
+            "inflation_num",
             "growth_num",
+            "rate_policy_num",
+            "liquidity_num",
+            "reaction_quality_num",
+            "five_day_market_bias_score",
+            "five_day_bias_num",
+            "macro_confidence",
         ]
 
         available_macro = [col for col in macro_cols if col in df.columns]
 
-        for col in available_macro:
-            add_single_feature_strategy(f"{col}_only", col, 1.0)
+        if not available_macro:
+            warnings.append("No macro score columns found. Macro interaction strategies will be skipped.")
+            return strategy_cols
+
+        # Pure global macro columns are not valid cross-sectional rankers because
+        # every ticker has the same macro value on a given date. We intentionally
+        # do not add macro_signal_score_only, surprise_num_only, etc. here.
+
+        # Direct global macro x technical interactions.
+        add_interaction_strategy(
+            "macro_signal_x_relative_strength",
+            "macro_signal_score",
+            "relative_strength",
+        )
+        add_interaction_strategy(
+            "macro_signal_x_momentum_20d",
+            "macro_signal_score",
+            "momentum_20d",
+        )
+        add_interaction_strategy(
+            "macro_signal_x_price_vs_ma50",
+            "macro_signal_score",
+            "price_vs_ma50",
+        )
+        add_interaction_strategy(
+            "macro_tone_x_relative_strength",
+            "macro_tone_score",
+            "relative_strength",
+        )
+        add_interaction_strategy(
+            "five_day_bias_x_momentum_20d",
+            "five_day_market_bias_score",
+            "momentum_20d",
+        )
+        add_interaction_strategy(
+            "liquidity_x_momentum_20d",
+            "liquidity_num",
+            "momentum_20d",
+        )
+        add_interaction_strategy(
+            "liquidity_x_relative_strength",
+            "liquidity_num",
+            "relative_strength",
+        )
+        add_interaction_strategy(
+            "growth_x_relative_strength",
+            "growth_num",
+            "relative_strength",
+        )
+        add_interaction_strategy(
+            "rate_policy_x_price_vs_ma50",
+            "rate_policy_num",
+            "price_vs_ma50",
+        )
+        add_interaction_strategy(
+            "surprise_x_relative_strength",
+            "surprise_num",
+            "relative_strength",
+        )
+
+        # Defensive interactions.
+        add_interaction_strategy(
+            "surprise_x_low_volatility",
+            "surprise_num",
+            "volatility_20d",
+            macro_sign=1.0,
+            technical_sign=-1.0,
+        )
+        add_interaction_strategy(
+            "rate_policy_x_low_volatility",
+            "rate_policy_num",
+            "volatility_20d",
+            macro_sign=1.0,
+            technical_sign=-1.0,
+        )
+        add_interaction_strategy(
+            "inflation_x_low_volatility",
+            "inflation_num",
+            "volatility_20d",
+            macro_sign=1.0,
+            technical_sign=-1.0,
+        )
+
+        # Composite regime interactions.
+        risk_on_cols = [
+            col for col in [
+                "macro_signal_score",
+                "liquidity_num",
+                "growth_num",
+                "five_day_market_bias_score",
+            ]
+            if col in df.columns
+        ]
+
+        if risk_on_cols and "momentum_20d" in df.columns:
+            risk_on = pd.Series(0.0, index=df.index)
+
+            for col in risk_on_cols:
+                risk_on += global_zscore(col).fillna(0.0)
+
+            risk_on = risk_on / max(len(risk_on_cols), 1)
+            momentum = self._zscore_by_date(df, date_col, "momentum_20d").fillna(0.0)
+            add_score_strategy("risk_on_x_momentum_20d", risk_on * momentum)
+
+        if risk_on_cols and "relative_strength" in df.columns:
+            risk_on = pd.Series(0.0, index=df.index)
+
+            for col in risk_on_cols:
+                risk_on += global_zscore(col).fillna(0.0)
+
+            risk_on = risk_on / max(len(risk_on_cols), 1)
+            rel_strength = self._zscore_by_date(df, date_col, "relative_strength").fillna(0.0)
+            add_score_strategy("risk_on_x_relative_strength", risk_on * rel_strength)
+
+        if risk_on_cols and "volatility_20d" in df.columns:
+            risk_off = pd.Series(0.0, index=df.index)
+
+            for col in risk_on_cols:
+                risk_off += -global_zscore(col).fillna(0.0)
+
+            risk_off = risk_off / max(len(risk_on_cols), 1)
+            low_vol = -self._zscore_by_date(df, date_col, "volatility_20d").fillna(0.0)
+            add_score_strategy("risk_off_x_low_volatility", risk_off * low_vol)
 
         if "score_technical_combo" in df.columns and "macro_signal_score" in df.columns:
-            macro_z = self._zscore_by_date(df, date_col, "macro_signal_score").fillna(0.0)
-            df["score_technical_plus_macro_combo"] = df["score_technical_combo"].fillna(0.0) + 0.75 * macro_z
-            strategy_cols["technical_plus_macro_combo"] = "score_technical_plus_macro_combo"
-
-        if not available_macro:
-            warnings.append("No macro score columns found. Macro baseline strategies will be skipped.")
+            macro_regime = global_zscore("macro_signal_score").fillna(0.0)
+            technical_combo = pd.to_numeric(df["score_technical_combo"], errors="coerce").fillna(0.0)
+            add_score_strategy("macro_signal_x_technical_combo", macro_regime * technical_combo)
 
         return strategy_cols
 
