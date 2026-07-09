@@ -1,30 +1,17 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional
+from typing import List
 
 import numpy as np
 import pandas as pd
 
 
-BASE_CANDIDATES = [
-    Path("data/processed/training_data_top125_model_safe.csv"),
-    Path("data/processed/training_data_model_safe.csv"),
-]
-
+SOURCE_WITH_MACRO = Path("data/processed/training_data_top125_model_safe_with_macro.csv")
 UNIVERSE_PATH = Path("configs/stock_universe_top125_yahoo.csv")
-
-MACRO_SOURCE_CANDIDATES = [
-    Path("data/processed/macro_model_features.csv"),
-    Path("data/processed/macro_llm_features.csv"),
-    Path("data/processed/salarium_training_with_macro.csv"),
-    Path("data/processed/training_data_top125_model_safe_with_macro.csv"),
-    Path("data/processed/training_data_model_safe_with_macro.csv"),
-]
-
 OUT_PATH = Path("data/processed/training_data_top125_model_safe_with_global_macro.csv")
 
-EXPECTED_MACRO_COLUMNS = [
+MACRO_COLS = [
     "macro_signal_score",
     "macro_tone_score",
     "surprise_num",
@@ -38,233 +25,202 @@ EXPECTED_MACRO_COLUMNS = [
     "macro_confidence",
 ]
 
-EXCLUDE_MACRO_COLUMNS = {
-    "macro_tone_num",       # currently zero-variance/noisy
-    "has_macro_context",    # generated after merge
+DROP_MACRO_HELPERS = {
+    "macro_tone_num",
+    "has_macro_context",
+    "days_since_macro_event",
+    "macro_event_date",
+    "macro_source_row_count",
 }
 
-MACRO_TOKENS = [
-    "macro",
-    "surprise",
-    "inflation",
-    "growth",
-    "rate",
-    "liquidity",
-    "reaction",
-    "policy",
-    "bias",
-    "tone",
-    "fomc",
-    "cpi",
-    "jobs",
-]
 
-
-def find_col(df: pd.DataFrame, names: list[str]) -> Optional[str]:
-    lowered = {col.lower(): col for col in df.columns}
-
-    for name in names:
-        if name.lower() in lowered:
-            return lowered[name.lower()]
-
-    return None
-
-
-def is_macro_col(col: str) -> bool:
+def is_macro_like_column(col: str) -> bool:
     lowered = col.lower()
 
-    if col in EXPECTED_MACRO_COLUMNS:
+    if col in MACRO_COLS or col in DROP_MACRO_HELPERS:
         return True
 
-    return any(token in lowered for token in MACRO_TOKENS)
+    tokens = [
+        "macro",
+        "surprise",
+        "inflation",
+        "growth",
+        "rate_policy",
+        "liquidity",
+        "reaction_quality",
+        "market_bias",
+        "five_day_bias",
+    ]
+
+    return any(token in lowered for token in tokens)
 
 
-def load_top125_tickers() -> set[str]:
+def aggregate_macro_series(series: pd.Series) -> float:
+    """
+    Build one global macro value per date.
+
+    The old macro-aware file can be sparse/zero-filled across tickers.
+    A plain median can collapse the whole macro signal to zero.
+
+    Rule:
+    1. Prefer the most common non-zero value for that date.
+    2. If no non-zero value exists, use median of all available values.
+    3. If still missing, return 0.
+    """
+    values = pd.to_numeric(series, errors="coerce").replace([np.inf, -np.inf], np.nan).dropna()
+
+    if values.empty:
+        return 0.0
+
+    nonzero = values[values.abs() > 1e-12]
+
+    if not nonzero.empty:
+        rounded = nonzero.round(6)
+        modes = rounded.mode(dropna=True)
+
+        if not modes.empty:
+            return float(modes.iloc[0])
+
+        return float(nonzero.median())
+
+    median = values.median()
+
+    if pd.isna(median):
+        return 0.0
+
+    return float(median)
+
+
+def main() -> None:
+    if not SOURCE_WITH_MACRO.exists():
+        raise FileNotFoundError(f"Missing macro-aware source file: {SOURCE_WITH_MACRO}")
+
     if not UNIVERSE_PATH.exists():
-        raise FileNotFoundError(f"Missing universe file: {UNIVERSE_PATH}")
+        raise FileNotFoundError(f"Missing top-125 universe file: {UNIVERSE_PATH}")
 
     universe = pd.read_csv(UNIVERSE_PATH)
 
     if "ticker" not in universe.columns:
-        raise ValueError(f"{UNIVERSE_PATH} must have a ticker column.")
+        raise ValueError(f"{UNIVERSE_PATH} must contain a ticker column.")
 
-    tickers = set(universe["ticker"].astype(str).str.upper().str.strip())
+    top125 = set(universe["ticker"].astype(str).str.upper().str.strip())
 
-    if len(tickers) != 125:
-        raise ValueError(f"Expected 125 top universe tickers, got {len(tickers)}")
+    if len(top125) != 125:
+        raise ValueError(f"Expected 125 top universe tickers, got {len(top125)}")
 
-    return tickers
+    df = pd.read_csv(SOURCE_WITH_MACRO)
 
+    if "date" not in df.columns or "ticker" not in df.columns:
+        raise ValueError("Source file must contain date and ticker columns.")
 
-def load_base() -> pd.DataFrame:
-    top125 = load_top125_tickers()
+    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    df["ticker"] = df["ticker"].astype(str).str.upper().str.strip()
 
-    for path in BASE_CANDIDATES:
-        if not path.exists():
-            continue
+    df = df.dropna(subset=["date", "ticker"]).copy()
+    df = df[df["ticker"].isin(top125)].copy()
 
-        df = pd.read_csv(path)
+    if df["ticker"].nunique() != 125:
+        missing = sorted(top125 - set(df["ticker"].unique()))
+        raise RuntimeError(f"Source file does not contain all top-125 tickers. Missing: {missing}")
 
-        if "date" not in df.columns or "ticker" not in df.columns:
-            continue
+    available_macro_cols: List[str] = [col for col in MACRO_COLS if col in df.columns]
 
-        df["date"] = pd.to_datetime(df["date"], errors="coerce")
-        df["ticker"] = df["ticker"].astype(str).str.upper().str.strip()
-        df = df[df["ticker"].isin(top125)].copy()
+    if not available_macro_cols:
+        raise RuntimeError(f"No expected macro columns found in {SOURCE_WITH_MACRO}")
 
-        if df["ticker"].nunique() == 125:
-            print(f"Using base file: {path}")
-            return df.sort_values(["ticker", "date"]).reset_index(drop=True)
+    for col in available_macro_cols:
+        df[col] = pd.to_numeric(df[col], errors="coerce").replace([np.inf, -np.inf], np.nan)
 
-    raise FileNotFoundError("No usable top-125 base model-safe dataset found.")
+    print(f"Using macro-aware source: {SOURCE_WITH_MACRO}")
+    print(f"Rows: {len(df):,}")
+    print(f"Tickers: {df['ticker'].nunique():,}")
+    print(f"Dates: {df['date'].nunique():,}")
+    print(f"Macro columns: {available_macro_cols}")
 
-
-def get_macro_cols(df: pd.DataFrame, date_col: str, ticker_col: Optional[str]) -> list[str]:
-    cols = []
-
-    for col in df.columns:
-        if col in {date_col, ticker_col}:
-            continue
-
-        if col in EXCLUDE_MACRO_COLUMNS:
-            continue
-
-        if not is_macro_col(col):
-            continue
-
-        converted = pd.to_numeric(df[col], errors="coerce")
-
-        if converted.notna().sum() == 0:
-            continue
-
-        if converted.nunique(dropna=True) <= 1:
-            continue
-
-        cols.append(col)
-
-    # Preserve expected macro column order first, then extras.
-    ordered = [col for col in EXPECTED_MACRO_COLUMNS if col in cols]
-    extras = [col for col in cols if col not in ordered]
-
-    return ordered + extras
-
-
-def choose_macro_source() -> tuple[Path, pd.DataFrame, str, Optional[str], list[str]]:
-    candidates = []
-
-    for path in MACRO_SOURCE_CANDIDATES:
-        if not path.exists():
-            continue
-
-        try:
-            df = pd.read_csv(path)
-        except Exception:
-            continue
-
-        date_col = find_col(df, ["date", "event_date", "release_date", "timestamp"])
-        ticker_col = find_col(df, ["ticker", "symbol"])
-
-        if date_col is None:
-            continue
-
-        macro_cols = get_macro_cols(df, date_col, ticker_col)
-
-        if not macro_cols:
-            continue
-
-        score = len(set(macro_cols).intersection(EXPECTED_MACRO_COLUMNS)) * 1000000 + len(macro_cols) * 1000 + len(df)
-
-        candidates.append(
-            {
-                "path": path,
-                "df": df,
-                "date_col": date_col,
-                "ticker_col": ticker_col,
-                "macro_cols": macro_cols,
-                "score": score,
-            }
+    print("")
+    print("Source macro diagnostics:")
+    for col in available_macro_cols:
+        unique_count = int(df[col].nunique(dropna=True))
+        nonzero_count = int((df[col].abs() > 1e-12).sum())
+        nonzero_dates = int(df.loc[df[col].abs() > 1e-12, "date"].nunique())
+        print(
+            f"  {col}: unique={unique_count}, "
+            f"nonzero_rows={nonzero_count:,}, nonzero_dates={nonzero_dates:,}"
         )
 
-    if not candidates:
-        raise FileNotFoundError("No usable macro source file found.")
+    # Remove old ticker-level macro/helper columns from base.
+    macro_like_cols = [col for col in df.columns if is_macro_like_column(col)]
+    base = df.drop(columns=[col for col in macro_like_cols if col in df.columns]).copy()
 
-    best = sorted(candidates, key=lambda item: item["score"], reverse=True)[0]
-
-    return best["path"], best["df"], best["date_col"], best["ticker_col"], best["macro_cols"]
-
-
-def build_global_macro(
-    source: pd.DataFrame,
-    date_col: str,
-    ticker_col: Optional[str],
-    macro_cols: list[str],
-) -> pd.DataFrame:
-    keep_cols = [date_col] + ([ticker_col] if ticker_col else []) + macro_cols
-    macro = source[keep_cols].copy()
-
-    macro = macro.rename(columns={date_col: "macro_event_date"})
-    macro["macro_event_date"] = pd.to_datetime(macro["macro_event_date"], errors="coerce")
-    macro = macro.dropna(subset=["macro_event_date"])
-
-    for col in macro_cols:
-        macro[col] = pd.to_numeric(macro[col], errors="coerce").replace([np.inf, -np.inf], np.nan)
-
-    if ticker_col:
-        macro = macro.rename(columns={ticker_col: "ticker"})
-        macro["ticker"] = macro["ticker"].astype(str).str.upper().str.strip()
-
-    # Global-by-date rule:
-    # If source is ticker-level, aggregate to one macro value per event date.
-    grouped = macro.groupby("macro_event_date")[macro_cols].median(numeric_only=True).reset_index()
-
-    obs_count = macro.groupby("macro_event_date").size().reset_index(name="macro_source_row_count")
-    grouped = grouped.merge(obs_count, on="macro_event_date", how="left")
-
-    grouped = grouped.sort_values("macro_event_date").reset_index(drop=True)
-
-    return grouped
-
-
-def merge_global_macro(base: pd.DataFrame, macro: pd.DataFrame, macro_cols: list[str]) -> pd.DataFrame:
-    base = base.copy()
-    base["date"] = pd.to_datetime(base["date"], errors="coerce")
-    base = base.dropna(subset=["date", "ticker"]).sort_values("date").reset_index(drop=True)
-
-    macro = macro.sort_values("macro_event_date").reset_index(drop=True)
-
-    merged = pd.merge_asof(
-        base,
-        macro,
-        left_on="date",
-        right_on="macro_event_date",
-        direction="backward",
+    # Build one global macro row per date using dominant non-zero aggregation.
+    agg_map = {col: aggregate_macro_series for col in available_macro_cols}
+    global_macro = (
+        df.groupby("date", as_index=False)
+        .agg(agg_map)
+        .sort_values("date")
+        .reset_index(drop=True)
     )
 
-    merged["has_macro_context"] = merged["macro_event_date"].notna().astype(int)
+    # Add context flag after aggregation. This is useful for diagnostics, but we will not
+    # include it in the final model file to avoid zero-variance/helper warnings.
+    global_macro["_global_macro_nonzero_count"] = (
+        global_macro[available_macro_cols].abs() > 1e-12
+    ).sum(axis=1)
 
-    merged["days_since_macro_event"] = (
-        merged["date"] - merged["macro_event_date"]
-    ).dt.days
+    print("")
+    print("Global macro diagnostics:")
+    for col in available_macro_cols:
+        unique_count = int(global_macro[col].nunique(dropna=True))
+        nonzero_dates = int((global_macro[col].abs() > 1e-12).sum())
+        print(f"  {col}: unique={unique_count}, nonzero_dates={nonzero_dates:,}")
 
-    for col in macro_cols:
+    # Validate that at least the primary macro columns carry variation.
+    primary_cols = [
+        col
+        for col in [
+            "macro_signal_score",
+            "macro_tone_score",
+            "surprise_num",
+            "growth_num",
+            "rate_policy_num",
+            "liquidity_num",
+            "five_day_market_bias_score",
+        ]
+        if col in global_macro.columns
+    ]
+
+    zero_variance_primary = [
+        col for col in primary_cols if global_macro[col].nunique(dropna=True) <= 1
+    ]
+
+    if len(zero_variance_primary) == len(primary_cols):
+        raise RuntimeError(
+            "All primary global macro columns are still zero/constant variance. "
+            "The aggregation source is not usable."
+        )
+
+    if zero_variance_primary:
+        print("")
+        print("Warning: Some primary macro columns are zero/constant variance:")
+        print(zero_variance_primary)
+
+    # Merge global-by-date macro back onto top-125 base.
+    merged = base.merge(
+        global_macro.drop(columns=["_global_macro_nonzero_count"]),
+        on="date",
+        how="left",
+    )
+
+    for col in available_macro_cols:
         merged[col] = pd.to_numeric(merged[col], errors="coerce").replace([np.inf, -np.inf], np.nan)
-        merged[col] = merged[col].fillna(0.0)
+        merged[col] = merged[col].ffill().bfill().fillna(0.0)
 
-    merged["macro_source_row_count"] = pd.to_numeric(
-        merged.get("macro_source_row_count"),
-        errors="coerce",
-    ).fillna(0)
-
-    merged["days_since_macro_event"] = pd.to_numeric(
-        merged["days_since_macro_event"],
-        errors="coerce",
-    ).fillna(9999)
-
-    # Ensure same-date consistency after merge.
+    # Hard validation: each macro column must have one value per date across all tickers.
     inconsistent = {}
-    for col in macro_cols:
-        nunique_by_date = merged.groupby("date")[col].nunique(dropna=True)
-        bad_dates = int((nunique_by_date > 1).sum())
+
+    for col in available_macro_cols:
+        by_date = merged.groupby("date")[col].nunique(dropna=True)
+        bad_dates = int((by_date > 1).sum())
 
         if bad_dates > 0:
             inconsistent[col] = bad_dates
@@ -272,37 +228,34 @@ def merge_global_macro(base: pd.DataFrame, macro: pd.DataFrame, macro_cols: list
     if inconsistent:
         raise RuntimeError(f"Global macro merge still inconsistent by date: {inconsistent}")
 
+    # Hard validation: the global dataset should not collapse all macro signal to constants.
+    zero_variance_after_merge = [
+        col for col in available_macro_cols if merged[col].nunique(dropna=True) <= 1
+    ]
+
+    if len(zero_variance_after_merge) == len(available_macro_cols):
+        raise RuntimeError(
+            "All macro columns collapsed to constant variance after merge. "
+            "Global macro build failed."
+        )
+
     merged = merged.sort_values(["ticker", "date"]).reset_index(drop=True)
-
-    return merged
-
-
-def main() -> None:
-    base = load_base()
-
-    source_path, source_df, date_col, ticker_col, macro_cols = choose_macro_source()
-
-    print(f"Selected macro source: {source_path}")
-    print(f"Source date column: {date_col}")
-    print(f"Source ticker column: {ticker_col}")
-    print(f"Macro columns: {macro_cols}")
-
-    global_macro = build_global_macro(source_df, date_col, ticker_col, macro_cols)
-
-    print(f"Global macro rows: {len(global_macro):,}")
-    print(f"Global macro date range: {global_macro['macro_event_date'].min()} -> {global_macro['macro_event_date'].max()}")
-
-    merged = merge_global_macro(base, global_macro, macro_cols)
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     merged.to_csv(OUT_PATH, index=False)
 
+    print("")
     print(f"Wrote {OUT_PATH}")
     print(f"Rows: {len(merged):,}")
     print(f"Tickers: {merged['ticker'].nunique():,}")
-    print(f"Macro columns: {macro_cols}")
-    print(f"Rows with macro context: {int(merged['has_macro_context'].sum()):,}")
+    print(f"Dates: {merged['date'].nunique():,}")
     print("Same-date macro consistency: PASS")
+    print("Macro variance check: PASS")
+
+    if zero_variance_after_merge:
+        print("")
+        print("Non-blocking zero-variance macro columns after merge:")
+        print(zero_variance_after_merge)
 
 
 if __name__ == "__main__":
