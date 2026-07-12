@@ -50,6 +50,7 @@ def resolve_canonical_universe(
 
 
 COMMANDS = [
+    ("walkforward_rank_backtest", "src/backtesting/walkforward_rank_backtest.py"),
     ("strategy_walkforward", "src/workflows/run_strategy_walkforward.py"),
     ("model_tournament", "src/workflows/run_model_tournament.py"),
     ("data_quality_leakage", "src/workflows/run_data_quality_leakage.py"),
