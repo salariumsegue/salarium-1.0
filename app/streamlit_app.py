@@ -1,305 +1,336 @@
 from __future__ import annotations
 
-import re
+import json
 from pathlib import Path
-from typing import Optional
+from typing import Any
 
 import pandas as pd
 import streamlit as st
 
-
 ROOT = Path(__file__).resolve().parents[1]
+DATA = ROOT / "data"
+CONFIGS = ROOT / "configs"
+REPORTS = ROOT / "reports"
+RESULTS = ROOT / "results"
+RUNS = DATA / "runs"
+DISCOVERY = DATA / "discovery"
 
 st.set_page_config(
-    page_title="Salarium Research Dashboard",
+    page_title="Salarium Command Center 2.0",
     page_icon="📈",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 
+@st.cache_data(show_spinner=False)
 def read_csv(path: str) -> pd.DataFrame:
-    full_path = ROOT / path
+    return pd.read_csv(path)
 
-    if not full_path.exists():
+
+@st.cache_data(show_spinner=False)
+def read_json(path: str) -> dict[str, Any]:
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def csv_or_empty(path: Path) -> pd.DataFrame:
+    if not path.is_file():
+        return pd.DataFrame()
+    try:
+        return read_csv(str(path))
+    except Exception as exc:
+        st.warning(f"Could not read {path}: {exc}")
         return pd.DataFrame()
 
+
+def json_or_empty(path: Path) -> dict[str, Any]:
+    if not path.is_file():
+        return {}
     try:
-        return pd.read_csv(full_path)
+        return read_json(str(path))
     except Exception:
+        return {}
+
+
+def text_or_empty(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8")
+    except Exception:
+        return ""
+
+
+def count_table(frame: pd.DataFrame, column: str) -> pd.DataFrame:
+    if frame.empty or column not in frame.columns:
+        return pd.DataFrame(columns=[column, "count"])
+    return frame[column].value_counts(dropna=False).rename_axis(column).reset_index(name="count")
+
+
+def load_runs() -> pd.DataFrame:
+    records: list[dict[str, Any]] = []
+    if not RUNS.exists():
         return pd.DataFrame()
 
+    for run_dir in RUNS.iterdir():
+        if not run_dir.is_dir():
+            continue
+        manifest = json_or_empty(run_dir / "manifest.json")
+        pipeline = json_or_empty(run_dir / "pipeline_status.json")
+        captured = json_or_empty(run_dir / "captured_outputs.json")
+        git_block = manifest.get("git", {}) if isinstance(manifest.get("git"), dict) else {}
+        workflows = pipeline.get("workflows", []) if isinstance(pipeline.get("workflows"), list) else []
+        created = manifest.get("created_at_utc") or manifest.get("created_at")
 
-def read_text(path: str) -> str:
-    full_path = ROOT / path
+        records.append(
+            {
+                "run_id": manifest.get("run_id", run_dir.name),
+                "created_at": pd.to_datetime(created, errors="coerce", utc=True),
+                "status": pipeline.get("status") or manifest.get("status") or "unknown",
+                "workflows": len(workflows),
+                "passed": sum(1 for item in workflows if item.get("return_code") == 0),
+                "captured": captured.get("captured_file_count", 0),
+                "commit": manifest.get("git_commit") or git_block.get("commit", ""),
+                "branch": manifest.get("git_branch") or git_block.get("branch", ""),
+                "path": str(run_dir),
+                "mtime": run_dir.stat().st_mtime,
+            }
+        )
 
-    if not full_path.exists():
-        return f"Missing file: `{path}`"
-
-    return full_path.read_text(errors="replace")
-
-
-def parse_status(markdown: str) -> str:
-    match = re.search(r"\*\*Status:\*\*\s*([A-Za-z]+)", markdown)
-
-    if match:
-        return match.group(1).lower()
-
-    return "unknown"
-
-
-def parse_summary(markdown: str) -> str:
-    match = re.search(r"\*\*Summary:\*\*\s*(.+)", markdown)
-
-    if match:
-        return match.group(1).strip()
-
-    return ""
-
-
-def metric_from_summary(path: str) -> tuple[str, str]:
-    text = read_text(path)
-    return parse_status(text), parse_summary(text)
+    frame = pd.DataFrame(records)
+    if frame.empty:
+        return frame
+    return frame.sort_values(["created_at", "mtime"], na_position="last").reset_index(drop=True)
 
 
-def fmt_num(value, digits: int = 4) -> str:
-    try:
-        if pd.isna(value):
-            return "N/A"
-        return f"{float(value):.{digits}f}"
-    except Exception:
-        return "N/A"
+def load_discovery() -> pd.DataFrame:
+    chunk_dir = DISCOVERY / "chunks"
+    frames: list[pd.DataFrame] = []
+    if not chunk_dir.exists():
+        return pd.DataFrame()
+
+    for path in sorted(chunk_dir.glob("history_*.csv")):
+        try:
+            frame = pd.read_csv(path)
+        except Exception:
+            continue
+        frame["chunk"] = path.stem
+        frames.append(frame)
+
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
 
 
-def fmt_pct(value, digits: int = 2) -> str:
-    try:
-        if pd.isna(value):
-            return "N/A"
-        return f"{float(value) * 100:.{digits}f}%"
-    except Exception:
-        return "N/A"
+def load_regimes() -> pd.DataFrame:
+    path = DATA / "processed" / "training_data_top125_model_safe_with_global_macro.csv"
+    frame = csv_or_empty(path)
+    if frame.empty:
+        return frame
+    if "date" in frame.columns:
+        frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
+        frame = frame.drop_duplicates("date").sort_values("date")
+    return frame
 
 
-def section_status_cards() -> None:
-    reports = {
-        "Backtest": "reports/backtest_reviewer_latest.md",
-        "Tournament": "reports/model_tournament_latest.md",
-        "Strategy WF": "reports/strategy_walkforward_latest.md",
-        "Data Quality": "reports/data_quality_leakage_latest.md",
-        "Risk": "reports/risk_portfolio_latest.md",
-        "Macro Audit": "reports/macro_feature_audit_latest.md",
-        "Registry": "reports/experiment_registry_latest.md",
-        "Final Report": "reports/salarium_agentic_research_latest.md",
-    }
-
-    cols = st.columns(4)
-
-    for i, (name, path) in enumerate(reports.items()):
-        status, _ = metric_from_summary(path)
-
-        with cols[i % 4]:
-            st.metric(name, status.upper())
+def active_count(frame: pd.DataFrame) -> int:
+    if frame.empty or "is_active" not in frame.columns:
+        return 0
+    return int(
+        frame["is_active"].astype(str).str.lower().isin({"true", "1", "yes", "y"}).sum()
+    )
 
 
-def show_report(path: str) -> None:
-    st.markdown(read_text(path))
+runs = load_runs()
+discovery = load_discovery()
+regimes = load_regimes()
+universe = csv_or_empty(CONFIGS / "us_equity_candidates.csv")
+evaluation = csv_or_empty(DISCOVERY / "evaluation" / "selected.csv")
+latest_run = Path(runs.sort_values("mtime").iloc[-1]["path"]) if not runs.empty else None
 
-
-st.title("Salarium Research Dashboard")
-st.caption("Local-first agentic equity research dashboard. Research only, not investment advice.")
-
-tabs = st.tabs(
-    [
-        "Overview",
-        "Universe",
-        "Tournament",
-        "Strategy Walkforward",
-        "Risk",
-        "Data Quality",
-        "Macro Audit",
-        "Reports",
-    ]
+st.sidebar.title("Salarium 2.0")
+page = st.sidebar.radio(
+    "Navigation",
+    ["Command Center", "Run Explorer", "Regimes", "Universe", "Discovery", "Research", "Reports"],
 )
+st.sidebar.divider()
+st.sidebar.caption("Build marker")
+st.sidebar.code("DASHBOARD_V2_LOCAL")
+st.sidebar.metric("Candidates", f"{len(universe):,}")
+st.sidebar.metric("Discovery rows", f"{len(discovery):,}")
+st.sidebar.metric("Runs", f"{len(runs):,}")
 
-with tabs[0]:
-    st.header("Overview")
+st.title("Salarium Command Center 2.0")
+st.caption("Reproducibility, market regimes, universe discovery, model results, and research reports.")
 
-    section_status_cards()
+if page == "Command Center":
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Candidate universe", f"{len(universe):,}")
+    c2.metric("Active candidates", f"{active_count(universe):,}")
+    c3.metric("Discovery success", f"{int((discovery.get('status', pd.Series(dtype=str)) == 'success').sum()):,}")
+    c4.metric("Latest run", latest_run.name if latest_run else "None")
 
-    st.divider()
+    left, right = st.columns(2)
+    with left:
+        st.subheader("Run health")
+        if runs.empty:
+            st.info("No run manifests found.")
+        else:
+            counts = count_table(runs, "status")
+            st.bar_chart(counts.set_index("status"))
+            st.dataframe(runs[["run_id", "created_at", "status", "passed", "captured"]].tail(15), width="stretch", hide_index=True)
+    with right:
+        st.subheader("Discovery health")
+        if discovery.empty:
+            st.info("No discovery chunks found.")
+        else:
+            counts = count_table(discovery, "status")
+            st.bar_chart(counts.set_index("status"))
+            chunk = discovery.groupby("chunk").agg(symbols=("ticker", "count"), success_rate=("status", lambda s: float((s == "success").mean()))).reset_index()
+            st.line_chart(chunk.set_index("chunk")[["success_rate"]])
+            st.dataframe(chunk, width="stretch", hide_index=True)
 
-    universe = read_csv("configs/stock_universe_top125_yahoo.csv")
-    tournament = read_csv("results/model_tournament_leaderboard.csv")
-    strategy = read_csv("results/strategy_walkforward_tournament_summary.csv")
-    dq_status, dq_summary = metric_from_summary("reports/data_quality_leakage_latest.md")
-    macro_status, macro_summary = metric_from_summary("reports/macro_feature_audit_latest.md")
-    risk_status, risk_summary = metric_from_summary("reports/risk_portfolio_latest.md")
-
-    col1, col2, col3, col4 = st.columns(4)
-
-    col1.metric("Universe size", len(universe) if not universe.empty else 0)
-    col2.metric("Tournament candidates", len(tournament) if not tournament.empty else 0)
-    col3.metric("Strategy candidates", len(strategy) if not strategy.empty else 0)
-
-    if not tournament.empty and "agent_score" in tournament.columns:
-        temp = tournament.copy()
-        temp["agent_score"] = pd.to_numeric(temp["agent_score"], errors="coerce")
-        best = temp.sort_values("agent_score", ascending=False).iloc[0]
-        col4.metric("Best candidate", str(best.get("candidate", "N/A")))
+    st.subheader("Latest regime state")
+    if regimes.empty:
+        st.info("No regime-aware dataset found.")
     else:
-        col4.metric("Best candidate", "N/A")
+        row = regimes.iloc[-1]
+        r1, r2, r3, r4 = st.columns(4)
+        r1.metric("Macro regime", str(row.get("macro_regime", "N/A")))
+        r2.metric("Risk state", str(row.get("risk_state", "N/A")))
+        r3.metric("Macro confidence", f"{float(row.get('macro_regime_confidence', row.get('regime_confidence', 0))):.2f}")
+        r4.metric("Risk confidence", f"{float(row.get('risk_state_confidence', 0)):.2f}")
 
-    st.subheader("Latest summaries")
-    st.info(dq_summary or "Data quality summary unavailable.")
-    st.info(macro_summary or "Macro audit summary unavailable.")
-    st.info(risk_summary or "Risk summary unavailable.")
+elif page == "Run Explorer":
+    st.subheader("Run Explorer")
+    if runs.empty:
+        st.info("No run history available.")
+    else:
+        run_id = st.selectbox("Run", list(reversed(runs["run_id"].tolist())))
+        record = runs.loc[runs["run_id"] == run_id].iloc[-1]
+        run_dir = Path(record["path"])
+        manifest = json_or_empty(run_dir / "manifest.json")
+        pipeline = json_or_empty(run_dir / "pipeline_status.json")
+        captured = json_or_empty(run_dir / "captured_outputs.json")
+        a, b, c, d = st.columns(4)
+        a.metric("Status", record["status"])
+        b.metric("Workflows", int(record["workflows"]))
+        c.metric("Passed", int(record["passed"]))
+        d.metric("Captured", int(record["captured"]))
+        st.dataframe(pd.DataFrame([record]), width="stretch", hide_index=True)
+        st.markdown("#### Manifest")
+        st.json(manifest)
+        st.markdown("#### Pipeline")
+        st.json(pipeline)
+        if captured:
+            st.markdown("#### Captured outputs")
+            st.dataframe(pd.DataFrame(captured.get("files", [])), width="stretch", hide_index=True)
 
-with tabs[1]:
-    st.header("Top-125 Yahoo Universe")
+elif page == "Regimes":
+    st.subheader("Regime Intelligence")
+    if regimes.empty:
+        st.info("No regime dataset found.")
+    else:
+        left, right = st.columns(2)
+        with left:
+            counts = count_table(regimes, "macro_regime")
+            st.markdown("#### Macro regimes")
+            st.bar_chart(counts.set_index("macro_regime"))
+            st.dataframe(counts, width="stretch", hide_index=True)
+        with right:
+            counts = count_table(regimes, "risk_state")
+            st.markdown("#### Risk states")
+            st.bar_chart(counts.set_index("risk_state"))
+            st.dataframe(counts, width="stretch", hide_index=True)
+        if {"macro_regime", "risk_state"}.issubset(regimes.columns):
+            st.markdown("#### Joint state matrix")
+            st.dataframe(pd.crosstab(regimes["macro_regime"], regimes["risk_state"]), width="stretch")
+        confidence_cols = [c for c in ["macro_regime_confidence", "risk_state_confidence", "regime_confidence"] if c in regimes.columns]
+        if confidence_cols and "date" in regimes.columns:
+            st.markdown("#### Confidence over time")
+            st.line_chart(regimes.set_index("date")[confidence_cols])
 
-    universe = read_csv("configs/stock_universe_top125_yahoo.csv")
-
+elif page == "Universe":
+    st.subheader("Universe Explorer")
     if universe.empty:
-        st.warning("Missing `configs/stock_universe_top125_yahoo.csv`.")
+        st.info("No candidate universe found.")
     else:
-        c1, c2, c3 = st.columns(3)
-        c1.metric("Rows", len(universe))
-        c2.metric("Unique tickers", universe["ticker"].nunique() if "ticker" in universe.columns else "N/A")
-        c3.metric("Sectors", universe["sector"].nunique() if "sector" in universe.columns else "N/A")
+        query = st.text_input("Search ticker or company").strip().upper()
+        filtered = universe.copy()
+        if query:
+            tickers = filtered.get("ticker", pd.Series(index=filtered.index, dtype=str)).astype(str).str.upper().str.contains(query, regex=False)
+            companies = filtered.get("company_name", pd.Series(index=filtered.index, dtype=str)).astype(str).str.upper().str.contains(query, regex=False)
+            filtered = filtered[tickers | companies]
+        a, b, c = st.columns(3)
+        a.metric("Candidates", f"{len(universe):,}")
+        b.metric("Active", f"{active_count(universe):,}")
+        c.metric("Visible", f"{len(filtered):,}")
+        st.dataframe(filtered.head(500), width="stretch", hide_index=True)
+        left, right = st.columns(2)
+        with left:
+            counts = count_table(universe, "exchange")
+            st.markdown("#### Exchange composition")
+            st.bar_chart(counts.set_index("exchange"))
+        with right:
+            counts = count_table(universe, "security_type")
+            st.markdown("#### Security types")
+            st.bar_chart(counts.set_index("security_type"))
+        if not evaluation.empty and "median_dollar_volume" in evaluation.columns:
+            st.markdown("#### Liquidity leaders")
+            top = evaluation.sort_values("median_dollar_volume", ascending=False).head(40)
+            st.bar_chart(top.set_index("ticker")[["median_dollar_volume"]])
+            st.dataframe(top, width="stretch", hide_index=True)
 
-        show_cols = [
-            col
-            for col in [
-                "rank_by_market_cap",
-                "ticker",
-                "company_name",
-                "sector",
-                "industry",
-                "market_cap",
-                "currency",
-                "snapshot_date",
-            ]
-            if col in universe.columns
-        ]
-
-        st.dataframe(universe[show_cols], use_container_width=True)
-
-        if "sector" in universe.columns:
-            st.subheader("Sector counts")
-            sector_counts = universe["sector"].value_counts().reset_index()
-            sector_counts.columns = ["sector", "count"]
-            st.bar_chart(sector_counts.set_index("sector")["count"])
-
-with tabs[2]:
-    st.header("Model Tournament")
-
-    tournament = read_csv("results/model_tournament_leaderboard.csv")
-
-    if tournament.empty:
-        st.warning("Missing `results/model_tournament_leaderboard.csv`.")
+elif page == "Discovery":
+    st.subheader("Universe Discovery Monitor")
+    if discovery.empty:
+        st.info("No discovery reports found.")
     else:
-        if "agent_score" in tournament.columns:
-            tournament["agent_score"] = pd.to_numeric(tournament["agent_score"], errors="coerce")
+        a, b, c, d = st.columns(4)
+        a.metric("Attempted", f"{len(discovery):,}")
+        b.metric("Success", f"{int((discovery['status'] == 'success').sum()):,}")
+        c.metric("Failed", f"{int((discovery['status'] != 'success').sum()):,}")
+        d.metric("Success rate", f"{float((discovery['status'] == 'success').mean()):.1%}")
+        counts = count_table(discovery, "status")
+        st.bar_chart(counts.set_index("status"))
+        chunk = discovery.groupby("chunk").agg(symbols=("ticker", "count"), success_rate=("status", lambda s: float((s == "success").mean())), median_rows=("rows", "median")).reset_index()
+        st.line_chart(chunk.set_index("chunk")[["success_rate"]])
+        st.dataframe(chunk, width="stretch", hide_index=True)
+        st.markdown("#### Failures")
+        st.dataframe(discovery.loc[discovery["status"] != "success"], width="stretch", hide_index=True)
+        successful = discovery.loc[discovery["status"] == "success"].copy()
+        if not successful.empty and "rows" in successful.columns:
+            buckets = pd.cut(successful["rows"], bins=[0, 30, 60, 126, 252, 504, 756, 1260, 2000, 3000], include_lowest=True)
+            histogram = buckets.value_counts().sort_index().rename_axis("history_bucket").reset_index(name="count")
+            st.markdown("#### History coverage")
+            st.bar_chart(histogram.set_index("history_bucket"))
+            st.dataframe(histogram, width="stretch", hide_index=True)
 
-        st.dataframe(tournament, use_container_width=True)
-
-        if "candidate" in tournament.columns and "agent_score" in tournament.columns:
-            st.subheader("Candidate scores")
-            chart = tournament[["candidate", "agent_score"]].dropna().copy()
-            chart = chart.sort_values("agent_score", ascending=False)
-            st.bar_chart(chart.set_index("candidate")["agent_score"])
-
-        if "group" in tournament.columns:
-            st.subheader("Group winners")
-            winners = []
-            for group, group_df in tournament.groupby("group"):
-                group_df = group_df.copy()
-                if "agent_score" in group_df.columns:
-                    group_df["agent_score"] = pd.to_numeric(group_df["agent_score"], errors="coerce")
-                    best = group_df.sort_values("agent_score", ascending=False).iloc[0]
-                    winners.append(
-                        {
-                            "group": group,
-                            "candidate": best.get("candidate"),
-                            "agent_score": best.get("agent_score"),
-                            "scope": best.get("scope"),
-                        }
-                    )
-            if winners:
-                st.dataframe(pd.DataFrame(winners), use_container_width=True)
-
-with tabs[3]:
-    st.header("Strategy Walkforward")
-
-    strategy = read_csv("results/strategy_walkforward_tournament_summary.csv")
-
-    if strategy.empty:
-        st.warning("Missing `results/strategy_walkforward_tournament_summary.csv`.")
-    else:
-        st.dataframe(strategy, use_container_width=True)
-
-        if "candidate" in strategy.columns and "strategy_score" in strategy.columns:
-            chart = strategy[["candidate", "strategy_score"]].copy()
-            chart["strategy_score"] = pd.to_numeric(chart["strategy_score"], errors="coerce")
-            chart = chart.sort_values("strategy_score", ascending=False)
-            st.subheader("Strategy scores")
-            st.bar_chart(chart.set_index("candidate")["strategy_score"])
-
-        if "avg_net_excess_5d" in strategy.columns:
-            chart = strategy[["candidate", "avg_net_excess_5d"]].copy()
-            chart["avg_net_excess_5d"] = pd.to_numeric(chart["avg_net_excess_5d"], errors="coerce")
-            chart = chart.sort_values("avg_net_excess_5d", ascending=False)
-            st.subheader("Average net excess 5D return")
-            st.bar_chart(chart.set_index("candidate")["avg_net_excess_5d"])
-
-with tabs[4]:
-    st.header("Risk & Portfolio")
-
-    risk_summary = read_csv("results/risk_portfolio_summary.csv")
-
-    if not risk_summary.empty:
-        st.subheader("Risk summary table")
-        st.dataframe(risk_summary, use_container_width=True)
-
-    st.subheader("Latest Risk Report")
-    show_report("reports/risk_portfolio_latest.md")
-
-with tabs[5]:
-    st.header("Data Quality & Leakage")
-
-    dq = read_csv("results/data_quality_leakage_summary.csv")
-
-    if not dq.empty:
-        st.subheader("Check table")
-        st.dataframe(dq, use_container_width=True)
-
-    st.subheader("Latest Data Quality Report")
-    show_report("reports/data_quality_leakage_latest.md")
-
-with tabs[6]:
-    st.header("Macro Feature Audit")
-
-    macro = read_csv("results/macro_feature_audit_summary.csv")
-
-    if not macro.empty:
-        st.subheader("Macro audit summary")
-        st.dataframe(macro, use_container_width=True)
-
-    st.subheader("Latest Macro Audit Report")
-    show_report("reports/macro_feature_audit_latest.md")
-
-with tabs[7]:
-    st.header("Reports")
-
-    report_paths = {
-        "Backtest Reviewer": "reports/backtest_reviewer_latest.md",
-        "Model Tournament": "reports/model_tournament_latest.md",
-        "Strategy Walkforward": "reports/strategy_walkforward_latest.md",
-        "Data Quality & Leakage": "reports/data_quality_leakage_latest.md",
-        "Risk & Portfolio": "reports/risk_portfolio_latest.md",
-        "Macro Feature Audit": "reports/macro_feature_audit_latest.md",
-        "Experiment Registry": "reports/experiment_registry_latest.md",
-        "Final Agentic Research Report": "reports/salarium_agentic_research_latest.md",
+elif page == "Research":
+    st.subheader("Research Results")
+    files = {
+        "Model tournament": RESULTS / "model_tournament_leaderboard.csv",
+        "Strategy walk-forward": RESULTS / "strategy_walkforward_tournament_summary.csv",
+        "Walk-forward rank": RESULTS / "walkforward_rank_backtest_summary.csv",
+        "Risk portfolio": RESULTS / "risk_portfolio_summary.csv",
+        "Data quality": RESULTS / "data_quality_leakage_summary.csv",
+        "Macro audit": RESULTS / "macro_feature_audit_summary.csv",
     }
+    available = {name: path for name, path in files.items() if path.is_file()}
+    if not available:
+        st.info("No research result CSVs found.")
+    else:
+        choice = st.selectbox("Dataset", list(available))
+        frame = csv_or_empty(available[choice])
+        st.dataframe(frame, width="stretch", hide_index=True)
+        numeric = frame.select_dtypes(include="number")
+        if not numeric.empty:
+            st.markdown("#### Numeric overview")
+            st.dataframe(numeric.describe().T, width="stretch")
 
-    selected = st.selectbox("Select report", list(report_paths.keys()))
-    show_report(report_paths[selected])
+elif page == "Reports":
+    st.subheader("Research Reports")
+    report_paths = sorted(REPORTS.glob("*_latest.md"))
+    if not report_paths:
+        st.info("No latest reports found.")
+    else:
+        selected = st.selectbox("Report", [path.name for path in report_paths])
+        path = REPORTS / selected
+        st.caption(str(path))
+        st.markdown(text_or_empty(path))
