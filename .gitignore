@@ -16,3 +16,26 @@ __pycache__/
 
 # Local model/cache files
 .ollama/
+
+# Agent run artifacts
+reports/agent_runs/
+
+# Generated model-safe training data
+data/processed/training_data_model_safe.csv
+EOFgrep -q "data/processed/training_data_model_safe.csv" .gitignore || cat >> .gitignore <<'EOF'
+
+# Generated model-safe training data
+data/processed/training_data_model_safe.csv
+
+# Generated macro-aware model-safe training data
+data/processed/training_data_model_safe_with_macro.csv
+
+# Generated top-125 model-safe training data
+data/processed/training_data_top125_model_safe.csv
+data/processed/training_data_top125_model_safe_with_macro.csv
+
+# Generated experiment registry runs
+data/runs/
+
+# Generated global macro model-safe training data
+data/processed/training_data_top125_model_safe_with_global_macro.csv

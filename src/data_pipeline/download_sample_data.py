@@ -3,12 +3,47 @@ import pandas as pd
 import yfinance as yf
 
 TICKERS = [
-    "AAPL", "MSFT", "NVDA", "AMZN", "META",
-    "GOOGL", "GOOG", "TSLA", "JPM", "UNH",
-    "V", "MA", "XOM", "LLY", "AVGO",
-    "COST", "WMT", "HD", "KO", "PEP",
-    "ORCL", "CRM", "AMD", "NFLX", "BAC",
-    "QCOM", "MCD", "CSCO", "INTC", "ADBE"
+
+    # Technology
+    "AAPL","MSFT","NVDA","AMD","INTC","QCOM","AVGO","TXN","MU","ADI",
+    "CRM","ORCL","ADBE","NOW","PANW","CRWD","FTNT","SNPS","CDNS","KLAC",
+
+    # Internet / Growth
+    "META","GOOGL","GOOG","AMZN","NFLX","UBER","ABNB","SHOP","SPOT","ROKU",
+
+    # Financials
+    "JPM","BAC","WFC","GS","MS","C","SCHW","BLK","AXP","USB",
+
+    # Healthcare
+    "LLY","UNH","JNJ","MRK","ABBV","PFE","TMO","DHR","ISRG","VRTX",
+
+    # Consumer
+    "COST","WMT","HD","LOW","MCD","SBUX","NKE","TGT","TJX","CMG",
+
+    # Industrials
+    "CAT","DE","GE","HON","RTX","LMT","ETN","PH","EMR","TT",
+
+    # Energy
+    "XOM","CVX","COP","SLB","EOG","MPC","PSX","OXY","VLO","HAL",
+
+    # Communication
+    "TMUS","VZ","T","DIS","CMCSA","CHTR","EA","TTWO","WBD","PARA",
+
+    # Materials
+    "LIN","APD","SHW","NEM","FCX","ECL","MLM","DD","ALB","VMC",
+
+    # Utilities
+    "NEE","SO","DUK","AEP","EXC","XEL","SRE","D","PEG","ED",
+
+    # Real Estate
+    "AMT","PLD","EQIX","CCI","PSA",
+
+    # Additional Liquid Names
+    "BKNG","MAR","RCL","DAL","UAL",
+    "KO","PEP","MDLZ","GIS","KHC",
+    "PYPL","SQ","COIN","MELI","INTU",
+    "AMGN","GILD","REGN","BMY","ZTS",
+    "CSCO","IBM","ANET","MDB","NET"
 ]
 
 START_DATE = "2018-01-01"
