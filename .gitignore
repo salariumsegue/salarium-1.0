@@ -48,3 +48,6 @@ data/cache/
 
 # Local universe discovery artifacts
 /data/discovery/
+
+# Local dashboard replacement backups
+/app/streamlit_app.py.backup.*
