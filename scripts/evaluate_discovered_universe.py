@@ -176,12 +176,14 @@ def main() -> int:
         median_window=args.median_window,
     )
 
-    attempted_candidates = candidates[
-        candidates["ticker"].isin(report["ticker"])
+    measured_candidates = candidates[
+        candidates["ticker"].isin(
+            set(metrics["ticker"])
+        )
     ].copy()
 
     enriched = attach_liquidity_metrics(
-        attempted_candidates,
+        measured_candidates,
         metrics,
     )
 
