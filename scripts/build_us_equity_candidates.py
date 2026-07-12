@@ -129,6 +129,7 @@ def looks_like_common_equity(
         "ETF",
         "ETN",
         "FUND",
+        "CLOSED-END",
         "TRUST CERTIFICATE",
         "BENEFICIAL INTEREST",
     )

@@ -114,3 +114,70 @@ def test_directory_parser_does_not_treat_na_as_missing() -> None:
     result = load_nasdaq_traded(text)
 
     assert result.iloc[0]["symbol"] == "NA"
+
+
+def test_preferred_symbol_is_excluded() -> None:
+    directory = pd.DataFrame(
+        [
+            {
+                "nasdaq_traded": "Y",
+                "symbol": "BAC$E",
+                "security_name": (
+                    "Bank of America Depositary Shares Preferred"
+                ),
+                "listing_exchange": "N",
+                "etf": "N",
+                "test_issue": "N",
+                "financial_status": "N",
+            }
+        ]
+    )
+
+    result = build_candidates(directory)
+
+    assert result.empty
+
+
+def test_closed_end_fund_is_excluded() -> None:
+    directory = pd.DataFrame(
+        [
+            {
+                "nasdaq_traded": "Y",
+                "symbol": "TEST",
+                "security_name": (
+                    "Example Strategic Income Fund Common Shares"
+                ),
+                "listing_exchange": "N",
+                "etf": "N",
+                "test_issue": "N",
+                "financial_status": "N",
+            }
+        ]
+    )
+
+    result = build_candidates(directory)
+
+    assert result.empty
+
+
+def test_period_class_share_is_not_excluded() -> None:
+    directory = pd.DataFrame(
+        [
+            {
+                "nasdaq_traded": "Y",
+                "symbol": "BRK.B",
+                "security_name": (
+                    "Berkshire Hathaway Inc. Class B Common Stock"
+                ),
+                "listing_exchange": "N",
+                "etf": "N",
+                "test_issue": "N",
+                "financial_status": "N",
+            }
+        ]
+    )
+
+    result = build_candidates(directory)
+
+    assert list(result["ticker"]) == ["BRK.B"]
+    assert result.iloc[0]["yahoo_symbol"] == "BRK-B"
