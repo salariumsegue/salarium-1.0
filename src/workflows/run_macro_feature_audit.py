@@ -5,6 +5,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+from src.core.dataset_context import resolve_training_data_path
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
@@ -20,7 +22,7 @@ def main() -> int:
         "results_dir": "results",
         "macro_comparison_path": "results/macro_model_comparison.csv",
         "feature_importance_path": "results/macro_feature_importance.csv",
-        "model_safe_training_path": "data/processed/training_data_top125_model_safe_with_global_macro.csv",
+        "model_safe_training_path": str(resolve_training_data_path()),
         "walkforward_summary_path": "results/walkforward_rank_backtest_summary.csv",
         "model_tournament_path": "results/model_tournament_leaderboard.csv",
     }

@@ -5,6 +5,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+from src.core.dataset_context import resolve_training_data_path
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
@@ -19,7 +21,7 @@ def main() -> int:
         "reports_dir": "reports/agent_runs",
         "results_dir": "results",
         "universe_path": "configs/stock_universe_top125_yahoo.csv",
-        "training_data_path": "data/processed/training_data_top125_model_safe_with_global_macro.csv",
+        "training_data_path": str(resolve_training_data_path()),
     }
 
     agent = DataQualityLeakageAgent()

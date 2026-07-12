@@ -155,6 +155,9 @@ def test_child_environment_exports_universe_identity(
         universe_path=universe_path,
         universe_manifest_path=universe_manifest,
         universe_market_date="2026-07-10",
+        training_data_path=(
+            tmp_path / "training.csv"
+        ),
     )
 
     assert environment[
@@ -172,3 +175,10 @@ def test_child_environment_exports_universe_identity(
     assert environment[
         "SALARIUM_UNIVERSE_MARKET_DATE"
     ] == "2026-07-10"
+
+
+    assert environment[
+        "SALARIUM_TRAINING_DATA_PATH"
+    ] == str(
+        (tmp_path / "training.csv").resolve()
+    )

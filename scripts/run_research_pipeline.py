@@ -88,6 +88,7 @@ def build_child_environment(
     universe_path: Path | None = None,
     universe_manifest_path: Path | None = None,
     universe_market_date: str | None = None,
+    training_data_path: Path | None = None,
 ) -> dict[str, str]:
     environment = os.environ.copy()
     environment.update(
@@ -114,6 +115,11 @@ def build_child_environment(
         environment[
             "SALARIUM_UNIVERSE_MARKET_DATE"
         ] = universe_market_date
+
+    if training_data_path is not None:
+        environment[
+            "SALARIUM_TRAINING_DATA_PATH"
+        ] = str(training_data_path.resolve())
 
     return environment
 
@@ -317,6 +323,11 @@ def main() -> int:
         ),
         universe_market_date=(
             canonical_universe.market_date
+        ),
+        training_data_path=(
+            Path(args.input[0])
+            if args.input
+            else None
         ),
     )
 

@@ -16,6 +16,9 @@ if str(ROOT) not in sys.path:
 from src.universe.canonical_snapshot import (
     find_latest_canonical_snapshot,
 )
+from src.core.dataset_context import (
+    resolve_training_data_path,
+)
 
 DATA = ROOT / "data"
 CONFIGS = ROOT / "configs"
@@ -128,7 +131,7 @@ def load_discovery() -> pd.DataFrame:
 
 
 def load_regimes() -> pd.DataFrame:
-    path = DATA / "processed" / "training_data_top125_model_safe_with_global_macro.csv"
+    path = resolve_training_data_path()
     frame = csv_or_empty(path)
     if frame.empty:
         return frame
