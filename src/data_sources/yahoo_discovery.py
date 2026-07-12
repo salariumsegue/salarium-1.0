@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import time
 from dataclasses import asdict, dataclass
@@ -34,6 +35,28 @@ def _safe_filename(symbol: str) -> str:
         .replace("/", "_")
         .replace("\\", "_")
         .replace(":", "_")
+    )
+
+
+def discovery_cache_key(
+    yahoo_symbol: str,
+    start_date: str,
+    end_date: str,
+) -> str:
+    payload = (
+        f"{yahoo_symbol.strip().upper()}|"
+        f"{pd.Timestamp(start_date).date().isoformat()}|"
+        f"{pd.Timestamp(end_date).date().isoformat()}|"
+        "schema-v1"
+    )
+
+    digest = hashlib.sha256(
+        payload.encode("utf-8")
+    ).hexdigest()[:16]
+
+    return (
+        f"{_safe_filename(yahoo_symbol)}_"
+        f"{digest}"
     )
 
 
@@ -145,21 +168,37 @@ class YahooDiscoveryDownloader:
     def price_cache_path(
         self,
         yahoo_symbol: str,
+        start_date: str,
+        end_date: str,
     ) -> Path:
+        key = discovery_cache_key(
+            yahoo_symbol,
+            start_date,
+            end_date,
+        )
+
         return (
             self.cache_directory
             / "prices"
-            / f"{_safe_filename(yahoo_symbol)}.csv"
+            / f"{key}.csv"
         )
 
     def result_cache_path(
         self,
         yahoo_symbol: str,
+        start_date: str,
+        end_date: str,
     ) -> Path:
+        key = discovery_cache_key(
+            yahoo_symbol,
+            start_date,
+            end_date,
+        )
+
         return (
             self.cache_directory
             / "results"
-            / f"{_safe_filename(yahoo_symbol)}.json"
+            / f"{key}.json"
         )
 
     def discover(
@@ -174,7 +213,11 @@ class YahooDiscoveryDownloader:
         ticker = ticker.strip().upper()
         yahoo_symbol = yahoo_symbol.strip().upper()
 
-        result_path = self.result_cache_path(yahoo_symbol)
+        result_path = self.result_cache_path(
+            yahoo_symbol,
+            start_date,
+            end_date,
+        )
 
         if result_path.is_file() and not force:
             payload = json.loads(
@@ -207,7 +250,9 @@ class YahooDiscoveryDownloader:
                 )
             else:
                 price_path = self.price_cache_path(
-                    yahoo_symbol
+                    yahoo_symbol,
+                    start_date,
+                    end_date,
                 )
                 price_path.parent.mkdir(
                     parents=True,

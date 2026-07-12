@@ -105,3 +105,88 @@ def test_failed_download_does_not_raise(
 
     assert result.status == "failed"
     assert "RuntimeError" in result.error
+
+
+def test_cache_identity_changes_with_date_range(
+    tmp_path: Path,
+) -> None:
+    downloader = YahooDiscoveryDownloader(tmp_path)
+
+    first = downloader.result_cache_path(
+        "AAPL",
+        "2018-01-01",
+        "2026-07-12",
+    )
+
+    second = downloader.result_cache_path(
+        "AAPL",
+        "2020-01-01",
+        "2026-07-12",
+    )
+
+    assert first != second
+
+
+def test_same_date_range_reuses_cached_result(
+    tmp_path: Path,
+) -> None:
+    calls = []
+
+    def fake_downloader(**kwargs):
+        calls.append(kwargs)
+        return make_response()
+
+    downloader = YahooDiscoveryDownloader(
+        tmp_path,
+        downloader=fake_downloader,
+        retry_delay_seconds=0,
+    )
+
+    first = downloader.discover(
+        ticker="AAPL",
+        yahoo_symbol="AAPL",
+        start_date="2018-01-01",
+        end_date="2026-07-12",
+    )
+
+    second = downloader.discover(
+        ticker="AAPL",
+        yahoo_symbol="AAPL",
+        start_date="2018-01-01",
+        end_date="2026-07-12",
+    )
+
+    assert first == second
+    assert len(calls) == 1
+
+
+def test_different_date_range_triggers_new_download(
+    tmp_path: Path,
+) -> None:
+    calls = []
+
+    def fake_downloader(**kwargs):
+        calls.append(kwargs)
+        return make_response()
+
+    downloader = YahooDiscoveryDownloader(
+        tmp_path,
+        downloader=fake_downloader,
+        retry_delay_seconds=0,
+    )
+
+    downloader.discover(
+        ticker="AAPL",
+        yahoo_symbol="AAPL",
+        start_date="2018-01-01",
+        end_date="2026-07-12",
+    )
+
+    downloader.discover(
+        ticker="AAPL",
+        yahoo_symbol="AAPL",
+        start_date="2020-01-01",
+        end_date="2026-07-12",
+    )
+
+    assert len(calls) == 2
