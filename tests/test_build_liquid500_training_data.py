@@ -3,6 +3,10 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from src.features.liquid500_features import (
+    MODEL_FEATURE_COLUMNS,
+)
+
 from scripts.build_liquid500_training_data import (
     BASE_MACRO_COLUMNS,
     merge_panel_with_macro,
@@ -150,3 +154,67 @@ def test_merge_normalizes_datetime_and_string_dates() -> None:
     assert statistics[
         "date_coverage_rate"
     ] == pytest.approx(1.0)
+
+
+def test_relative_strength_is_recentered_after_row_filtering() -> None:
+    from src.features.liquid500_features import (
+        add_cross_sectional_relative_strength,
+        filter_model_safe_rows,
+    )
+
+    dates = pd.to_datetime(
+        [
+            "2025-01-02",
+            "2025-01-02",
+            "2025-01-03",
+            "2025-01-03",
+        ]
+    )
+
+    panel = pd.DataFrame(
+        {
+            "date": dates,
+            "ticker": [
+                "AAPL",
+                "MSFT",
+                "AAPL",
+                "MSFT",
+            ],
+            "momentum_20d": [
+                0.10,
+                0.30,
+                0.20,
+                0.40,
+            ],
+            "target_5d_return": [
+                0.01,
+                0.02,
+                0.03,
+                pd.NA,
+            ],
+        }
+    )
+
+    for column in MODEL_FEATURE_COLUMNS:
+        if column not in panel.columns:
+            panel[column] = 1.0
+
+    panel = add_cross_sectional_relative_strength(
+        panel
+    )
+
+    filtered = filter_model_safe_rows(panel)
+
+    filtered = add_cross_sectional_relative_strength(
+        filtered
+    )
+
+    daily_means = (
+        filtered.groupby("date")[
+            "relative_strength"
+        ]
+        .mean()
+        .abs()
+    )
+
+    assert daily_means.max() < 1e-12

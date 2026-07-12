@@ -641,6 +641,10 @@ def main() -> int:
         panel
     )
 
+    panel = add_cross_sectional_relative_strength(
+        panel
+    )
+
     model_safe_rows = len(panel)
 
     macro_source_path = (
