@@ -64,6 +64,7 @@ def _reshape_single_ticker(
     raw: pd.DataFrame,
     *,
     ticker: str,
+    yahoo_symbol: str | None = None,
 ) -> pd.DataFrame:
     if raw.empty:
         return pd.DataFrame()
@@ -77,38 +78,107 @@ def _reshape_single_ticker(
 
     frame.index.name = "date"
 
+    canonical_ticker = ticker.strip().upper()
+    lookup_symbol = (
+        yahoo_symbol or ticker
+    ).strip().upper()
+
     if isinstance(frame.columns, pd.MultiIndex):
-        if ticker in frame.columns.get_level_values(-1):
-            frame = frame.xs(
-                ticker,
-                axis=1,
-                level=-1,
-            )
-        elif ticker in frame.columns.get_level_values(0):
-            frame = frame.xs(
-                ticker,
-                axis=1,
-                level=0,
-            )
-        else:
+        price_fields = {
+            "open",
+            "high",
+            "low",
+            "close",
+            "adj_close",
+            "adjclose",
+            "volume",
+        }
+
+        price_level: int | None = None
+
+        for level in range(frame.columns.nlevels):
+            normalized_values = {
+                str(value)
+                .strip()
+                .lower()
+                .replace(" ", "_")
+                .replace("-", "_")
+                for value in frame.columns.get_level_values(level)
+            }
+
+            if normalized_values & price_fields:
+                price_level = level
+                break
+
+        if price_level is None:
             raise ValueError(
-                f"Ticker {ticker} was not present in Yahoo columns."
+                "Could not identify the Yahoo price-field level."
             )
 
+        ticker_levels = [
+            level
+            for level in range(frame.columns.nlevels)
+            if level != price_level
+        ]
+
+        if not ticker_levels:
+            raise ValueError(
+                "Could not identify the Yahoo ticker level."
+            )
+
+        ticker_level = ticker_levels[0]
+
+        available_symbols = {
+            str(value).strip().upper(): value
+            for value in frame.columns
+            .get_level_values(ticker_level)
+            .unique()
+        }
+
+        selected_symbol = available_symbols.get(
+            lookup_symbol
+        )
+
+        if selected_symbol is None and len(
+            available_symbols
+        ) == 1:
+            selected_symbol = next(
+                iter(available_symbols.values())
+            )
+
+        if selected_symbol is None:
+            available_text = ", ".join(
+                sorted(available_symbols)
+            )
+
+            raise ValueError(
+                f"Yahoo symbol {lookup_symbol} was not "
+                "present in Yahoo columns. "
+                f"Available symbols: {available_text}"
+            )
+
+        frame = frame.xs(
+            selected_symbol,
+            axis=1,
+            level=ticker_level,
+        )
+
     frame = frame.reset_index()
-    frame["ticker"] = ticker
+    frame["ticker"] = canonical_ticker
 
     frame.columns = [
         str(column)
         .strip()
         .lower()
         .replace(" ", "_")
+        .replace("-", "_")
         for column in frame.columns
     ]
 
     frame = frame.rename(
         columns={
             "datetime": "date",
+            "index": "date",
             "adjclose": "adj_close",
         }
     )
@@ -235,6 +305,7 @@ class YahooDiscoveryDownloader:
             frame = _reshape_single_ticker(
                 raw,
                 ticker=ticker,
+                yahoo_symbol=yahoo_symbol,
             )
 
             if frame.empty:

@@ -105,48 +105,119 @@ def load_discovery_reports(directory: Path) -> pd.DataFrame:
     return report
 
 
-def load_cached_market_data(
+def calculate_cached_liquidity_metrics(
     report: pd.DataFrame,
+    *,
+    median_window: int,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    successful = report[report["status"].eq("success")].copy()
+    successful = report[
+        report["status"].eq("success")
+    ].copy()
 
-    frames: list[pd.DataFrame] = []
+    metric_frames: list[pd.DataFrame] = []
     failures: list[dict[str, str]] = []
 
-    for row in successful.itertuples(index=False):
-        path = Path(str(row.cache_path))
+    for position, row in enumerate(
+        successful.itertuples(index=False),
+        start=1,
+    ):
+        cache_path = Path(
+            str(row.cache_path)
+        )
 
-        if not path.is_file():
+        if not cache_path.is_file():
             failures.append(
                 {
                     "ticker": str(row.ticker),
                     "reason": "missing_cache_file",
-                    "cache_path": str(path),
+                    "cache_path": str(
+                        cache_path
+                    ),
                 }
             )
             continue
 
         try:
-            frame = pd.read_csv(path)
-            frames.append(frame)
+            history = pd.read_csv(
+                cache_path
+            )
+
+            history["ticker"] = str(
+                row.ticker
+            )
+
+            ticker_metrics = (
+                calculate_liquidity_metrics(
+                    history,
+                    median_window=median_window,
+                )
+            )
+
+            if len(ticker_metrics) != 1:
+                raise ValueError(
+                    "Expected exactly one metrics "
+                    "row per cached ticker."
+                )
+
+            metric_frames.append(
+                ticker_metrics
+            )
+
         except Exception as exc:
             failures.append(
                 {
                     "ticker": str(row.ticker),
-                    "reason": f"{type(exc).__name__}: {exc}",
-                    "cache_path": str(path),
+                    "reason": (
+                        f"{type(exc).__name__}: "
+                        f"{exc}"
+                    ),
+                    "cache_path": str(
+                        cache_path
+                    ),
                 }
             )
 
-    if not frames:
+        if (
+            position % 250 == 0
+            or position == len(successful)
+        ):
+            print(
+                "Calculated metrics:",
+                position,
+                "/",
+                len(successful),
+            )
+
+    if not metric_frames:
         raise RuntimeError(
-            "No valid cached market histories were loaded."
+            "No valid cached market histories "
+            "were evaluated."
         )
 
-    return (
-        pd.concat(frames, ignore_index=True),
-        pd.DataFrame(failures),
+    metrics = (
+        pd.concat(
+            metric_frames,
+            ignore_index=True,
+        )
+        .sort_values("ticker")
+        .reset_index(drop=True)
     )
+
+    if metrics["ticker"].duplicated().any():
+        raise ValueError(
+            "Duplicate ticker metrics were generated."
+        )
+
+    failure_frame = pd.DataFrame(
+        failures,
+        columns=[
+            "ticker",
+            "reason",
+            "cache_path",
+        ],
+    )
+
+    return metrics, failure_frame
 
 
 def main() -> int:
@@ -167,21 +238,21 @@ def main() -> int:
         report["ticker"].isin(surviving_tickers)
     ].copy()
 
-    market_data, cache_failures = load_cached_market_data(
-        report
+    metrics, cache_failures = (
+        calculate_cached_liquidity_metrics(
+            report,
+            median_window=args.median_window,
+        )
     )
 
-    metrics = calculate_liquidity_metrics(
-        market_data,
-        median_window=args.median_window,
-    )
-
-    attempted_candidates = candidates[
-        candidates["ticker"].isin(report["ticker"])
+    measured_candidates = candidates[
+        candidates["ticker"].isin(
+            set(metrics["ticker"])
+        )
     ].copy()
 
     enriched = attach_liquidity_metrics(
-        attempted_candidates,
+        measured_candidates,
         metrics,
     )
 

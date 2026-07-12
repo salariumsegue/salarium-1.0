@@ -24,7 +24,7 @@ class UniverseRules:
     allowed_exchanges: tuple[str, ...] = (
         "NYSE",
         "NASDAQ",
-        "NYSEARCA",
+        "NYSEAMERICAN",
     )
     allowed_security_types: tuple[str, ...] = (
         "COMMON_STOCK",
