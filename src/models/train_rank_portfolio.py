@@ -57,7 +57,6 @@ y_train = train_df["target_5d_return"]
 
 # Train model
 model = RandomForestRegressor(
-  model = RandomForestRegressor(
     n_estimators=300,
     random_state=42,
     n_jobs=-1,
