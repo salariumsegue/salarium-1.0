@@ -1,0 +1,126 @@
+ticker,security_type,exchange,is_active,yahoo_symbol,company_name,long_name,sector,industry,market_cap,currency,fetch_error,snapshot_date
+NVDA,COMMON_STOCK,NASDAQ,True,NVDA,NVIDIA Corporation,NVIDIA Corporation,Technology,Semiconductors,4943990401733.398,USD,,2026-07-08
+AAPL,COMMON_STOCK,NASDAQ,True,AAPL,Apple Inc.,Apple Inc.,Technology,Consumer Electronics,4602870711986.816,USD,,2026-07-08
+GOOGL,COMMON_STOCK,NASDAQ,True,GOOGL,Alphabet Inc.,Alphabet Inc.,Communication Services,Internet Content & Information,4416355430700.591,USD,,2026-07-08
+GOOG,COMMON_STOCK,NASDAQ,True,GOOG,Alphabet Inc.,Alphabet Inc.,Communication Services,Internet Content & Information,4377184902833.556,USD,,2026-07-08
+MSFT,COMMON_STOCK,NASDAQ,True,MSFT,Microsoft Corporation,Microsoft Corporation,Technology,Software - Infrastructure,2847616132227.6196,USD,,2026-07-08
+AMZN,COMMON_STOCK,NASDAQ,True,AMZN,"Amazon.com, Inc.","Amazon.com, Inc.",Consumer Cyclical,Internet Retail,2620646948273.3716,USD,,2026-07-08
+AVGO,COMMON_STOCK,NASDAQ,True,AVGO,Broadcom Inc.,Broadcom Inc.,Technology,Semiconductors,1849223858775.8064,USD,,2026-07-08
+META,COMMON_STOCK,NASDAQ,True,META,"Meta Platforms, Inc.","Meta Platforms, Inc.",Communication Services,Internet Content & Information,1530973850713.835,USD,,2026-07-08
+LLY,COMMON_STOCK,NYSE,True,LLY,Eli Lilly and Company,Eli Lilly and Company,Healthcare,Drug Manufacturers - General,1084205914469.1252,USD,,2026-07-08
+MU,COMMON_STOCK,NASDAQ,True,MU,"Micron Technology, Inc.","Micron Technology, Inc.",Technology,Semiconductors,1071568207882.2625,USD,,2026-07-08
+WMT,COMMON_STOCK,NASDAQ,True,WMT,Walmart Inc.,Walmart Inc.,Consumer Defensive,Discount Stores,900058740287.4349,USD,,2026-07-08
+JPM,COMMON_STOCK,NYSE,True,JPM,JP Morgan Chase & Co.,JPMorgan Chase & Co.,Financial Services,Banks - Diversified,885900051935.6082,USD,,2026-07-08
+AMD,COMMON_STOCK,NASDAQ,True,AMD,"Advanced Micro Devices, Inc.","Advanced Micro Devices, Inc.",Technology,Semiconductors,843680971393.2981,USD,,2026-07-08
+JNJ,COMMON_STOCK,NYSE,True,JNJ,Johnson & Johnson,Johnson & Johnson,Healthcare,Drug Manufacturers - General,634060935468.9136,USD,,2026-07-08
+XOM,COMMON_STOCK,NYSE,True,XOM,ExxonMobil Holdings Corporation,ExxonMobil Holdings Corporation,Energy,Oil & Gas Integrated,584976413212.0598,USD,,2026-07-08
+INTC,COMMON_STOCK,NASDAQ,True,INTC,Intel Corporation,Intel Corporation,Technology,Semiconductors,554066229263.3057,USD,,2026-07-08
+CSCO,COMMON_STOCK,NASDAQ,True,CSCO,"Cisco Systems, Inc.","Cisco Systems, Inc.",Technology,Communication Equipment,448614092367.4696,USD,,2026-07-08
+ABBV,COMMON_STOCK,NYSE,True,ABBV,AbbVie Inc.,AbbVie Inc.,Healthcare,Drug Manufacturers - General,446539227284.8228,USD,,2026-07-08
+CAT,COMMON_STOCK,NYSE,True,CAT,"Caterpillar, Inc.",Caterpillar Inc.,Industrials,Farm & Heavy Construction Machinery,436678055114.085,USD,,2026-07-08
+COST,COMMON_STOCK,NASDAQ,True,COST,Costco Wholesale Corporation,Costco Wholesale Corporation,Consumer Defensive,Discount Stores,422692954621.94385,USD,,2026-07-08
+BAC,COMMON_STOCK,NYSE,True,BAC,Bank of America Corporation,Bank of America Corporation,Financial Services,Banks - Diversified,413731229539.031,USD,,2026-07-08
+ORCL,COMMON_STOCK,NYSE,True,ORCL,Oracle Corporation,Oracle Corporation,Technology,Software - Infrastructure,404677386612.8998,USD,,2026-07-08
+UNH,COMMON_STOCK,NYSE,True,UNH,UnitedHealth Group Incorporated,UnitedHealth Group Incorporated,Healthcare,Healthcare Plans,386506263885.2736,USD,,2026-07-08
+GE,COMMON_STOCK,NYSE,True,GE,GE Aerospace,GE Aerospace,Industrials,Aerospace & Defense,371990682280.6632,USD,,2026-07-08
+KO,COMMON_STOCK,NYSE,True,KO,Coca-Cola Company (The),The Coca-Cola Company,Consumer Defensive,Beverages - Non-Alcoholic,358827040226.26715,USD,,2026-07-08
+CVX,COMMON_STOCK,NYSE,True,CVX,Chevron Corporation,Chevron Corporation,Energy,Oil & Gas Integrated,350461455331.1896,USD,,2026-07-08
+MS,COMMON_STOCK,NYSE,True,MS,Morgan Stanley,Morgan Stanley,Financial Services,Capital Markets,343958511595.56903,USD,,2026-07-08
+HD,COMMON_STOCK,NYSE,True,HD,"Home Depot, Inc. (The)","The Home Depot, Inc.",Consumer Cyclical,Home Improvement Retail,335240591134.93585,USD,,2026-07-08
+NFLX,COMMON_STOCK,NASDAQ,True,NFLX,"Netflix, Inc.","Netflix, Inc.",Communication Services,Entertainment,318294245311.11523,USD,,2026-07-08
+MRK,COMMON_STOCK,NYSE,True,MRK,"Merck & Company, Inc.","Merck & Co., Inc.",Healthcare,Drug Manufacturers - General,311173172769.73584,USD,,2026-07-08
+GS,COMMON_STOCK,NYSE,True,GS,"Goldman Sachs Group, Inc. (The)","The Goldman Sachs Group, Inc.",Financial Services,Capital Markets,303751445279.83777,USD,,2026-07-08
+KLAC,COMMON_STOCK,NASDAQ,True,KLAC,KLA Corporation,KLA Corporation,Technology,Semiconductor Equipment & Materials,288921941380.3546,USD,,2026-07-08
+IBM,COMMON_STOCK,NYSE,True,IBM,International Business Machines,International Business Machines Corporation,Technology,Information Technology Services,283892337350.791,USD,,2026-07-08
+TXN,COMMON_STOCK,NASDAQ,True,TXN,Texas Instruments Incorporated,Texas Instruments Incorporated,Technology,Semiconductors,274229166449.83868,USD,,2026-07-08
+RTX,COMMON_STOCK,NYSE,True,RTX,RTX Corporation,RTX Corporation,Industrials,Aerospace & Defense,262482071883.182,USD,,2026-07-08
+WFC,COMMON_STOCK,NYSE,True,WFC,Wells Fargo & Company,Wells Fargo & Company,Financial Services,Banks - Diversified,261829805635.47424,USD,,2026-07-08
+PANW,COMMON_STOCK,NASDAQ,True,PANW,"Palo Alto Networks, Inc.","Palo Alto Networks, Inc.",Technology,Software - Infrastructure,261280847015.3809,USD,,2026-07-08
+LIN,COMMON_STOCK,NASDAQ,True,LIN,Linde plc,Linde plc,Basic Materials,Specialty Chemicals,243966797166.2567,USD,,2026-07-08
+C,COMMON_STOCK,NYSE,True,C,"Citigroup, Inc.",Citigroup Inc.,Financial Services,Banks - Diversified,234329216806.44843,USD,,2026-07-08
+AXP,COMMON_STOCK,NYSE,True,AXP,American Express Company,American Express Company,Financial Services,Credit Services,229527802155.78625,USD,,2026-07-08
+ANET,COMMON_STOCK,NYSE,True,ANET,"Arista Networks, Inc.","Arista Networks, Inc.",Technology,Computer Hardware,227972630592.58017,USD,,2026-07-08
+AMGN,COMMON_STOCK,NASDAQ,True,AMGN,Amgen Inc.,Amgen Inc.,Healthcare,Drug Manufacturers - General,198607242478.6714,USD,,2026-07-08
+MCD,COMMON_STOCK,NYSE,True,MCD,McDonald's Corporation,McDonald's Corporation,Consumer Cyclical,Restaurants,197698255266.75,USD,,2026-07-08
+QCOM,COMMON_STOCK,NASDAQ,True,QCOM,QUALCOMM Incorporated,QUALCOMM Incorporated,Technology,Semiconductors,196634237426.7578,USD,,2026-07-08
+TMUS,COMMON_STOCK,NASDAQ,True,TMUS,"T-Mobile US, Inc.","T-Mobile US, Inc.",Communication Services,Telecom Services,194948357059.85468,USD,,2026-07-08
+PEP,COMMON_STOCK,NASDAQ,True,PEP,"Pepsico, Inc.","PepsiCo, Inc.",Consumer Defensive,Beverages - Non-Alcoholic,194802749555.829,USD,,2026-07-08
+CRWD,COMMON_STOCK,NASDAQ,True,CRWD,"CrowdStrike Holdings, Inc.","CrowdStrike Holdings, Inc.",Technology,Software - Infrastructure,194609708621.6309,USD,,2026-07-08
+TMO,COMMON_STOCK,NYSE,True,TMO,Thermo Fisher Scientific Inc,Thermo Fisher Scientific Inc.,Healthcare,Diagnostics & Research,189575259755.00793,USD,,2026-07-08
+ADI,COMMON_STOCK,NASDAQ,True,ADI,"Analog Devices, Inc.","Analog Devices, Inc.",Technology,Semiconductors,187723342243.05664,USD,,2026-07-08
+NEE,COMMON_STOCK,NYSE,True,NEE,"NextEra Energy, Inc.","NextEra Energy, Inc.",Utilities,Utilities - Regulated Electric,182365337595.32996,USD,,2026-07-08
+VZ,COMMON_STOCK,NYSE,True,VZ,Verizon Communications Inc.,Verizon Communications Inc.,Communication Services,Telecom Services,177252478915.19864,USD,,2026-07-08
+SCHW,COMMON_STOCK,NYSE,True,SCHW,Charles Schwab Corporation (The,The Charles Schwab Corporation,Financial Services,Capital Markets,176870075754.4796,USD,,2026-07-08
+TJX,COMMON_STOCK,NYSE,True,TJX,"TJX Companies, Inc. (The)","The TJX Companies, Inc.",Consumer Cyclical,Apparel Retail,168787784887.50107,USD,,2026-07-08
+GILD,COMMON_STOCK,NASDAQ,True,GILD,"Gilead Sciences, Inc.","Gilead Sciences, Inc.",Healthcare,Drug Manufacturers - General,168630029380.20935,USD,,2026-07-08
+DIS,COMMON_STOCK,NYSE,True,DIS,Walt Disney Company (The),The Walt Disney Company,Communication Services,Entertainment,167920649401.3877,USD,,2026-07-08
+DE,COMMON_STOCK,NYSE,True,DE,Deere & Company,Deere & Company,Industrials,Farm & Heavy Construction Machinery,161082456358.39233,USD,,2026-07-08
+ETN,COMMON_STOCK,NYSE,True,ETN,"Eaton Corporation, PLC",Eaton Corporation plc,Industrials,Specialty Industrial Machinery,155149147052.00195,USD,,2026-07-08
+SHOP,COMMON_STOCK,NASDAQ,True,SHOP,Shopify Inc.,Shopify Inc.,Technology,Software - Application,154706384188.25104,USD,,2026-07-08
+BLK,COMMON_STOCK,NYSE,True,BLK,"BlackRock, Inc.","BlackRock, Inc.",Financial Services,Asset Management,153498137704.73383,USD,,2026-07-08
+UBER,COMMON_STOCK,NYSE,True,UBER,"Uber Technologies, Inc.","Uber Technologies, Inc.",Technology,Software - Application,149820084250.7224,USD,,2026-07-08
+ISRG,COMMON_STOCK,NASDAQ,True,ISRG,"Intuitive Surgical, Inc.","Intuitive Surgical, Inc.",Healthcare,Medical Instruments & Supplies,147012997875.83844,USD,,2026-07-08
+T,COMMON_STOCK,NYSE,True,T,AT&T Inc.,AT&T Inc.,Communication Services,Telecom Services,146748922026.47803,USD,,2026-07-08
+PFE,COMMON_STOCK,NYSE,True,PFE,"Pfizer, Inc.",Pfizer Inc.,Healthcare,Drug Manufacturers - General,137071627916.1192,USD,,2026-07-08
+CRM,COMMON_STOCK,NYSE,True,CRM,"Salesforce, Inc.","Salesforce, Inc.",Technology,Software - Application,136429021499.6338,USD,,2026-07-08
+BKNG,COMMON_STOCK,NASDAQ,True,BKNG,Booking Holdings Inc. Common St,Booking Holdings Inc.,Consumer Cyclical,Travel Services,135053557408.0091,USD,,2026-07-08
+DHR,COMMON_STOCK,NYSE,True,DHR,Danaher Corporation,Danaher Corporation,Healthcare,Diagnostics & Research,135021405536.71236,USD,,2026-07-08
+COP,COMMON_STOCK,NYSE,True,COP,ConocoPhillips,ConocoPhillips,Energy,Oil & Gas E&P,134889513942.2153,USD,,2026-07-08
+PLD,COMMON_STOCK,NYSE,True,PLD,"Prologis, Inc.","Prologis, Inc.",Real Estate,REIT - Industrial,131459658000.0,USD,,2026-07-08
+VRTX,COMMON_STOCK,NASDAQ,True,VRTX,Vertex Pharmaceuticals Incorpor,Vertex Pharmaceuticals Incorporated,Healthcare,Biotechnology,126504232136.3836,USD,,2026-07-08
+LMT,COMMON_STOCK,NYSE,True,LMT,Lockheed Martin Corporation,Lockheed Martin Corporation,Industrials,Aerospace & Defense,121728367545.7749,USD,,2026-07-08
+LOW,COMMON_STOCK,NYSE,True,LOW,"Lowe's Companies, Inc.","Lowe's Companies, Inc.",Consumer Cyclical,Home Improvement Retail,119346497099.1342,USD,,2026-07-08
+PH,COMMON_STOCK,NYSE,True,PH,Parker-Hannifin Corporation,Parker-Hannifin Corporation,Industrials,Specialty Industrial Machinery,118411511117.2262,USD,,2026-07-08
+SBUX,COMMON_STOCK,NASDAQ,True,SBUX,Starbucks Corporation,Starbucks Corporation,Consumer Cyclical,Restaurants,118380642130.27954,USD,,2026-07-08
+BMY,COMMON_STOCK,NYSE,True,BMY,Bristol-Myers Squibb Company,Bristol-Myers Squibb Company,Healthcare,Drug Manufacturers - General,117500781421.95206,USD,,2026-07-08
+FTNT,COMMON_STOCK,NASDAQ,True,FTNT,"Fortinet, Inc.","Fortinet, Inc.",Technology,Software - Infrastructure,114813334272.514,USD,,2026-07-08
+NOW,COMMON_STOCK,NYSE,True,NOW,"ServiceNow, Inc.","ServiceNow, Inc.",Technology,Software - Application,111154374981.0791,USD,,2026-07-08
+SO,COMMON_STOCK,NYSE,True,SO,Southern Company (The),The Southern Company,Utilities,Utilities - Regulated Electric,108649276729.01506,USD,,2026-07-08
+TT,COMMON_STOCK,NYSE,True,TT,Trane Technologies plc,Trane Technologies plc,Industrials,Building Products & Equipment,104402293121.23178,USD,,2026-07-08
+CDNS,COMMON_STOCK,NASDAQ,True,CDNS,"Cadence Design Systems, Inc.","Cadence Design Systems, Inc.",Technology,Software - Application,103171732286.6211,USD,,2026-07-08
+EQIX,COMMON_STOCK,NASDAQ,True,EQIX,"Equinix, Inc.","Equinix, Inc.",Real Estate,REIT - Specialty,100199274351.17772,USD,,2026-07-08
+SPOT,COMMON_STOCK,NYSE,True,SPOT,Spotify Technology S.A.,Spotify Technology S.A.,Communication Services,Internet Content & Information,99770966249.42104,USD,,2026-07-08
+NEM,COMMON_STOCK,NYSE,True,NEM,Newmont Corporation,Newmont Corporation,Basic Materials,Gold,99495914346.88753,USD,,2026-07-08
+DUK,COMMON_STOCK,NYSE,True,DUK,Duke Energy Corporation (Holdin,Duke Energy Corporation,Utilities,Utilities - Regulated Electric,98845005067.17166,USD,,2026-07-08
+MAR,COMMON_STOCK,NASDAQ,True,MAR,Marriott International,"Marriott International, Inc.",Consumer Cyclical,Lodging,97870670278.33658,USD,,2026-07-08
+NET,COMMON_STOCK,NYSE,True,NET,"Cloudflare, Inc.","Cloudflare, Inc.",Technology,Software - Infrastructure,97040474631.22084,USD,,2026-07-08
+USB,COMMON_STOCK,NYSE,True,USB,U.S. Bancorp,U.S. Bancorp,Financial Services,Banks - Regional,95021635408.0,USD,,2026-07-08
+MELI,COMMON_STOCK,NASDAQ,True,MELI,"MercadoLibre, Inc.","MercadoLibre, Inc.",Consumer Cyclical,Internet Retail,91730467414.70483,USD,,2026-07-08
+ADBE,COMMON_STOCK,NASDAQ,True,ADBE,Adobe Inc.,Adobe Inc.,Technology,Software - Application,87823650970.45898,USD,,2026-07-08
+ABNB,COMMON_STOCK,NASDAQ,True,ABNB,"Airbnb, Inc.","Airbnb, Inc.",Consumer Cyclical,Travel Services,84841526931.61671,USD,,2026-07-08
+VLO,COMMON_STOCK,NYSE,True,VLO,Valero Energy Corporation,Valero Energy Corporation,Energy,Oil & Gas Refining & Marketing,83996346822.0271,USD,,2026-07-08
+SNPS,COMMON_STOCK,NASDAQ,True,SNPS,"Synopsys, Inc.","Synopsys, Inc.",Technology,Software - Infrastructure,83197766712.5,USD,,2026-07-08
+CMCSA,COMMON_STOCK,NASDAQ,True,CMCSA,Comcast Corporation,Comcast Corporation,Communication Services,Telecom Services,82839982144.60587,USD,,2026-07-08
+FCX,COMMON_STOCK,NYSE,True,FCX,"Freeport-McMoRan, Inc.",Freeport-McMoRan Inc.,Basic Materials,Copper,82659692237.5,USD,,2026-07-08
+MPC,COMMON_STOCK,NYSE,True,MPC,Marathon Petroleum Corporation,Marathon Petroleum Corporation,Energy,Oil & Gas Refining & Marketing,81940772573.59222,USD,,2026-07-08
+SHW,COMMON_STOCK,NYSE,True,SHW,Sherwin-Williams Company (The),The Sherwin-Williams Company,Basic Materials,Specialty Chemicals,81530339040.38324,USD,,2026-07-08
+ECL,COMMON_STOCK,NYSE,True,ECL,Ecolab Inc.,Ecolab Inc.,Basic Materials,Specialty Chemicals,77147646674.03345,USD,,2026-07-08
+AMT,COMMON_STOCK,NYSE,True,AMT,American Tower Corporation (REI,American Tower Corporation,Real Estate,REIT - Specialty,76890988979.81581,USD,,2026-07-08
+EMR,COMMON_STOCK,NYSE,True,EMR,Emerson Electric Company,Emerson Electric Co.,Industrials,Specialty Industrial Machinery,76442445606.99463,USD,,2026-07-08
+MDLZ,COMMON_STOCK,NASDAQ,True,MDLZ,"Mondelez International, Inc.","Mondelez International, Inc.",Consumer Defensive,Confectioners,76351487494.07178,USD,,2026-07-08
+RCL,COMMON_STOCK,NYSE,True,RCL,Royal Caribbean Cruises Ltd.,Royal Caribbean Cruises Ltd.,Consumer Cyclical,Travel Services,75349382342.96448,USD,,2026-07-08
+PSX,COMMON_STOCK,NYSE,True,PSX,Phillips 66,Phillips 66,Energy,Oil & Gas Refining & Marketing,75299605127.35474,USD,,2026-07-08
+INTU,COMMON_STOCK,NASDAQ,True,INTU,Intuit Inc.,Intuit Inc.,Technology,Software - Application,74429419369.53735,USD,,2026-07-08
+AEP,COMMON_STOCK,NASDAQ,True,AEP,American Electric Power Company,"American Electric Power Company, Inc.",Utilities,Utilities - Regulated Electric,73943870527.84644,USD,,2026-07-08
+EOG,COMMON_STOCK,NYSE,True,EOG,"EOG Resources, Inc.","EOG Resources, Inc.",Energy,Oil & Gas E&P,73284357492.15607,USD,,2026-07-08
+SLB,COMMON_STOCK,NYSE,True,SLB,SLB Limited,SLB N.V.,Energy,Oil & Gas Equipment & Services,70910585317.48538,USD,,2026-07-08
+HON,COMMON_STOCK,NASDAQ,True,HON,Honeywell International Inc.,Honeywell International Inc.,Industrials,Conglomerates,69815900734.61559,USD,,2026-07-08
+REGN,COMMON_STOCK,NASDAQ,True,REGN,"Regeneron Pharmaceuticals, Inc.","Regeneron Pharmaceuticals, Inc.",Healthcare,Biotechnology,69495698044.06934,USD,,2026-07-08
+APD,COMMON_STOCK,NYSE,True,APD,"Air Products and Chemicals, Inc","Air Products and Chemicals, Inc.",Basic Materials,Specialty Chemicals,66080493570.5,USD,,2026-07-08
+WBD,COMMON_STOCK,NASDAQ,True,WBD,"Warner Bros. Discovery, Inc. - ","Warner Bros. Discovery, Inc.",Communication Services,Entertainment,65561623800.90325,USD,,2026-07-08
+NKE,COMMON_STOCK,NYSE,True,NKE,"Nike, Inc.","NIKE, Inc.",Consumer Cyclical,Footwear & Accessories,63515243941.508286,USD,,2026-07-08
+SRE,COMMON_STOCK,NYSE,True,SRE,DBA Sempra,Sempra,Utilities,Utilities - Diversified,62317927734.304,USD,,2026-07-08
+D,COMMON_STOCK,NYSE,True,D,"Dominion Energy, Inc.","Dominion Energy, Inc.",Utilities,Utilities - Regulated Electric,61442742669.05182,USD,,2026-07-08
+TGT,COMMON_STOCK,NYSE,True,TGT,Target Corporation,Target Corporation,Consumer Defensive,Discount Stores,60143986219.391235,USD,,2026-07-08
+DAL,COMMON_STOCK,NYSE,True,DAL,"Delta Air Lines, Inc.","Delta Air Lines, Inc.",Industrials,Airlines,57349036540.09628,USD,,2026-07-08
+PSA,COMMON_STOCK,NYSE,True,PSA,Public Storage,Public Storage,Real Estate,REIT - Industrial,56320684326.14429,USD,,2026-07-08
+OXY,COMMON_STOCK,NYSE,True,OXY,Occidental Petroleum Corporatio,Occidental Petroleum Corporation,Energy,Oil & Gas E&P,53302473778.35921,USD,,2026-07-08
+EA,COMMON_STOCK,NASDAQ,True,EA,Electronic Arts Inc.,Electronic Arts Inc.,Communication Services,Electronic Gaming & Multimedia,51376471403.71344,USD,,2026-07-08
+XEL,COMMON_STOCK,NASDAQ,True,XEL,Xcel Energy Inc.,Xcel Energy Inc.,Utilities,Utilities - Regulated Electric,49704344081.80755,USD,,2026-07-08
+EXC,COMMON_STOCK,NASDAQ,True,EXC,Exelon Corporation,Exelon Corporation,Utilities,Utilities - Regulated Electric,48377279704.72662,USD,,2026-07-08
+TTWO,COMMON_STOCK,NASDAQ,True,TTWO,"Take-Two Interactive Software, ","Take-Two Interactive Software, Inc.",Communication Services,Electronic Gaming & Multimedia,46672886651.5155,USD,,2026-07-08
+CMG,COMMON_STOCK,NYSE,True,CMG,"Chipotle Mexican Grill, Inc.","Chipotle Mexican Grill, Inc.",Consumer Cyclical,Restaurants,42881798011.45935,USD,,2026-07-08
+COIN,COMMON_STOCK,NASDAQ,True,COIN,"Coinbase Global, Inc.","Coinbase Global, Inc.",Financial Services,Financial Data & Stock Exchanges,41985107830.56369,USD,,2026-07-08
+ED,COMMON_STOCK,NYSE,True,ED,"Consolidated Edison, Inc.","Consolidated Edison, Inc.",Utilities,Utilities - Regulated Electric,41308493283.85391,USD,,2026-07-08
+UAL,COMMON_STOCK,NASDAQ,True,UAL,"United Airlines Holdings, Inc.","United Airlines Holdings, Inc.",Industrials,Airlines,40967191464.36328,USD,,2026-07-08
+PEG,COMMON_STOCK,NYSE,True,PEG,Public Service Enterprise Group,Public Service Enterprise Group Incorporated,Utilities,Utilities - Regulated Electric,40493598191.04936,USD,,2026-07-08
