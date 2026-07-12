@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -8,6 +9,14 @@ import pandas as pd
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
+
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.universe.canonical_snapshot import (
+    find_latest_canonical_snapshot,
+)
+
 DATA = ROOT / "data"
 CONFIGS = ROOT / "configs"
 REPORTS = ROOT / "reports"
@@ -141,7 +150,17 @@ runs = load_runs()
 discovery = load_discovery()
 regimes = load_regimes()
 universe = csv_or_empty(CONFIGS / "us_equity_candidates.csv")
-evaluation = csv_or_empty(DISCOVERY / "evaluation" / "selected.csv")
+canonical_snapshot = find_latest_canonical_snapshot(
+    CONFIGS / "universe_snapshots"
+)
+
+if canonical_snapshot is None:
+    evaluation = pd.DataFrame()
+    canonical_manifest: dict[str, Any] = {}
+else:
+    evaluation = canonical_snapshot.frame.copy()
+    canonical_manifest = canonical_snapshot.manifest
+
 latest_run = Path(runs.sort_values("mtime").iloc[-1]["path"]) if not runs.empty else None
 
 st.sidebar.title("Salarium 2.0")
@@ -153,6 +172,10 @@ st.sidebar.divider()
 st.sidebar.caption("Build marker")
 st.sidebar.code("DASHBOARD_V2_LOCAL")
 st.sidebar.metric("Candidates", f"{len(universe):,}")
+st.sidebar.metric(
+    "Canonical liquid universe",
+    f"{len(evaluation):,}" if not evaluation.empty else "N/A",
+)
 st.sidebar.metric("Discovery rows", f"{len(discovery):,}")
 st.sidebar.metric("Runs", f"{len(runs):,}")
 
@@ -160,11 +183,18 @@ st.title("Salarium Command Center 2.0")
 st.caption("Reproducibility, market regimes, universe discovery, model results, and research reports.")
 
 if page == "Command Center":
-    c1, c2, c3, c4 = st.columns(4)
+    c1, c2, c3, c4, c5 = st.columns(5)
     c1.metric("Candidate universe", f"{len(universe):,}")
     c2.metric("Active candidates", f"{active_count(universe):,}")
-    c3.metric("Discovery success", f"{int((discovery.get('status', pd.Series(dtype=str)) == 'success').sum()):,}")
-    c4.metric("Latest run", latest_run.name if latest_run else "None")
+    c3.metric(
+        "Canonical liquid universe",
+        f"{len(evaluation):,}" if not evaluation.empty else "N/A",
+    )
+    c4.metric(
+        "Discovery success",
+        f"{int((discovery.get('status', pd.Series(dtype=str)) == 'success').sum()):,}",
+    )
+    c5.metric("Latest run", latest_run.name if latest_run else "None")
 
     left, right = st.columns(2)
     with left:
@@ -248,6 +278,62 @@ elif page == "Regimes":
 
 elif page == "Universe":
     st.subheader("Universe Explorer")
+
+    st.markdown("### Canonical current liquid universe")
+
+    if evaluation.empty:
+        st.warning(
+            "No committed canonical liquid-universe snapshot was found."
+        )
+    else:
+        u1, u2, u3, u4 = st.columns(4)
+
+        u1.metric(
+            "Universe ID",
+            canonical_manifest.get("universe_id", "Unknown"),
+        )
+        u2.metric(
+            "Market date",
+            canonical_manifest.get("market_date", "Unknown"),
+        )
+        u3.metric("Selected names", f"{len(evaluation):,}")
+        u4.metric(
+            "Eligible before cap",
+            canonical_manifest
+            .get("validation", {})
+            .get("eligible_before_cap", "Unknown"),
+        )
+
+        st.caption(
+            "Source: "
+            + str(canonical_snapshot.snapshot_path)
+            + " | SHA-256: "
+            + str(canonical_manifest.get("snapshot_sha256", "Unknown"))
+        )
+
+        canonical_columns = [
+            column
+            for column in [
+                "universe_rank",
+                "ticker",
+                "exchange",
+                "last_price",
+                "median_dollar_volume",
+                "history_days",
+                "last_date",
+            ]
+            if column in evaluation.columns
+        ]
+
+        st.dataframe(
+            evaluation[canonical_columns],
+            width="stretch",
+            hide_index=True,
+        )
+
+    st.divider()
+    st.markdown("### Broad current candidate directory")
+
     if universe.empty:
         st.info("No candidate universe found.")
     else:
