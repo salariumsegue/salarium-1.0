@@ -1,0 +1,68 @@
+{
+  "discovery": {
+    "completed_rows": 4922,
+    "completion_rate": 1.0,
+    "plan_id": "us_equities_4922_3dc9d24e1d35",
+    "plan_rows": 4922,
+    "plan_sha256": "3dc9d24e1d355804737f87bef47f69b21e2b2b379b03de6c3733574f693b1b64",
+    "status_counts": {
+      "empty": 29,
+      "failed": 2,
+      "success": 4891
+    }
+  },
+  "generated_at_utc": "2026-07-12T15:40:28.398007+00:00",
+  "git": {
+    "branch": "phase3-run-manifests-artifacts",
+    "commit": "7c04d0aa2ba2f106de058204a9b16f5d26252bb3",
+    "tracked_dirty": false
+  },
+  "limitations": [
+    "This is a current listing universe, not a historical point-in-time membership database.",
+    "Historical backtests using this current universe remain exposed to survivorship bias.",
+    "Market history and liquidity metrics were derived from Yahoo data."
+  ],
+  "market_date": "2026-07-10",
+  "schema_version": "1.0",
+  "selection_rules": {
+    "allowed_exchanges": [
+      "NYSE",
+      "NASDAQ",
+      "NYSEAMERICAN"
+    ],
+    "maximum_size": 500,
+    "maximum_stale_calendar_days": 7,
+    "median_window": 60,
+    "minimum_history_days": 504,
+    "minimum_median_dollar_volume": 5000000.0,
+    "minimum_price": 5.0
+  },
+  "selection_sha256": "2708bb185f91475fa748c42bb4b7310f04180448081348536da8a796659a94ec",
+  "snapshot_path": "configs/universe_snapshots/2026-07-10_liquid_500.csv",
+  "snapshot_sha256": "2276a83186b3a2828c47a1a95806059080d4320192e8b98f87b4c1ce61220e4b",
+  "snapshot_type": "current_liquid_universe",
+  "source_hashes": {
+    "configs/discovery_plans/us_equities_4922_3dc9d24e1d35.csv": "3dc9d24e1d355804737f87bef47f69b21e2b2b379b03de6c3733574f693b1b64",
+    "configs/discovery_plans/us_equities_4922_3dc9d24e1d35.json": "f60016fc0ff14ce5cee95a08965124b04704012c71a6c0e4d6dc05d8e44145d7",
+    "data/discovery/chunks/progress.json": "a196727f042812d1afd53e9c109f50ba214855c0980a2e78beba4d63883f4866",
+    "data/discovery/evaluation/exclusions.csv": "f40ba7c7e4c5620c0c3af7af137ead4a5801470733be088a2fdf247c64655719",
+    "data/discovery/evaluation/metrics.csv": "f2dd34f84094aa9dc74a4742b127d48ad38a74cb36c576adb37036d712e3f02c",
+    "data/discovery/evaluation/selected.csv": "cecdbae0d2e182612f3db63f84b29cfa34a2467a8c5c150dcb6cd89ece423bd4"
+  },
+  "universe_id": "current_liquid_500_20260710_2708bb185f91",
+  "validation": {
+    "eligible_before_cap": 2400,
+    "exchange_counts": {
+      "NASDAQ": 189,
+      "NYSE": 311
+    },
+    "market_date": "2026-07-10",
+    "measured_candidates": 4891,
+    "minimum_selected_history_days": 518,
+    "minimum_selected_median_dollar_volume": 219242311.12365723,
+    "minimum_selected_price": 6.849999904632568,
+    "selected_rows": 500,
+    "selected_unique_tickers": 500,
+    "stale_selected_count": 0
+  }
+}
