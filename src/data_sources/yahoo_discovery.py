@@ -64,6 +64,7 @@ def _reshape_single_ticker(
     raw: pd.DataFrame,
     *,
     ticker: str,
+    yahoo_symbol: str | None = None,
 ) -> pd.DataFrame:
     if raw.empty:
         return pd.DataFrame()
@@ -76,23 +77,27 @@ def _reshape_single_ticker(
         )
 
     frame.index.name = "date"
+    lookup_symbol = (
+        yahoo_symbol or ticker
+    ).strip().upper()
 
     if isinstance(frame.columns, pd.MultiIndex):
-        if ticker in frame.columns.get_level_values(-1):
+        if lookup_symbol in frame.columns.get_level_values(-1):
             frame = frame.xs(
-                ticker,
+                lookup_symbol,
                 axis=1,
                 level=-1,
             )
-        elif ticker in frame.columns.get_level_values(0):
+        elif lookup_symbol in frame.columns.get_level_values(0):
             frame = frame.xs(
-                ticker,
+                lookup_symbol,
                 axis=1,
                 level=0,
             )
         else:
             raise ValueError(
-                f"Ticker {ticker} was not present in Yahoo columns."
+                f"Yahoo symbol {lookup_symbol} was not present "
+                "in Yahoo columns."
             )
 
     frame = frame.reset_index()
@@ -235,6 +240,7 @@ class YahooDiscoveryDownloader:
             frame = _reshape_single_ticker(
                 raw,
                 ticker=ticker,
+                yahoo_symbol=yahoo_symbol,
             )
 
             if frame.empty:

@@ -190,3 +190,46 @@ def test_different_date_range_triggers_new_download(
     )
 
     assert len(calls) == 2
+
+
+def test_class_share_uses_yahoo_symbol_for_column_lookup() -> None:
+    from src.data_sources.yahoo_discovery import (
+        _reshape_single_ticker,
+    )
+
+    dates = pd.to_datetime(
+        ["2025-01-02", "2025-01-03"]
+    )
+
+    columns = pd.MultiIndex.from_product(
+        [
+            [
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Adj Close",
+                "Volume",
+            ],
+            ["BRK-B"],
+        ]
+    )
+
+    raw = pd.DataFrame(
+        [
+            [450.0, 455.0, 448.0, 454.0, 454.0, 4_000_000],
+            [454.0, 458.0, 452.0, 457.0, 457.0, 4_100_000],
+        ],
+        index=dates,
+        columns=columns,
+    )
+
+    result = _reshape_single_ticker(
+        raw,
+        ticker="BRK.B",
+        yahoo_symbol="BRK-B",
+    )
+
+    assert len(result) == 2
+    assert set(result["ticker"]) == {"BRK.B"}
+    assert result["close"].iloc[-1] == 457.0
