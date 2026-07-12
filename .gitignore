@@ -45,3 +45,6 @@ data/processed/training_data_top125_model_safe_with_global_macro.csv
 
 # Downloaded provider caches
 data/cache/
+
+# Local universe discovery artifacts
+/data/discovery/

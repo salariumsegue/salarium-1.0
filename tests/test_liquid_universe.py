@@ -134,3 +134,24 @@ def test_invalid_maximum_size_is_rejected() -> None:
             make_candidates(),
             UniverseRules(maximum_size=0),
         )
+
+
+
+def test_nyse_american_common_stock_is_eligible() -> None:
+    frame = pd.DataFrame(
+        [
+            {
+                "ticker": "TEST",
+                "security_type": "COMMON_STOCK",
+                "exchange": "NYSEAMERICAN",
+                "last_price": 25.0,
+                "median_dollar_volume": 20_000_000.0,
+                "history_days": 1_000,
+                "is_active": True,
+            }
+        ]
+    )
+
+    result = select_liquid_universe(frame)
+
+    assert list(result["ticker"]) == ["TEST"]
