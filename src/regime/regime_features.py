@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from typing import Iterable
-
 import pandas as pd
 
 from src.regime.regime_engine import (
-    classify_market_regime,
+    classify_macro_regime,
+    classify_risk_state,
     required_regime_columns,
 )
 
@@ -15,39 +14,59 @@ def add_regime_annotations(
     *,
     confidence_threshold: float = 0.0,
 ) -> pd.DataFrame:
-    """
-    Add deterministic market regime labels and confidence scores.
-
-    The input dataframe must include the macro columns required by the
-    regime engine. The function does not mutate the input dataframe.
-    """
     missing = [
         column
         for column in required_regime_columns()
         if column not in df.columns
     ]
+
     if missing:
         raise KeyError(
-            "Missing required regime columns: " + ", ".join(missing)
+            "Missing required regime columns: "
+            + ", ".join(missing)
         )
 
     result = df.copy()
 
-    decisions = result.apply(
-        lambda row: classify_market_regime(row.to_dict()),
+    macro_decisions = result.apply(
+        lambda row: classify_macro_regime(row.to_dict()),
         axis=1,
     )
 
-    result["market_regime"] = decisions.map(lambda d: d.regime)
-    result["regime_confidence"] = decisions.map(lambda d: d.confidence)
-    result["regime_reason_count"] = decisions.map(lambda d: len(d.reasons))
+    risk_decisions = result.apply(
+        lambda row: classify_risk_state(row.to_dict()),
+        axis=1,
+    )
 
-    if confidence_threshold > 0:
-        result["regime_is_confident"] = (
-            result["regime_confidence"] >= confidence_threshold
-        )
-    else:
-        result["regime_is_confident"] = True
+    result["macro_regime"] = macro_decisions.map(
+        lambda decision: decision.regime
+    )
+    result["macro_regime_confidence"] = macro_decisions.map(
+        lambda decision: decision.confidence
+    )
+
+    result["risk_state"] = risk_decisions.map(
+        lambda decision: decision.regime
+    )
+    result["risk_state_confidence"] = risk_decisions.map(
+        lambda decision: decision.confidence
+    )
+
+    result["market_regime"] = result["macro_regime"]
+    result["regime_confidence"] = result[
+        "macro_regime_confidence"
+    ]
+    result["regime_reason_count"] = macro_decisions.map(
+        lambda decision: len(decision.reasons)
+    )
+
+    result["regime_is_confident"] = (
+        result["regime_confidence"] >= confidence_threshold
+    )
+
+    result["risk_state_is_confident"] = (
+        result["risk_state_confidence"] >= confidence_threshold
+    )
 
     return result
 
@@ -57,3 +76,10 @@ def regime_distribution(df: pd.DataFrame) -> pd.Series:
         raise KeyError("market_regime column is required")
 
     return df["market_regime"].value_counts(dropna=False)
+
+
+def risk_state_distribution(df: pd.DataFrame) -> pd.Series:
+    if "risk_state" not in df.columns:
+        raise KeyError("risk_state column is required")
+
+    return df["risk_state"].value_counts(dropna=False)

@@ -4,6 +4,7 @@ import pytest
 from src.regime.regime_features import (
     add_regime_annotations,
     regime_distribution,
+    risk_state_distribution,
 )
 
 
@@ -11,87 +12,76 @@ def make_frame() -> pd.DataFrame:
     return pd.DataFrame(
         [
             {
-                "macro_signal_score": 0.50,
-                "macro_tone_score": 0.25,
-                "surprise_num": 0.10,
-                "inflation_num": 0.00,
-                "growth_num": 0.70,
-                "rate_policy_num": 0.10,
-                "liquidity_num": 0.20,
-                "reaction_quality_num": 0.10,
-                "five_day_market_bias_score": 0.20,
+                "macro_signal_score": 0.20,
+                "macro_tone_score": 0.20,
+                "surprise_num": 1.0,
+                "inflation_num": 0.0,
+                "growth_num": 1.0,
+                "rate_policy_num": 0.0,
+                "liquidity_num": 0.0,
+                "reaction_quality_num": 0.0,
+                "five_day_market_bias_score": 0.1,
             },
             {
-                "macro_signal_score": -0.40,
+                "macro_signal_score": -0.20,
                 "macro_tone_score": -0.20,
-                "surprise_num": -0.10,
-                "inflation_num": 0.05,
-                "growth_num": 0.00,
-                "rate_policy_num": 0.00,
-                "liquidity_num": -0.80,
-                "reaction_quality_num": -0.10,
-                "five_day_market_bias_score": -0.20,
-            },
-            {
-                "macro_signal_score": 0.05,
-                "macro_tone_score": 0.05,
-                "surprise_num": 0.00,
-                "inflation_num": 0.00,
-                "growth_num": 0.00,
-                "rate_policy_num": 0.00,
-                "liquidity_num": 0.00,
-                "reaction_quality_num": 0.00,
-                "five_day_market_bias_score": 0.00,
+                "surprise_num": 0.0,
+                "inflation_num": 0.0,
+                "growth_num": -1.0,
+                "rate_policy_num": -1.0,
+                "liquidity_num": 0.0,
+                "reaction_quality_num": -0.5,
+                "five_day_market_bias_score": -0.1,
             },
         ]
     )
 
 
-def test_add_regime_annotations_adds_expected_columns() -> None:
-    frame = make_frame()
+def test_annotations_add_both_regime_dimensions() -> None:
+    result = add_regime_annotations(
+        make_frame(),
+        confidence_threshold=0.80,
+    )
 
-    result = add_regime_annotations(frame, confidence_threshold=0.80)
+    assert list(result["macro_regime"]) == [
+        "expansion",
+        "recession",
+    ]
 
-    assert "market_regime" in result.columns
-    assert "regime_confidence" in result.columns
-    assert "regime_reason_count" in result.columns
-    assert "regime_is_confident" in result.columns
-    assert result["regime_is_confident"].dtype == bool
-
-
-def test_add_regime_annotations_is_non_mutating() -> None:
-    frame = make_frame()
-    original_columns = list(frame.columns)
-
-    result = add_regime_annotations(frame)
-
-    assert list(frame.columns) == original_columns
-    assert "market_regime" not in frame.columns
-    assert "market_regime" in result.columns
-
-
-def test_add_regime_annotations_assigns_expected_regimes() -> None:
-    result = add_regime_annotations(make_frame())
+    assert list(result["risk_state"]) == [
+        "risk_on",
+        "risk_off",
+    ]
 
     assert list(result["market_regime"]) == [
         "expansion",
-        "liquidity_crisis",
-        "slowdown",
+        "recession",
     ]
 
 
-def test_regime_distribution_counts_labels() -> None:
+def test_annotations_do_not_mutate_input() -> None:
+    frame = make_frame()
+
+    add_regime_annotations(frame)
+
+    assert "macro_regime" not in frame.columns
+    assert "risk_state" not in frame.columns
+
+
+def test_distributions_count_both_dimensions() -> None:
     result = add_regime_annotations(make_frame())
 
-    counts = regime_distribution(result)
+    macro_counts = regime_distribution(result)
+    risk_counts = risk_state_distribution(result)
 
-    assert counts["expansion"] == 1
-    assert counts["liquidity_crisis"] == 1
-    assert counts["slowdown"] == 1
+    assert macro_counts["expansion"] == 1
+    assert macro_counts["recession"] == 1
+    assert risk_counts["risk_on"] == 1
+    assert risk_counts["risk_off"] == 1
 
 
-def test_missing_regime_column_raises_key_error() -> None:
-    frame = make_frame().drop(columns=["liquidity_num"])
+def test_missing_required_column_is_rejected() -> None:
+    frame = make_frame().drop(columns=["growth_num"])
 
-    with pytest.raises(KeyError, match="liquidity_num"):
+    with pytest.raises(KeyError, match="growth_num"):
         add_regime_annotations(frame)

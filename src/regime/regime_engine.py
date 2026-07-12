@@ -35,119 +35,124 @@ def _get_float(row: Mapping[str, object], column: str) -> float:
         raise KeyError(f"Missing required regime column: {column}")
 
     value = row[column]
+
     if pd.isna(value):
         raise ValueError(f"Regime column contains missing value: {column}")
 
     return float(value)
 
 
-def classify_market_regime(row: Mapping[str, object]) -> RegimeDecision:
-    liquidity_num = _get_float(row, "liquidity_num")
-    inflation_num = _get_float(row, "inflation_num")
-    growth_num = _get_float(row, "growth_num")
-    rate_policy_num = _get_float(row, "rate_policy_num")
-    macro_signal_score = _get_float(row, "macro_signal_score")
-    macro_tone_score = _get_float(row, "macro_tone_score")
-    surprise_num = _get_float(row, "surprise_num")
-    reaction_quality_num = _get_float(row, "reaction_quality_num")
-    five_day_market_bias_score = _get_float(row, "five_day_market_bias_score")
+def classify_macro_regime(
+    row: Mapping[str, object],
+) -> RegimeDecision:
+    liquidity = _get_float(row, "liquidity_num")
+    inflation = _get_float(row, "inflation_num")
+    growth = _get_float(row, "growth_num")
 
-    reasons: list[str] = []
-
-    if liquidity_num <= -0.75:
-        reasons.append("liquidity is severely negative")
+    if liquidity < 0:
         return RegimeDecision(
             regime="liquidity_crisis",
             confidence=0.95,
-            reasons=tuple(reasons),
+            reasons=("liquidity conditions are negative",),
         )
 
-    if inflation_num >= 0.65 and growth_num <= 0.15:
-        reasons.extend(
-            [
-                "inflation is elevated",
-                "growth is weak",
-            ]
-        )
+    if inflation > 0 and growth <= 0:
         return RegimeDecision(
             regime="inflation_regime",
             confidence=0.90,
-            reasons=tuple(reasons),
+            reasons=(
+                "inflation pressure is positive",
+                "growth is not positive",
+            ),
         )
 
-    if growth_num <= -0.5 and rate_policy_num <= 0.0:
-        reasons.extend(
-            [
-                "growth is contracting",
-                "policy is not supportive",
-            ]
-        )
+    if growth < 0:
         return RegimeDecision(
             regime="recession",
             confidence=0.88,
-            reasons=tuple(reasons),
+            reasons=("growth conditions are negative",),
         )
 
-    if (
-        growth_num >= 0.45
-        and liquidity_num >= 0.10
-        and rate_policy_num >= -0.10
-    ):
-        reasons.extend(
-            [
-                "growth is constructive",
-                "liquidity is supportive",
-            ]
-        )
+    if growth > 0:
         return RegimeDecision(
             regime="expansion",
             confidence=0.86,
-            reasons=tuple(reasons),
+            reasons=("growth conditions are positive",),
         )
 
-    if (
-        macro_signal_score >= 0.15
-        and macro_tone_score >= 0.0
-        and five_day_market_bias_score >= 0.0
-        and reaction_quality_num >= -0.25
-    ):
-        reasons.extend(
-            [
-                "macro signal is positive",
-                "five-day market bias is positive",
-            ]
-        )
-        return RegimeDecision(
-            regime="risk_on",
-            confidence=0.82,
-            reasons=tuple(reasons),
-        )
-
-    if (
-        macro_signal_score <= -0.15
-        or macro_tone_score <= -0.15
-        or five_day_market_bias_score <= -0.10
-        or surprise_num <= -0.20
-    ):
-        reasons.extend(
-            [
-                "macro signal is weak or negative",
-                "market bias is negative",
-            ]
-        )
-        return RegimeDecision(
-            regime="risk_off",
-            confidence=0.80,
-            reasons=tuple(reasons),
-        )
-
-    reasons.append("conditions are mixed")
     return RegimeDecision(
         regime="slowdown",
         confidence=0.65,
-        reasons=tuple(reasons),
+        reasons=("growth conditions are neutral",),
     )
 
 
-def classify_market_regime_label(row: Mapping[str, object]) -> str:
-    return classify_market_regime(row).regime
+def classify_risk_state(
+    row: Mapping[str, object],
+) -> RegimeDecision:
+    signals = {
+        "macro signal": _get_float(row, "macro_signal_score"),
+        "macro tone": _get_float(row, "macro_tone_score"),
+        "economic surprise": _get_float(row, "surprise_num"),
+        "liquidity": _get_float(row, "liquidity_num"),
+        "reaction quality": _get_float(
+            row,
+            "reaction_quality_num",
+        ),
+        "market bias": _get_float(
+            row,
+            "five_day_market_bias_score",
+        ),
+    }
+
+    positive = [
+        name
+        for name, value in signals.items()
+        if value > 0
+    ]
+
+    negative = [
+        name
+        for name, value in signals.items()
+        if value < 0
+    ]
+
+    score = len(positive) - len(negative)
+
+    if score >= 2:
+        return RegimeDecision(
+            regime="risk_on",
+            confidence=min(0.95, 0.70 + 0.05 * score),
+            reasons=tuple(
+                f"{name} is positive"
+                for name in positive
+            ),
+        )
+
+    if score <= -2:
+        return RegimeDecision(
+            regime="risk_off",
+            confidence=min(0.95, 0.70 + 0.05 * abs(score)),
+            reasons=tuple(
+                f"{name} is negative"
+                for name in negative
+            ),
+        )
+
+    return RegimeDecision(
+        regime="neutral",
+        confidence=0.60,
+        reasons=("positive and negative risk signals are mixed",),
+    )
+
+
+def classify_market_regime(
+    row: Mapping[str, object],
+) -> RegimeDecision:
+    return classify_macro_regime(row)
+
+
+def classify_market_regime_label(
+    row: Mapping[str, object],
+) -> str:
+    return classify_macro_regime(row).regime
