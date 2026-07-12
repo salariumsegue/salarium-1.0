@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import argparse
 import io
+import ssl
 from pathlib import Path
 from urllib.request import Request, urlopen
 
+import certifi
 import pandas as pd
 
 
@@ -48,7 +50,15 @@ def download_text(url: str) -> str:
         },
     )
 
-    with urlopen(request, timeout=60) as response:
+    ssl_context = ssl.create_default_context(
+        cafile=certifi.where()
+    )
+
+    with urlopen(
+        request,
+        timeout=60,
+        context=ssl_context,
+    ) as response:
         return response.read().decode(
             "utf-8",
             errors="replace",
