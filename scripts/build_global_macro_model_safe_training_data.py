@@ -2,9 +2,17 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import List
+import sys
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
 
 import numpy as np
 import pandas as pd
+
+from src.regime.regime_features import add_regime_annotations
 
 
 SOURCE_WITH_MACRO = Path("data/processed/training_data_top125_model_safe_with_macro.csv")
@@ -241,6 +249,11 @@ def main() -> None:
 
     merged = merged.sort_values(["ticker", "date"]).reset_index(drop=True)
 
+    merged = add_regime_annotations(
+        merged,
+        confidence_threshold=0.80,
+    )
+
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     merged.to_csv(OUT_PATH, index=False)
 
@@ -251,6 +264,13 @@ def main() -> None:
     print(f"Dates: {merged['date'].nunique():,}")
     print("Same-date macro consistency: PASS")
     print("Macro variance check: PASS")
+    print("")
+    print("Regime distribution:")
+    print(merged["market_regime"].value_counts().to_string())
+    print(
+        "Confident regime rows:",
+        f"{merged['regime_is_confident'].mean():.2%}",
+    )
 
     if zero_variance_after_merge:
         print("")
