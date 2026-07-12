@@ -42,3 +42,6 @@ data/processed/training_data_top125_model_safe_with_global_macro.csv
 
 # Immutable local research runs
 /data/runs/*/
+
+# Downloaded provider caches
+data/cache/
