@@ -1,10 +1,32 @@
 import os
 import numpy as np
 import pandas as pd
+import sys
+from pathlib import Path
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
+from src.core.dataset_context import (
+    resolve_training_data_path,
+)
+import sys
+from pathlib import Path
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
+from src.core.dataset_context import (
+    resolve_training_data_path,
+)
 from scipy.stats import spearmanr
 from sklearn.ensemble import RandomForestRegressor
 
-FEATURE_FILE = "data/processed/feature_data.csv"
+FEATURE_FILE = resolve_training_data_path()
 RESULTS_DIR = "results"
 
 TOP_N = 10

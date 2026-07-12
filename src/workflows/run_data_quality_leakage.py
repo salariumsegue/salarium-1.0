@@ -12,6 +12,9 @@ if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from src.core.dataset_context import resolve_training_data_path
+from src.core.universe_context import (
+    resolve_universe_path,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
@@ -26,7 +29,7 @@ def main() -> int:
         "run_id": run_id,
         "reports_dir": "reports/agent_runs",
         "results_dir": "results",
-        "universe_path": "configs/stock_universe_top125_yahoo.csv",
+        "universe_path": str(resolve_universe_path()),
         "training_data_path": str(resolve_training_data_path()),
     }
 
