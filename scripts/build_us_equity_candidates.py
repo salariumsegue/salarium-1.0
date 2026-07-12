@@ -70,6 +70,7 @@ def load_nasdaq_traded(text: str) -> pd.DataFrame:
         io.StringIO(text),
         sep="|",
         dtype=str,
+        keep_default_na=False,
     )
 
     frame.columns = [
