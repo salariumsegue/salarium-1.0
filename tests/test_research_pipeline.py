@@ -101,3 +101,21 @@ def test_run_command_records_failure(
     assert "workflow failed" in Path(
         result["log_path"]
     ).read_text(encoding="utf-8")
+
+
+def test_pipeline_script_can_be_executed_directly() -> None:
+    import subprocess
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "scripts/run_research_pipeline.py",
+            "--help",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert completed.returncode == 0
+    assert "complete Salarium research pipeline" in completed.stdout

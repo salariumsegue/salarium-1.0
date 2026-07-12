@@ -8,6 +8,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
 from src.core.artifacts import RunArtifacts
 from src.core.run_context import create_run_context
 
@@ -132,7 +137,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    repository_root = Path.cwd().resolve()
+    repository_root = REPOSITORY_ROOT
 
     validate_workflows()
 
