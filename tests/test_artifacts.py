@@ -95,3 +95,66 @@ def test_artifact_path_cannot_escape_run_directory(
 
     with pytest.raises(ValueError, match="escapes"):
         artifacts.path("../outside.json")
+
+
+def test_capture_generated_outputs_copies_and_hashes_files(
+    tmp_path: Path,
+) -> None:
+    from src.core.artifacts import capture_generated_outputs
+
+    repository_root = tmp_path / "repository"
+    run_directory = repository_root / "data" / "runs" / "run-123"
+
+    reports_directory = repository_root / "reports"
+    results_directory = repository_root / "results"
+
+    reports_directory.mkdir(parents=True)
+    results_directory.mkdir(parents=True)
+    run_directory.mkdir(parents=True)
+
+    report = reports_directory / "example.md"
+    result = results_directory / "summary.csv"
+
+    report.write_text("# Example\n", encoding="utf-8")
+    result.write_text("metric,value\nsharpe,0.5\n", encoding="utf-8")
+
+    payload = capture_generated_outputs(
+        run_directory=run_directory,
+        repository_root=repository_root,
+    )
+
+    assert payload["captured_file_count"] == 2
+    assert (
+        run_directory
+        / "captured_outputs"
+        / "reports"
+        / "example.md"
+    ).is_file()
+    assert (
+        run_directory
+        / "captured_outputs"
+        / "results"
+        / "summary.csv"
+    ).is_file()
+
+    for record in payload["files"]:
+        assert len(record["sha256"]) == 64
+        assert record["size_bytes"] > 0
+
+
+def test_capture_generated_outputs_handles_missing_roots(
+    tmp_path: Path,
+) -> None:
+    from src.core.artifacts import capture_generated_outputs
+
+    repository_root = tmp_path / "repository"
+    run_directory = repository_root / "data" / "runs" / "run-123"
+    run_directory.mkdir(parents=True)
+
+    payload = capture_generated_outputs(
+        run_directory=run_directory,
+        repository_root=repository_root,
+    )
+
+    assert payload["captured_file_count"] == 0
+    assert payload["files"] == []

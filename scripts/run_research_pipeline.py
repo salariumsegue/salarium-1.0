@@ -13,7 +13,10 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-from src.core.artifacts import RunArtifacts
+from src.core.artifacts import (
+    RunArtifacts,
+    capture_generated_outputs,
+)
 from src.core.run_context import create_run_context
 
 
@@ -235,8 +238,40 @@ def main() -> int:
         },
     )
 
+    captured_outputs = capture_generated_outputs(
+        run_directory=run_directory,
+        repository_root=repository_root,
+    )
+
+    restore_result = subprocess.run(
+        ["git", "restore", "--", "reports", "results"],
+        cwd=repository_root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    final_payload = {
+        "run_id": context.run_id,
+        "status": final_status,
+        "workflows": workflow_results,
+        "captured_output_count": captured_outputs[
+            "captured_file_count"
+        ],
+        "repository_restore_return_code": restore_result.returncode,
+    }
+
+    artifacts.write_json(
+        "pipeline_status.json",
+        final_payload,
+    )
+
     print()
     print(f"Research pipeline complete with status: {final_status}")
+    print(
+        "Captured outputs:",
+        captured_outputs["captured_file_count"],
+    )
     print(f"Run directory: {run_directory}")
     print("Open dashboard with:")
     print(f"{sys.executable} -m streamlit run app/streamlit_app.py")
