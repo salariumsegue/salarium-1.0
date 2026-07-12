@@ -522,8 +522,6 @@ AZZ,AZZ,AZZ Inc.,COMMON_STOCK,NYSE,True,
 B,B,Barrick Mining Corporation Common Shares,COMMON_STOCK,NYSE,True,
 BA,BA,Boeing Company (The) Common Stock,COMMON_STOCK,NYSE,True,
 BAC,BAC,Bank of America Corporation Common Stock,COMMON_STOCK,NYSE,True,
-BAC$E,BAC-PE,Bank of America Corporation Depositary Sh repstg 1/1000th Perp Pfd Ser E,COMMON_STOCK,NYSE,True,
-BAC$L,BAC-PL,Bank of America Corporation Non Cumulative Perpetual Conv Pfd Ser L,COMMON_STOCK,NYSE,True,
 BACC,BACC,Blue Acquisition Corp. - Class A Ordinary Shares,COMMON_STOCK,NASDAQ,True,N
 BAER,BAER,"Bridger Aerospace Group Holdings, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 BAFN,BAFN,BayFirst Financial Corp. - Common Stock,COMMON_STOCK,NASDAQ,True,N
@@ -1327,9 +1325,6 @@ DBD,DBD,Diebold Nixdorf Incorporated Common stock,COMMON_STOCK,NYSE,True,
 DBGI,DBGI,"Digital Brands Group, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 DBI,DBI,Designer Brands Inc. Class A Common Stock,COMMON_STOCK,NYSE,True,
 DBRG,DBRG,"DigitalBridge Group, Inc.",COMMON_STOCK,NYSE,True,
-DBRG$H,DBRG-PH,"DigitalBridge Group, Inc. 7.125% Series H",COMMON_STOCK,NYSE,True,
-DBRG$I,DBRG-PI,"DigitalBridge Group, Inc. 7.15% Series I",COMMON_STOCK,NYSE,True,
-DBRG$J,DBRG-PJ,"DigitalBridge Group, Inc. 7.125% Series J",COMMON_STOCK,NYSE,True,
 DBX,DBX,"Dropbox, Inc. - Class A Common Stock",COMMON_STOCK,NASDAQ,True,N
 DC,DC,Dakota Gold Corp. Common Stock,COMMON_STOCK,NYSEAMERICAN,True,
 DCBO,DCBO,Docebo Inc. - Common Shares,COMMON_STOCK,NASDAQ,True,N
@@ -1601,7 +1596,6 @@ EPD,EPD,Enterprise Products Partners L.P. Common Stock,COMMON_STOCK,NYSE,True,
 EPM,EPM,"Evolution Petroleum Corporation, Inc. Common Stock",COMMON_STOCK,NYSEAMERICAN,True,
 EPOW,EPOW,E-Power Inc. - Class A Ordinary Shares,COMMON_STOCK,NASDAQ,False,D
 EPR,EPR,EPR Properties Common Stock,COMMON_STOCK,NYSE,True,
-EPR$E,EPR-PE,EPR Properties Series E Cumulative Conv Pfd Shs Ser E,COMMON_STOCK,NYSE,True,
 EPRT,EPRT,"Essential Properties Realty Trust, Inc. Common Stock",COMMON_STOCK,NYSE,True,
 EPRX,EPRX,Eupraxia Pharmaceuticals Inc. - Common Stock,COMMON_STOCK,NASDAQ,True,N
 EPSM,EPSM,Epsium Enterprise Limited - Class A Ordinary Shares,COMMON_STOCK,NASDAQ,True,N
@@ -1912,7 +1906,6 @@ FXHO,FXHO,UTime Limited - Class A Ordinary Shares,COMMON_STOCK,NASDAQ,True,N
 FXNC,FXNC,First National Corporation - Common Stock,COMMON_STOCK,NASDAQ,True,N
 G,G,Genpact Limited Common Stock,COMMON_STOCK,NYSE,True,
 GAB,GAB,"Gabelli Equity Trust, Inc. (The) Common Stock",COMMON_STOCK,NYSE,True,
-GAB$H,GAB-PH,"Gabelli Equity Trust, Inc. (The) Pfd Ser H",COMMON_STOCK,NYSE,True,
 GABC,GABC,"German American Bancorp, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 GAIA,GAIA,"Gaia, Inc. - Class A Common Stock",COMMON_STOCK,NASDAQ,True,N
 GAIN,GAIN,Gladstone Investment Corporation - Business Development Company,COMMON_STOCK,NASDAQ,True,N
@@ -2096,7 +2089,6 @@ GRPN,GRPN,"Groupon, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 GRRR,GRRR,Gorilla Technology Group Inc. - Ordinary shares,COMMON_STOCK,NASDAQ,True,N
 GRWG,GRWG,GrowGeneration Corp. - Common Stock,COMMON_STOCK,NASDAQ,True,N
 GS,GS,"Goldman Sachs Group, Inc. (The) Common Stock",COMMON_STOCK,NYSE,True,
-GS$D,GS-PD,"Goldman Sachs Group, Inc. (The) Dep Shs repstg 1/1000 Pfd Ser D Fltg",COMMON_STOCK,NYSE,True,
 GSAT,GSAT,"Globalstar, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 GSBC,GSBC,"Great Southern Bancorp, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 GSBD,GSBD,"Goldman Sachs BDC, Inc. Common Stock",COMMON_STOCK,NYSE,True,
@@ -3112,8 +3104,6 @@ MRVI,MRVI,"Maravai LifeSciences Holdings, Inc. - Class A common stock",COMMON_ST
 MRVL,MRVL,"Marvell Technology, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 MRX,MRX,Marex Group plc - Ordinary Shares,COMMON_STOCK,NASDAQ,True,N
 MS,MS,Morgan Stanley Common Stock,COMMON_STOCK,NYSE,True,
-MS$A,MS-PA,Morgan Stanley Dep Shs repstg 1/1000 Pfd Ser A,COMMON_STOCK,NYSE,True,
-MS$F,MS-PF,Morgan Stanley Dep Shs Rpstg 1/1000th Int Prd Ser F Fxd to Flag,COMMON_STOCK,NYSE,True,
 MSA,MSA,MSA Safety Incorporated Common Stock,COMMON_STOCK,NYSE,True,
 MSAI,MSAI,"MultiSensor AI Holdings, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 MSB,MSB,Mesabi Trust Common Stock,COMMON_STOCK,NYSE,True,
@@ -3277,7 +3267,6 @@ NKTR,NKTR,Nektar Therapeutics - Common Stock,COMMON_STOCK,NASDAQ,True,N
 NKTX,NKTX,"Nkarta, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 NL,NL,"NLI Holdings, Inc. Common Stock",COMMON_STOCK,NYSE,True,
 NLY,NLY,Annaly Capital Management Inc. Common Stock,COMMON_STOCK,NYSE,True,
-NLY$F,NLY-PF,Annaly Capital Management Inc 6.95% Series F,COMMON_STOCK,NYSE,True,
 NMAD,NMAD,"Nomad Power Solutions, Inc. - Common Stock",COMMON_STOCK,NASDAQ,True,N
 NMAX,NMAX,"Newsmax, Inc. Class B Common Stock",COMMON_STOCK,NYSE,True,
 NMFC,NMFC,New Mountain Finance Corporation - Common Stock,COMMON_STOCK,NASDAQ,True,N
@@ -4155,7 +4144,6 @@ SBUX,SBUX,Starbucks Corporation - Common Stock,COMMON_STOCK,NASDAQ,True,N
 SBXD,SBXD,SilverBox Corp IV Class A Ordinary Shares,COMMON_STOCK,NYSE,True,
 SBXE,SBXE,SilverBox Corp V Class A Ordinary Shares,COMMON_STOCK,NYSE,True,
 SCCO,SCCO,Southern Copper Corporation Common Stock,COMMON_STOCK,NYSE,True,
-SCE$L,SCE-PL,SCE TRUST VI,COMMON_STOCK,NYSE,True,
 SCHL,SCHL,Scholastic Corporation - Common Stock,COMMON_STOCK,NASDAQ,True,N
 SCHW,SCHW,Charles Schwab Corporation (The) Common Stock,COMMON_STOCK,NYSE,True,
 SCI,SCI,Service Corporation International Common Stock,COMMON_STOCK,NYSE,True,
@@ -4924,7 +4912,6 @@ VNCE,VNCE,Vince Holding Corp. - Common Stock,COMMON_STOCK,NASDAQ,True,N
 VNDA,VNDA,Vanda Pharmaceuticals Inc. - Common Stock,COMMON_STOCK,NASDAQ,True,N
 VNME,VNME,Vendome Acquisition Corporation I - Class A Ordinary Shares,COMMON_STOCK,NASDAQ,True,N
 VNO,VNO,Vornado Realty Trust Common Stock,COMMON_STOCK,NYSE,True,
-VNO$L,VNO-PL,Vornado Realty Trust Pfd Ser L %,COMMON_STOCK,NYSE,True,
 VNOM,VNOM,"Viper Energy, Inc.  - Class A Common Stock",COMMON_STOCK,NASDAQ,True,N
 VNRX,VNRX,VolitionRX Limited Common Stock,COMMON_STOCK,NYSEAMERICAN,True,
 VNT,VNT,Vontier Corporation Common Stock,COMMON_STOCK,NYSE,True,

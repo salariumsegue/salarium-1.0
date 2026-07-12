@@ -181,3 +181,36 @@ def test_period_class_share_is_not_excluded() -> None:
 
     assert list(result["ticker"]) == ["BRK.B"]
     assert result.iloc[0]["yahoo_symbol"] == "BRK-B"
+
+
+def test_all_preferred_style_symbols_are_removed() -> None:
+    directory = pd.DataFrame(
+        [
+            {
+                "nasdaq_traded": "Y",
+                "symbol": "BAC$E",
+                "security_name": "Bank of America Preferred Shares",
+                "listing_exchange": "N",
+                "etf": "N",
+                "test_issue": "N",
+                "financial_status": "N",
+            },
+            {
+                "nasdaq_traded": "Y",
+                "symbol": "AAPL",
+                "security_name": "Apple Inc. Common Stock",
+                "listing_exchange": "Q",
+                "etf": "N",
+                "test_issue": "N",
+                "financial_status": "N",
+            },
+        ]
+    )
+
+    result = build_candidates(directory)
+
+    assert list(result["ticker"]) == ["AAPL"]
+    assert not result["ticker"].str.contains(
+        "$",
+        regex=False,
+    ).any()

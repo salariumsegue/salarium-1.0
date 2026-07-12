@@ -182,6 +182,14 @@ def build_candidates(frame: pd.DataFrame) -> pd.DataFrame:
     ].copy()
 
     result["ticker"] = result["symbol"].str.upper()
+
+    result = result[
+        ~result["ticker"].str.contains(
+            "$",
+            regex=False,
+        )
+    ].copy()
+
     result["yahoo_symbol"] = result["ticker"].map(
         normalize_yahoo_symbol
     )
