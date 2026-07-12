@@ -9,6 +9,7 @@ RESULTS_DIR = "results"
 
 TOP_N = 10
 REBALANCE_EVERY_N_DAYS = 5
+TARGET_HORIZON_DAYS = 5
 
 # 0.001 = 0.10% per dollar traded
 TRANSACTION_COST_PER_DOLLAR = 0.001
@@ -33,6 +34,35 @@ FEATURES = [
     "high_low_spread",
     "open_close_spread",
 ]
+
+
+def split_train_test_by_year(
+    df: pd.DataFrame,
+    test_year: int,
+    purge_sessions: int = TARGET_HORIZON_DAYS,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Create an expanding-window annual split and purge observations whose
+    forward-return labels could overlap the test period.
+    """
+    if purge_sessions < 0:
+        raise ValueError("purge_sessions must be non-negative")
+
+    train_df = df[df["date"].dt.year < test_year].copy()
+    test_df = df[df["date"].dt.year == test_year].copy()
+
+    if train_df.empty or test_df.empty or purge_sessions == 0:
+        return train_df, test_df
+
+    training_dates = pd.Index(train_df["date"].dropna().unique()).sort_values()
+
+    if len(training_dates) <= purge_sessions:
+        return train_df.iloc[0:0].copy(), test_df
+
+    last_safe_training_date = training_dates[-(purge_sessions + 1)]
+    train_df = train_df[train_df["date"] <= last_safe_training_date].copy()
+
+    return train_df, test_df
 
 
 def calculate_turnover(previous_weights: dict, new_weights: dict) -> float:
@@ -165,8 +195,11 @@ def main():
         print(f"Walk-forward test year: {test_year}")
         print(f"==============================")
 
-        train_df = df[df["date"].dt.year < test_year].copy()
-        test_df = df[df["date"].dt.year == test_year].copy()
+        train_df, test_df = split_train_test_by_year(
+            df=df,
+            test_year=test_year,
+            purge_sessions=TARGET_HORIZON_DAYS,
+        )
 
         if train_df.empty or test_df.empty:
             print(f"Skipping {test_year}: empty train or test set.")
