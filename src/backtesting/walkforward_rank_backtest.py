@@ -12,17 +12,6 @@ if str(REPOSITORY_ROOT) not in sys.path:
 from src.core.dataset_context import (
     resolve_training_data_path,
 )
-import sys
-from pathlib import Path
-
-REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
-
-if str(REPOSITORY_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPOSITORY_ROOT))
-
-from src.core.dataset_context import (
-    resolve_training_data_path,
-)
 from scipy.stats import spearmanr
 from sklearn.ensemble import RandomForestRegressor
 
@@ -42,19 +31,16 @@ N_ESTIMATORS = 100
 FEATURES = [
     "return_1d",
     "return_5d",
-    "return_10d",
-    "close_to_sma_5",
-    "close_to_sma_20",
-    "close_to_sma_50",
-    "volume_ratio_10",
-    "volatility_10",
-    "volatility_20",
-    "rsi_14",
-    "macd",
-    "macd_signal",
-    "macd_hist",
+    "volume_change_1d",
     "high_low_spread",
     "open_close_spread",
+    "momentum_5d",
+    "momentum_20d",
+    "volatility_20d",
+    "price_vs_ma20",
+    "price_vs_ma50",
+    "rsi_14d",
+    "relative_strength",
 ]
 
 
