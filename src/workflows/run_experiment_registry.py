@@ -8,6 +8,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
+from src.core.output_context import (
+    resolve_agent_reports_dir,
+    resolve_report_path,
+    resolve_result_path,
+    resolve_results_dir,
+)
+
 from src.agents.experiment_registry_agent import ExperimentRegistryAgent
 
 
@@ -16,8 +23,8 @@ def main() -> int:
 
     context = {
         "run_id": run_id,
-        "reports_dir": "reports/agent_runs",
-        "results_dir": "results",
+        "reports_dir": str(resolve_agent_reports_dir()),
+        "results_dir": str(resolve_results_dir()),
         "registry_dir": "data/runs",
     }
 

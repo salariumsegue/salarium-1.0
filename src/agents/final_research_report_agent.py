@@ -9,30 +9,34 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from src.agents.base_agent import AgentResult, BaseAgent
+from src.core.output_context import (
+    resolve_report_path,
+    resolve_result_path,
+)
 
 
 class FinalResearchReportAgent(BaseAgent):
     name = "final_research_report_agent"
 
     REQUIRED_REPORTS = {
-        "backtest_reviewer": "reports/backtest_reviewer_latest.md",
-        "model_tournament": "reports/model_tournament_latest.md",
-        "strategy_walkforward": "reports/strategy_walkforward_latest.md",
-        "data_quality_leakage": "reports/data_quality_leakage_latest.md",
-        "risk_portfolio": "reports/risk_portfolio_latest.md",
-        "macro_feature_audit": "reports/macro_feature_audit_latest.md",
-        "experiment_registry": "reports/experiment_registry_latest.md",
+        "backtest_reviewer": resolve_report_path("backtest_reviewer_latest.md"),
+        "model_tournament": resolve_report_path("model_tournament_latest.md"),
+        "strategy_walkforward": resolve_report_path("strategy_walkforward_latest.md"),
+        "data_quality_leakage": resolve_report_path("data_quality_leakage_latest.md"),
+        "risk_portfolio": resolve_report_path("risk_portfolio_latest.md"),
+        "macro_feature_audit": resolve_report_path("macro_feature_audit_latest.md"),
+        "experiment_registry": resolve_report_path("experiment_registry_latest.md"),
     }
 
     KEY_RESULTS = {
-        "walkforward_summary": "results/walkforward_rank_backtest_summary.csv",
-        "walkforward_detail": "results/walkforward_rank_backtest_results.csv",
-        "model_tournament_leaderboard": "results/model_tournament_leaderboard.csv",
-        "strategy_walkforward_summary": "results/strategy_walkforward_tournament_summary.csv",
-        "data_quality_leakage_summary": "results/data_quality_leakage_summary.csv",
-        "risk_portfolio_summary": "results/risk_portfolio_summary.csv",
-        "macro_feature_audit_summary": "results/macro_feature_audit_summary.csv",
-        "experiment_registry_summary": "results/experiment_registry_summary.csv",
+        "walkforward_summary": resolve_result_path("walkforward_rank_backtest_summary.csv"),
+        "walkforward_detail": resolve_result_path("walkforward_rank_backtest_results.csv"),
+        "model_tournament_leaderboard": resolve_result_path("model_tournament_leaderboard.csv"),
+        "strategy_walkforward_summary": resolve_result_path("strategy_walkforward_tournament_summary.csv"),
+        "data_quality_leakage_summary": resolve_result_path("data_quality_leakage_summary.csv"),
+        "risk_portfolio_summary": resolve_result_path("risk_portfolio_summary.csv"),
+        "macro_feature_audit_summary": resolve_result_path("macro_feature_audit_summary.csv"),
+        "experiment_registry_summary": resolve_result_path("experiment_registry_summary.csv"),
     }
 
     def run(self, context: Dict[str, Any]) -> AgentResult:
@@ -244,14 +248,13 @@ class FinalResearchReportAgent(BaseAgent):
             "main_risks": [
                 "The walk-forward ranking signal has weak Spearman IC.",
                 "Portfolio drawdown and turnover are still too high for strong strategy claims.",
-                "The universe is currently a temporary 138-ticker consistency universe, not the final top-125 market-cap universe.",
-                "Macro features are not yet present in the model-safe walk-forward file.",
+                "The current research run uses the canonical liquid-500 universe and its pinned snapshot.",
+                "Macro features are present, but their incremental value still requires equivalent walk-forward validation.",
                 "Macro holdout and walk-forward tests are not directly comparable yet.",
             ],
             "next_phase": [
-                "Build macro-aware model-safe training data.",
-                "Replace temporary 138-ticker universe with the true top-125 market-cap snapshot.",
-                "Run macro-aware candidates through the same walk-forward engine.",
+                "Test macro-aware candidates through the same walk-forward engine as technical candidates.",
+                "Add historical point-in-time universe snapshots to reduce survivorship bias.",
                 "Add portfolio constraints: turnover caps, sector caps, position persistence, and drawdown controls.",
                 "Then prepare open-source docs and reproducibility instructions.",
             ],
@@ -287,7 +290,7 @@ class FinalResearchReportAgent(BaseAgent):
 
         json_path = reports_dir / "final_research_report.json"
         md_path = reports_dir / "final_research_report.md"
-        latest_path = Path("reports/salarium_agentic_research_latest.md")
+        latest_path = resolve_report_path("salarium_agentic_research_latest.md")
         summary_csv_path = results_dir / "salarium_agentic_research_summary.csv"
 
         payload = {

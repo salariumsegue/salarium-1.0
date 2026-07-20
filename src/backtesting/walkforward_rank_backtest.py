@@ -1,11 +1,22 @@
-import os
 import numpy as np
 import pandas as pd
+import sys
+from pathlib import Path
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
+from src.core.dataset_context import (
+    resolve_training_data_path,
+)
+from src.core.output_context import resolve_results_dir
 from scipy.stats import spearmanr
 from sklearn.ensemble import RandomForestRegressor
 
-FEATURE_FILE = "data/processed/feature_data.csv"
-RESULTS_DIR = "results"
+FEATURE_FILE = resolve_training_data_path()
+RESULTS_DIR = resolve_results_dir()
 
 TOP_N = 10
 REBALANCE_EVERY_N_DAYS = 5
@@ -20,19 +31,16 @@ N_ESTIMATORS = 100
 FEATURES = [
     "return_1d",
     "return_5d",
-    "return_10d",
-    "close_to_sma_5",
-    "close_to_sma_20",
-    "close_to_sma_50",
-    "volume_ratio_10",
-    "volatility_10",
-    "volatility_20",
-    "rsi_14",
-    "macd",
-    "macd_signal",
-    "macd_hist",
+    "volume_change_1d",
     "high_low_spread",
     "open_close_spread",
+    "momentum_5d",
+    "momentum_20d",
+    "volatility_20d",
+    "price_vs_ma20",
+    "price_vs_ma50",
+    "rsi_14d",
+    "relative_strength",
 ]
 
 
@@ -158,7 +166,7 @@ def summarize_results(results_df: pd.DataFrame, label: str) -> dict:
 
 
 def main():
-    os.makedirs(RESULTS_DIR, exist_ok=True)
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
     print("Loading feature data...")
     df = pd.read_csv(FEATURE_FILE)
@@ -281,7 +289,7 @@ def main():
 
     results_df = pd.DataFrame(all_results)
 
-    results_file = os.path.join(RESULTS_DIR, "walkforward_rank_backtest_results.csv")
+    results_file = RESULTS_DIR / "walkforward_rank_backtest_results.csv"
     results_df.to_csv(results_file, index=False)
 
     overall_summary = summarize_results(results_df, "overall")
@@ -292,7 +300,7 @@ def main():
 
     summary_df = pd.DataFrame([overall_summary] + yearly_summaries)
 
-    summary_file = os.path.join(RESULTS_DIR, "walkforward_rank_backtest_summary.csv")
+    summary_file = RESULTS_DIR / "walkforward_rank_backtest_summary.csv"
     summary_df.to_csv(summary_file, index=False)
 
     print("\n==============================")

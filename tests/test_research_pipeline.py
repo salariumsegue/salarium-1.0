@@ -119,3 +119,66 @@ def test_pipeline_script_can_be_executed_directly() -> None:
 
     assert completed.returncode == 0
     assert "complete Salarium research pipeline" in completed.stdout
+
+
+def test_default_canonical_universe_can_be_resolved() -> None:
+    from pathlib import Path
+
+    from scripts.run_research_pipeline import (
+        resolve_canonical_universe,
+    )
+
+    snapshot = resolve_canonical_universe(
+        Path.cwd()
+    )
+
+    assert len(snapshot.frame) == 500
+    assert snapshot.frame["ticker"].nunique() == 500
+    assert snapshot.universe_id.startswith(
+        "current_liquid_500_"
+    )
+
+
+def test_child_environment_exports_universe_identity(
+    tmp_path: Path,
+) -> None:
+    run_directory = tmp_path / "run"
+    manifest_path = run_directory / "manifest.json"
+    universe_path = tmp_path / "universe.csv"
+    universe_manifest = tmp_path / "universe.json"
+
+    environment = build_child_environment(
+        run_id="run-123",
+        run_directory=run_directory,
+        manifest_path=manifest_path,
+        universe_id="universe-500",
+        universe_path=universe_path,
+        universe_manifest_path=universe_manifest,
+        universe_market_date="2026-07-10",
+        training_data_path=(
+            tmp_path / "training.csv"
+        ),
+    )
+
+    assert environment[
+        "SALARIUM_UNIVERSE_ID"
+    ] == "universe-500"
+
+    assert environment[
+        "SALARIUM_UNIVERSE_PATH"
+    ] == str(universe_path.resolve())
+
+    assert environment[
+        "SALARIUM_UNIVERSE_MANIFEST_PATH"
+    ] == str(universe_manifest.resolve())
+
+    assert environment[
+        "SALARIUM_UNIVERSE_MARKET_DATE"
+    ] == "2026-07-10"
+
+
+    assert environment[
+        "SALARIUM_TRAINING_DATA_PATH"
+    ] == str(
+        (tmp_path / "training.csv").resolve()
+    )

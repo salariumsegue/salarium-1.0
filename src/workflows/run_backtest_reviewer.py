@@ -8,6 +8,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
+from src.core.output_context import (
+    resolve_agent_reports_dir,
+    resolve_report_path,
+    resolve_result_path,
+    resolve_results_dir,
+)
+
 from src.agents.backtest_reviewer_agent import BacktestReviewerAgent
 
 
@@ -16,10 +23,10 @@ def main() -> int:
 
     context = {
         "run_id": run_id,
-        "reports_dir": "reports/agent_runs",
-        "walkforward_summary_path": "results/walkforward_rank_backtest_summary.csv",
-        "macro_comparison_path": "results/macro_model_comparison.csv",
-        "feature_importance_path": "results/macro_feature_importance.csv",
+        "reports_dir": str(resolve_agent_reports_dir()),
+        "walkforward_summary_path": str(resolve_result_path("walkforward_rank_backtest_summary.csv")),
+        "macro_comparison_path": str(resolve_result_path("macro_model_comparison.csv")),
+        "feature_importance_path": str(resolve_result_path("macro_feature_importance.csv")),
     }
 
     agent = BacktestReviewerAgent()

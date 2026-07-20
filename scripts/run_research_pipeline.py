@@ -18,9 +18,39 @@ from src.core.artifacts import (
     capture_generated_outputs,
 )
 from src.core.run_context import create_run_context
+from src.universe.canonical_snapshot import (
+    assess_dataset_universe_coverage,
+    find_latest_canonical_snapshot,
+    load_canonical_snapshot,
+)
+
+
+def resolve_canonical_universe(
+    repository_root: Path,
+    manifest_override: str = "",
+):
+    if manifest_override:
+        return load_canonical_snapshot(
+            Path(manifest_override)
+        )
+
+    snapshot = find_latest_canonical_snapshot(
+        repository_root
+        / "configs"
+        / "universe_snapshots"
+    )
+
+    if snapshot is None:
+        raise FileNotFoundError(
+            "No committed canonical liquid-universe "
+            "snapshot was found."
+        )
+
+    return snapshot
 
 
 COMMANDS = [
+    ("walkforward_rank_backtest", "src/backtesting/walkforward_rank_backtest.py"),
     ("strategy_walkforward", "src/workflows/run_strategy_walkforward.py"),
     ("model_tournament", "src/workflows/run_model_tournament.py"),
     ("data_quality_leakage", "src/workflows/run_data_quality_leakage.py"),
@@ -54,6 +84,12 @@ def build_child_environment(
     run_id: str,
     run_directory: Path,
     manifest_path: Path,
+    *,
+    universe_id: str | None = None,
+    universe_path: Path | None = None,
+    universe_manifest_path: Path | None = None,
+    universe_market_date: str | None = None,
+    training_data_path: Path | None = None,
 ) -> dict[str, str]:
     environment = os.environ.copy()
     environment.update(
@@ -63,6 +99,29 @@ def build_child_environment(
             "SALARIUM_MANIFEST_PATH": str(manifest_path.resolve()),
         }
     )
+    if universe_id is not None:
+        environment["SALARIUM_UNIVERSE_ID"] = universe_id
+
+    if universe_path is not None:
+        environment["SALARIUM_UNIVERSE_PATH"] = str(
+            universe_path.resolve()
+        )
+
+    if universe_manifest_path is not None:
+        environment[
+            "SALARIUM_UNIVERSE_MANIFEST_PATH"
+        ] = str(universe_manifest_path.resolve())
+
+    if universe_market_date is not None:
+        environment[
+            "SALARIUM_UNIVERSE_MARKET_DATE"
+        ] = universe_market_date
+
+    if training_data_path is not None:
+        environment[
+            "SALARIUM_TRAINING_DATA_PATH"
+        ] = str(training_data_path.resolve())
+
     return environment
 
 
@@ -126,6 +185,14 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--universe-manifest",
+        default="",
+        help=(
+            "Optional canonical universe manifest override. "
+            "Defaults to the latest committed liquid-500 snapshot."
+        ),
+    )
+    parser.add_argument(
         "--allow-dirty",
         action="store_true",
         help="Allow a non-canonical run from a dirty working tree.",
@@ -144,7 +211,23 @@ def main() -> int:
 
     validate_workflows()
 
+    canonical_universe = resolve_canonical_universe(
+        repository_root=repository_root,
+        manifest_override=args.universe_manifest,
+    )
+
     input_paths = [Path(path) for path in args.input]
+
+    input_paths.extend(
+        [
+            canonical_universe.snapshot_path,
+            canonical_universe.manifest_path,
+        ]
+    )
+
+    input_paths = list(
+        dict.fromkeys(input_paths)
+    )
 
     missing_inputs = [
         str(path)
@@ -158,11 +241,34 @@ def main() -> int:
             "Requested manifest inputs do not exist:\n" + formatted
         )
 
+    if args.input:
+        universe_coverage = (
+            assess_dataset_universe_coverage(
+                Path(args.input[0]),
+                canonical_universe.frame,
+            )
+        )
+    else:
+        universe_coverage = {
+            "status": "not_evaluated",
+            "reason": "no_training_input_supplied",
+        }
+
     parameters = {
         "pipeline": "research_pipeline",
         "workflow_count": len(COMMANDS),
         "continue_on_error": args.continue_on_error,
         "allow_dirty": args.allow_dirty,
+        "universe_id": canonical_universe.universe_id,
+        "universe_market_date": (
+            canonical_universe.market_date
+        ),
+        "universe_snapshot_path": str(
+            canonical_universe.snapshot_path
+        ),
+        "universe_coverage_status": (
+            universe_coverage["status"]
+        ),
     }
 
     context = create_run_context(
@@ -180,16 +286,68 @@ def main() -> int:
     manifest_path = run_directory / "manifest.json"
     log_directory = run_directory / "logs"
 
+    artifacts.write_json(
+        "inputs/universe_context.json",
+        {
+            "universe_id": (
+                canonical_universe.universe_id
+            ),
+            "market_date": (
+                canonical_universe.market_date
+            ),
+            "snapshot_path": str(
+                canonical_universe.snapshot_path
+            ),
+            "manifest_path": str(
+                canonical_universe.manifest_path
+            ),
+            "snapshot_sha256": (
+                canonical_universe.manifest[
+                    "snapshot_sha256"
+                ]
+            ),
+            "snapshot_rows": len(
+                canonical_universe.frame
+            ),
+            "dataset_coverage": universe_coverage,
+        },
+    )
+
     environment = build_child_environment(
         run_id=context.run_id,
         run_directory=run_directory,
         manifest_path=manifest_path,
+        universe_id=canonical_universe.universe_id,
+        universe_path=canonical_universe.snapshot_path,
+        universe_manifest_path=(
+            canonical_universe.manifest_path
+        ),
+        universe_market_date=(
+            canonical_universe.market_date
+        ),
+        training_data_path=(
+            Path(args.input[0])
+            if args.input
+            else None
+        ),
     )
 
     print(f"Salarium research pipeline root: {repository_root}")
     print(f"Run ID: {context.run_id}")
     print(f"Run directory: {run_directory}")
     print(f"Manifest: {manifest_path}")
+    print(
+        "Canonical universe:",
+        canonical_universe.universe_id,
+    )
+    print(
+        "Universe market date:",
+        canonical_universe.market_date,
+    )
+    print(
+        "Dataset universe coverage:",
+        universe_coverage["status"],
+    )
 
     workflow_results: list[dict[str, Any]] = []
 
@@ -241,14 +399,7 @@ def main() -> int:
     captured_outputs = capture_generated_outputs(
         run_directory=run_directory,
         repository_root=repository_root,
-    )
-
-    restore_result = subprocess.run(
-        ["git", "restore", "--", "reports", "results"],
-        cwd=repository_root,
-        capture_output=True,
-        text=True,
-        check=False,
+        source_root=run_directory / "working_outputs",
     )
 
     final_payload = {
@@ -258,7 +409,9 @@ def main() -> int:
         "captured_output_count": captured_outputs[
             "captured_file_count"
         ],
-        "repository_restore_return_code": restore_result.returncode,
+        "output_source": str(
+            run_directory / "working_outputs"
+        ),
     }
 
     artifacts.write_json(

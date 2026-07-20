@@ -12,32 +12,36 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from src.agents.base_agent import AgentResult, BaseAgent
+from src.core.output_context import (
+    resolve_report_path,
+    resolve_result_path,
+)
 
 
 class ExperimentRegistryAgent(BaseAgent):
     name = "experiment_registry_agent"
 
     REQUIRED_REPORTS = {
-        "backtest_reviewer": "reports/backtest_reviewer_latest.md",
-        "model_tournament": "reports/model_tournament_latest.md",
-        "strategy_walkforward": "reports/strategy_walkforward_latest.md",
-        "data_quality_leakage": "reports/data_quality_leakage_latest.md",
-        "risk_portfolio": "reports/risk_portfolio_latest.md",
-        "macro_feature_audit": "reports/macro_feature_audit_latest.md",
+        "backtest_reviewer": resolve_report_path("backtest_reviewer_latest.md"),
+        "model_tournament": resolve_report_path("model_tournament_latest.md"),
+        "strategy_walkforward": resolve_report_path("strategy_walkforward_latest.md"),
+        "data_quality_leakage": resolve_report_path("data_quality_leakage_latest.md"),
+        "risk_portfolio": resolve_report_path("risk_portfolio_latest.md"),
+        "macro_feature_audit": resolve_report_path("macro_feature_audit_latest.md"),
     }
 
     REQUIRED_RESULTS = {
-        "walkforward_rank_summary": "results/walkforward_rank_backtest_summary.csv",
-        "walkforward_rank_detail": "results/walkforward_rank_backtest_results.csv",
-        "model_tournament_leaderboard": "results/model_tournament_leaderboard.csv",
-        "strategy_walkforward_summary": "results/strategy_walkforward_tournament_summary.csv",
-        "strategy_walkforward_detail": "results/strategy_walkforward_tournament_results.csv",
-        "model_tournament_inputs": "results/model_tournament_inputs.csv",
-        "data_quality_leakage_summary": "results/data_quality_leakage_summary.csv",
-        "risk_portfolio_summary": "results/risk_portfolio_summary.csv",
-        "macro_feature_audit_summary": "results/macro_feature_audit_summary.csv",
-        "macro_model_comparison": "results/macro_model_comparison.csv",
-        "macro_feature_importance": "results/macro_feature_importance.csv",
+        "walkforward_rank_summary": resolve_result_path("walkforward_rank_backtest_summary.csv"),
+        "walkforward_rank_detail": resolve_result_path("walkforward_rank_backtest_results.csv"),
+        "model_tournament_leaderboard": resolve_result_path("model_tournament_leaderboard.csv"),
+        "strategy_walkforward_summary": resolve_result_path("strategy_walkforward_tournament_summary.csv"),
+        "strategy_walkforward_detail": resolve_result_path("strategy_walkforward_tournament_results.csv"),
+        "model_tournament_inputs": resolve_result_path("model_tournament_inputs.csv"),
+        "data_quality_leakage_summary": resolve_result_path("data_quality_leakage_summary.csv"),
+        "risk_portfolio_summary": resolve_result_path("risk_portfolio_summary.csv"),
+        "macro_feature_audit_summary": resolve_result_path("macro_feature_audit_summary.csv"),
+        "macro_model_comparison": resolve_result_path("macro_model_comparison.csv"),
+        "macro_feature_importance": resolve_result_path("macro_feature_importance.csv"),
     }
 
     REQUIRED_CODE = {
@@ -115,7 +119,7 @@ class ExperimentRegistryAgent(BaseAgent):
 
         json_path = reports_dir / "experiment_registry_report.json"
         md_path = reports_dir / "experiment_registry_report.md"
-        latest_path = Path("reports/experiment_registry_latest.md")
+        latest_path = Path(resolve_report_path("experiment_registry_latest.md"))
 
         payload = {
             "agent": self.name,
@@ -308,7 +312,7 @@ class ExperimentRegistryAgent(BaseAgent):
             limitations.append("Macro holdout signal is not yet tested in the model-safe walk-forward dataset.")
 
         if "universe tickers: 138" in data_summary:
-            limitations.append("Current temporary universe has 138 tickers, not the intended final top-125 market-cap universe.")
+            limitations.append("Current universe metadata should be read from the canonical run manifest.")
 
         if "max drawdown" in risk_summary:
             limitations.append("Current walk-forward rank model still has material drawdown and turnover risk.")
