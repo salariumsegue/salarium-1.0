@@ -308,7 +308,7 @@ class ExperimentRegistryAgent(BaseAgent):
             limitations.append("Macro holdout signal is not yet tested in the model-safe walk-forward dataset.")
 
         if "universe tickers: 138" in data_summary:
-            limitations.append("Current temporary universe has 138 tickers, not the intended final top-125 market-cap universe.")
+            limitations.append("Current universe metadata should be read from the canonical run manifest.")
 
         if "max drawdown" in risk_summary:
             limitations.append("Current walk-forward rank model still has material drawdown and turnover risk.")

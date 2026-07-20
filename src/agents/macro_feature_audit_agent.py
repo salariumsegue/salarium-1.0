@@ -477,7 +477,7 @@ class MacroFeatureAuditAgent(BaseAgent):
         if macro_result == "macro_improved_excess_return" and not model_safe_macro_cols:
             warnings.append(
                 "Macro holdout improved excess return, but model-safe walk-forward data has no macro columns. "
-                "Next required upgrade: build macro-aware model-safe training data."
+                "Next required upgrade: test macro-aware candidates through the same walk-forward engine."
             )
 
         if "macro_holdout" in tournament_groups and "strategy_walkforward" in tournament_groups:

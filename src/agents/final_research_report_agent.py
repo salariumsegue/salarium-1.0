@@ -244,14 +244,13 @@ class FinalResearchReportAgent(BaseAgent):
             "main_risks": [
                 "The walk-forward ranking signal has weak Spearman IC.",
                 "Portfolio drawdown and turnover are still too high for strong strategy claims.",
-                "The universe is currently a temporary 138-ticker consistency universe, not the final top-125 market-cap universe.",
-                "Macro features are not yet present in the model-safe walk-forward file.",
+                "The current research run uses the canonical liquid-500 universe and its pinned snapshot.",
+                "Macro features are present, but their incremental value still requires equivalent walk-forward validation.",
                 "Macro holdout and walk-forward tests are not directly comparable yet.",
             ],
             "next_phase": [
-                "Build macro-aware model-safe training data.",
-                "Replace temporary 138-ticker universe with the true top-125 market-cap snapshot.",
-                "Run macro-aware candidates through the same walk-forward engine.",
+                "Test macro-aware candidates through the same walk-forward engine as technical candidates.",
+                "Add historical point-in-time universe snapshots to reduce survivorship bias.",
                 "Add portfolio constraints: turnover caps, sector caps, position persistence, and drawdown controls.",
                 "Then prepare open-source docs and reproducibility instructions.",
             ],
