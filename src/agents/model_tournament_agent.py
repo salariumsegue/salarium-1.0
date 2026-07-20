@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 
 from src.agents.base_agent import AgentResult, BaseAgent
+from src.core.output_context import resolve_report_path
 
 
 class ModelTournamentAgent(BaseAgent):
@@ -446,7 +447,7 @@ class ModelTournamentAgent(BaseAgent):
         leaderboard_path = results_dir / "model_tournament_leaderboard.csv"
         json_path = reports_dir / "model_tournament_report.json"
         md_path = reports_dir / "model_tournament_report.md"
-        latest_path = Path("reports/model_tournament_latest.md")
+        latest_path = resolve_report_path("model_tournament_latest.md")
 
         if not leaderboard_df.empty:
             leaderboard_df.to_csv(leaderboard_path, index=False)

@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 
 from src.agents.base_agent import AgentResult, BaseAgent
+from src.core.output_context import resolve_report_path
 
 
 class MacroFeatureAuditAgent(BaseAgent):
@@ -533,7 +534,7 @@ class MacroFeatureAuditAgent(BaseAgent):
 
         json_path = reports_dir / "macro_feature_audit_report.json"
         md_path = reports_dir / "macro_feature_audit_report.md"
-        latest_path = Path("reports/macro_feature_audit_latest.md")
+        latest_path = resolve_report_path("macro_feature_audit_latest.md")
         summary_csv_path = results_dir / "macro_feature_audit_summary.csv"
 
         rows = self._flatten_metrics(metrics)

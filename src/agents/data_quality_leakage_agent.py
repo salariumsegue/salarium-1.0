@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from src.agents.base_agent import AgentResult, BaseAgent
+from src.core.output_context import resolve_report_path
 
 
 class DataQualityLeakageAgent(BaseAgent):
@@ -858,7 +859,7 @@ class DataQualityLeakageAgent(BaseAgent):
 
         json_path = reports_dir / "data_quality_leakage_report.json"
         md_path = reports_dir / "data_quality_leakage_report.md"
-        latest_path = Path("reports/data_quality_leakage_latest.md")
+        latest_path = resolve_report_path("data_quality_leakage_latest.md")
         summary_csv_path = results_dir / "data_quality_leakage_summary.csv"
 
         checks_df = pd.DataFrame(check_rows)
