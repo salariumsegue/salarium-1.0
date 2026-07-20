@@ -82,11 +82,17 @@ def capture_generated_outputs(
     run_directory: str | Path,
     repository_root: str | Path,
     generated_roots: tuple[str, ...] = ("reports", "results"),
+    source_root: str | Path | None = None,
 ) -> dict[str, Any]:
     import shutil
 
     run_root = Path(run_directory).resolve()
     repo_root = Path(repository_root).resolve()
+    generated_source_root = (
+        Path(source_root).resolve()
+        if source_root is not None
+        else repo_root
+    )
     destination_root = run_root / "captured_outputs"
 
     destination_root.mkdir(parents=True, exist_ok=True)
@@ -94,16 +100,18 @@ def capture_generated_outputs(
     captured_files: list[dict[str, Any]] = []
 
     for root_name in generated_roots:
-        source_root = repo_root / root_name
+        generated_root = generated_source_root / root_name
 
-        if not source_root.exists():
+        if not generated_root.exists():
             continue
 
-        for source_path in sorted(source_root.rglob("*")):
+        for source_path in sorted(generated_root.rglob("*")):
             if not source_path.is_file():
                 continue
 
-            relative_path = source_path.relative_to(repo_root)
+            relative_path = source_path.relative_to(
+                generated_source_root
+            )
             destination_path = destination_root / relative_path
 
             destination_path.parent.mkdir(parents=True, exist_ok=True)

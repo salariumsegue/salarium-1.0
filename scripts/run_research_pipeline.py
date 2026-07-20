@@ -399,14 +399,7 @@ def main() -> int:
     captured_outputs = capture_generated_outputs(
         run_directory=run_directory,
         repository_root=repository_root,
-    )
-
-    restore_result = subprocess.run(
-        ["git", "restore", "--", "reports", "results"],
-        cwd=repository_root,
-        capture_output=True,
-        text=True,
-        check=False,
+        source_root=run_directory / "working_outputs",
     )
 
     final_payload = {
@@ -416,7 +409,9 @@ def main() -> int:
         "captured_output_count": captured_outputs[
             "captured_file_count"
         ],
-        "repository_restore_return_code": restore_result.returncode,
+        "output_source": str(
+            run_directory / "working_outputs"
+        ),
     }
 
     artifacts.write_json(

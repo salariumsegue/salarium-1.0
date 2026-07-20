@@ -16,6 +16,13 @@ from src.core.dataset_context import resolve_training_data_path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
+from src.core.output_context import (
+    resolve_agent_reports_dir,
+    resolve_report_path,
+    resolve_result_path,
+    resolve_results_dir,
+)
+
 from src.agents.macro_feature_audit_agent import MacroFeatureAuditAgent
 
 
@@ -24,13 +31,13 @@ def main() -> int:
 
     context = {
         "run_id": run_id,
-        "reports_dir": "reports/agent_runs",
-        "results_dir": "results",
-        "macro_comparison_path": "results/macro_model_comparison.csv",
-        "feature_importance_path": "results/macro_feature_importance.csv",
+        "reports_dir": str(resolve_agent_reports_dir()),
+        "results_dir": str(resolve_results_dir()),
+        "macro_comparison_path": str(resolve_result_path("macro_model_comparison.csv")),
+        "feature_importance_path": str(resolve_result_path("macro_feature_importance.csv")),
         "model_safe_training_path": str(resolve_training_data_path()),
-        "walkforward_summary_path": "results/walkforward_rank_backtest_summary.csv",
-        "model_tournament_path": "results/model_tournament_leaderboard.csv",
+        "walkforward_summary_path": str(resolve_result_path("walkforward_rank_backtest_summary.csv")),
+        "model_tournament_path": str(resolve_result_path("model_tournament_leaderboard.csv")),
     }
 
     agent = MacroFeatureAuditAgent()

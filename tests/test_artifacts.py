@@ -158,3 +158,47 @@ def test_capture_generated_outputs_handles_missing_roots(
 
     assert payload["captured_file_count"] == 0
     assert payload["files"] == []
+
+
+def test_capture_generated_outputs_from_run_scoped_root(
+    tmp_path: Path,
+) -> None:
+    from src.core.artifacts import capture_generated_outputs
+
+    repository_root = tmp_path / "repository"
+    run_directory = (
+        repository_root / "data" / "runs" / "run-456"
+    )
+    working_outputs = run_directory / "working_outputs"
+
+    report = working_outputs / "reports" / "latest.md"
+    result = working_outputs / "results" / "summary.csv"
+
+    report.parent.mkdir(parents=True)
+    result.parent.mkdir(parents=True)
+
+    report.write_text("# Run report\n", encoding="utf-8")
+    result.write_text(
+        "metric,value\nsharpe,0.7\n",
+        encoding="utf-8",
+    )
+
+    payload = capture_generated_outputs(
+        run_directory=run_directory,
+        repository_root=repository_root,
+        source_root=working_outputs,
+    )
+
+    assert payload["captured_file_count"] == 2
+    assert (
+        run_directory
+        / "captured_outputs"
+        / "reports"
+        / "latest.md"
+    ).is_file()
+    assert (
+        run_directory
+        / "captured_outputs"
+        / "results"
+        / "summary.csv"
+    ).is_file()

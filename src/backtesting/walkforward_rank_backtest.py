@@ -1,4 +1,3 @@
-import os
 import numpy as np
 import pandas as pd
 import sys
@@ -12,11 +11,12 @@ if str(REPOSITORY_ROOT) not in sys.path:
 from src.core.dataset_context import (
     resolve_training_data_path,
 )
+from src.core.output_context import resolve_results_dir
 from scipy.stats import spearmanr
 from sklearn.ensemble import RandomForestRegressor
 
 FEATURE_FILE = resolve_training_data_path()
-RESULTS_DIR = "results"
+RESULTS_DIR = resolve_results_dir()
 
 TOP_N = 10
 REBALANCE_EVERY_N_DAYS = 5
@@ -166,7 +166,7 @@ def summarize_results(results_df: pd.DataFrame, label: str) -> dict:
 
 
 def main():
-    os.makedirs(RESULTS_DIR, exist_ok=True)
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
     print("Loading feature data...")
     df = pd.read_csv(FEATURE_FILE)
@@ -289,7 +289,7 @@ def main():
 
     results_df = pd.DataFrame(all_results)
 
-    results_file = os.path.join(RESULTS_DIR, "walkforward_rank_backtest_results.csv")
+    results_file = RESULTS_DIR / "walkforward_rank_backtest_results.csv"
     results_df.to_csv(results_file, index=False)
 
     overall_summary = summarize_results(results_df, "overall")
@@ -300,7 +300,7 @@ def main():
 
     summary_df = pd.DataFrame([overall_summary] + yearly_summaries)
 
-    summary_file = os.path.join(RESULTS_DIR, "walkforward_rank_backtest_summary.csv")
+    summary_file = RESULTS_DIR / "walkforward_rank_backtest_summary.csv"
     summary_df.to_csv(summary_file, index=False)
 
     print("\n==============================")
