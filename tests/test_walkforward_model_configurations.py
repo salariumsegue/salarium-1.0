@@ -54,3 +54,46 @@ def test_walkforward_runner_accepts_feature_columns() -> None:
         "configuration_name",
         "feature_columns",
     ]
+
+
+def test_comparison_output_names_are_defined() -> None:
+    from pathlib import Path
+
+    source = Path(
+        "src/backtesting/walkforward_rank_backtest.py"
+    ).read_text(encoding="utf-8")
+
+    assert (
+        "walkforward_model_comparison_results.csv"
+        in source
+    )
+    assert (
+        "walkforward_model_comparison_summary.csv"
+        in source
+    )
+
+
+def test_all_configurations_are_executed() -> None:
+    from pathlib import Path
+
+    source = Path(
+        "src/backtesting/walkforward_rank_backtest.py"
+    ).read_text(encoding="utf-8")
+
+    assert (
+        "for configuration_name, feature_columns in"
+        in source
+    )
+    assert "MODEL_CONFIGURATIONS.items()" in source
+
+
+def test_legacy_technical_outputs_are_preserved() -> None:
+    from pathlib import Path
+
+    source = Path(
+        "src/backtesting/walkforward_rank_backtest.py"
+    ).read_text(encoding="utf-8")
+
+    assert "walkforward_rank_backtest_results.csv" in source
+    assert "walkforward_rank_backtest_summary.csv" in source
+    assert '== "technical_only"' in source

@@ -373,8 +373,24 @@ def main():
     print("Loading feature data...")
     df = pd.read_csv(FEATURE_FILE)
 
-    required_cols = FEATURES + ["date", "ticker", "target_5d_return"]
-    missing_cols = [col for col in required_cols if col not in df.columns]
+    all_model_features = list(
+        dict.fromkeys(
+            feature
+            for feature_columns in MODEL_CONFIGURATIONS.values()
+            for feature in feature_columns
+        )
+    )
+
+    required_cols = all_model_features + [
+        "date",
+        "ticker",
+        "target_5d_return",
+    ]
+    missing_cols = [
+        col
+        for col in required_cols
+        if col not in df.columns
+    ]
 
     if missing_cols:
         raise ValueError(f"Missing required columns: {missing_cols}")
@@ -382,8 +398,11 @@ def main():
     df["date"] = pd.to_datetime(df["date"], errors="coerce", utc=True).dt.tz_localize(None)
     df["target_5d_return"] = pd.to_numeric(df["target_5d_return"], errors="coerce")
 
-    for feature in FEATURES:
-        df[feature] = pd.to_numeric(df[feature], errors="coerce")
+    for feature in all_model_features:
+        df[feature] = pd.to_numeric(
+            df[feature],
+            errors="coerce",
+        )
 
     df = df.dropna(subset=required_cols).copy()
     df = df.sort_values(["date", "ticker"]).reset_index(drop=True)
@@ -393,31 +412,108 @@ def main():
     print(f"Start date: {df['date'].min().date()}")
     print(f"End date: {df['date'].max().date()}")
 
-    results_df = run_walkforward_configuration(
-        df=df,
-        configuration_name="technical_only",
-        feature_columns=FEATURES,
+    configuration_results = []
+    configuration_summaries = []
+
+    for configuration_name, feature_columns in (
+        MODEL_CONFIGURATIONS.items()
+    ):
+        results = run_walkforward_configuration(
+            df=df,
+            configuration_name=configuration_name,
+            feature_columns=feature_columns,
+        )
+        results.insert(
+            0,
+            "configuration",
+            configuration_name,
+        )
+        configuration_results.append(results)
+
+        overall = summarize_results(
+            results,
+            "overall",
+        )
+        overall["configuration"] = configuration_name
+        configuration_summaries.append(overall)
+
+        for year, group in results.groupby("test_year"):
+            yearly = summarize_results(
+                group,
+                str(year),
+            )
+            yearly["configuration"] = configuration_name
+            configuration_summaries.append(yearly)
+
+    comparison_results_df = pd.concat(
+        configuration_results,
+        ignore_index=True,
+    )
+    comparison_summary_df = pd.DataFrame(
+        configuration_summaries
     )
 
-    results_file = RESULTS_DIR / "walkforward_rank_backtest_results.csv"
+    comparison_results_file = (
+        RESULTS_DIR
+        / "walkforward_model_comparison_results.csv"
+    )
+    comparison_summary_file = (
+        RESULTS_DIR
+        / "walkforward_model_comparison_summary.csv"
+    )
+
+    comparison_results_df.to_csv(
+        comparison_results_file,
+        index=False,
+    )
+    comparison_summary_df.to_csv(
+        comparison_summary_file,
+        index=False,
+    )
+
+    results_df = comparison_results_df[
+        comparison_results_df["configuration"]
+        == "technical_only"
+    ].drop(columns=["configuration"])
+
+    summary_df = comparison_summary_df[
+        comparison_summary_df["configuration"]
+        == "technical_only"
+    ].drop(columns=["configuration"])
+
+    results_file = (
+        RESULTS_DIR
+        / "walkforward_rank_backtest_results.csv"
+    )
+    summary_file = (
+        RESULTS_DIR
+        / "walkforward_rank_backtest_summary.csv"
+    )
+
     results_df.to_csv(results_file, index=False)
-
-    overall_summary = summarize_results(results_df, "overall")
-
-    yearly_summaries = []
-    for year, group in results_df.groupby("test_year"):
-        yearly_summaries.append(summarize_results(group, str(year)))
-
-    summary_df = pd.DataFrame([overall_summary] + yearly_summaries)
-
-    summary_file = RESULTS_DIR / "walkforward_rank_backtest_summary.csv"
     summary_df.to_csv(summary_file, index=False)
+
+    overall_summary = (
+        summary_df[
+            summary_df["period"] == "overall"
+        ]
+        .iloc[0]
+        .to_dict()
+    )
 
     print("\n==============================")
     print("SALARIUM 2.2 WALK-FORWARD RESULTS")
     print("==============================")
     print(f"Results saved to: {results_file}")
     print(f"Summary saved to: {summary_file}")
+    print(
+        "Comparison results saved to: "
+        f"{comparison_results_file}"
+    )
+    print(
+        "Comparison summary saved to: "
+        f"{comparison_summary_file}"
+    )
 
     print("\nOverall Results")
     print(f"Number of Rebalances:        {overall_summary['num_rebalances']}")
