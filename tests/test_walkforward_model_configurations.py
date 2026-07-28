@@ -28,3 +28,29 @@ def test_macro_model_contains_all_technical_features() -> None:
 def test_feature_lists_have_no_duplicates() -> None:
     for feature_list in MODEL_CONFIGURATIONS.values():
         assert len(feature_list) == len(set(feature_list))
+
+
+def test_walkforward_runner_is_callable() -> None:
+    from src.backtesting.walkforward_rank_backtest import (
+        run_walkforward_configuration,
+    )
+
+    assert callable(run_walkforward_configuration)
+
+
+def test_walkforward_runner_accepts_feature_columns() -> None:
+    import inspect
+
+    from src.backtesting.walkforward_rank_backtest import (
+        run_walkforward_configuration,
+    )
+
+    parameters = inspect.signature(
+        run_walkforward_configuration
+    ).parameters
+
+    assert list(parameters) == [
+        "df",
+        "configuration_name",
+        "feature_columns",
+    ]

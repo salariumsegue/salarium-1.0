@@ -188,6 +188,185 @@ def summarize_results(results_df: pd.DataFrame, label: str) -> dict:
     }
 
 
+def run_walkforward_configuration(
+    df: pd.DataFrame,
+    configuration_name: str,
+    feature_columns: list[str],
+) -> pd.DataFrame:
+    years = sorted(df["date"].dt.year.unique())
+
+    test_years = [
+        year
+        for year in years
+        if year >= years[0] + 3
+    ]
+
+    all_results: list[dict] = []
+
+    for test_year in test_years:
+        print()
+        print("==============================")
+        print(
+            f"Configuration: {configuration_name} | "
+            f"Test year: {test_year}"
+        )
+        print("==============================")
+
+        train_df, test_df = split_train_test_by_year(
+            df=df,
+            test_year=test_year,
+            purge_sessions=TARGET_HORIZON_DAYS,
+        )
+
+        if train_df.empty or test_df.empty:
+            print(
+                f"Skipping {test_year}: "
+                "empty train or test set."
+            )
+            continue
+
+        print(f"Training rows: {len(train_df)}")
+        print(f"Test rows: {len(test_df)}")
+        print(
+            f"Training dates: "
+            f"{train_df['date'].nunique()}"
+        )
+        print(
+            f"Test dates: "
+            f"{test_df['date'].nunique()}"
+        )
+
+        model = RandomForestRegressor(
+            n_estimators=N_ESTIMATORS,
+            random_state=42,
+            n_jobs=-1,
+            max_depth=8,
+            min_samples_leaf=10,
+        )
+
+        print("Training model...")
+        model.fit(
+            train_df[feature_columns],
+            train_df["target_5d_return"],
+        )
+
+        test_dates = sorted(test_df["date"].unique())
+        rebalance_dates = test_dates[
+            ::REBALANCE_EVERY_N_DAYS
+        ]
+
+        previous_weights: dict[str, float] = {}
+
+        for rebalance_date in rebalance_dates:
+            day = test_df[
+                test_df["date"] == rebalance_date
+            ].copy()
+
+            if len(day) < TOP_N:
+                continue
+
+            day["score"] = model.predict(
+                day[feature_columns]
+            )
+
+            top10 = day.nlargest(TOP_N, "score")
+            bottom10 = day.nsmallest(TOP_N, "score")
+
+            top10_tickers = top10["ticker"].tolist()
+            new_weights = equal_weight_portfolio(
+                top10_tickers
+            )
+
+            turnover = calculate_turnover(
+                previous_weights,
+                new_weights,
+            )
+            transaction_cost = (
+                turnover
+                * TRANSACTION_COST_PER_DOLLAR
+            )
+
+            gross_top10_return = (
+                top10["target_5d_return"].mean()
+            )
+            net_top10_return = (
+                gross_top10_return
+                - transaction_cost
+            )
+
+            universe_return = (
+                day["target_5d_return"].mean()
+            )
+            bottom10_return = (
+                bottom10["target_5d_return"].mean()
+            )
+
+            long_short_return = (
+                gross_top10_return
+                - bottom10_return
+            )
+            net_excess_return = (
+                net_top10_return
+                - universe_return
+            )
+
+            if (
+                day["score"].nunique() > 1
+                and day[
+                    "target_5d_return"
+                ].nunique() > 1
+            ):
+                ic = spearmanr(
+                    day["score"],
+                    day["target_5d_return"],
+                ).correlation
+            else:
+                ic = np.nan
+
+            all_results.append(
+                {
+                    "test_year": test_year,
+                    "rebalance_date": rebalance_date,
+                    "gross_top10_5d_return": (
+                        gross_top10_return
+                    ),
+                    "net_top10_5d_return": (
+                        net_top10_return
+                    ),
+                    "universe_5d_return": (
+                        universe_return
+                    ),
+                    "net_excess_vs_universe": (
+                        net_excess_return
+                    ),
+                    "bottom10_5d_return": (
+                        bottom10_return
+                    ),
+                    "long_short_5d_return": (
+                        long_short_return
+                    ),
+                    "spearman_ic": ic,
+                    "turnover": turnover,
+                    "transaction_cost": (
+                        transaction_cost
+                    ),
+                    "top10_holdings": ",".join(
+                        top10_tickers
+                    ),
+                }
+            )
+
+            previous_weights = new_weights
+
+    if not all_results:
+        raise ValueError(
+            "No valid walk-forward results were produced "
+            f"for {configuration_name}."
+        )
+
+    return pd.DataFrame(all_results)
+
+
 def main():
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -214,103 +393,11 @@ def main():
     print(f"Start date: {df['date'].min().date()}")
     print(f"End date: {df['date'].max().date()}")
 
-    years = sorted(df["date"].dt.year.unique())
-
-    # Start testing only after at least 3 years of training data
-    test_years = [year for year in years if year >= years[0] + 3]
-
-    all_results = []
-
-    for test_year in test_years:
-        print(f"\n==============================")
-        print(f"Walk-forward test year: {test_year}")
-        print(f"==============================")
-
-        train_df, test_df = split_train_test_by_year(
-            df=df,
-            test_year=test_year,
-            purge_sessions=TARGET_HORIZON_DAYS,
-        )
-
-        if train_df.empty or test_df.empty:
-            print(f"Skipping {test_year}: empty train or test set.")
-            continue
-
-        print(f"Training rows: {len(train_df)}")
-        print(f"Test rows: {len(test_df)}")
-        print(f"Training dates: {train_df['date'].nunique()}")
-        print(f"Test dates: {test_df['date'].nunique()}")
-
-        model = RandomForestRegressor(
-            n_estimators=N_ESTIMATORS,
-            random_state=42,
-            n_jobs=-1,
-            max_depth=8,
-            min_samples_leaf=10,
-        )
-
-        print("Training model...")
-        model.fit(train_df[FEATURES], train_df["target_5d_return"])
-
-        test_dates = sorted(test_df["date"].unique())
-        rebalance_dates = test_dates[::REBALANCE_EVERY_N_DAYS]
-
-        previous_weights = {}
-
-        for rebalance_date in rebalance_dates:
-            day = test_df[test_df["date"] == rebalance_date].copy()
-
-            if len(day) < TOP_N:
-                continue
-
-            day["score"] = model.predict(day[FEATURES])
-
-            top10 = day.nlargest(TOP_N, "score")
-            bottom10 = day.nsmallest(TOP_N, "score")
-
-            top10_tickers = top10["ticker"].tolist()
-            new_weights = equal_weight_portfolio(top10_tickers)
-
-            turnover = calculate_turnover(previous_weights, new_weights)
-            transaction_cost = turnover * TRANSACTION_COST_PER_DOLLAR
-
-            gross_top10_return = top10["target_5d_return"].mean()
-            net_top10_return = gross_top10_return - transaction_cost
-
-            universe_return = day["target_5d_return"].mean()
-            bottom10_return = bottom10["target_5d_return"].mean()
-
-            long_short_return = gross_top10_return - bottom10_return
-            net_excess_return = net_top10_return - universe_return
-
-            if day["score"].nunique() > 1 and day["target_5d_return"].nunique() > 1:
-                ic = spearmanr(day["score"], day["target_5d_return"]).correlation
-            else:
-                ic = np.nan
-
-            all_results.append(
-                {
-                    "test_year": test_year,
-                    "rebalance_date": rebalance_date,
-                    "gross_top10_5d_return": gross_top10_return,
-                    "net_top10_5d_return": net_top10_return,
-                    "universe_5d_return": universe_return,
-                    "net_excess_vs_universe": net_excess_return,
-                    "bottom10_5d_return": bottom10_return,
-                    "long_short_5d_return": long_short_return,
-                    "spearman_ic": ic,
-                    "turnover": turnover,
-                    "transaction_cost": transaction_cost,
-                    "top10_holdings": ",".join(top10_tickers),
-                }
-            )
-
-            previous_weights = new_weights
-
-    if not all_results:
-        raise ValueError("No valid walk-forward results were produced.")
-
-    results_df = pd.DataFrame(all_results)
+    results_df = run_walkforward_configuration(
+        df=df,
+        configuration_name="technical_only",
+        feature_columns=FEATURES,
+    )
 
     results_file = RESULTS_DIR / "walkforward_rank_backtest_results.csv"
     results_df.to_csv(results_file, index=False)
