@@ -28,7 +28,7 @@ TRANSACTION_COST_PER_DOLLAR = 0.001
 # Keep this lower for Mac speed. Raise later if needed.
 N_ESTIMATORS = 100
 
-FEATURES = [
+TECHNICAL_FEATURES = [
     "return_1d",
     "return_5d",
     "volume_change_1d",
@@ -42,6 +42,29 @@ FEATURES = [
     "rsi_14d",
     "relative_strength",
 ]
+
+MACRO_FEATURES = [
+    "macro_signal_score",
+    "macro_tone_score",
+    "surprise_num",
+    "inflation_num",
+    "growth_num",
+    "rate_policy_num",
+    "liquidity_num",
+    "reaction_quality_num",
+    "five_day_market_bias_score",
+    "five_day_bias_num",
+    "macro_confidence",
+]
+
+MODEL_CONFIGURATIONS = {
+    "technical_only": TECHNICAL_FEATURES,
+    "technical_plus_macro": (
+        TECHNICAL_FEATURES + MACRO_FEATURES
+    ),
+}
+
+FEATURES = TECHNICAL_FEATURES
 
 
 def split_train_test_by_year(

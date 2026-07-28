@@ -1,0 +1,30 @@
+from src.backtesting.walkforward_rank_backtest import (
+    MACRO_FEATURES,
+    MODEL_CONFIGURATIONS,
+    TECHNICAL_FEATURES,
+)
+
+
+def test_walkforward_has_two_model_configurations() -> None:
+    assert set(MODEL_CONFIGURATIONS) == {
+        "technical_only",
+        "technical_plus_macro",
+    }
+
+
+def test_technical_model_excludes_macro_features() -> None:
+    assert not set(TECHNICAL_FEATURES) & set(MACRO_FEATURES)
+
+
+def test_macro_model_contains_all_technical_features() -> None:
+    macro_model_features = set(
+        MODEL_CONFIGURATIONS["technical_plus_macro"]
+    )
+
+    assert set(TECHNICAL_FEATURES) <= macro_model_features
+    assert set(MACRO_FEATURES) <= macro_model_features
+
+
+def test_feature_lists_have_no_duplicates() -> None:
+    for feature_list in MODEL_CONFIGURATIONS.values():
+        assert len(feature_list) == len(set(feature_list))
