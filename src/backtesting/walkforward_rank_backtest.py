@@ -28,7 +28,7 @@ TRANSACTION_COST_PER_DOLLAR = 0.001
 # Keep this lower for Mac speed. Raise later if needed.
 N_ESTIMATORS = 100
 
-FEATURES = [
+TECHNICAL_FEATURES = [
     "return_1d",
     "return_5d",
     "volume_change_1d",
@@ -42,6 +42,29 @@ FEATURES = [
     "rsi_14d",
     "relative_strength",
 ]
+
+MACRO_FEATURES = [
+    "macro_signal_score",
+    "macro_tone_score",
+    "surprise_num",
+    "inflation_num",
+    "growth_num",
+    "rate_policy_num",
+    "liquidity_num",
+    "reaction_quality_num",
+    "five_day_market_bias_score",
+    "five_day_bias_num",
+    "macro_confidence",
+]
+
+MODEL_CONFIGURATIONS = {
+    "technical_only": TECHNICAL_FEATURES,
+    "technical_plus_macro": (
+        TECHNICAL_FEATURES + MACRO_FEATURES
+    ),
+}
+
+FEATURES = TECHNICAL_FEATURES
 
 
 def split_train_test_by_year(
@@ -165,43 +188,29 @@ def summarize_results(results_df: pd.DataFrame, label: str) -> dict:
     }
 
 
-def main():
-    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-
-    print("Loading feature data...")
-    df = pd.read_csv(FEATURE_FILE)
-
-    required_cols = FEATURES + ["date", "ticker", "target_5d_return"]
-    missing_cols = [col for col in required_cols if col not in df.columns]
-
-    if missing_cols:
-        raise ValueError(f"Missing required columns: {missing_cols}")
-
-    df["date"] = pd.to_datetime(df["date"], errors="coerce", utc=True).dt.tz_localize(None)
-    df["target_5d_return"] = pd.to_numeric(df["target_5d_return"], errors="coerce")
-
-    for feature in FEATURES:
-        df[feature] = pd.to_numeric(df[feature], errors="coerce")
-
-    df = df.dropna(subset=required_cols).copy()
-    df = df.sort_values(["date", "ticker"]).reset_index(drop=True)
-
-    print(f"Rows: {len(df)}")
-    print(f"Tickers: {df['ticker'].nunique()}")
-    print(f"Start date: {df['date'].min().date()}")
-    print(f"End date: {df['date'].max().date()}")
-
+def run_walkforward_configuration(
+    df: pd.DataFrame,
+    configuration_name: str,
+    feature_columns: list[str],
+) -> pd.DataFrame:
     years = sorted(df["date"].dt.year.unique())
 
-    # Start testing only after at least 3 years of training data
-    test_years = [year for year in years if year >= years[0] + 3]
+    test_years = [
+        year
+        for year in years
+        if year >= years[0] + 3
+    ]
 
-    all_results = []
+    all_results: list[dict] = []
 
     for test_year in test_years:
-        print(f"\n==============================")
-        print(f"Walk-forward test year: {test_year}")
-        print(f"==============================")
+        print()
+        print("==============================")
+        print(
+            f"Configuration: {configuration_name} | "
+            f"Test year: {test_year}"
+        )
+        print("==============================")
 
         train_df, test_df = split_train_test_by_year(
             df=df,
@@ -210,13 +219,22 @@ def main():
         )
 
         if train_df.empty or test_df.empty:
-            print(f"Skipping {test_year}: empty train or test set.")
+            print(
+                f"Skipping {test_year}: "
+                "empty train or test set."
+            )
             continue
 
         print(f"Training rows: {len(train_df)}")
         print(f"Test rows: {len(test_df)}")
-        print(f"Training dates: {train_df['date'].nunique()}")
-        print(f"Test dates: {test_df['date'].nunique()}")
+        print(
+            f"Training dates: "
+            f"{train_df['date'].nunique()}"
+        )
+        print(
+            f"Test dates: "
+            f"{test_df['date'].nunique()}"
+        )
 
         model = RandomForestRegressor(
             n_estimators=N_ESTIMATORS,
@@ -227,41 +245,81 @@ def main():
         )
 
         print("Training model...")
-        model.fit(train_df[FEATURES], train_df["target_5d_return"])
+        model.fit(
+            train_df[feature_columns],
+            train_df["target_5d_return"],
+        )
 
         test_dates = sorted(test_df["date"].unique())
-        rebalance_dates = test_dates[::REBALANCE_EVERY_N_DAYS]
+        rebalance_dates = test_dates[
+            ::REBALANCE_EVERY_N_DAYS
+        ]
 
-        previous_weights = {}
+        previous_weights: dict[str, float] = {}
 
         for rebalance_date in rebalance_dates:
-            day = test_df[test_df["date"] == rebalance_date].copy()
+            day = test_df[
+                test_df["date"] == rebalance_date
+            ].copy()
 
             if len(day) < TOP_N:
                 continue
 
-            day["score"] = model.predict(day[FEATURES])
+            day["score"] = model.predict(
+                day[feature_columns]
+            )
 
             top10 = day.nlargest(TOP_N, "score")
             bottom10 = day.nsmallest(TOP_N, "score")
 
             top10_tickers = top10["ticker"].tolist()
-            new_weights = equal_weight_portfolio(top10_tickers)
+            new_weights = equal_weight_portfolio(
+                top10_tickers
+            )
 
-            turnover = calculate_turnover(previous_weights, new_weights)
-            transaction_cost = turnover * TRANSACTION_COST_PER_DOLLAR
+            turnover = calculate_turnover(
+                previous_weights,
+                new_weights,
+            )
+            transaction_cost = (
+                turnover
+                * TRANSACTION_COST_PER_DOLLAR
+            )
 
-            gross_top10_return = top10["target_5d_return"].mean()
-            net_top10_return = gross_top10_return - transaction_cost
+            gross_top10_return = (
+                top10["target_5d_return"].mean()
+            )
+            net_top10_return = (
+                gross_top10_return
+                - transaction_cost
+            )
 
-            universe_return = day["target_5d_return"].mean()
-            bottom10_return = bottom10["target_5d_return"].mean()
+            universe_return = (
+                day["target_5d_return"].mean()
+            )
+            bottom10_return = (
+                bottom10["target_5d_return"].mean()
+            )
 
-            long_short_return = gross_top10_return - bottom10_return
-            net_excess_return = net_top10_return - universe_return
+            long_short_return = (
+                gross_top10_return
+                - bottom10_return
+            )
+            net_excess_return = (
+                net_top10_return
+                - universe_return
+            )
 
-            if day["score"].nunique() > 1 and day["target_5d_return"].nunique() > 1:
-                ic = spearmanr(day["score"], day["target_5d_return"]).correlation
+            if (
+                day["score"].nunique() > 1
+                and day[
+                    "target_5d_return"
+                ].nunique() > 1
+            ):
+                ic = spearmanr(
+                    day["score"],
+                    day["target_5d_return"],
+                ).correlation
             else:
                 ic = np.nan
 
@@ -269,45 +327,193 @@ def main():
                 {
                     "test_year": test_year,
                     "rebalance_date": rebalance_date,
-                    "gross_top10_5d_return": gross_top10_return,
-                    "net_top10_5d_return": net_top10_return,
-                    "universe_5d_return": universe_return,
-                    "net_excess_vs_universe": net_excess_return,
-                    "bottom10_5d_return": bottom10_return,
-                    "long_short_5d_return": long_short_return,
+                    "gross_top10_5d_return": (
+                        gross_top10_return
+                    ),
+                    "net_top10_5d_return": (
+                        net_top10_return
+                    ),
+                    "universe_5d_return": (
+                        universe_return
+                    ),
+                    "net_excess_vs_universe": (
+                        net_excess_return
+                    ),
+                    "bottom10_5d_return": (
+                        bottom10_return
+                    ),
+                    "long_short_5d_return": (
+                        long_short_return
+                    ),
                     "spearman_ic": ic,
                     "turnover": turnover,
-                    "transaction_cost": transaction_cost,
-                    "top10_holdings": ",".join(top10_tickers),
+                    "transaction_cost": (
+                        transaction_cost
+                    ),
+                    "top10_holdings": ",".join(
+                        top10_tickers
+                    ),
                 }
             )
 
             previous_weights = new_weights
 
     if not all_results:
-        raise ValueError("No valid walk-forward results were produced.")
+        raise ValueError(
+            "No valid walk-forward results were produced "
+            f"for {configuration_name}."
+        )
 
-    results_df = pd.DataFrame(all_results)
+    return pd.DataFrame(all_results)
 
-    results_file = RESULTS_DIR / "walkforward_rank_backtest_results.csv"
+
+def main():
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    print("Loading feature data...")
+    df = pd.read_csv(FEATURE_FILE)
+
+    all_model_features = list(
+        dict.fromkeys(
+            feature
+            for feature_columns in MODEL_CONFIGURATIONS.values()
+            for feature in feature_columns
+        )
+    )
+
+    required_cols = all_model_features + [
+        "date",
+        "ticker",
+        "target_5d_return",
+    ]
+    missing_cols = [
+        col
+        for col in required_cols
+        if col not in df.columns
+    ]
+
+    if missing_cols:
+        raise ValueError(f"Missing required columns: {missing_cols}")
+
+    df["date"] = pd.to_datetime(df["date"], errors="coerce", utc=True).dt.tz_localize(None)
+    df["target_5d_return"] = pd.to_numeric(df["target_5d_return"], errors="coerce")
+
+    for feature in all_model_features:
+        df[feature] = pd.to_numeric(
+            df[feature],
+            errors="coerce",
+        )
+
+    df = df.dropna(subset=required_cols).copy()
+    df = df.sort_values(["date", "ticker"]).reset_index(drop=True)
+
+    print(f"Rows: {len(df)}")
+    print(f"Tickers: {df['ticker'].nunique()}")
+    print(f"Start date: {df['date'].min().date()}")
+    print(f"End date: {df['date'].max().date()}")
+
+    configuration_results = []
+    configuration_summaries = []
+
+    for configuration_name, feature_columns in (
+        MODEL_CONFIGURATIONS.items()
+    ):
+        results = run_walkforward_configuration(
+            df=df,
+            configuration_name=configuration_name,
+            feature_columns=feature_columns,
+        )
+        results.insert(
+            0,
+            "configuration",
+            configuration_name,
+        )
+        configuration_results.append(results)
+
+        overall = summarize_results(
+            results,
+            "overall",
+        )
+        overall["configuration"] = configuration_name
+        configuration_summaries.append(overall)
+
+        for year, group in results.groupby("test_year"):
+            yearly = summarize_results(
+                group,
+                str(year),
+            )
+            yearly["configuration"] = configuration_name
+            configuration_summaries.append(yearly)
+
+    comparison_results_df = pd.concat(
+        configuration_results,
+        ignore_index=True,
+    )
+    comparison_summary_df = pd.DataFrame(
+        configuration_summaries
+    )
+
+    comparison_results_file = (
+        RESULTS_DIR
+        / "walkforward_model_comparison_results.csv"
+    )
+    comparison_summary_file = (
+        RESULTS_DIR
+        / "walkforward_model_comparison_summary.csv"
+    )
+
+    comparison_results_df.to_csv(
+        comparison_results_file,
+        index=False,
+    )
+    comparison_summary_df.to_csv(
+        comparison_summary_file,
+        index=False,
+    )
+
+    results_df = comparison_results_df[
+        comparison_results_df["configuration"]
+        == "technical_only"
+    ].drop(columns=["configuration"])
+
+    summary_df = comparison_summary_df[
+        comparison_summary_df["configuration"]
+        == "technical_only"
+    ].drop(columns=["configuration"])
+
+    results_file = (
+        RESULTS_DIR
+        / "walkforward_rank_backtest_results.csv"
+    )
+    summary_file = (
+        RESULTS_DIR
+        / "walkforward_rank_backtest_summary.csv"
+    )
+
     results_df.to_csv(results_file, index=False)
-
-    overall_summary = summarize_results(results_df, "overall")
-
-    yearly_summaries = []
-    for year, group in results_df.groupby("test_year"):
-        yearly_summaries.append(summarize_results(group, str(year)))
-
-    summary_df = pd.DataFrame([overall_summary] + yearly_summaries)
-
-    summary_file = RESULTS_DIR / "walkforward_rank_backtest_summary.csv"
     summary_df.to_csv(summary_file, index=False)
+
+    overall_summary = (
+        summary_df[
+            summary_df["period"] == "overall"
+        ]
+        .iloc[0]
+        .to_dict()
+    )
 
     print("\n==============================")
     print("SALARIUM 2.2 WALK-FORWARD RESULTS")
     print("==============================")
     print(f"Results saved to: {results_file}")
     print(f"Summary saved to: {summary_file}")
+    print(
+        "Comparison results saved to: "
+        f"{comparison_results_file}"
+    )
+    print(
+        "Comparison summary saved to: "
+        f"{comparison_summary_file}"
+    )
 
     print("\nOverall Results")
     print(f"Number of Rebalances:        {overall_summary['num_rebalances']}")
