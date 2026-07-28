@@ -496,16 +496,38 @@ def main():
     print(f"Start date: {df['date'].min().date()}")
     print(f"End date: {df['date'].max().date()}")
 
+    experiment_configurations = [
+        {
+            "configuration_name": "technical_only",
+            "feature_columns": TECHNICAL_FEATURES,
+            "portfolio_mode": "baseline_equal_weight",
+        },
+        {
+            "configuration_name": "technical_only",
+            "feature_columns": TECHNICAL_FEATURES,
+            "portfolio_mode": "turnover_buffer",
+        },
+    ]
+
     configuration_results = []
     configuration_summaries = []
 
-    for configuration_name, feature_columns in (
-        MODEL_CONFIGURATIONS.items()
-    ):
+    for experiment in experiment_configurations:
+        configuration_name = experiment[
+            "configuration_name"
+        ]
+        feature_columns = experiment[
+            "feature_columns"
+        ]
+        portfolio_mode = experiment[
+            "portfolio_mode"
+        ]
+
         results = run_walkforward_configuration(
             df=df,
             configuration_name=configuration_name,
             feature_columns=feature_columns,
+            portfolio_mode=portfolio_mode,
         )
         results.insert(
             0,
@@ -519,6 +541,7 @@ def main():
             "overall",
         )
         overall["configuration"] = configuration_name
+        overall["portfolio_mode"] = portfolio_mode
         configuration_summaries.append(overall)
 
         for year, group in results.groupby("test_year"):
@@ -527,6 +550,7 @@ def main():
                 str(year),
             )
             yearly["configuration"] = configuration_name
+            yearly["portfolio_mode"] = portfolio_mode
             configuration_summaries.append(yearly)
 
     comparison_results_df = pd.concat(
@@ -539,11 +563,11 @@ def main():
 
     comparison_results_file = (
         RESULTS_DIR
-        / "walkforward_model_comparison_results.csv"
+        / "walkforward_portfolio_comparison_results.csv"
     )
     comparison_summary_file = (
         RESULTS_DIR
-        / "walkforward_model_comparison_summary.csv"
+        / "walkforward_portfolio_comparison_summary.csv"
     )
 
     comparison_results_df.to_csv(
@@ -556,14 +580,36 @@ def main():
     )
 
     results_df = comparison_results_df[
-        comparison_results_df["configuration"]
-        == "technical_only"
-    ].drop(columns=["configuration"])
+        (
+            comparison_results_df["configuration"]
+            == "technical_only"
+        )
+        & (
+            comparison_results_df["portfolio_mode"]
+            == "baseline_equal_weight"
+        )
+    ].drop(
+        columns=[
+            "configuration",
+            "portfolio_mode",
+        ]
+    )
 
     summary_df = comparison_summary_df[
-        comparison_summary_df["configuration"]
-        == "technical_only"
-    ].drop(columns=["configuration"])
+        (
+            comparison_summary_df["configuration"]
+            == "technical_only"
+        )
+        & (
+            comparison_summary_df["portfolio_mode"]
+            == "baseline_equal_weight"
+        )
+    ].drop(
+        columns=[
+            "configuration",
+            "portfolio_mode",
+        ]
+    )
 
     results_file = (
         RESULTS_DIR

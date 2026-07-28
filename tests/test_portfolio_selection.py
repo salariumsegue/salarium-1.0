@@ -129,3 +129,20 @@ def test_walkforward_supports_turnover_buffer_mode() -> None:
     assert '"baseline_equal_weight"' in source
     assert '"turnover_buffer"' in source
     assert "select_buffered_holdings(" in source
+
+
+def test_portfolio_comparison_outputs_are_defined() -> None:
+    from pathlib import Path
+
+    source = Path(
+        "src/backtesting/walkforward_rank_backtest.py"
+    ).read_text(encoding="utf-8")
+
+    assert (
+        "walkforward_portfolio_comparison_results.csv"
+        in source
+    )
+    assert (
+        "walkforward_portfolio_comparison_summary.csv"
+        in source
+    )
