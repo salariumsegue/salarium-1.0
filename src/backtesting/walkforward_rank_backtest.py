@@ -236,7 +236,20 @@ def run_walkforward_configuration(
     df: pd.DataFrame,
     configuration_name: str,
     feature_columns: list[str],
+    portfolio_mode: str = "baseline_equal_weight",
 ) -> pd.DataFrame:
+    valid_portfolio_modes = {
+        "baseline_equal_weight",
+        "turnover_buffer",
+    }
+
+    if portfolio_mode not in valid_portfolio_modes:
+        raise ValueError(
+            "Unsupported portfolio_mode: "
+            f"{portfolio_mode}. Expected one of "
+            f"{sorted(valid_portfolio_modes)}."
+        )
+
     years = sorted(df["date"].dt.year.unique())
 
     test_years = [
@@ -252,6 +265,7 @@ def run_walkforward_configuration(
         print("==============================")
         print(
             f"Configuration: {configuration_name} | "
+            f"Portfolio: {portfolio_mode} | "
             f"Test year: {test_year}"
         )
         print("==============================")
@@ -313,10 +327,35 @@ def run_walkforward_configuration(
                 day[feature_columns]
             )
 
-            top10 = day.nlargest(TOP_N, "score")
+            ranked_day = day.sort_values(
+                ["score", "ticker"],
+                ascending=[False, True],
+            ).reset_index(drop=True)
+
+            if portfolio_mode == "turnover_buffer":
+                top10_tickers = select_buffered_holdings(
+                    ranked_day=ranked_day,
+                    previous_holdings=list(
+                        previous_weights.keys()
+                    ),
+                    top_n=TOP_N,
+                    buffer_rank=HOLDING_BUFFER_RANK,
+                )
+            else:
+                top10_tickers = (
+                    ranked_day["ticker"]
+                    .head(TOP_N)
+                    .tolist()
+                )
+
+            selected_returns = (
+                day.set_index("ticker")
+                .loc[top10_tickers]
+                ["target_5d_return"]
+            )
+
             bottom10 = day.nsmallest(TOP_N, "score")
 
-            top10_tickers = top10["ticker"].tolist()
             new_weights = equal_weight_portfolio(
                 top10_tickers
             )
@@ -331,7 +370,7 @@ def run_walkforward_configuration(
             )
 
             gross_top10_return = (
-                top10["target_5d_return"].mean()
+                selected_returns.mean()
             )
             net_top10_return = (
                 gross_top10_return
@@ -371,6 +410,7 @@ def run_walkforward_configuration(
                 {
                     "test_year": test_year,
                     "rebalance_date": rebalance_date,
+                    "portfolio_mode": portfolio_mode,
                     "gross_top10_5d_return": (
                         gross_top10_return
                     ),

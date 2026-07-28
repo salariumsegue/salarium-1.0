@@ -53,7 +53,13 @@ def test_walkforward_runner_accepts_feature_columns() -> None:
         "df",
         "configuration_name",
         "feature_columns",
+        "portfolio_mode",
     ]
+
+    assert (
+        parameters["portfolio_mode"].default
+        == "baseline_equal_weight"
+    )
 
 
 def test_comparison_output_names_are_defined() -> None:
