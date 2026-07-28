@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 
 from src.agents.base_agent import AgentResult, BaseAgent
+from src.core.output_context import resolve_report_path
 
 
 class StrategyWalkforwardAgent(BaseAgent):
@@ -1112,7 +1113,7 @@ class StrategyWalkforwardAgent(BaseAgent):
 
         json_path = reports_dir / "strategy_walkforward_report.json"
         md_path = reports_dir / "strategy_walkforward_report.md"
-        latest_path = Path("reports/strategy_walkforward_latest.md")
+        latest_path = resolve_report_path("strategy_walkforward_latest.md")
 
         artifacts: Dict[str, str] = {
             "json_report": str(json_path),

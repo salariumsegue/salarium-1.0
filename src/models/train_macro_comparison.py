@@ -1,14 +1,23 @@
 from pathlib import Path
+import sys
 
 import numpy as np
 import pandas as pd
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, roc_auc_score
 
 
-DATA_FILE = Path("data/processed/salarium_training_with_macro.csv")
-RESULTS_FILE = Path("results/macro_model_comparison.csv")
+from src.core.dataset_context import resolve_training_data_path
+from src.core.output_context import resolve_result_path
+
+DATA_FILE = resolve_training_data_path()
+RESULTS_FILE = resolve_result_path("macro_model_comparison.csv")
 
 
 BASELINE_FEATURES = [
@@ -159,9 +168,42 @@ def main():
         "baseline_technical_only",
     )
 
+    missing_baseline_features = [
+        feature
+        for feature in BASELINE_FEATURES
+        if feature not in df.columns
+    ]
+    if missing_baseline_features:
+        raise ValueError(
+            "Missing required baseline features: "
+            f"{missing_baseline_features}"
+        )
+
+    available_macro_features = [
+        feature
+        for feature in MACRO_FEATURES
+        if feature in df.columns
+    ]
+    if not available_macro_features:
+        raise ValueError(
+            "No configured macro features were found in the "
+            "training dataset."
+        )
+
+    missing_macro_features = [
+        feature
+        for feature in MACRO_FEATURES
+        if feature not in df.columns
+    ]
+    if missing_macro_features:
+        print(
+            "Skipping unavailable macro features: "
+            f"{missing_macro_features}"
+        )
+
     macro_result, macro_importance = train_and_score(
         df,
-        BASELINE_FEATURES + MACRO_FEATURES,
+        BASELINE_FEATURES + available_macro_features,
         "technical_plus_macro_llm",
     )
 
@@ -170,7 +212,7 @@ def main():
     RESULTS_FILE.parent.mkdir(parents=True, exist_ok=True)
     results.to_csv(RESULTS_FILE, index=False)
 
-    importance_file = Path("results/macro_feature_importance.csv")
+    importance_file = resolve_result_path("macro_feature_importance.csv")
     pd.concat([baseline_importance, macro_importance]).to_csv(
         importance_file,
         index=False,

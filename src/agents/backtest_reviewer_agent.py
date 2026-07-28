@@ -7,6 +7,7 @@ from typing import Any, Dict, List
 import pandas as pd
 
 from src.agents.base_agent import AgentResult, BaseAgent
+from src.core.output_context import resolve_report_path
 
 
 class BacktestReviewerAgent(BaseAgent):
@@ -447,7 +448,7 @@ class BacktestReviewerAgent(BaseAgent):
 
         json_path = reports_dir / "backtest_reviewer_report.json"
         md_path = reports_dir / "backtest_reviewer_report.md"
-        latest_path = Path("reports/backtest_reviewer_latest.md")
+        latest_path = resolve_report_path("backtest_reviewer_latest.md")
 
         json_path.write_text(json.dumps(payload, indent=2, default=str))
         md_path.write_text(self._to_markdown(payload))
