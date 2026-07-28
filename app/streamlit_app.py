@@ -386,10 +386,25 @@ elif page == "Discovery":
         successful = discovery.loc[discovery["status"] == "success"].copy()
         if not successful.empty and "rows" in successful.columns:
             buckets = pd.cut(successful["rows"], bins=[0, 30, 60, 126, 252, 504, 756, 1260, 2000, 3000], include_lowest=True)
-            histogram = buckets.value_counts().sort_index().rename_axis("history_bucket").reset_index(name="count")
+            histogram = (
+                buckets.value_counts()
+                .sort_index()
+                .rename_axis("history_bucket")
+                .reset_index(name="count")
+            )
+            histogram["history_bucket"] = (
+                histogram["history_bucket"].astype(str)
+            )
+
             st.markdown("#### History coverage")
-            st.bar_chart(histogram.set_index("history_bucket"))
-            st.dataframe(histogram, width="stretch", hide_index=True)
+            st.bar_chart(
+                histogram.set_index("history_bucket")
+            )
+            st.dataframe(
+                histogram,
+                width="stretch",
+                hide_index=True,
+            )
 
 elif page == "Research":
     st.subheader("Research Results")
