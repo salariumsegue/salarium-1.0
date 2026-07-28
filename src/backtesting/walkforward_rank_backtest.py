@@ -19,6 +19,7 @@ FEATURE_FILE = resolve_training_data_path()
 RESULTS_DIR = resolve_results_dir()
 
 TOP_N = 10
+HOLDING_BUFFER_RANK = 15
 REBALANCE_EVERY_N_DAYS = 5
 TARGET_HORIZON_DAYS = 5
 
@@ -117,6 +118,49 @@ def equal_weight_portfolio(tickers: list) -> dict:
 
     weight = 1.0 / len(tickers)
     return {ticker: weight for ticker in tickers}
+
+
+def select_buffered_holdings(
+    ranked_day: pd.DataFrame,
+    previous_holdings: list[str],
+    top_n: int = TOP_N,
+    buffer_rank: int = HOLDING_BUFFER_RANK,
+) -> list[str]:
+    if top_n <= 0:
+        raise ValueError("top_n must be positive")
+
+    if buffer_rank < top_n:
+        raise ValueError(
+            "buffer_rank must be greater than or equal to top_n"
+        )
+
+    if ranked_day.empty:
+        return []
+
+    ranked_tickers = ranked_day["ticker"].tolist()
+    eligible_buffer = set(ranked_tickers[:buffer_rank])
+
+    retained = [
+        ticker
+        for ticker in previous_holdings
+        if ticker in eligible_buffer
+    ]
+
+    selected = retained[:top_n]
+
+    if len(selected) == top_n:
+        return selected
+
+    for ticker in ranked_tickers:
+        if ticker in selected:
+            continue
+
+        selected.append(ticker)
+
+        if len(selected) == top_n:
+            break
+
+    return selected
 
 
 def sharpe_ratio(returns: pd.Series, periods_per_year: float) -> float:
