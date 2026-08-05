@@ -15,10 +15,20 @@ from src.core.output_context import resolve_results_dir
 from scipy.stats import spearmanr
 from sklearn.ensemble import RandomForestRegressor
 
+from src.research.feature_policy import (
+    CORE_TECHNICAL_FEATURES,
+)
+from src.backtesting.risk_controls import (
+    capped_inverse_volatility_weights,
+    resolve_risk_exposure,
+    weight_diagnostics,
+)
+
 FEATURE_FILE = resolve_training_data_path()
 RESULTS_DIR = resolve_results_dir()
 
 TOP_N = 10
+HOLDING_BUFFER_RANK = 15
 REBALANCE_EVERY_N_DAYS = 5
 TARGET_HORIZON_DAYS = 5
 
@@ -28,20 +38,9 @@ TRANSACTION_COST_PER_DOLLAR = 0.001
 # Keep this lower for Mac speed. Raise later if needed.
 N_ESTIMATORS = 100
 
-TECHNICAL_FEATURES = [
-    "return_1d",
-    "return_5d",
-    "volume_change_1d",
-    "high_low_spread",
-    "open_close_spread",
-    "momentum_5d",
-    "momentum_20d",
-    "volatility_20d",
-    "price_vs_ma20",
-    "price_vs_ma50",
-    "rsi_14d",
-    "relative_strength",
-]
+TECHNICAL_FEATURES = list(
+    CORE_TECHNICAL_FEATURES
+)
 
 MACRO_FEATURES = [
     "macro_signal_score",
@@ -119,6 +118,49 @@ def equal_weight_portfolio(tickers: list) -> dict:
     return {ticker: weight for ticker in tickers}
 
 
+def select_buffered_holdings(
+    ranked_day: pd.DataFrame,
+    previous_holdings: list[str],
+    top_n: int = TOP_N,
+    buffer_rank: int = HOLDING_BUFFER_RANK,
+) -> list[str]:
+    if top_n <= 0:
+        raise ValueError("top_n must be positive")
+
+    if buffer_rank < top_n:
+        raise ValueError(
+            "buffer_rank must be greater than or equal to top_n"
+        )
+
+    if ranked_day.empty:
+        return []
+
+    ranked_tickers = ranked_day["ticker"].tolist()
+    eligible_buffer = set(ranked_tickers[:buffer_rank])
+
+    retained = [
+        ticker
+        for ticker in previous_holdings
+        if ticker in eligible_buffer
+    ]
+
+    selected = retained[:top_n]
+
+    if len(selected) == top_n:
+        return selected
+
+    for ticker in ranked_tickers:
+        if ticker in selected:
+            continue
+
+        selected.append(ticker)
+
+        if len(selected) == top_n:
+            break
+
+    return selected
+
+
 def sharpe_ratio(returns: pd.Series, periods_per_year: float) -> float:
     returns = returns.dropna()
 
@@ -192,7 +234,22 @@ def run_walkforward_configuration(
     df: pd.DataFrame,
     configuration_name: str,
     feature_columns: list[str],
+    portfolio_mode: str = "baseline_equal_weight",
 ) -> pd.DataFrame:
+    valid_portfolio_modes = {
+        "baseline_equal_weight",
+        "turnover_buffer",
+        "turnover_buffer_inverse_volatility",
+        "turnover_buffer_inverse_volatility_risk_scaled",
+    }
+
+    if portfolio_mode not in valid_portfolio_modes:
+        raise ValueError(
+            "Unsupported portfolio_mode: "
+            f"{portfolio_mode}. Expected one of "
+            f"{sorted(valid_portfolio_modes)}."
+        )
+
     years = sorted(df["date"].dt.year.unique())
 
     test_years = [
@@ -208,6 +265,7 @@ def run_walkforward_configuration(
         print("==============================")
         print(
             f"Configuration: {configuration_name} | "
+            f"Portfolio: {portfolio_mode} | "
             f"Test year: {test_year}"
         )
         print("==============================")
@@ -236,18 +294,51 @@ def run_walkforward_configuration(
             f"{test_df['date'].nunique()}"
         )
 
+        feature_lower_bounds = train_df[
+            feature_columns
+        ].quantile(0.005)
+
+        feature_upper_bounds = train_df[
+            feature_columns
+        ].quantile(0.995)
+
+        train_features = train_df[
+            feature_columns
+        ].clip(
+            lower=feature_lower_bounds,
+            upper=feature_upper_bounds,
+            axis="columns",
+        )
+
+        target_lower_bound = train_df[
+            "target_5d_return"
+        ].quantile(0.01)
+
+        target_upper_bound = train_df[
+            "target_5d_return"
+        ].quantile(0.99)
+
+        training_target = train_df[
+            "target_5d_return"
+        ].clip(
+            lower=target_lower_bound,
+            upper=target_upper_bound,
+        )
+
         model = RandomForestRegressor(
             n_estimators=N_ESTIMATORS,
             random_state=42,
             n_jobs=-1,
-            max_depth=8,
-            min_samples_leaf=10,
+            max_depth=6,
+            min_samples_leaf=100,
+            max_features=0.70,
+            bootstrap=True,
         )
 
-        print("Training model...")
+        print("Training hardened model...")
         model.fit(
-            train_df[feature_columns],
-            train_df["target_5d_return"],
+            train_features,
+            training_target,
         )
 
         test_dates = sorted(test_df["date"].unique())
@@ -265,17 +356,151 @@ def run_walkforward_configuration(
             if len(day) < TOP_N:
                 continue
 
+            day_features = day[
+                feature_columns
+            ].clip(
+                lower=feature_lower_bounds,
+                upper=feature_upper_bounds,
+                axis="columns",
+            )
+
             day["score"] = model.predict(
-                day[feature_columns]
+                day_features
             )
 
-            top10 = day.nlargest(TOP_N, "score")
-            bottom10 = day.nsmallest(TOP_N, "score")
+            ranked_day = day.sort_values(
+                ["score", "ticker"],
+                ascending=[False, True],
+            ).reset_index(drop=True)
 
-            top10_tickers = top10["ticker"].tolist()
-            new_weights = equal_weight_portfolio(
-                top10_tickers
+            uses_turnover_buffer = (
+                portfolio_mode
+                != "baseline_equal_weight"
             )
+
+            uses_inverse_volatility = (
+                "inverse_volatility"
+                in portfolio_mode
+            )
+
+            uses_risk_scaling = (
+                portfolio_mode.endswith(
+                    "_risk_scaled"
+                )
+            )
+
+            if uses_turnover_buffer:
+                top10_tickers = select_buffered_holdings(
+                    ranked_day=ranked_day,
+                    previous_holdings=[
+                        ticker
+                        for ticker, weight
+                        in previous_weights.items()
+                        if weight > 1e-12
+                    ],
+                    top_n=TOP_N,
+                    buffer_rank=HOLDING_BUFFER_RANK,
+                )
+            else:
+                top10_tickers = (
+                    ranked_day["ticker"]
+                    .head(TOP_N)
+                    .tolist()
+                )
+
+            indexed_day = day.set_index("ticker")
+
+            selected_returns = indexed_day.loc[
+                top10_tickers,
+                "target_5d_return",
+            ]
+
+            bottom10 = day.nsmallest(
+                TOP_N,
+                "score",
+            )
+
+            if uses_risk_scaling:
+                risk_state_mode = (
+                    day["risk_state"]
+                    .astype(str)
+                    .mode()
+                )
+
+                risk_state = (
+                    risk_state_mode.iloc[0]
+                    if not risk_state_mode.empty
+                    else "neutral"
+                )
+
+                confidence_mode = (
+                    day["regime_is_confident"]
+                    .mode()
+                )
+
+                confidence_value = (
+                    confidence_mode.iloc[0]
+                    if not confidence_mode.empty
+                    else False
+                )
+
+                regime_is_confident = (
+                    confidence_value
+                    if isinstance(
+                        confidence_value,
+                        bool,
+                    )
+                    else str(
+                        confidence_value
+                    ).strip().lower()
+                    in {
+                        "true",
+                        "1",
+                        "yes",
+                        "y",
+                    }
+                )
+
+                portfolio_exposure = (
+                    resolve_risk_exposure(
+                        risk_state,
+                        regime_is_confident=(
+                            regime_is_confident
+                        ),
+                    )
+                )
+            else:
+                risk_state = "not_applied"
+                regime_is_confident = False
+                portfolio_exposure = 1.0
+
+            if uses_inverse_volatility:
+                new_weights = (
+                    capped_inverse_volatility_weights(
+                        indexed_day.loc[
+                            top10_tickers,
+                            "volatility_20d",
+                        ],
+                        exposure=portfolio_exposure,
+                        maximum_weight=0.18,
+                        minimum_volatility=0.005,
+                    )
+                )
+            else:
+                base_weights = (
+                    equal_weight_portfolio(
+                        top10_tickers
+                    )
+                )
+
+                new_weights = {
+                    ticker: (
+                        weight
+                        * portfolio_exposure
+                    )
+                    for ticker, weight
+                    in base_weights.items()
+                }
 
             turnover = calculate_turnover(
                 previous_weights,
@@ -286,28 +511,58 @@ def run_walkforward_configuration(
                 * TRANSACTION_COST_PER_DOLLAR
             )
 
-            gross_top10_return = (
-                top10["target_5d_return"].mean()
+            gross_top10_return = float(
+                sum(
+                    new_weights[ticker]
+                    * float(
+                        selected_returns.loc[
+                            ticker
+                        ]
+                    )
+                    for ticker
+                    in new_weights
+                )
             )
+
             net_top10_return = (
                 gross_top10_return
                 - transaction_cost
             )
 
-            universe_return = (
-                day["target_5d_return"].mean()
+            raw_universe_return = float(
+                day[
+                    "target_5d_return"
+                ].mean()
             )
+
+            universe_return = (
+                portfolio_exposure
+                * raw_universe_return
+            )
+
+            raw_bottom10_return = float(
+                bottom10[
+                    "target_5d_return"
+                ].mean()
+            )
+
             bottom10_return = (
-                bottom10["target_5d_return"].mean()
+                portfolio_exposure
+                * raw_bottom10_return
             )
 
             long_short_return = (
                 gross_top10_return
                 - bottom10_return
             )
+
             net_excess_return = (
                 net_top10_return
                 - universe_return
+            )
+
+            diagnostics = weight_diagnostics(
+                new_weights
             )
 
             if (
@@ -327,6 +582,7 @@ def run_walkforward_configuration(
                 {
                     "test_year": test_year,
                     "rebalance_date": rebalance_date,
+                    "portfolio_mode": portfolio_mode,
                     "gross_top10_5d_return": (
                         gross_top10_return
                     ),
@@ -350,6 +606,19 @@ def run_walkforward_configuration(
                     "transaction_cost": (
                         transaction_cost
                     ),
+                    "risk_state": risk_state,
+                    "regime_is_confident": (
+                        regime_is_confident
+                    ),
+                    "portfolio_exposure": (
+                        portfolio_exposure
+                    ),
+                    "maximum_weight": diagnostics[
+                        "maximum_weight"
+                    ],
+                    "herfindahl_index": diagnostics[
+                        "herfindahl_index"
+                    ],
                     "top10_holdings": ",".join(
                         top10_tickers
                     ),
@@ -385,6 +654,8 @@ def main():
         "date",
         "ticker",
         "target_5d_return",
+        "risk_state",
+        "regime_is_confident",
     ]
     missing_cols = [
         col
@@ -412,16 +683,53 @@ def main():
     print(f"Start date: {df['date'].min().date()}")
     print(f"End date: {df['date'].max().date()}")
 
+    experiment_configurations = [
+        {
+            "configuration_name": "technical_only",
+            "feature_columns": TECHNICAL_FEATURES,
+            "portfolio_mode": "baseline_equal_weight",
+        },
+        {
+            "configuration_name": "technical_only",
+            "feature_columns": TECHNICAL_FEATURES,
+            "portfolio_mode": "turnover_buffer",
+        },
+        {
+            "configuration_name": "technical_only",
+            "feature_columns": TECHNICAL_FEATURES,
+            "portfolio_mode": (
+                "turnover_buffer_inverse_volatility"
+            ),
+        },
+        {
+            "configuration_name": "technical_only",
+            "feature_columns": TECHNICAL_FEATURES,
+            "portfolio_mode": (
+                "turnover_buffer_inverse_volatility_"
+                "risk_scaled"
+            ),
+        },
+    ]
+
     configuration_results = []
     configuration_summaries = []
 
-    for configuration_name, feature_columns in (
-        MODEL_CONFIGURATIONS.items()
-    ):
+    for experiment in experiment_configurations:
+        configuration_name = experiment[
+            "configuration_name"
+        ]
+        feature_columns = experiment[
+            "feature_columns"
+        ]
+        portfolio_mode = experiment[
+            "portfolio_mode"
+        ]
+
         results = run_walkforward_configuration(
             df=df,
             configuration_name=configuration_name,
             feature_columns=feature_columns,
+            portfolio_mode=portfolio_mode,
         )
         results.insert(
             0,
@@ -435,6 +743,7 @@ def main():
             "overall",
         )
         overall["configuration"] = configuration_name
+        overall["portfolio_mode"] = portfolio_mode
         configuration_summaries.append(overall)
 
         for year, group in results.groupby("test_year"):
@@ -443,6 +752,7 @@ def main():
                 str(year),
             )
             yearly["configuration"] = configuration_name
+            yearly["portfolio_mode"] = portfolio_mode
             configuration_summaries.append(yearly)
 
     comparison_results_df = pd.concat(
@@ -455,11 +765,11 @@ def main():
 
     comparison_results_file = (
         RESULTS_DIR
-        / "walkforward_model_comparison_results.csv"
+        / "walkforward_portfolio_comparison_results.csv"
     )
     comparison_summary_file = (
         RESULTS_DIR
-        / "walkforward_model_comparison_summary.csv"
+        / "walkforward_portfolio_comparison_summary.csv"
     )
 
     comparison_results_df.to_csv(
@@ -472,14 +782,36 @@ def main():
     )
 
     results_df = comparison_results_df[
-        comparison_results_df["configuration"]
-        == "technical_only"
-    ].drop(columns=["configuration"])
+        (
+            comparison_results_df["configuration"]
+            == "technical_only"
+        )
+        & (
+            comparison_results_df["portfolio_mode"]
+            == "baseline_equal_weight"
+        )
+    ].drop(
+        columns=[
+            "configuration",
+            "portfolio_mode",
+        ]
+    )
 
     summary_df = comparison_summary_df[
-        comparison_summary_df["configuration"]
-        == "technical_only"
-    ].drop(columns=["configuration"])
+        (
+            comparison_summary_df["configuration"]
+            == "technical_only"
+        )
+        & (
+            comparison_summary_df["portfolio_mode"]
+            == "baseline_equal_weight"
+        )
+    ].drop(
+        columns=[
+            "configuration",
+            "portfolio_mode",
+        ]
+    )
 
     results_file = (
         RESULTS_DIR
