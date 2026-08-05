@@ -18,6 +18,11 @@ from sklearn.ensemble import RandomForestRegressor
 from src.research.feature_policy import (
     CORE_TECHNICAL_FEATURES,
 )
+from src.backtesting.risk_controls import (
+    capped_inverse_volatility_weights,
+    resolve_risk_exposure,
+    weight_diagnostics,
+)
 
 FEATURE_FILE = resolve_training_data_path()
 RESULTS_DIR = resolve_results_dir()
@@ -234,6 +239,8 @@ def run_walkforward_configuration(
     valid_portfolio_modes = {
         "baseline_equal_weight",
         "turnover_buffer",
+        "turnover_buffer_inverse_volatility",
+        "turnover_buffer_inverse_volatility_risk_scaled",
     }
 
     if portfolio_mode not in valid_portfolio_modes:
@@ -366,12 +373,31 @@ def run_walkforward_configuration(
                 ascending=[False, True],
             ).reset_index(drop=True)
 
-            if portfolio_mode == "turnover_buffer":
+            uses_turnover_buffer = (
+                portfolio_mode
+                != "baseline_equal_weight"
+            )
+
+            uses_inverse_volatility = (
+                "inverse_volatility"
+                in portfolio_mode
+            )
+
+            uses_risk_scaling = (
+                portfolio_mode.endswith(
+                    "_risk_scaled"
+                )
+            )
+
+            if uses_turnover_buffer:
                 top10_tickers = select_buffered_holdings(
                     ranked_day=ranked_day,
-                    previous_holdings=list(
-                        previous_weights.keys()
-                    ),
+                    previous_holdings=[
+                        ticker
+                        for ticker, weight
+                        in previous_weights.items()
+                        if weight > 1e-12
+                    ],
                     top_n=TOP_N,
                     buffer_rank=HOLDING_BUFFER_RANK,
                 )
@@ -382,17 +408,99 @@ def run_walkforward_configuration(
                     .tolist()
                 )
 
-            selected_returns = (
-                day.set_index("ticker")
-                .loc[top10_tickers]
-                ["target_5d_return"]
+            indexed_day = day.set_index("ticker")
+
+            selected_returns = indexed_day.loc[
+                top10_tickers,
+                "target_5d_return",
+            ]
+
+            bottom10 = day.nsmallest(
+                TOP_N,
+                "score",
             )
 
-            bottom10 = day.nsmallest(TOP_N, "score")
+            if uses_risk_scaling:
+                risk_state_mode = (
+                    day["risk_state"]
+                    .astype(str)
+                    .mode()
+                )
 
-            new_weights = equal_weight_portfolio(
-                top10_tickers
-            )
+                risk_state = (
+                    risk_state_mode.iloc[0]
+                    if not risk_state_mode.empty
+                    else "neutral"
+                )
+
+                confidence_mode = (
+                    day["regime_is_confident"]
+                    .mode()
+                )
+
+                confidence_value = (
+                    confidence_mode.iloc[0]
+                    if not confidence_mode.empty
+                    else False
+                )
+
+                regime_is_confident = (
+                    confidence_value
+                    if isinstance(
+                        confidence_value,
+                        bool,
+                    )
+                    else str(
+                        confidence_value
+                    ).strip().lower()
+                    in {
+                        "true",
+                        "1",
+                        "yes",
+                        "y",
+                    }
+                )
+
+                portfolio_exposure = (
+                    resolve_risk_exposure(
+                        risk_state,
+                        regime_is_confident=(
+                            regime_is_confident
+                        ),
+                    )
+                )
+            else:
+                risk_state = "not_applied"
+                regime_is_confident = False
+                portfolio_exposure = 1.0
+
+            if uses_inverse_volatility:
+                new_weights = (
+                    capped_inverse_volatility_weights(
+                        indexed_day.loc[
+                            top10_tickers,
+                            "volatility_20d",
+                        ],
+                        exposure=portfolio_exposure,
+                        maximum_weight=0.18,
+                        minimum_volatility=0.005,
+                    )
+                )
+            else:
+                base_weights = (
+                    equal_weight_portfolio(
+                        top10_tickers
+                    )
+                )
+
+                new_weights = {
+                    ticker: (
+                        weight
+                        * portfolio_exposure
+                    )
+                    for ticker, weight
+                    in base_weights.items()
+                }
 
             turnover = calculate_turnover(
                 previous_weights,
@@ -403,28 +511,58 @@ def run_walkforward_configuration(
                 * TRANSACTION_COST_PER_DOLLAR
             )
 
-            gross_top10_return = (
-                selected_returns.mean()
+            gross_top10_return = float(
+                sum(
+                    new_weights[ticker]
+                    * float(
+                        selected_returns.loc[
+                            ticker
+                        ]
+                    )
+                    for ticker
+                    in new_weights
+                )
             )
+
             net_top10_return = (
                 gross_top10_return
                 - transaction_cost
             )
 
-            universe_return = (
-                day["target_5d_return"].mean()
+            raw_universe_return = float(
+                day[
+                    "target_5d_return"
+                ].mean()
             )
+
+            universe_return = (
+                portfolio_exposure
+                * raw_universe_return
+            )
+
+            raw_bottom10_return = float(
+                bottom10[
+                    "target_5d_return"
+                ].mean()
+            )
+
             bottom10_return = (
-                bottom10["target_5d_return"].mean()
+                portfolio_exposure
+                * raw_bottom10_return
             )
 
             long_short_return = (
                 gross_top10_return
                 - bottom10_return
             )
+
             net_excess_return = (
                 net_top10_return
                 - universe_return
+            )
+
+            diagnostics = weight_diagnostics(
+                new_weights
             )
 
             if (
@@ -468,6 +606,19 @@ def run_walkforward_configuration(
                     "transaction_cost": (
                         transaction_cost
                     ),
+                    "risk_state": risk_state,
+                    "regime_is_confident": (
+                        regime_is_confident
+                    ),
+                    "portfolio_exposure": (
+                        portfolio_exposure
+                    ),
+                    "maximum_weight": diagnostics[
+                        "maximum_weight"
+                    ],
+                    "herfindahl_index": diagnostics[
+                        "herfindahl_index"
+                    ],
                     "top10_holdings": ",".join(
                         top10_tickers
                     ),
@@ -503,6 +654,8 @@ def main():
         "date",
         "ticker",
         "target_5d_return",
+        "risk_state",
+        "regime_is_confident",
     ]
     missing_cols = [
         col
@@ -540,6 +693,21 @@ def main():
             "configuration_name": "technical_only",
             "feature_columns": TECHNICAL_FEATURES,
             "portfolio_mode": "turnover_buffer",
+        },
+        {
+            "configuration_name": "technical_only",
+            "feature_columns": TECHNICAL_FEATURES,
+            "portfolio_mode": (
+                "turnover_buffer_inverse_volatility"
+            ),
+        },
+        {
+            "configuration_name": "technical_only",
+            "feature_columns": TECHNICAL_FEATURES,
+            "portfolio_mode": (
+                "turnover_buffer_inverse_volatility_"
+                "risk_scaled"
+            ),
         },
     ]
 
