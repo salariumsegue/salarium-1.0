@@ -30,3 +30,18 @@ def test_evaluator_uses_risk_controls() -> None:
 def test_evaluator_saves_results() -> None:
     assert "approved_policy_results.csv" in SOURCE
     assert "approved_policy_summary.csv" in SOURCE
+
+
+def test_rebalance_schedule_resets_each_year() -> None:
+    assert (
+        'for _, yearly_scores in scored.groupby('
+        in SOURCE
+    )
+    assert (
+        "current_test_year: int | None = None"
+        in SOURCE
+    )
+    assert (
+        "previous_weights = {}"
+        in SOURCE
+    )

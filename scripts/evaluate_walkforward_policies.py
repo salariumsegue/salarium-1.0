@@ -113,15 +113,36 @@ def evaluate_policy(
 ) -> pd.DataFrame:
     records: list[dict] = []
     previous_weights: dict[str, float] = {}
+    current_test_year: int | None = None
 
-    rebalance_dates = sorted(
-        scored["date"].unique()
-    )[::REBALANCE_EVERY_N_DAYS]
+    rebalance_dates: list[pd.Timestamp] = []
+
+    for _, yearly_scores in scored.groupby(
+        "test_year",
+        sort=True,
+    ):
+        yearly_dates = sorted(
+            yearly_scores["date"].unique()
+        )
+
+        rebalance_dates.extend(
+            yearly_dates[
+                ::REBALANCE_EVERY_N_DAYS
+            ]
+        )
 
     for rebalance_date in rebalance_dates:
         day = scored[
             scored["date"] == rebalance_date
         ].copy()
+
+        test_year = int(
+            day["test_year"].iloc[0]
+        )
+
+        if test_year != current_test_year:
+            previous_weights = {}
+            current_test_year = test_year
 
         if len(day) < TOP_N:
             continue
@@ -285,9 +306,7 @@ def evaluate_policy(
         records.append(
             {
                 "policy": policy_name,
-                "test_year": int(
-                    ranked["test_year"].iloc[0]
-                ),
+                "test_year": test_year,
                 "rebalance_date": rebalance_date,
                 "gross_portfolio_5d_return": (
                     gross_return
