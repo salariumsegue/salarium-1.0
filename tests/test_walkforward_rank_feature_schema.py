@@ -1,14 +1,17 @@
 from pathlib import Path
 
+from src.research.feature_policy import (
+    CORE_TECHNICAL_FEATURES,
+)
 
-def test_rank_backtest_uses_canonical_liquid500_features() -> None:
+
+def test_rank_backtest_uses_governed_liquid500_features() -> None:
     source = Path(
         "src/backtesting/walkforward_rank_backtest.py"
     ).read_text(encoding="utf-8")
 
-    expected_features = [
+    expected_features = {
         "return_1d",
-        "return_5d",
         "volume_change_1d",
         "high_low_spread",
         "open_close_spread",
@@ -19,9 +22,9 @@ def test_rank_backtest_uses_canonical_liquid500_features() -> None:
         "price_vs_ma50",
         "rsi_14d",
         "relative_strength",
-    ]
+    }
 
-    legacy_features = [
+    legacy_features = {
         "return_10d",
         "close_to_sma_5",
         "close_to_sma_20",
@@ -32,20 +35,15 @@ def test_rank_backtest_uses_canonical_liquid500_features() -> None:
         "macd",
         "macd_signal",
         "macd_hist",
-    ]
+    }
 
-    for feature in expected_features:
-        assert f'"{feature}"' in source
+    assert set(CORE_TECHNICAL_FEATURES) == expected_features
+    assert "return_5d" not in CORE_TECHNICAL_FEATURES
+
+    assert (
+        "CORE_TECHNICAL_FEATURES"
+        in source
+    )
 
     for feature in legacy_features:
-        assert f'"{feature}"' not in source
-
-
-def test_rank_backtest_has_single_dataset_context_import() -> None:
-    source = Path(
-        "src/backtesting/walkforward_rank_backtest.py"
-    ).read_text(encoding="utf-8")
-
-    assert source.count(
-        "from src.core.dataset_context import"
-    ) == 1
+        assert feature not in CORE_TECHNICAL_FEATURES

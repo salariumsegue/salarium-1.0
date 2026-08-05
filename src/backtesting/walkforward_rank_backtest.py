@@ -15,6 +15,10 @@ from src.core.output_context import resolve_results_dir
 from scipy.stats import spearmanr
 from sklearn.ensemble import RandomForestRegressor
 
+from src.research.feature_policy import (
+    CORE_TECHNICAL_FEATURES,
+)
+
 FEATURE_FILE = resolve_training_data_path()
 RESULTS_DIR = resolve_results_dir()
 
@@ -29,20 +33,9 @@ TRANSACTION_COST_PER_DOLLAR = 0.001
 # Keep this lower for Mac speed. Raise later if needed.
 N_ESTIMATORS = 100
 
-TECHNICAL_FEATURES = [
-    "return_1d",
-    "return_5d",
-    "volume_change_1d",
-    "high_low_spread",
-    "open_close_spread",
-    "momentum_5d",
-    "momentum_20d",
-    "volatility_20d",
-    "price_vs_ma20",
-    "price_vs_ma50",
-    "rsi_14d",
-    "relative_strength",
-]
+TECHNICAL_FEATURES = list(
+    CORE_TECHNICAL_FEATURES
+)
 
 MACRO_FEATURES = [
     "macro_signal_score",
@@ -294,18 +287,51 @@ def run_walkforward_configuration(
             f"{test_df['date'].nunique()}"
         )
 
+        feature_lower_bounds = train_df[
+            feature_columns
+        ].quantile(0.005)
+
+        feature_upper_bounds = train_df[
+            feature_columns
+        ].quantile(0.995)
+
+        train_features = train_df[
+            feature_columns
+        ].clip(
+            lower=feature_lower_bounds,
+            upper=feature_upper_bounds,
+            axis="columns",
+        )
+
+        target_lower_bound = train_df[
+            "target_5d_return"
+        ].quantile(0.01)
+
+        target_upper_bound = train_df[
+            "target_5d_return"
+        ].quantile(0.99)
+
+        training_target = train_df[
+            "target_5d_return"
+        ].clip(
+            lower=target_lower_bound,
+            upper=target_upper_bound,
+        )
+
         model = RandomForestRegressor(
             n_estimators=N_ESTIMATORS,
             random_state=42,
             n_jobs=-1,
-            max_depth=8,
-            min_samples_leaf=10,
+            max_depth=6,
+            min_samples_leaf=100,
+            max_features=0.70,
+            bootstrap=True,
         )
 
-        print("Training model...")
+        print("Training hardened model...")
         model.fit(
-            train_df[feature_columns],
-            train_df["target_5d_return"],
+            train_features,
+            training_target,
         )
 
         test_dates = sorted(test_df["date"].unique())
@@ -323,8 +349,16 @@ def run_walkforward_configuration(
             if len(day) < TOP_N:
                 continue
 
+            day_features = day[
+                feature_columns
+            ].clip(
+                lower=feature_lower_bounds,
+                upper=feature_upper_bounds,
+                axis="columns",
+            )
+
             day["score"] = model.predict(
-                day[feature_columns]
+                day_features
             )
 
             ranked_day = day.sort_values(
