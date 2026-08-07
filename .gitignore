@@ -51,3 +51,13 @@ data/cache/
 
 # Local dashboard replacement backups
 /app/streamlit_app.py.backup.*
+results/approved_policy_results.csv
+results/approved_policy_summary.csv
+results/walkforward_oos_scores.csv
+results/policy_asset_concentration.csv
+results/policy_bootstrap_results.csv
+results/policy_cost_stress.csv
+results/policy_drawdown_episodes.csv
+results/policy_regime_exposure.csv
+results/policy_robustness_report.json
+results/policy_robustness_summary.csv
