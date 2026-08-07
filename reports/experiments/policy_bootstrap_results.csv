@@ -1,0 +1,6 @@
+comparison,metric,observed_difference,ci_95_lower,ci_95_upper,probability_difference_positive,two_sided_bootstrap_p_value,statistically_significant_5pct,iterations,block_length_rebalances
+risk_managed_minus_alpha_benchmark,mean_net_return,-0.005241494008031509,-0.011071640884955769,0.0006734974439957186,0.0426,0.0852,False,5000,6
+risk_managed_minus_alpha_benchmark,mean_excess_return,-0.003226127502408962,-0.008025985110814605,0.001509961599547807,0.095,0.19,False,5000,6
+risk_managed_minus_alpha_benchmark,net_sharpe,-0.02944024734433237,-0.40556668891903097,0.31439965514149837,0.4408,0.8816,False,5000,6
+risk_managed_minus_alpha_benchmark,excess_sharpe,-0.053407294381764614,-0.4579895063060654,0.3269634796348953,0.404,0.808,False,5000,6
+risk_managed_minus_alpha_benchmark,max_drawdown,0.18967406324774072,0.041224302139508597,0.3562873736240676,0.9922,0.0156,True,5000,6
