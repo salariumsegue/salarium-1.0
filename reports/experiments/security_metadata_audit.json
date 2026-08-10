@@ -1,0 +1,137 @@
+{
+  "critical_rule": "Current or merely dated metadata is not approved for historical attribution until point-in-time provenance is verified.",
+  "csv_files_scanned": 156,
+  "files_with_metadata": 6,
+  "gap_analysis": [
+    {
+      "available_anywhere": true,
+      "field": "sector",
+      "historical_backtest_status": "blocked",
+      "next_action": "verify_source_provenance",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": true,
+      "field": "industry",
+      "historical_backtest_status": "blocked",
+      "next_action": "verify_source_provenance",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": true,
+      "field": "market_cap",
+      "historical_backtest_status": "blocked",
+      "next_action": "verify_source_provenance",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "shares_outstanding",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "book_value",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "book_to_market",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "price_to_book",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "price_to_earnings",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "revenue",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "operating_income",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "net_income",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "return_on_equity",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "return_on_assets",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "gross_margin",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    },
+    {
+      "available_anywhere": false,
+      "field": "debt_to_equity",
+      "historical_backtest_status": "blocked",
+      "next_action": "source_data",
+      "point_in_time_verified": false
+    }
+  ],
+  "historical_backtest_blocked_fields": [
+    "book_to_market",
+    "book_value",
+    "debt_to_equity",
+    "gross_margin",
+    "industry",
+    "market_cap",
+    "net_income",
+    "operating_income",
+    "price_to_book",
+    "price_to_earnings",
+    "return_on_assets",
+    "return_on_equity",
+    "revenue",
+    "sector",
+    "shares_outstanding"
+  ],
+  "metadata_fields_detected": [
+    "industry",
+    "market_cap",
+    "sector"
+  ],
+  "point_in_time_verified_fields": [],
+  "policy_path": "configs/security_metadata_policy.json",
+  "schema_version": "1.0"
+}

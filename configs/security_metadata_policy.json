@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "description": "Governance policy for security metadata used by Salarium research.",
+  "point_in_time_required_for_backtests": [
+    "sector",
+    "industry",
+    "market_cap",
+    "shares_outstanding",
+    "book_value",
+    "book_to_market",
+    "price_to_book",
+    "price_to_earnings",
+    "revenue",
+    "operating_income",
+    "net_income",
+    "return_on_equity",
+    "return_on_assets",
+    "gross_margin",
+    "debt_to_equity"
+  ],
+  "current_snapshot_allowed_uses": [
+    "current website display",
+    "current research explanation",
+    "current cross-sectional screening",
+    "descriptive universe diagnostics"
+  ],
+  "prohibited_uses": [
+    "backfilling historical sector exposure using current sector classifications",
+    "backfilling historical market capitalization using current market capitalization",
+    "backfilling historical fundamentals using current fundamentals",
+    "treating a dated file as point-in-time verified without source provenance"
+  ],
+  "verified_point_in_time_sources": []
+}
