@@ -1,0 +1,30 @@
+# Candidate Security Metadata Sources
+
+This report profiles existing Salarium files containing sector, industry, or market-cap fields. Profiling does not grant historical backtest approval.
+
+## Candidate Ranking
+
+| path | rows | size_mb | ticker_count | date_count | min_date | max_date | rows_per_ticker_median | rows_per_ticker_max | detected_fields | likely_structure | sector_coverage | sector_unique | sector_sample | industry_coverage | industry_unique | industry_sample | market_cap_coverage | market_cap_unique | market_cap_sample | historical_panel_candidate | current_snapshot_candidate | field_score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| data/processed/salarium_training_with_macro.csv | 31980 | 10.8940 | 20 | 1599.0000 | 2020-01-31 | 2026-06-11 | 1599.0000 | 1599.0000 | sector | possible_historical_panel_requires_provenance_verification | 1.0000 | 7 | Technology / Consumer Discretionary / Health Care / Consumer Staples / Financials / Communication Services / Energy |  |  |  |  |  |  | True | False | 1 |
+| configs/universe_snapshots/2026-07-08_market_cap_fetch_all.csv | 138 | 0.0130 | 138 |  |  |  | 1.0000 | 1.0000 | industry,market_cap,sector | static_or_current_snapshot | 1.0000 | 11 | Technology / Healthcare / Consumer Cyclical / Utilities / Basic Materials / Real Estate / Financial Services / Industrials | 1.0000 | 53.0000 | Consumer Electronics / Drug Manufacturers - General / Travel Services / Software - Application / Semiconductors / Utilities - Regulated Electric / Specialty Chemicals / REIT - Specialty | 1.0000 | 138.0000 | 4602870711986.816 / 446539227284.8228 / 84841526931.61671 / 87823650970.45898 / 187723342243.05664 / 73943870527.84644 / 15258385722.232788 / 843680971393.2981 | False | True | 3 |
+| configs/universe_snapshots/2026-07-08_top125_yahoo.csv | 125 | 0.0140 | 125 |  |  |  | 1.0000 | 1.0000 | industry,market_cap,sector | static_or_current_snapshot | 1.0000 | 11 | Technology / Communication Services / Consumer Cyclical / Healthcare / Consumer Defensive / Financial Services / Energy / Industrials | 1.0000 | 50.0000 | Semiconductors / Consumer Electronics / Internet Content & Information / Software - Infrastructure / Internet Retail / Drug Manufacturers - General / Discount Stores / Banks - Diversified | 1.0000 | 125.0000 | 4943990401733.398 / 4602870711986.816 / 4416355430700.591 / 4377184902833.556 / 2847616132227.6196 / 2620646948273.3716 / 1849223858775.8064 / 1530973850713.835 | False | True | 3 |
+| configs/universe_snapshots/2026-07-12_liquid_125_validation.csv | 125 | 0.0260 | 125 |  |  |  | 1.0000 | 1.0000 | industry,market_cap,sector | static_or_current_snapshot | 1.0000 | 11 | Technology / Consumer Cyclical / Communication Services / Healthcare / Financial Services / Consumer Defensive / Industrials / Energy | 1.0000 | 50.0000 | Semiconductors / Consumer Electronics / Software - Infrastructure / Internet Retail / Internet Content & Information / Drug Manufacturers - General / Entertainment / Communication Equipment | 1.0000 | 125.0000 | 1071568207882.2625 / 4943990401733.398 / 843680971393.2981 / 554066229263.3057 / 4602870711986.816 / 2847616132227.6196 / 2620646948273.3716 / 4416355430700.591 | False | True | 3 |
+| configs/universe_snapshots/2026-07-08_market_cap_missing.csv | 0 | 0.0000 | 0 |  |  |  |  |  | industry,market_cap,sector | static_or_current_snapshot | 0.0000 | 0 |  | 0.0000 | 0.0000 |  | 0.0000 | 0.0000 |  | False | True | 3 |
+| data/processed/demo_stock_training_data.csv | 100 | 0.0050 | 20 | 5.0000 | 2025-01-10 | 2025-05-15 | 5.0000 | 5.0000 | sector | dated_snapshot_or_sparse_panel | 1.0000 | 7 | Technology / Communication Services / Consumer Discretionary / Financials / Energy / Consumer Staples / Health Care |  |  |  |  |  |  | False | True | 1 |
+
+## Historical Panel Candidates
+
+- `data/processed/salarium_training_with_macro.csv`
+
+## Current Snapshot Candidates
+
+- `configs/universe_snapshots/2026-07-08_market_cap_fetch_all.csv`
+- `configs/universe_snapshots/2026-07-08_top125_yahoo.csv`
+- `configs/universe_snapshots/2026-07-12_liquid_125_validation.csv`
+- `configs/universe_snapshots/2026-07-08_market_cap_missing.csv`
+- `data/processed/demo_stock_training_data.csv`
+
+## Governance Decision
+
+None of these sources is approved for historical attribution until its provenance and as-of semantics are verified.
