@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "path": "data/processed/salarium_training_with_macro.csv",
+      "fields": [
+        "sector"
+      ],
+      "classification": "static_metadata_propagated_backward",
+      "historical_backtest_eligible": false,
+      "allowed_uses": [
+        "legacy descriptive display",
+        "pipeline compatibility"
+      ],
+      "prohibited_uses": [
+        "historical sector attribution",
+        "historical sector neutralization",
+        "historical sector exposure constraints",
+        "historical sector factor construction"
+      ],
+      "evidence": [
+        "20 tickers each retain exactly one sector across 1599 dates from 2020-01-31 through 2026-06-11",
+        "zero sector transitions exist in the historical panel",
+        "sector labels match demo_stock_training_data.csv for all 20 overlapping tickers",
+        "src/features/build_stock_training_data.py assigns one sector value across each ticker dataframe",
+        "src/llm/merge_macro_features.py copies stock_row sector into salarium_training_with_macro.csv",
+        "generated CSV is not directly tracked in Git"
+      ]
+    },
+    {
+      "path": "data/processed/demo_stock_training_data.csv",
+      "fields": [
+        "sector"
+      ],
+      "classification": "static_metadata",
+      "historical_backtest_eligible": false,
+      "allowed_uses": [
+        "demo display",
+        "current descriptive classification"
+      ],
+      "prohibited_uses": [
+        "historical sector attribution",
+        "historical sector neutralization"
+      ]
+    },
+    {
+      "path": "configs/universe_snapshots/2026-07-08_market_cap_fetch_all.csv",
+      "fields": [
+        "sector",
+        "industry",
+        "market_cap"
+      ],
+      "classification": "current_snapshot",
+      "historical_backtest_eligible": false,
+      "allowed_uses": [
+        "current descriptive metadata",
+        "current website display"
+      ]
+    },
+    {
+      "path": "configs/universe_snapshots/2026-07-08_top125_yahoo.csv",
+      "fields": [
+        "sector",
+        "industry",
+        "market_cap"
+      ],
+      "classification": "current_snapshot",
+      "historical_backtest_eligible": false,
+      "allowed_uses": [
+        "current descriptive metadata",
+        "current website display"
+      ]
+    },
+    {
+      "path": "configs/universe_snapshots/2026-07-12_liquid_125_validation.csv",
+      "fields": [
+        "sector",
+        "industry",
+        "market_cap"
+      ],
+      "classification": "current_snapshot",
+      "historical_backtest_eligible": false,
+      "allowed_uses": [
+        "current descriptive metadata",
+        "current website display"
+      ]
+    }
+  ]
+}

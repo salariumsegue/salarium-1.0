@@ -266,3 +266,107 @@ def backtest_eligibility(
         False,
         "point_in_time_provenance_not_verified",
     )
+
+
+def load_provenance_registry(
+    path: Path,
+) -> dict[str, Any]:
+    if not path.is_file():
+        return {
+            "schema_version": "1.0",
+            "sources": [],
+        }
+
+    return json.loads(
+        path.read_text(
+            encoding="utf-8"
+        )
+    )
+
+
+def provenance_record(
+    source_path: Path,
+    registry: dict[str, Any],
+) -> dict[str, Any] | None:
+    source_text = str(source_path)
+
+    try:
+        resolved = str(source_path.resolve())
+    except OSError:
+        resolved = source_text
+
+    for record in registry.get(
+        "sources",
+        [],
+    ):
+        configured = record.get(
+            "path",
+            "",
+        )
+
+        configured_path = Path(
+            configured
+        )
+
+        try:
+            configured_resolved = str(
+                configured_path.resolve()
+            )
+        except OSError:
+            configured_resolved = configured
+
+        if (
+            configured == source_text
+            or configured_resolved == resolved
+        ):
+            return record
+
+    return None
+
+
+def provenance_backtest_eligibility(
+    source_path: Path,
+    field: str,
+    registry: dict[str, Any],
+) -> tuple[bool, str]:
+    record = provenance_record(
+        source_path,
+        registry,
+    )
+
+    if record is None:
+        return (
+            False,
+            "source_not_in_provenance_registry",
+        )
+
+    governed_fields = set(
+        record.get(
+            "fields",
+            [],
+        )
+    )
+
+    if field not in governed_fields:
+        return (
+            False,
+            "field_not_registered_for_source",
+        )
+
+    if record.get(
+        "historical_backtest_eligible"
+    ) is True:
+        return (
+            True,
+            "provenance_registry_approved",
+        )
+
+    classification = record.get(
+        "classification",
+        "unverified",
+    )
+
+    return (
+        False,
+        f"provenance_rejected_{classification}",
+    )
