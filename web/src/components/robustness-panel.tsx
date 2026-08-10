@@ -31,13 +31,32 @@ export type CostStressResult = {
   max_drawdown: number;
 };
 
+export type AssetConcentration = {
+  policy: string;
+  ticker: string;
+  appearance_count: number;
+  share_of_rebalances: number;
+  share_of_portfolio_slots: number;
+};
+
+export type RegimeExposure = {
+  policy: string;
+  market_risk_state: string;
+  num_rebalances: number;
+  share_of_rebalances: number;
+  avg_exposure: number;
+  avg_net_5d_return: number;
+  avg_excess_5d_return: number;
+  net_sharpe: number;
+};
+
 export type RobustnessData = {
   summary: RobustnessSummary[];
   bootstrap: BootstrapResult[];
   cost_stress: CostStressResult[];
   drawdown_episodes: Record<string, unknown>[];
-  asset_concentration: Record<string, unknown>[];
-  regime_exposure: Record<string, unknown>[];
+  asset_concentration: AssetConcentration[];
+  regime_exposure: RegimeExposure[];
   coverage: {
     asset_concentration: string;
     market_regime_exposure: string;
@@ -95,6 +114,30 @@ export default function RobustnessPanel({
         row.scenario
       )
   );
+
+  const topAssets = [ALPHA, RISK].map((policy) => ({
+    policy,
+    rows: robustness.asset_concentration
+      .filter((row) => row.policy === policy)
+      .sort(
+        (a, b) =>
+          b.share_of_rebalances -
+          a.share_of_rebalances
+      )
+      .slice(0, 8),
+  }));
+
+  const regimeRows = robustness.regime_exposure
+    .slice()
+    .sort((a, b) => {
+      if (a.policy !== b.policy) {
+        return a.policy.localeCompare(b.policy);
+      }
+
+      return a.market_risk_state.localeCompare(
+        b.market_risk_state
+      );
+    });
 
   return (
     <>
@@ -267,6 +310,142 @@ export default function RobustnessPanel({
               label="Factor exposure"
               value={robustness.coverage.factor_exposure}
             />
+          </div>
+        </div>
+      </section>
+
+      <section className="panel mt-6">
+        <div className="panel-header">
+          <div>
+            <p className="eyebrow">
+              ASSET CONCENTRATION
+            </p>
+            <h3 className="panel-title">
+              Most persistent holdings
+            </h3>
+          </div>
+
+          <span className="status-chip">
+            HOLDING FREQUENCY
+          </span>
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-2">
+          {topAssets.map(({ policy, rows }) => (
+            <div
+              key={policy}
+              className="border border-white/10 bg-black/35"
+            >
+              <div className="border-b border-white/10 px-5 py-4">
+                <p className="text-sm text-white/75">
+                  {policyLabel(policy)}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-[70px_1fr_1fr] border-b border-white/10 px-5 py-3 text-[9px] tracking-[0.16em] text-white/30">
+                <span>TICKER</span>
+                <span>REBALANCES</span>
+                <span>PORTFOLIO SLOTS</span>
+              </div>
+
+              <div className="divide-y divide-white/5">
+                {rows.map((row) => (
+                  <div
+                    key={`${policy}-${row.ticker}`}
+                    className="grid grid-cols-[70px_1fr_1fr] px-5 py-3"
+                  >
+                    <span className="font-mono text-sm text-white/80">
+                      {row.ticker}
+                    </span>
+
+                    <span className="font-mono text-xs text-white/55">
+                      {pct(row.share_of_rebalances)}
+                    </span>
+
+                    <span className="font-mono text-xs text-white/55">
+                      {pct(
+                        row.share_of_portfolio_slots
+                      )}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-5 text-xs leading-5 text-white/30">
+          Concentration is measured from holding
+          frequency because ticker-level portfolio
+          weights are not yet persisted for every
+          rebalance.
+        </p>
+      </section>
+
+      <section className="panel mt-6">
+        <div className="panel-header">
+          <div>
+            <p className="eyebrow">
+              MARKET REGIME EXPOSURE
+            </p>
+            <h3 className="panel-title">
+              Policy behavior by risk state
+            </h3>
+          </div>
+
+          <span className="status-chip">
+            REGIME CONDITIONING
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <div className="min-w-[850px]">
+            <div className="grid grid-cols-[1.5fr_1fr_100px_110px_120px_120px_100px] border-b border-white/10 px-4 py-3 text-[9px] tracking-[0.16em] text-white/30">
+              <span>POLICY</span>
+              <span>STATE</span>
+              <span>RUNS</span>
+              <span>EXPOSURE</span>
+              <span>AVG NET 5D</span>
+              <span>AVG EXCESS</span>
+              <span>SHARPE</span>
+            </div>
+
+            <div className="divide-y divide-white/5">
+              {regimeRows.map((row) => (
+                <div
+                  key={`${row.policy}-${row.market_risk_state}`}
+                  className="grid grid-cols-[1.5fr_1fr_100px_110px_120px_120px_100px] items-center px-4 py-4 text-sm"
+                >
+                  <span className="text-white/65">
+                    {policyLabel(row.policy)}
+                  </span>
+
+                  <span className="font-mono text-xs uppercase text-white/45">
+                    {row.market_risk_state}
+                  </span>
+
+                  <span className="font-mono text-xs text-white/55">
+                    {row.num_rebalances}
+                  </span>
+
+                  <span className="font-mono text-xs text-emerald-400">
+                    {pct(row.avg_exposure)}
+                  </span>
+
+                  <span className="font-mono text-xs text-white/65">
+                    {pct(row.avg_net_5d_return)}
+                  </span>
+
+                  <span className="font-mono text-xs text-white/65">
+                    {pct(row.avg_excess_5d_return)}
+                  </span>
+
+                  <span className="font-mono text-xs text-white/65">
+                    {num(row.net_sharpe)}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
