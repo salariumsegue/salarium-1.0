@@ -1,8 +1,8 @@
 {
   "artifact": "salarium_snapshot.json",
-  "generated_at_utc": "2026-08-05T21:36:33.944768+00:00",
-  "git_commit": "2a47a88b060f1460479831eea4a774477fcf316b",
+  "generated_at_utc": "2026-08-10T19:12:31.200780+00:00",
+  "git_commit": "d0311bef035d638a92998103ee306d669b6bc472",
   "schema_version": "1.0",
-  "sha256": "a182207de37366b482346db37a473e725aad9c9f5d0ab8d17386c1ed8216215c",
-  "size_bytes": 17740
+  "sha256": "6acde202b5cdf7d977a86371f303c3c5cc29f22de88ccda1c248f1cbe55ece59",
+  "size_bytes": 138078
 }

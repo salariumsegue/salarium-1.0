@@ -14,6 +14,11 @@ SALARIUM_TRAINING_DATA_PATH="$PWD/data/processed/training_data_liquid500_model_s
   scripts/evaluate_walkforward_policies.py
 
 ./venv/bin/python \
+  scripts/analyze_policy_robustness.py \
+  --bootstrap-iterations 5000 \
+  --block-length 6
+
+./venv/bin/python \
   scripts/export_website_snapshot.py
 
 echo "SALARIUM_WEBSITE_REFRESH=PASS"
