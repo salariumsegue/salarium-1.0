@@ -4,6 +4,9 @@ import Link from "next/link";
 import RobustnessPanel, {
   type RobustnessData,
 } from "@/components/robustness-panel";
+import FactorExposurePanel, {
+  type FactorExposureData,
+} from "@/components/factor-exposure-panel";
 
 type PolicyResult = {
   policy: string;
@@ -32,6 +35,7 @@ type Snapshot = {
     risk_managed_candidate: string;
   };
   robustness: RobustnessData;
+  factor_exposure: FactorExposureData;
   generated_at_utc: string;
 };
 
@@ -234,6 +238,10 @@ export default function ResearchPage() {
 
         <RobustnessPanel
           robustness={snapshot.robustness}
+        />
+
+        <FactorExposurePanel
+          data={snapshot.factor_exposure}
         />
 
         <section className="mt-6 grid gap-6 lg:grid-cols-3">

@@ -24,7 +24,160 @@
     "The current universe construction remains exposed to survivorship bias.",
     "Neither approved research policy is approved for live deployment."
   ],
-  "generated_at_utc": "2026-08-10T19:12:31.200780+00:00",
+  "factor_exposure": {
+    "coverage": {
+      "industry_exposure": "unavailable_no_industry_metadata",
+      "low_volatility": "available_cross_sectional_proxy",
+      "market_beta": "available_60d_rolling_proxy",
+      "momentum": "available_20d_cross_sectional_proxy",
+      "quality_factor": "unavailable_no_point_in_time_fundamentals",
+      "relative_strength": "available_cross_sectional_proxy",
+      "sector_exposure": "unavailable_no_sector_metadata",
+      "short_term_reversal": "available_5d_cross_sectional_proxy",
+      "size_factor": "unavailable_no_point_in_time_market_cap",
+      "value_factor": "unavailable_no_point_in_time_fundamentals",
+      "weight_level_asset_concentration": "available_reconstructed_from_policy_holdings"
+    },
+    "disclosure": "These are Salarium technical factor proxies, not canonical Fama-French factor returns.",
+    "methodology": {
+      "low_volatility_z": "Negative cross-sectional z-score of volatility_20d.",
+      "market_beta_60d": "Rolling 60-observation beta to the equal-weight universe return, minimum 40 observations.",
+      "momentum_20d_z": "Cross-sectional z-score of momentum_20d.",
+      "relative_strength_z": "Cross-sectional z-score of relative_strength.",
+      "short_term_reversal_z": "Negative cross-sectional z-score of momentum_5d."
+    },
+    "summary": [
+      {
+        "average_covered_weight": 1.0,
+        "factor": "low_volatility_z",
+        "maximum_absolute_exposure": 3.0,
+        "mean_absolute_exposure": 2.3722463381675354,
+        "mean_exposure": -2.3722463381675354,
+        "median_exposure": -2.4446447754807155,
+        "p10_exposure": -2.8366723357605155,
+        "p90_exposure": -1.724638447492413,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 0.9865942028985508,
+        "factor": "market_beta_60d",
+        "maximum_absolute_exposure": 3.9622094632716593,
+        "mean_absolute_exposure": 2.3075318701159335,
+        "mean_exposure": 2.3075318701159335,
+        "median_exposure": 2.2642493992125523,
+        "p10_exposure": 1.5882460701399594,
+        "p90_exposure": 3.0965285592608973,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 1.0,
+        "factor": "momentum_20d_z",
+        "maximum_absolute_exposure": 2.8664690761463176,
+        "mean_absolute_exposure": 1.0382882119558885,
+        "mean_exposure": -0.10544563585183493,
+        "median_exposure": 0.06964396675157443,
+        "p10_exposure": -1.9568730047657437,
+        "p90_exposure": 1.4416021685553166,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 1.0,
+        "factor": "relative_strength_z",
+        "maximum_absolute_exposure": 2.8664690761463176,
+        "mean_absolute_exposure": 1.0382882119558885,
+        "mean_exposure": -0.10544563585183496,
+        "median_exposure": 0.06964396675157468,
+        "p10_exposure": -1.9568730047657437,
+        "p90_exposure": 1.4416021685553166,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 1.0,
+        "factor": "short_term_reversal_z",
+        "maximum_absolute_exposure": 2.8156439238767703,
+        "mean_absolute_exposure": 0.7991654735254052,
+        "mean_exposure": 0.6728236003479982,
+        "median_exposure": 0.6666571993340494,
+        "p10_exposure": -0.21902932552223178,
+        "p90_exposure": 1.6571066156846084,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 0.5327898550724638,
+        "factor": "low_volatility_z",
+        "maximum_absolute_exposure": 2.981462800149611,
+        "mean_absolute_exposure": 1.1987816523633754,
+        "mean_exposure": -1.1987816523633754,
+        "median_exposure": -1.1021858400738207,
+        "p10_exposure": -2.00783903530235,
+        "p90_exposure": -0.7404307074338659,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      },
+      {
+        "average_covered_weight": 0.5254578457014835,
+        "factor": "market_beta_60d",
+        "maximum_absolute_exposure": 3.637189696744057,
+        "mean_absolute_exposure": 1.2315214030701909,
+        "mean_exposure": 1.2315214030701909,
+        "median_exposure": 1.036400426453667,
+        "p10_exposure": 0.7298254741829296,
+        "p90_exposure": 2.1181515355542997,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      },
+      {
+        "average_covered_weight": 0.5327898550724638,
+        "factor": "momentum_20d_z",
+        "maximum_absolute_exposure": 2.4023545011661334,
+        "mean_absolute_exposure": 0.5137057807556278,
+        "mean_exposure": -0.054644257318981086,
+        "median_exposure": -0.010457894410960393,
+        "p10_exposure": -0.8662391479794342,
+        "p90_exposure": 0.6613208349599455,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      },
+      {
+        "average_covered_weight": 0.5327898550724638,
+        "factor": "relative_strength_z",
+        "maximum_absolute_exposure": 2.4023545011661334,
+        "mean_absolute_exposure": 0.5137057807556278,
+        "mean_exposure": -0.05464425731898109,
+        "median_exposure": -0.010457894410960266,
+        "p10_exposure": -0.8662391479794345,
+        "p90_exposure": 0.6613208349599454,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      },
+      {
+        "average_covered_weight": 0.5327898550724638,
+        "factor": "short_term_reversal_z",
+        "maximum_absolute_exposure": 2.1470447125375944,
+        "mean_absolute_exposure": 0.39026180461381615,
+        "mean_exposure": 0.3314006451075402,
+        "median_exposure": 0.29473962509865725,
+        "p10_exposure": -0.12477042943975114,
+        "p90_exposure": 0.7953219881258438,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      }
+    ],
+    "weighted_concentration": [
+      {
+        "avg_effective_names": 9.999999999999996,
+        "avg_hhi": 0.10000000000000003,
+        "avg_maximum_weight": 0.1,
+        "min_effective_names": 9.999999999999996,
+        "policy": "baseline_equal_weight",
+        "worst_maximum_weight": 0.1
+      },
+      {
+        "avg_effective_names": 9.464121780194203,
+        "avg_hhi": 0.10577823797294209,
+        "avg_maximum_weight": 0.1365489186563656,
+        "min_effective_names": 7.705310784467107,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "worst_maximum_weight": 0.18000000000000002
+      }
+    ]
+  },
+  "generated_at_utc": "2026-08-10T19:44:04.260552+00:00",
   "latest_signal_state": {
     "count": 25,
     "date": "2026-06-12",
@@ -271,7 +424,7 @@
   },
   "provenance": {
     "git_branch": "phase4-macro-walkforward-risk-controls",
-    "git_commit": "d0311bef035d638a92998103ee306d669b6bc472",
+    "git_commit": "a85dc787ecec23762e6a6cb82bf9ab4723231cc2",
     "git_dirty": true
   },
   "research_results": {

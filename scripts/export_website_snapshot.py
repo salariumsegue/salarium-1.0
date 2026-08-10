@@ -131,6 +131,63 @@ def load_robustness_data(
     }
 
 
+def load_factor_exposure_data(
+    results_directory: Path,
+) -> dict[str, Any]:
+    report_path = (
+        results_directory
+        / "policy_factor_exposure_report.json"
+    )
+
+    if not report_path.is_file():
+        return {
+            "summary": [],
+            "weighted_concentration": [],
+            "coverage": {},
+            "methodology": {},
+            "disclosure": (
+                "Factor exposure analysis unavailable."
+            ),
+        }
+
+    payload = json.loads(
+        report_path.read_text(
+            encoding="utf-8"
+        )
+    )
+
+    return {
+        "summary": json_safe(
+            payload.get(
+                "factor_exposure_summary",
+                [],
+            )
+        ),
+        "weighted_concentration": json_safe(
+            payload.get(
+                "weighted_concentration_summary",
+                [],
+            )
+        ),
+        "coverage": json_safe(
+            payload.get(
+                "coverage",
+                {},
+            )
+        ),
+        "methodology": json_safe(
+            payload.get(
+                "factor_methodology",
+                {},
+            )
+        ),
+        "disclosure": payload.get(
+            "important_disclosure",
+            "",
+        ),
+    }
+
+
 def latest_rankings(
     score_path: Path,
     top_n: int = 25,
@@ -285,6 +342,9 @@ def main() -> int:
             "yearly": yearly,
         },
         "robustness": load_robustness_data(
+            results_directory
+        ),
+        "factor_exposure": load_factor_exposure_data(
             results_directory
         ),
         "latest_signal_state": latest_rankings(
