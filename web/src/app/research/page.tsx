@@ -1,6 +1,9 @@
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
+import RobustnessPanel, {
+  type RobustnessData,
+} from "@/components/robustness-panel";
 
 type PolicyResult = {
   policy: string;
@@ -28,6 +31,7 @@ type Snapshot = {
     alpha_benchmark: string;
     risk_managed_candidate: string;
   };
+  robustness: RobustnessData;
   generated_at_utc: string;
 };
 
@@ -227,6 +231,10 @@ export default function ResearchPage() {
             </div>
           </div>
         </section>
+
+        <RobustnessPanel
+          robustness={snapshot.robustness}
+        />
 
         <section className="mt-6 grid gap-6 lg:grid-cols-3">
           <Insight
