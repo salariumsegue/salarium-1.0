@@ -61,3 +61,9 @@ results/policy_drawdown_episodes.csv
 results/policy_regime_exposure.csv
 results/policy_robustness_report.json
 results/policy_robustness_summary.csv
+results/policy_position_weights.csv
+results/policy_factor_exposures.csv
+results/policy_factor_exposure_summary.csv
+results/policy_weighted_concentration.csv
+results/policy_sector_exposures.csv
+results/policy_factor_exposure_report.json

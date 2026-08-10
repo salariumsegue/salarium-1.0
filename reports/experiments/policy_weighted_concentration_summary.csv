@@ -1,0 +1,3 @@
+policy,avg_maximum_weight,worst_maximum_weight,avg_hhi,avg_effective_names,min_effective_names
+baseline_equal_weight,0.1,0.1,0.10000000000000003,9.999999999999996,9.999999999999996
+turnover_buffer_inverse_volatility_risk_scaled,0.1365489186563656,0.18000000000000002,0.10577823797294209,9.464121780194203,7.705310784467107
