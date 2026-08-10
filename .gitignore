@@ -67,3 +67,4 @@ results/policy_factor_exposure_summary.csv
 results/policy_weighted_concentration.csv
 results/policy_sector_exposures.csv
 results/policy_factor_exposure_report.json
+data/processed/sec_point_in_time_fundamental_facts.csv
