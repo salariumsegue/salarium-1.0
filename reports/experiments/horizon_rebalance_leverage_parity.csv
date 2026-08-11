@@ -1,0 +1,13 @@
+base_policy,metric,prior_value,new_value,absolute_error
+equal_weight,annualized_net_return,0.4868837125606149,0.4868837125606149,0.0
+equal_weight,net_sharpe,0.9445171143896424,0.9445171143896424,0.0
+equal_weight,net_sortino,1.6547892544454263,1.6547892544454263,0.0
+equal_weight,max_drawdown,-0.7683063224514699,-0.7683063224514699,0.0
+equal_weight,avg_turnover,1.297826086956522,1.297826086956522,0.0
+equal_weight,avg_realized_return_ic,0.0028663001197762,0.0028663001197762,0.0
+buffer_inverse_volatility,annualized_net_return,0.4050948110626997,0.4050948110626997,0.0
+buffer_inverse_volatility,net_sharpe,0.8661547046626457,0.8661547046626457,0.0
+buffer_inverse_volatility,net_sortino,1.4580843664827334,1.4580843664827334,0.0
+buffer_inverse_volatility,max_drawdown,-0.7972555400997255,-0.7972555400997255,0.0
+buffer_inverse_volatility,avg_turnover,1.190433527625843,1.190433527625843,0.0
+buffer_inverse_volatility,avg_realized_return_ic,0.0028663001197762,0.0028663001197762,0.0
