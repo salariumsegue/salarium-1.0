@@ -73,3 +73,6 @@ results/policy_pit_factor_exposures.csv
 results/policy_pit_factor_exposure_summary.csv
 results/policy_pit_factor_latest.csv
 results/policy_pit_factor_comparison.csv
+results/pit_factor_mimicking_returns.csv
+results/factor_adjusted_policy_return_summary.csv
+results/factor_adjusted_policy_coefficients.csv
