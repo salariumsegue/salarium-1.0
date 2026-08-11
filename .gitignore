@@ -83,3 +83,5 @@ data/processed/current_candidate_funnel_input.csv
 data/processed/current_candidate_funnel_input_manifest.json
 data/processed/current_candidate_funnel_feature_audit.csv
 results/candidate_funnel/
+data/cache/broad_walkforward_features/
+results/broad_walkforward/
