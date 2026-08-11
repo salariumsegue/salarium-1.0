@@ -89,3 +89,10 @@ results/broad_walkforward/
 # Generated segmented broad-universe research artifacts
 results/segmented_walkforward/
 results/segmented_walkforward_pilot/
+
+# Horizon/exposure research large generated artifacts
+results/horizon_walkforward/
+results/horizon_walkforward_pilot/
+results/horizon_exposure_research/
+results/horizon_exposure_pilot/
+data/cache/horizon_research/
