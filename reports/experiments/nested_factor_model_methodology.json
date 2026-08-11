@@ -1,0 +1,42 @@
+{
+  "factor_portfolios": "Equal-weight top quintile minus bottom quintile five-day returns.",
+  "inference": "Newey-West HAC standard errors.",
+  "limitations": [
+    "Current 500-name universe remains survivorship biased.",
+    "Technical factors are Salarium factor proxies, not canonical academic factor datasets."
+  ],
+  "models": {
+    "A_fundamental": [
+      "size",
+      "value",
+      "quality",
+      "leverage"
+    ],
+    "B_technical": [
+      "beta",
+      "momentum",
+      "relative_strength",
+      "low_volatility",
+      "reversal"
+    ],
+    "C_combined": [
+      "size",
+      "value",
+      "quality",
+      "leverage",
+      "beta",
+      "momentum",
+      "relative_strength",
+      "low_volatility",
+      "reversal"
+    ]
+  },
+  "schema_version": "1.0",
+  "technical_factors": {
+    "beta": "60-day rolling market-beta proxy.",
+    "low_volatility": "Negative volatility z-score.",
+    "momentum": "20-day momentum cross-sectional z-score.",
+    "relative_strength": "Cross-sectional relative-strength z-score.",
+    "reversal": "Negative 5-day momentum z-score."
+  }
+}

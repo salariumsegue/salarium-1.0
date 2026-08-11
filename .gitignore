@@ -76,3 +76,6 @@ results/policy_pit_factor_comparison.csv
 results/pit_factor_mimicking_returns.csv
 results/factor_adjusted_policy_return_summary.csv
 results/factor_adjusted_policy_coefficients.csv
+results/nested_factor_returns.csv
+results/nested_factor_model_summary.csv
+results/nested_factor_model_coefficients.csv
