@@ -79,3 +79,7 @@ results/factor_adjusted_policy_coefficients.csv
 results/nested_factor_returns.csv
 results/nested_factor_model_summary.csv
 results/nested_factor_model_coefficients.csv
+data/processed/current_candidate_funnel_input.csv
+data/processed/current_candidate_funnel_input_manifest.json
+data/processed/current_candidate_funnel_feature_audit.csv
+results/candidate_funnel/
