@@ -15,7 +15,7 @@
     "top_n": 10,
     "universe": "Liquid-500"
   },
-  "generated_at_utc": "2026-08-11T19:14:43.178198+00:00",
+  "generated_at_utc": "2026-08-11T21:17:59.928383+00:00",
   "governance": {
     "historical_results_are_simulated": true,
     "investment_advice": false,
@@ -32,8 +32,8 @@
   },
   "provenance": {
     "git_branch": "release/salarium-1.0-rc",
-    "git_commit": "3d5f80f60adf74bcd992058fdf42f75c432da368",
-    "git_dirty": true,
+    "git_commit": "7f9e75d6ca5639929fd47f0b497d0e77e5fe425d",
+    "git_dirty": false,
     "source_report": "reports/experiments/signal_aware_covariance_overall.csv"
   },
   "release": {
