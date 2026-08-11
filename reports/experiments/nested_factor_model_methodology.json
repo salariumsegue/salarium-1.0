@@ -15,7 +15,6 @@
     "B_technical": [
       "beta",
       "momentum",
-      "relative_strength",
       "low_volatility",
       "reversal"
     ],
@@ -26,7 +25,6 @@
       "leverage",
       "beta",
       "momentum",
-      "relative_strength",
       "low_volatility",
       "reversal"
     ]
