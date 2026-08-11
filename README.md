@@ -1,120 +1,146 @@
-# Salarium
+# Salarium 1.0
 
-**Salarium** is a local-first, open-source, agentic equity research platform for systematic stock ranking, macro feature auditing, walk-forward validation, risk review, model tournaments, experiment tracking, and dashboard reporting.
+**Salarium** is an open-source quantitative equity research platform for systematic stock ranking, walk-forward validation, portfolio construction, macro/risk analysis, experiment governance, and public research reporting.
 
-It is designed to answer one core question:
+> Salarium is a research and engineering project. It is not a live trading bot and it is not investment advice.
 
-> Can a modular research system combine technical signals, macro context, data-quality checks, backtesting, risk diagnostics, and agentic review to produce more credible equity-ranking research?
+## Release Candidate
 
-- Salarium is **not** a live trading bot.
-- Salarium is **not** investment advice.
-- Salarium is a research and engineering project.
+Salarium 1.0 is now in release-candidate hardening. The current research architecture is intentionally frozen while the project moves from model experimentation into documentation, reproducibility, deployment, and public presentation.
 
----
-
-## Current Status
-
-Salarium is currently in **Phase 2: Open-source research platform buildout**.
-
-The system has moved beyond a single model script into a modular architecture with:
-
-- Top-125 equity universe construction
-- Model-safe training data
-- Macro-aware training data
-- Global-by-date macro regime features
-- Walk-forward strategy testing
-- Model tournament comparison
-- Data quality and leakage audits
-- Risk and portfolio diagnostics
-- Macro feature auditing
-- Experiment registry manifests
-- Final research report generation
-- Streamlit dashboard
-
-The current research conclusion is:
-
-> Salarium has a real research pipeline and some promising signal evidence, but the strategy is not yet portfolio-ready. The main open problems are weak ranking IC, high turnover, large drawdown, and the need for same-engine macro interaction testing.
-
----
-
-## Why Salarium Exists
-
-Most beginner “AI trading bot” projects are fragile because they skip the hard parts:
-
-- data leakage checks
-- walk-forward validation
-- transaction costs
-- turnover
-- drawdown
-- weak periods
-- model comparison
-- reproducibility
-- macro regime context
-- honest limitations
-
-Salarium is built to confront those problems directly.
-
-The goal is not to claim that the model “beats the market.”
-The goal is to build a research system that can say:
-
-1. what worked,
-2. what failed,
-3. why it failed,
-4. what should be tested next.
-
----
-
-## Architecture Overview
+### Locked research architecture
 
 ```text
-                             ┌─────────────────────────┐
-                             │  Stock Universe Config  │
-                             │ Top-125 Yahoo Universe  │
-                             └────────────┬────────────┘
-                                          │
-                                          ▼
-┌──────────────────────┐       ┌─────────────────────────┐
-│ Price / OHLCV Data   │──────▶│ Technical Feature Build │
-└──────────────────────┘       └────────────┬────────────┘
-                                            │
-                                            ▼
-                             ┌──────────────────────────────┐
-                             │ Model-Safe Training Dataset  │
-                             │ returns, momentum, RSI, etc. │
-                             └────────────┬─────────────────┘
-                                          │
-                                          ▼
-┌──────────────────────┐       ┌──────────────────────────────┐
-│ Macro LLM / Macro    │──────▶│ Global Macro Feature Builder │
-│ Event Features       │       │ same macro value per date    │
-└──────────────────────┘       └────────────┬─────────────────┘
-                                            │
-                                            ▼
-                             ┌──────────────────────────────┐
-                             │ Top-125 Global Macro Dataset │
-                             └────────────┬─────────────────┘
-                                          │
-                                          ▼
-          ┌────────────────────────────────────────────────────┐
-          │                 Agentic Research Layer             │
-          ├────────────────────────────────────────────────────┤
-          │ 1. Backtest Reviewer Agent                         │
-          │ 2. Model Tournament Agent                          │
-          │ 3. Strategy Walkforward Agent                      │
-          │ 4. Data Quality & Leakage Agent                    │
-          │ 5. Risk & Portfolio Agent                          │
-          │ 6. Macro Feature Audit Agent                       │
-          │ 7. Experiment Registry Agent                       │
-          │ 8. Final Research Report Agent                     │
-          └──────────────────────┬─────────────────────────────┘
-                                 │
-                                 ▼
-              ┌────────────────────────────────────┐
-              │ Reports, CSV Results, Manifests    │
-              └──────────────────┬─────────────────┘
-                                 │
-                                 ▼
-              ┌────────────────────────────────────┐
-              │ Streamlit Research Dashboard       │
-              └────────────────────────────────────┘
+Liquid-500 universe
+        ↓
+20-trading-day alpha target
+        ↓
+Annual expanding-window walk-forward model
+        ↓
+Out-of-sample equity rankings
+        ↓
+Top-10 selection + rank-15 persistence buffer
+        ↓
+60D Ledoit-Wolf covariance
+        ↓
+75% covariance-risk / 25% signal-aware weighting
+        ↓
+Maximum-diversification risk anchor
+        ↓
+Governed portfolio exposure
+        ↓
+Hard leverage ceiling: 1.25x
+```
 
+The defensive comparator substitutes a shrinkage minimum-variance anchor.
+
+## Current Research Evidence
+
+The current core balanced candidate is the **Top-10 / 20D target / 10D rebalance / 60D shrinkage maximum-diversification / 25% signal-aware blend / governed risk-scaling** configuration.
+
+Committed 2021-2026 expanding-window research results show approximately:
+
+| Metric | Core balanced candidate |
+|---|---:|
+| Annualized simulated net return | 48.2% |
+| Net Sharpe | 1.298 |
+| Net Sortino | 2.678 |
+| Maximum drawdown | -49.6% |
+| Average exposure | 0.534x |
+| Maximum realized exposure | 1.00x |
+
+These are simulated historical results, not live trading performance. The backtest has meaningful limitations and should not be interpreted as evidence of future investment returns.
+
+## Why the architecture changed
+
+Salarium's research process explicitly tested and rejected several tempting assumptions:
+
+- Expanding the universe toward ~2,000 names was technically feasible but reduced ranking quality under the existing model.
+- Rebalancing every five days was not the strongest implementation. A 20-day prediction target with a 10-day rebalance cadence produced a stronger research frontier.
+- Broadening the portfolio beyond the highest-ranked names reduced volatility but diluted alpha faster than it improved risk-adjusted performance.
+- Covariance-aware Top-10 weighting improved the risk/return trade-off versus simple inverse-volatility weighting.
+- More leverage was not automatically better. Salarium keeps a 1.25x ceiling, but the current governed research candidate did not need leverage above 1.00x.
+
+## System Components
+
+```text
+Data & universe governance
+        ↓
+Feature engineering
+        ↓
+Walk-forward alpha model
+        ↓
+Out-of-sample score artifacts
+        ↓
+Portfolio construction
+        ↓
+Covariance + signal-aware weighting
+        ↓
+Macro / risk exposure control
+        ↓
+Research reports + experiment archive
+        ↓
+Streamlit command center + Next.js website
+```
+
+The repository includes:
+
+- Liquid-500 and broad-universe research infrastructure
+- Expanding-window walk-forward scoring
+- Horizon/rebalance ablations
+- Transaction-cost and turnover analysis
+- Risk scaling and leverage governance
+- Portfolio breadth experiments
+- Ledoit-Wolf covariance research
+- Signal-aware covariance optimization
+- Macro-regime and risk-state tooling
+- Data-quality and leakage audits
+- Agentic research/reporting workflows
+- Streamlit research dashboard
+- Next.js public research website
+- GitHub Actions continuous integration
+
+## Reproducibility
+
+Install Python dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt
+```
+
+Run the Python test suite:
+
+```bash
+python -m pytest -q
+```
+
+Run the Streamlit command center locally:
+
+```bash
+streamlit run app/streamlit_app.py
+```
+
+Build the public website:
+
+```bash
+cd web
+npm ci
+npm run lint
+npm run build
+```
+
+## Release Documentation
+
+- `docs/SALARIUM_1_0_MODEL_CARD.md`
+- `docs/RELEASE_NOTES_1_0.md`
+- `docs/RELEASE_CHECKLIST.md`
+- `web/public/data/release_snapshot.json`
+
+## Limitations
+
+Salarium remains a research platform. Historical results are simulated and can be affected by data quality, survivorship or universe-selection effects, model overfitting, covariance-estimation error, regime shifts, approximate transaction costs, financing assumptions, and other implementation risks. The system does not place live orders.
+
+## Name
+
+*Salarium* refers to the Latin term associated with Roman pay/allowance and is the historical root of the modern word *salary*.
