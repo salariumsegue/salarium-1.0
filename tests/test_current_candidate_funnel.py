@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 
 
 SCRIPT = Path(
@@ -113,3 +114,146 @@ def test_advanced_contract_has_no_fake_walkforward_fields() -> None:
         "data_quality_score",
         "quantitative_score",
     } == columns
+
+
+
+def write_minimal_cache(
+    tmp_path: Path,
+    ticker: str,
+) -> Path:
+    cache = tmp_path / f"{ticker}.csv"
+
+    pd.DataFrame(
+        {
+            "date": [
+                "2026-07-10",
+            ],
+            "ticker": [
+                ticker,
+            ],
+            "open": [
+                10.0,
+            ],
+            "high": [
+                11.0,
+            ],
+            "low": [
+                9.0,
+            ],
+            "close": [
+                10.5,
+            ],
+            "volume": [
+                1000,
+            ],
+            "adj_close": [
+                10.5,
+            ],
+        }
+    ).to_csv(
+        cache,
+        index=False,
+    )
+
+    return cache
+
+
+def test_invalid_price_history_is_audited_and_skipped(
+    tmp_path: Path,
+) -> None:
+    class InvalidBuilder:
+        @staticmethod
+        def build_security_features(
+            history: pd.DataFrame,
+            ticker: str,
+        ) -> pd.DataFrame:
+            raise ValueError(
+                "Price history contains "
+                "invalid OHLCV values."
+            )
+
+    cache = write_minimal_cache(
+        tmp_path,
+        "BAD",
+    )
+
+    candidates = pd.DataFrame(
+        {
+            "ticker": [
+                "BAD",
+            ],
+            "history_days": [
+                2141,
+            ],
+        }
+    )
+
+    features, audit = (
+        MODULE.build_current_features(
+            candidates,
+            {
+                "BAD": cache,
+            },
+            InvalidBuilder,
+            pd.Timestamp(
+                "2026-07-10"
+            ),
+        )
+    )
+
+    assert features.empty
+
+    assert (
+        audit.iloc[0]["status"]
+        == "rejected_invalid_price_history"
+    )
+
+    assert (
+        audit.iloc[0]["ticker"]
+        == "BAD"
+    )
+
+
+def test_unexpected_builder_error_still_fails(
+    tmp_path: Path,
+) -> None:
+    class BrokenBuilder:
+        @staticmethod
+        def build_security_features(
+            history: pd.DataFrame,
+            ticker: str,
+        ) -> pd.DataFrame:
+            raise RuntimeError(
+                "unexpected programming defect"
+            )
+
+    cache = write_minimal_cache(
+        tmp_path,
+        "BUG",
+    )
+
+    candidates = pd.DataFrame(
+        {
+            "ticker": [
+                "BUG",
+            ],
+            "history_days": [
+                2141,
+            ],
+        }
+    )
+
+    with pytest.raises(
+        RuntimeError,
+        match="unexpected programming defect",
+    ):
+        MODULE.build_current_features(
+            candidates,
+            {
+                "BUG": cache,
+            },
+            BrokenBuilder,
+            pd.Timestamp(
+                "2026-07-10"
+            ),
+        )

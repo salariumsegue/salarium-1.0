@@ -259,22 +259,67 @@ def build_current_features(
         ticker = str(row.ticker)
         cache_path = cache_map[ticker]
 
-        history = pd.read_csv(
-            cache_path,
-            low_memory=False,
-        )
-
-        history["date"] = pd.to_datetime(
-            history["date"],
-            errors="coerce",
-        )
-
-        features = (
-            builder.build_security_features(
-                history,
-                ticker=ticker,
+        try:
+            history = pd.read_csv(
+                cache_path,
+                low_memory=False,
             )
-        )
+
+            history["date"] = pd.to_datetime(
+                history["date"],
+                errors="coerce",
+            )
+
+            features = (
+                builder.build_security_features(
+                    history,
+                    ticker=ticker,
+                )
+            )
+
+        except ValueError as error:
+            message = str(error)
+            normalized_message = message.lower()
+
+            recognized_data_errors = (
+                "invalid ohlcv values",
+                "invalid price or volume values",
+                "missing required price",
+                "no valid price rows",
+                "price history is empty",
+            )
+
+            if not any(
+                marker in normalized_message
+                for marker in recognized_data_errors
+            ):
+                raise
+
+            audit_rows.append(
+                {
+                    "ticker": ticker,
+                    "status": (
+                        "rejected_invalid_price_history"
+                    ),
+                    "cache_path": str(
+                        cache_path
+                    ),
+                    "feature_date": "",
+                    "error_type": type(
+                        error
+                    ).__name__,
+                    "error": message,
+                }
+            )
+
+            print(
+                "Rejected invalid cache:",
+                ticker,
+                "|",
+                message,
+            )
+
+            continue
 
         features["date"] = pd.to_datetime(
             features["date"],
@@ -374,9 +419,37 @@ def build_current_features(
                 len(candidates),
             )
 
+    feature_frame = pd.DataFrame(
+        feature_rows
+    )
+
+    audit_frame = pd.DataFrame(
+        audit_rows
+    )
+
+    status_counts = (
+        audit_frame["status"]
+        .value_counts()
+        .sort_index()
+        .to_dict()
+        if not audit_frame.empty
+        else {}
+    )
+
+    print()
+    print(
+        "Feature build status counts:",
+        status_counts,
+    )
+
+    print(
+        "Valid feature rows:",
+        len(feature_frame),
+    )
+
     return (
-        pd.DataFrame(feature_rows),
-        pd.DataFrame(audit_rows),
+        feature_frame,
+        audit_frame,
     )
 
 
@@ -690,9 +763,18 @@ def main() -> int:
     )
 
     if len(base) < 2000:
+        rejection_counts = (
+            audit["status"]
+            .value_counts()
+            .sort_index()
+            .to_dict()
+        )
+
         raise RuntimeError(
             "Feature construction left fewer "
-            "than 2,000 current securities."
+            "than 2,000 current securities. "
+            f"Valid rows: {len(base)}. "
+            f"Audit counts: {rejection_counts}."
         )
 
     universe = score_stage(
@@ -800,6 +882,20 @@ def main() -> int:
         ),
         "feature_rows": len(
             current_features
+        ),
+        "feature_status_counts": {
+            str(status): int(count)
+            for status, count
+            in audit["status"]
+            .value_counts()
+            .sort_index()
+            .items()
+        },
+        "rejected_feature_rows": int(
+            (
+                audit["status"]
+                != "pass"
+            ).sum()
         ),
         "funnel_input_rows": len(
             base
