@@ -1,3 +1,4 @@
+import SiteNav from "@/components/site-nav";
 import fs from "fs";
 import path from "path";
 
@@ -106,7 +107,11 @@ export default function Home() {
             SYSTEM ONLINE
           </div>
         </div>
-      </header>
+
+        <div className="mx-auto flex max-w-7xl justify-end px-6 pb-5 lg:px-12">
+          <SiteNav active="overview" />
+        </div>
+</header>
 
       <section className="relative mx-auto max-w-7xl px-6 py-16 lg:px-12">
         <div className="max-w-4xl">

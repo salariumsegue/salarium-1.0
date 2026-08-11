@@ -1,3 +1,4 @@
+import SiteNav from "@/components/site-nav";
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
@@ -106,20 +107,7 @@ export default function ResearchPage() {
             </h1>
           </Link>
 
-          <nav className="flex items-center gap-6 text-xs tracking-[0.18em] text-white/45">
-            <Link href="/" className="hover:text-white">
-              OVERVIEW
-            </Link>
-            <Link href="/rankings" className="hover:text-white">
-              RANKINGS
-            </Link>
-            <Link href="/architecture" className="hover:text-white">
-              ARCHITECTURE
-            </Link>
-            <Link href="/research" className="text-emerald-400">
-              RESEARCH
-            </Link>
-          </nav>
+          <SiteNav active="research" />
         </div>
       </header>
 

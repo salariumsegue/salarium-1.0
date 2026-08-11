@@ -1,6 +1,6 @@
+import SiteNav from "@/components/site-nav";
 import fs from "fs";
 import path from "path";
-import Link from "next/link";
 
 type Ranking = {
   ticker: string;
@@ -55,17 +55,7 @@ export default function RankingsPage() {
             </h1>
           </div>
 
-          <nav className="flex items-center gap-6 text-xs tracking-[0.18em] text-white/45">
-            <Link href="/" className="hover:text-white">
-              OVERVIEW
-            </Link>
-            <Link
-              href="/rankings"
-              className="text-emerald-400"
-            >
-              RANKINGS
-            </Link>
-          </nav>
+          <SiteNav active="rankings" />
         </div>
       </header>
 

@@ -24,4 +24,7 @@ SALARIUM_TRAINING_DATA_PATH="$PWD/data/processed/training_data_liquid500_model_s
 ./venv/bin/python \
   scripts/export_website_snapshot.py
 
+./venv/bin/python \
+  scripts/export_candidate_funnel_snapshot.py
+
 echo "SALARIUM_WEBSITE_REFRESH=PASS"

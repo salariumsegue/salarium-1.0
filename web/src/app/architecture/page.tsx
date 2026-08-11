@@ -1,3 +1,4 @@
+import SiteNav from "@/components/site-nav";
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
@@ -68,20 +69,7 @@ export default function ArchitecturePage() {
             </h1>
           </Link>
 
-          <nav className="flex items-center gap-6 text-xs tracking-[0.18em] text-white/45">
-            <Link href="/" className="hover:text-white">
-              OVERVIEW
-            </Link>
-            <Link href="/rankings" className="hover:text-white">
-              RANKINGS
-            </Link>
-            <Link
-              href="/architecture"
-              className="text-emerald-400"
-            >
-              ARCHITECTURE
-            </Link>
-          </nav>
+          <SiteNav active="architecture" />
         </div>
       </header>
 
