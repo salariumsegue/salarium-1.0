@@ -85,3 +85,7 @@ data/processed/current_candidate_funnel_feature_audit.csv
 results/candidate_funnel/
 data/cache/broad_walkforward_features/
 results/broad_walkforward/
+
+# Generated segmented broad-universe research artifacts
+results/segmented_walkforward/
+results/segmented_walkforward_pilot/
