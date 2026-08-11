@@ -36,7 +36,7 @@
         },
         {
           "column": "liquidity_rank",
-          "weight": 0.20,
+          "weight": 0.2,
           "direction": "lower"
         }
       ],
@@ -55,12 +55,12 @@
       "features": [
         {
           "column": "relative_strength",
-          "weight": 0.30,
+          "weight": 0.3,
           "direction": "higher"
         },
         {
           "column": "momentum_20d",
-          "weight": 0.20,
+          "weight": 0.2,
           "direction": "higher"
         },
         {
@@ -75,12 +75,12 @@
         },
         {
           "column": "momentum_5d",
-          "weight": 0.10,
+          "weight": 0.1,
           "direction": "higher"
         },
         {
           "column": "median_dollar_volume",
-          "weight": 0.10,
+          "weight": 0.1,
           "direction": "higher"
         }
       ],
@@ -95,29 +95,24 @@
       "name": "advanced",
       "target_count": 50,
       "score_column": "advanced_score",
-      "minimum_feature_coverage": 0.8,
+      "minimum_feature_coverage": 1.0,
       "filters": [
         {
           "column": "data_quality_score",
           "operator": ">=",
-          "value": 0.60
+          "value": 0.6
         }
       ],
       "features": [
         {
           "column": "model_score",
-          "weight": 0.35,
+          "weight": 0.45,
           "direction": "higher"
         },
         {
-          "column": "walkforward_ic",
+          "column": "model_uncertainty",
           "weight": 0.15,
-          "direction": "higher"
-        },
-        {
-          "column": "walkforward_excess_sharpe",
-          "weight": 0.15,
-          "direction": "higher"
+          "direction": "lower"
         },
         {
           "column": "drawdown_resilience",
@@ -125,13 +120,18 @@
           "direction": "higher"
         },
         {
-          "column": "turnover_efficiency",
-          "weight": 0.10,
+          "column": "liquidity_efficiency",
+          "weight": 0.1,
           "direction": "higher"
         },
         {
           "column": "data_quality_score",
-          "weight": 0.10,
+          "weight": 0.1,
+          "direction": "higher"
+        },
+        {
+          "column": "quantitative_score",
+          "weight": 0.05,
           "direction": "higher"
         }
       ],
@@ -162,7 +162,7 @@
       "features": [
         {
           "column": "advanced_score",
-          "weight": 0.50,
+          "weight": 0.5,
           "direction": "higher"
         },
         {
@@ -172,12 +172,12 @@
         },
         {
           "column": "agent_risk_score",
-          "weight": 0.10,
+          "weight": 0.1,
           "direction": "higher"
         },
         {
           "column": "agent_catalyst_score",
-          "weight": 0.10,
+          "weight": 0.1,
           "direction": "higher"
         },
         {

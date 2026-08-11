@@ -70,6 +70,14 @@ def synthetic_candidates(
             "model_score": rng.normal(
                 size=rows
             ),
+            "model_uncertainty": rng.uniform(
+                0.001,
+                0.05,
+                rows,
+            ),
+            "liquidity_efficiency": rng.normal(
+                size=rows
+            ),
             "walkforward_ic": rng.normal(
                 0.02,
                 0.05,
