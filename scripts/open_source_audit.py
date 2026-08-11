@@ -1,71 +1,92 @@
 from __future__ import annotations
 
 import re
+import subprocess
 from pathlib import Path
 
 
-IGNORE_PARTS = {
-    ".git",
-    "venv",
-    ".venv",
-    "__pycache__",
-    "reports/agent_runs",
+MAX_TRACKED_FILE_MB = 25.0
+
+BINARY_SUFFIXES = {
+    ".png", ".jpg", ".jpeg", ".gif", ".ico",
+    ".pdf", ".parquet", ".pkl", ".pyc",
+    ".zip", ".gz", ".woff", ".woff2", ".node",
 }
 
-SECRET_PATTERNS = [
-    re.compile(r"api[_-]?key\s*=", re.IGNORECASE),
-    re.compile(r"secret[_-]?key\s*=", re.IGNORECASE),
-    re.compile(r"password\s*=", re.IGNORECASE),
-    re.compile(r"token\s*=", re.IGNORECASE),
-    re.compile(r"sk-[A-Za-z0-9]{20,}"),
-]
+FORBIDDEN_PREFIXES = (
+    "venv/",
+    ".venv/",
+    "web/node_modules/",
+    "web/.next/",
+)
 
-MAX_MB = 25
+SECRET_PATTERNS = (
+    ("OpenAI key", re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b")),
+    ("GitHub token", re.compile(r"\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{30,}\b")),
+    ("GitHub PAT", re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}\b")),
+    ("AWS key", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
+    (
+        "Private key",
+        re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
+    ),
+)
 
 
-def should_skip(path: Path) -> bool:
-    parts = set(path.parts)
-
-    if parts.intersection(IGNORE_PARTS):
-        return True
-
-    if path.suffix.lower() in {".png", ".jpg", ".jpeg", ".gif", ".pdf", ".parquet", ".pyc"}:
-        return True
-
-    return False
+def tracked_files() -> list[Path]:
+    result = subprocess.run(
+        ["git", "ls-files", "-z"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return [Path(item) for item in result.stdout.split("\0") if item]
 
 
 def main() -> int:
-    problems = []
+    problems: list[str] = []
+    files = tracked_files()
 
-    for path in Path(".").rglob("*"):
-        if not path.is_file():
+    for path in files:
+        rel = path.as_posix()
+
+        if any(rel.startswith(prefix) for prefix in FORBIDDEN_PREFIXES):
+            problems.append(f"FORBIDDEN TRACKED ARTIFACT: {rel}")
             continue
 
-        if should_skip(path):
+        if not path.is_file():
             continue
 
         size_mb = path.stat().st_size / (1024 * 1024)
 
-        if size_mb > MAX_MB:
-            problems.append(f"LARGE FILE: {path} is {size_mb:.2f} MB")
+        if size_mb > MAX_TRACKED_FILE_MB:
+            problems.append(
+                f"LARGE TRACKED FILE: {rel} is {size_mb:.2f} MB"
+            )
+
+        if path.suffix.lower() in BINARY_SUFFIXES:
+            continue
 
         try:
             text = path.read_text(errors="ignore")
-        except Exception:
+        except OSError:
             continue
 
-        for pattern in SECRET_PATTERNS:
+        for label, pattern in SECRET_PATTERNS:
             if pattern.search(text):
-                problems.append(f"POSSIBLE SECRET: {path} matched {pattern.pattern}")
+                problems.append(
+                    f"POSSIBLE SECRET ({label}): {rel}"
+                )
 
     if problems:
         print("Open-source audit found issues:")
-        for item in problems:
-            print("-", item)
+        for problem in problems:
+            print("-", problem)
         return 1
 
-    print("Open-source audit passed.")
+    print(
+        f"Open-source audit passed: "
+        f"{len(files)} tracked files inspected."
+    )
     return 0
 
 
