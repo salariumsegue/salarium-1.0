@@ -79,6 +79,115 @@ def dataframe_records(path: Path) -> list[dict[str, Any]]:
     )
 
 
+def load_optional_records(
+    path: Path,
+) -> list[dict[str, Any]]:
+    if not path.is_file():
+        return []
+
+    return dataframe_records(path)
+
+
+def load_robustness_data(
+    results_directory: Path,
+) -> dict[str, Any]:
+    return {
+        "summary": load_optional_records(
+            results_directory
+            / "policy_robustness_summary.csv"
+        ),
+        "bootstrap": load_optional_records(
+            results_directory
+            / "policy_bootstrap_results.csv"
+        ),
+        "cost_stress": load_optional_records(
+            results_directory
+            / "policy_cost_stress.csv"
+        ),
+        "drawdown_episodes": load_optional_records(
+            results_directory
+            / "policy_drawdown_episodes.csv"
+        ),
+        "asset_concentration": load_optional_records(
+            results_directory
+            / "policy_asset_concentration.csv"
+        ),
+        "regime_exposure": load_optional_records(
+            results_directory
+            / "policy_regime_exposure.csv"
+        ),
+        "coverage": {
+            "asset_concentration": (
+                "available_by_holding_frequency"
+            ),
+            "market_regime_exposure": "available",
+            "sector_exposure": (
+                "unavailable_no_sector_metadata"
+            ),
+            "factor_exposure": (
+                "unavailable_no_factor_dataset"
+            ),
+        },
+    }
+
+
+def load_factor_exposure_data(
+    results_directory: Path,
+) -> dict[str, Any]:
+    report_path = (
+        results_directory
+        / "policy_factor_exposure_report.json"
+    )
+
+    if not report_path.is_file():
+        return {
+            "summary": [],
+            "weighted_concentration": [],
+            "coverage": {},
+            "methodology": {},
+            "disclosure": (
+                "Factor exposure analysis unavailable."
+            ),
+        }
+
+    payload = json.loads(
+        report_path.read_text(
+            encoding="utf-8"
+        )
+    )
+
+    return {
+        "summary": json_safe(
+            payload.get(
+                "factor_exposure_summary",
+                [],
+            )
+        ),
+        "weighted_concentration": json_safe(
+            payload.get(
+                "weighted_concentration_summary",
+                [],
+            )
+        ),
+        "coverage": json_safe(
+            payload.get(
+                "coverage",
+                {},
+            )
+        ),
+        "methodology": json_safe(
+            payload.get(
+                "factor_methodology",
+                {},
+            )
+        ),
+        "disclosure": payload.get(
+            "important_disclosure",
+            "",
+        ),
+    }
+
+
 def latest_rankings(
     score_path: Path,
     top_n: int = 25,
@@ -232,6 +341,12 @@ def main() -> int:
             "overall": overall,
             "yearly": yearly,
         },
+        "robustness": load_robustness_data(
+            results_directory
+        ),
+        "factor_exposure": load_factor_exposure_data(
+            results_directory
+        ),
         "latest_signal_state": latest_rankings(
             score_path
         ),

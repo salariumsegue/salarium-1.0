@@ -1,0 +1,13 @@
+{
+  "factor_orientation": {
+    "leverage": "positive means high leverage minus low leverage",
+    "quality": "positive means high quality minus low quality",
+    "size": "positive means large minus small",
+    "value": "positive means high value minus low value"
+  },
+  "factor_portfolios": "Equal-weight top quintile minus bottom quintile using point-in-time cross-sectional factor scores.",
+  "important_limitation": "The underlying 500-name historical panel remains a current-universe survivorship-biased research universe.",
+  "regression_target": "Policy net excess five-day return.",
+  "schema_version": "1.0",
+  "standard_errors": "Newey-West HAC."
+}

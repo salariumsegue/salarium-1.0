@@ -1,0 +1,214 @@
+{
+  "schema_version": "1.0",
+  "stages": [
+    {
+      "name": "universe",
+      "target_count": 2000,
+      "score_column": "universe_score",
+      "minimum_feature_coverage": 1.0,
+      "filters": [
+        {
+          "column": "last_price",
+          "operator": ">=",
+          "value": 5.0
+        },
+        {
+          "column": "median_dollar_volume",
+          "operator": ">=",
+          "value": 5000000.0
+        },
+        {
+          "column": "history_days",
+          "operator": ">=",
+          "value": 504
+        }
+      ],
+      "features": [
+        {
+          "column": "median_dollar_volume",
+          "weight": 0.55,
+          "direction": "higher"
+        },
+        {
+          "column": "history_days",
+          "weight": 0.25,
+          "direction": "higher"
+        },
+        {
+          "column": "liquidity_rank",
+          "weight": 0.2,
+          "direction": "lower"
+        }
+      ],
+      "tie_breakers": [
+        {
+          "column": "median_dollar_volume",
+          "ascending": false
+        }
+      ]
+    },
+    {
+      "name": "quantitative",
+      "target_count": 200,
+      "score_column": "quantitative_score",
+      "minimum_feature_coverage": 0.8,
+      "features": [
+        {
+          "column": "relative_strength",
+          "weight": 0.3,
+          "direction": "higher"
+        },
+        {
+          "column": "momentum_20d",
+          "weight": 0.2,
+          "direction": "higher"
+        },
+        {
+          "column": "price_vs_ma50",
+          "weight": 0.15,
+          "direction": "higher"
+        },
+        {
+          "column": "volatility_20d",
+          "weight": 0.15,
+          "direction": "lower"
+        },
+        {
+          "column": "momentum_5d",
+          "weight": 0.1,
+          "direction": "higher"
+        },
+        {
+          "column": "median_dollar_volume",
+          "weight": 0.1,
+          "direction": "higher"
+        }
+      ],
+      "tie_breakers": [
+        {
+          "column": "median_dollar_volume",
+          "ascending": false
+        }
+      ]
+    },
+    {
+      "name": "advanced",
+      "target_count": 50,
+      "score_column": "advanced_score",
+      "minimum_feature_coverage": 1.0,
+      "filters": [
+        {
+          "column": "data_quality_score",
+          "operator": ">=",
+          "value": 0.6
+        }
+      ],
+      "features": [
+        {
+          "column": "model_score",
+          "weight": 0.45,
+          "direction": "higher"
+        },
+        {
+          "column": "model_uncertainty",
+          "weight": 0.15,
+          "direction": "lower"
+        },
+        {
+          "column": "drawdown_resilience",
+          "weight": 0.15,
+          "direction": "higher"
+        },
+        {
+          "column": "liquidity_efficiency",
+          "weight": 0.1,
+          "direction": "higher"
+        },
+        {
+          "column": "data_quality_score",
+          "weight": 0.1,
+          "direction": "higher"
+        },
+        {
+          "column": "quantitative_score",
+          "weight": 0.05,
+          "direction": "higher"
+        }
+      ],
+      "tie_breakers": [
+        {
+          "column": "quantitative_score",
+          "ascending": false
+        }
+      ]
+    },
+    {
+      "name": "agentic",
+      "target_count": 30,
+      "score_column": "agentic_score",
+      "minimum_feature_coverage": 0.85,
+      "filters": [
+        {
+          "column": "agent_red_flag_count",
+          "operator": "<=",
+          "value": 1
+        },
+        {
+          "column": "agent_confidence",
+          "operator": ">=",
+          "value": 0.55
+        }
+      ],
+      "features": [
+        {
+          "column": "advanced_score",
+          "weight": 0.5,
+          "direction": "higher"
+        },
+        {
+          "column": "agent_fundamental_score",
+          "weight": 0.15,
+          "direction": "higher"
+        },
+        {
+          "column": "agent_risk_score",
+          "weight": 0.1,
+          "direction": "higher"
+        },
+        {
+          "column": "agent_catalyst_score",
+          "weight": 0.1,
+          "direction": "higher"
+        },
+        {
+          "column": "agent_macro_fit_score",
+          "weight": 0.05,
+          "direction": "higher"
+        },
+        {
+          "column": "agent_evidence_score",
+          "weight": 0.05,
+          "direction": "higher"
+        },
+        {
+          "column": "agent_confidence",
+          "weight": 0.05,
+          "direction": "higher"
+        }
+      ],
+      "tie_breakers": [
+        {
+          "column": "advanced_score",
+          "ascending": false
+        }
+      ]
+    }
+  ],
+  "final_selection": {
+    "target_count": 20,
+    "minimum_count": 10,
+    "maximum_count": 30,
+    "group_column": null,
+    "maximum_per_group": null
+  }
+}

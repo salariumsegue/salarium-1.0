@@ -24,7 +24,160 @@
     "The current universe construction remains exposed to survivorship bias.",
     "Neither approved research policy is approved for live deployment."
   ],
-  "generated_at_utc": "2026-08-05T21:36:33.944768+00:00",
+  "factor_exposure": {
+    "coverage": {
+      "industry_exposure": "unavailable_no_industry_metadata",
+      "low_volatility": "available_cross_sectional_proxy",
+      "market_beta": "available_60d_rolling_proxy",
+      "momentum": "available_20d_cross_sectional_proxy",
+      "quality_factor": "unavailable_no_point_in_time_fundamentals",
+      "relative_strength": "available_cross_sectional_proxy",
+      "sector_exposure": "unavailable_no_sector_metadata",
+      "short_term_reversal": "available_5d_cross_sectional_proxy",
+      "size_factor": "unavailable_no_point_in_time_market_cap",
+      "value_factor": "unavailable_no_point_in_time_fundamentals",
+      "weight_level_asset_concentration": "available_reconstructed_from_policy_holdings"
+    },
+    "disclosure": "These are Salarium technical factor proxies, not canonical Fama-French factor returns.",
+    "methodology": {
+      "low_volatility_z": "Negative cross-sectional z-score of volatility_20d.",
+      "market_beta_60d": "Rolling 60-observation beta to the equal-weight universe return, minimum 40 observations.",
+      "momentum_20d_z": "Cross-sectional z-score of momentum_20d.",
+      "relative_strength_z": "Cross-sectional z-score of relative_strength.",
+      "short_term_reversal_z": "Negative cross-sectional z-score of momentum_5d."
+    },
+    "summary": [
+      {
+        "average_covered_weight": 1.0,
+        "factor": "low_volatility_z",
+        "maximum_absolute_exposure": 3.0,
+        "mean_absolute_exposure": 2.3722463381675354,
+        "mean_exposure": -2.3722463381675354,
+        "median_exposure": -2.4446447754807155,
+        "p10_exposure": -2.8366723357605155,
+        "p90_exposure": -1.724638447492413,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 0.9865942028985508,
+        "factor": "market_beta_60d",
+        "maximum_absolute_exposure": 3.9622094632716593,
+        "mean_absolute_exposure": 2.3075318701159335,
+        "mean_exposure": 2.3075318701159335,
+        "median_exposure": 2.2642493992125523,
+        "p10_exposure": 1.5882460701399594,
+        "p90_exposure": 3.0965285592608973,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 1.0,
+        "factor": "momentum_20d_z",
+        "maximum_absolute_exposure": 2.8664690761463176,
+        "mean_absolute_exposure": 1.0382882119558885,
+        "mean_exposure": -0.10544563585183493,
+        "median_exposure": 0.06964396675157443,
+        "p10_exposure": -1.9568730047657437,
+        "p90_exposure": 1.4416021685553166,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 1.0,
+        "factor": "relative_strength_z",
+        "maximum_absolute_exposure": 2.8664690761463176,
+        "mean_absolute_exposure": 1.0382882119558885,
+        "mean_exposure": -0.10544563585183496,
+        "median_exposure": 0.06964396675157468,
+        "p10_exposure": -1.9568730047657437,
+        "p90_exposure": 1.4416021685553166,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 1.0,
+        "factor": "short_term_reversal_z",
+        "maximum_absolute_exposure": 2.8156439238767703,
+        "mean_absolute_exposure": 0.7991654735254052,
+        "mean_exposure": 0.6728236003479982,
+        "median_exposure": 0.6666571993340494,
+        "p10_exposure": -0.21902932552223178,
+        "p90_exposure": 1.6571066156846084,
+        "policy": "baseline_equal_weight"
+      },
+      {
+        "average_covered_weight": 0.5327898550724638,
+        "factor": "low_volatility_z",
+        "maximum_absolute_exposure": 2.981462800149611,
+        "mean_absolute_exposure": 1.1987816523633754,
+        "mean_exposure": -1.1987816523633754,
+        "median_exposure": -1.1021858400738207,
+        "p10_exposure": -2.00783903530235,
+        "p90_exposure": -0.7404307074338659,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      },
+      {
+        "average_covered_weight": 0.5254578457014835,
+        "factor": "market_beta_60d",
+        "maximum_absolute_exposure": 3.637189696744057,
+        "mean_absolute_exposure": 1.2315214030701909,
+        "mean_exposure": 1.2315214030701909,
+        "median_exposure": 1.036400426453667,
+        "p10_exposure": 0.7298254741829296,
+        "p90_exposure": 2.1181515355542997,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      },
+      {
+        "average_covered_weight": 0.5327898550724638,
+        "factor": "momentum_20d_z",
+        "maximum_absolute_exposure": 2.4023545011661334,
+        "mean_absolute_exposure": 0.5137057807556278,
+        "mean_exposure": -0.054644257318981086,
+        "median_exposure": -0.010457894410960393,
+        "p10_exposure": -0.8662391479794342,
+        "p90_exposure": 0.6613208349599455,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      },
+      {
+        "average_covered_weight": 0.5327898550724638,
+        "factor": "relative_strength_z",
+        "maximum_absolute_exposure": 2.4023545011661334,
+        "mean_absolute_exposure": 0.5137057807556278,
+        "mean_exposure": -0.05464425731898109,
+        "median_exposure": -0.010457894410960266,
+        "p10_exposure": -0.8662391479794345,
+        "p90_exposure": 0.6613208349599454,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      },
+      {
+        "average_covered_weight": 0.5327898550724638,
+        "factor": "short_term_reversal_z",
+        "maximum_absolute_exposure": 2.1470447125375944,
+        "mean_absolute_exposure": 0.39026180461381615,
+        "mean_exposure": 0.3314006451075402,
+        "median_exposure": 0.29473962509865725,
+        "p10_exposure": -0.12477042943975114,
+        "p90_exposure": 0.7953219881258438,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      }
+    ],
+    "weighted_concentration": [
+      {
+        "avg_effective_names": 9.999999999999996,
+        "avg_hhi": 0.10000000000000003,
+        "avg_maximum_weight": 0.1,
+        "min_effective_names": 9.999999999999996,
+        "policy": "baseline_equal_weight",
+        "worst_maximum_weight": 0.1
+      },
+      {
+        "avg_effective_names": 9.464121780194203,
+        "avg_hhi": 0.10577823797294209,
+        "avg_maximum_weight": 0.1365489186563656,
+        "min_effective_names": 7.705310784467107,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "worst_maximum_weight": 0.18000000000000002
+      }
+    ]
+  },
+  "generated_at_utc": "2026-08-10T19:44:04.260552+00:00",
   "latest_signal_state": {
     "count": 25,
     "date": "2026-06-12",
@@ -271,7 +424,7 @@
   },
   "provenance": {
     "git_branch": "phase4-macro-walkforward-risk-controls",
-    "git_commit": "2a47a88b060f1460479831eea4a774477fcf316b",
+    "git_commit": "a85dc787ecec23762e6a6cb82bf9ab4723231cc2",
     "git_dirty": true
   },
   "research_results": {
@@ -501,6 +654,3533 @@
         "num_rebalances": 23,
         "period": "2026",
         "policy": "turnover_buffer_inverse_volatility_risk_scaled"
+      }
+    ]
+  },
+  "robustness": {
+    "asset_concentration": [
+      {
+        "appearance_count": 97,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0351449275362318,
+        "share_of_rebalances": 0.3514492753623188,
+        "ticker": "WULF"
+      },
+      {
+        "appearance_count": 80,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0289855072463768,
+        "share_of_rebalances": 0.2898550724637681,
+        "ticker": "CIFR"
+      },
+      {
+        "appearance_count": 76,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0275362318840579,
+        "share_of_rebalances": 0.2753623188405797,
+        "ticker": "HUT"
+      },
+      {
+        "appearance_count": 76,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0275362318840579,
+        "share_of_rebalances": 0.2753623188405797,
+        "ticker": "RGTI"
+      },
+      {
+        "appearance_count": 75,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0271739130434782,
+        "share_of_rebalances": 0.2717391304347826,
+        "ticker": "ONDS"
+      },
+      {
+        "appearance_count": 74,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0268115942028985,
+        "share_of_rebalances": 0.2681159420289855,
+        "ticker": "CLSK"
+      },
+      {
+        "appearance_count": 70,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0253623188405797,
+        "share_of_rebalances": 0.2536231884057971,
+        "ticker": "MARA"
+      },
+      {
+        "appearance_count": 70,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0253623188405797,
+        "share_of_rebalances": 0.2536231884057971,
+        "ticker": "RIOT"
+      },
+      {
+        "appearance_count": 68,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0246376811594202,
+        "share_of_rebalances": 0.2463768115942029,
+        "ticker": "QBTS"
+      },
+      {
+        "appearance_count": 66,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0239130434782608,
+        "share_of_rebalances": 0.2391304347826087,
+        "ticker": "IREN"
+      },
+      {
+        "appearance_count": 62,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.022463768115942,
+        "share_of_rebalances": 0.2246376811594203,
+        "ticker": "AFRM"
+      },
+      {
+        "appearance_count": 61,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0221014492753623,
+        "share_of_rebalances": 0.2210144927536232,
+        "ticker": "ASTS"
+      },
+      {
+        "appearance_count": 56,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0202898550724637,
+        "share_of_rebalances": 0.2028985507246377,
+        "ticker": "APLD"
+      },
+      {
+        "appearance_count": 53,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0192028985507246,
+        "share_of_rebalances": 0.1920289855072463,
+        "ticker": "TE"
+      },
+      {
+        "appearance_count": 50,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0181159420289855,
+        "share_of_rebalances": 0.181159420289855,
+        "ticker": "CVNA"
+      },
+      {
+        "appearance_count": 48,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.017391304347826,
+        "share_of_rebalances": 0.1739130434782608,
+        "ticker": "AAOI"
+      },
+      {
+        "appearance_count": 47,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0170289855072463,
+        "share_of_rebalances": 0.1702898550724637,
+        "ticker": "POET"
+      },
+      {
+        "appearance_count": 45,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0163043478260869,
+        "share_of_rebalances": 0.1630434782608695,
+        "ticker": "MSTR"
+      },
+      {
+        "appearance_count": 43,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0155797101449275,
+        "share_of_rebalances": 0.1557971014492753,
+        "ticker": "RDW"
+      },
+      {
+        "appearance_count": 43,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0155797101449275,
+        "share_of_rebalances": 0.1557971014492753,
+        "ticker": "LUNR"
+      },
+      {
+        "appearance_count": 41,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0148550724637681,
+        "share_of_rebalances": 0.1485507246376811,
+        "ticker": "IONQ"
+      },
+      {
+        "appearance_count": 40,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0144927536231884,
+        "share_of_rebalances": 0.144927536231884,
+        "ticker": "AXTI"
+      },
+      {
+        "appearance_count": 39,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0141304347826086,
+        "share_of_rebalances": 0.1413043478260869,
+        "ticker": "SMR"
+      },
+      {
+        "appearance_count": 38,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0137681159420289,
+        "share_of_rebalances": 0.1376811594202898,
+        "ticker": "HIMS"
+      },
+      {
+        "appearance_count": 37,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0134057971014492,
+        "share_of_rebalances": 0.1340579710144927,
+        "ticker": "COIN"
+      },
+      {
+        "appearance_count": 35,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0126811594202898,
+        "share_of_rebalances": 0.1268115942028985,
+        "ticker": "QXO"
+      },
+      {
+        "appearance_count": 35,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0126811594202898,
+        "share_of_rebalances": 0.1268115942028985,
+        "ticker": "NVTS"
+      },
+      {
+        "appearance_count": 33,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0119565217391304,
+        "share_of_rebalances": 0.1195652173913043,
+        "ticker": "BE"
+      },
+      {
+        "appearance_count": 32,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0115942028985507,
+        "share_of_rebalances": 0.1159420289855072,
+        "ticker": "W"
+      },
+      {
+        "appearance_count": 28,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0101449275362318,
+        "share_of_rebalances": 0.1014492753623188,
+        "ticker": "MDB"
+      },
+      {
+        "appearance_count": 28,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0101449275362318,
+        "share_of_rebalances": 0.1014492753623188,
+        "ticker": "RIVN"
+      },
+      {
+        "appearance_count": 27,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0097826086956521,
+        "share_of_rebalances": 0.0978260869565217,
+        "ticker": "RKLB"
+      },
+      {
+        "appearance_count": 26,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0094202898550724,
+        "share_of_rebalances": 0.0942028985507246,
+        "ticker": "MP"
+      },
+      {
+        "appearance_count": 26,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0094202898550724,
+        "share_of_rebalances": 0.0942028985507246,
+        "ticker": "SMCI"
+      },
+      {
+        "appearance_count": 25,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0090579710144927,
+        "share_of_rebalances": 0.0905797101449275,
+        "ticker": "SITM"
+      },
+      {
+        "appearance_count": 25,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0090579710144927,
+        "share_of_rebalances": 0.0905797101449275,
+        "ticker": "JOBY"
+      },
+      {
+        "appearance_count": 25,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0090579710144927,
+        "share_of_rebalances": 0.0905797101449275,
+        "ticker": "APP"
+      },
+      {
+        "appearance_count": 23,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0083333333333333,
+        "share_of_rebalances": 0.0833333333333333,
+        "ticker": "SOFI"
+      },
+      {
+        "appearance_count": 23,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0083333333333333,
+        "share_of_rebalances": 0.0833333333333333,
+        "ticker": "DOCN"
+      },
+      {
+        "appearance_count": 23,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0083333333333333,
+        "share_of_rebalances": 0.0833333333333333,
+        "ticker": "OKLO"
+      },
+      {
+        "appearance_count": 23,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0083333333333333,
+        "share_of_rebalances": 0.0833333333333333,
+        "ticker": "ALAB"
+      },
+      {
+        "appearance_count": 22,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0079710144927536,
+        "share_of_rebalances": 0.0797101449275362,
+        "ticker": "CDE"
+      },
+      {
+        "appearance_count": 22,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0079710144927536,
+        "share_of_rebalances": 0.0797101449275362,
+        "ticker": "CELH"
+      },
+      {
+        "appearance_count": 22,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0079710144927536,
+        "share_of_rebalances": 0.0797101449275362,
+        "ticker": "ENPH"
+      },
+      {
+        "appearance_count": 22,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0079710144927536,
+        "share_of_rebalances": 0.0797101449275362,
+        "ticker": "RBLX"
+      },
+      {
+        "appearance_count": 21,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0076086956521739,
+        "share_of_rebalances": 0.0760869565217391,
+        "ticker": "PL"
+      },
+      {
+        "appearance_count": 20,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0072463768115942,
+        "share_of_rebalances": 0.072463768115942,
+        "ticker": "PATH"
+      },
+      {
+        "appearance_count": 19,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0068840579710144,
+        "share_of_rebalances": 0.0688405797101449,
+        "ticker": "MRNA"
+      },
+      {
+        "appearance_count": 18,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0065217391304347,
+        "share_of_rebalances": 0.0652173913043478,
+        "ticker": "RVMD"
+      },
+      {
+        "appearance_count": 18,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0065217391304347,
+        "share_of_rebalances": 0.0652173913043478,
+        "ticker": "ROKU"
+      },
+      {
+        "appearance_count": 17,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.006159420289855,
+        "share_of_rebalances": 0.0615942028985507,
+        "ticker": "TEAM"
+      },
+      {
+        "appearance_count": 17,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.006159420289855,
+        "share_of_rebalances": 0.0615942028985507,
+        "ticker": "USAR"
+      },
+      {
+        "appearance_count": 13,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0047101449275362,
+        "share_of_rebalances": 0.0471014492753623,
+        "ticker": "MXL"
+      },
+      {
+        "appearance_count": 13,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0047101449275362,
+        "share_of_rebalances": 0.0471014492753623,
+        "ticker": "BB"
+      },
+      {
+        "appearance_count": 13,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0047101449275362,
+        "share_of_rebalances": 0.0471014492753623,
+        "ticker": "SNOW"
+      },
+      {
+        "appearance_count": 13,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0047101449275362,
+        "share_of_rebalances": 0.0471014492753623,
+        "ticker": "SHOP"
+      },
+      {
+        "appearance_count": 13,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0047101449275362,
+        "share_of_rebalances": 0.0471014492753623,
+        "ticker": "SMTC"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "NET"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "PLTR"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "TWLO"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "TSLA"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "GH"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "CRDO"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "TEM"
+      },
+      {
+        "appearance_count": 11,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0039855072463768,
+        "share_of_rebalances": 0.0398550724637681,
+        "ticker": "RDDT"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "NCLH"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "HL"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "DKNG"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "DASH"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "WBD"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "STRL"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "VRT"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "MRVL"
+      },
+      {
+        "appearance_count": 9,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0032608695652173,
+        "share_of_rebalances": 0.0326086956521739,
+        "ticker": "COHR"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "MOD"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "PINS"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "TOST"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "OKTA"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "ECHO"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "ALB"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "DDOG"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "AA"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "CCL"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "NTRA"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "HOOD"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "NU"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "INTC"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "CCJ"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "HUBS"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "FSLR"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "CORZ"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "NXT"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "FTAI"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "CHTR"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "LSCC"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "CPNG"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "ZS"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "AMD"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "RMBS"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "THC"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "EQT"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "AMKR"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "WSM"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "ATI"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "AAL"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "CLS"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "ILMN"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "HUM"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "TTMI"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "FN"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "DELL"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "CAVA"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "FLUT"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "CEG"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "CNC"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "NVO"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "FICO"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "FISV"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "CRS"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "WDC"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "LITE"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "OXY"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "PAAS"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "RKT"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "FORM"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "INSM"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "OWL"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "RCL"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "META"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "XYZ"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "TLN"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "ON"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "ADM"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "ALNY"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "MU"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "FTNT"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "AVGO"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "RBRK"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "VST"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "CIEN"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "INTU"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "TSEM"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "ZTS"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "ZM"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "AXON"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "NRG"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "HAL"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "ONTO"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "SPOT"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "XPO"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "KEY"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "SCHW"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "MPWR"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "NVDA"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "ANET"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "DXCM"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "FIVE"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "DG"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "DLTR"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "STLD"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "WST"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "DAL"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "TER"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "ORCL"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "STX"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "AKAM"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "PBR"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "MKSI"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "MTSI"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "DVN"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "NKE"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "KTOS"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "PYPL"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "ABNB"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "TFC"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "VEEV"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "AU"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "DKS"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "BA"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "CRM"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "TKO"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "DUK"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "TMO"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "EXPE"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "CTVA"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "STM"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "LRCX"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "NUE"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "SLB"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "ODFL"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "BBY"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "ENTG"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "VSH"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "FIX"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "IDXX"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "SNPS"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "KLAC"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "VIAV"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "CF"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "LYB"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "GLW"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "TSCO"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "QCOM"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "HPQ"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "NOW"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "baseline_equal_weight",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "NTAP"
+      },
+      {
+        "appearance_count": 102,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0369565217391304,
+        "share_of_rebalances": 0.3695652173913043,
+        "ticker": "WULF"
+      },
+      {
+        "appearance_count": 81,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0293478260869565,
+        "share_of_rebalances": 0.2934782608695652,
+        "ticker": "ONDS"
+      },
+      {
+        "appearance_count": 80,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0289855072463768,
+        "share_of_rebalances": 0.2898550724637681,
+        "ticker": "CLSK"
+      },
+      {
+        "appearance_count": 80,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0289855072463768,
+        "share_of_rebalances": 0.2898550724637681,
+        "ticker": "RGTI"
+      },
+      {
+        "appearance_count": 76,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0275362318840579,
+        "share_of_rebalances": 0.2753623188405797,
+        "ticker": "RIOT"
+      },
+      {
+        "appearance_count": 75,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0271739130434782,
+        "share_of_rebalances": 0.2717391304347826,
+        "ticker": "HUT"
+      },
+      {
+        "appearance_count": 74,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0268115942028985,
+        "share_of_rebalances": 0.2681159420289855,
+        "ticker": "CIFR"
+      },
+      {
+        "appearance_count": 70,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0253623188405797,
+        "share_of_rebalances": 0.2536231884057971,
+        "ticker": "MARA"
+      },
+      {
+        "appearance_count": 67,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0242753623188405,
+        "share_of_rebalances": 0.2427536231884058,
+        "ticker": "QBTS"
+      },
+      {
+        "appearance_count": 65,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0235507246376811,
+        "share_of_rebalances": 0.2355072463768115,
+        "ticker": "ASTS"
+      },
+      {
+        "appearance_count": 63,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0228260869565217,
+        "share_of_rebalances": 0.2282608695652173,
+        "ticker": "IREN"
+      },
+      {
+        "appearance_count": 59,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0213768115942028,
+        "share_of_rebalances": 0.213768115942029,
+        "ticker": "AFRM"
+      },
+      {
+        "appearance_count": 59,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0213768115942028,
+        "share_of_rebalances": 0.213768115942029,
+        "ticker": "APLD"
+      },
+      {
+        "appearance_count": 52,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0188405797101449,
+        "share_of_rebalances": 0.1884057971014492,
+        "ticker": "TE"
+      },
+      {
+        "appearance_count": 51,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0184782608695652,
+        "share_of_rebalances": 0.1847826086956521,
+        "ticker": "AAOI"
+      },
+      {
+        "appearance_count": 50,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0181159420289855,
+        "share_of_rebalances": 0.181159420289855,
+        "ticker": "CVNA"
+      },
+      {
+        "appearance_count": 47,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0170289855072463,
+        "share_of_rebalances": 0.1702898550724637,
+        "ticker": "POET"
+      },
+      {
+        "appearance_count": 44,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0159420289855072,
+        "share_of_rebalances": 0.1594202898550724,
+        "ticker": "MSTR"
+      },
+      {
+        "appearance_count": 42,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0152173913043478,
+        "share_of_rebalances": 0.1521739130434782,
+        "ticker": "RDW"
+      },
+      {
+        "appearance_count": 42,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0152173913043478,
+        "share_of_rebalances": 0.1521739130434782,
+        "ticker": "LUNR"
+      },
+      {
+        "appearance_count": 40,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0144927536231884,
+        "share_of_rebalances": 0.144927536231884,
+        "ticker": "IONQ"
+      },
+      {
+        "appearance_count": 39,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0141304347826086,
+        "share_of_rebalances": 0.1413043478260869,
+        "ticker": "HIMS"
+      },
+      {
+        "appearance_count": 38,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0137681159420289,
+        "share_of_rebalances": 0.1376811594202898,
+        "ticker": "SMR"
+      },
+      {
+        "appearance_count": 34,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0123188405797101,
+        "share_of_rebalances": 0.1231884057971014,
+        "ticker": "NVTS"
+      },
+      {
+        "appearance_count": 33,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0119565217391304,
+        "share_of_rebalances": 0.1195652173913043,
+        "ticker": "QXO"
+      },
+      {
+        "appearance_count": 32,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0115942028985507,
+        "share_of_rebalances": 0.1159420289855072,
+        "ticker": "AXTI"
+      },
+      {
+        "appearance_count": 32,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0115942028985507,
+        "share_of_rebalances": 0.1159420289855072,
+        "ticker": "BE"
+      },
+      {
+        "appearance_count": 31,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.011231884057971,
+        "share_of_rebalances": 0.1123188405797101,
+        "ticker": "W"
+      },
+      {
+        "appearance_count": 31,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.011231884057971,
+        "share_of_rebalances": 0.1123188405797101,
+        "ticker": "COIN"
+      },
+      {
+        "appearance_count": 29,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0105072463768115,
+        "share_of_rebalances": 0.1050724637681159,
+        "ticker": "RKLB"
+      },
+      {
+        "appearance_count": 28,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0101449275362318,
+        "share_of_rebalances": 0.1014492753623188,
+        "ticker": "RIVN"
+      },
+      {
+        "appearance_count": 27,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0097826086956521,
+        "share_of_rebalances": 0.0978260869565217,
+        "ticker": "MDB"
+      },
+      {
+        "appearance_count": 26,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0094202898550724,
+        "share_of_rebalances": 0.0942028985507246,
+        "ticker": "JOBY"
+      },
+      {
+        "appearance_count": 26,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0094202898550724,
+        "share_of_rebalances": 0.0942028985507246,
+        "ticker": "SMCI"
+      },
+      {
+        "appearance_count": 25,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0090579710144927,
+        "share_of_rebalances": 0.0905797101449275,
+        "ticker": "SITM"
+      },
+      {
+        "appearance_count": 25,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0090579710144927,
+        "share_of_rebalances": 0.0905797101449275,
+        "ticker": "RBLX"
+      },
+      {
+        "appearance_count": 25,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0090579710144927,
+        "share_of_rebalances": 0.0905797101449275,
+        "ticker": "DOCN"
+      },
+      {
+        "appearance_count": 24,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.008695652173913,
+        "share_of_rebalances": 0.0869565217391304,
+        "ticker": "APP"
+      },
+      {
+        "appearance_count": 24,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.008695652173913,
+        "share_of_rebalances": 0.0869565217391304,
+        "ticker": "OKLO"
+      },
+      {
+        "appearance_count": 22,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0079710144927536,
+        "share_of_rebalances": 0.0797101449275362,
+        "ticker": "CELH"
+      },
+      {
+        "appearance_count": 22,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0079710144927536,
+        "share_of_rebalances": 0.0797101449275362,
+        "ticker": "PL"
+      },
+      {
+        "appearance_count": 22,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0079710144927536,
+        "share_of_rebalances": 0.0797101449275362,
+        "ticker": "ALAB"
+      },
+      {
+        "appearance_count": 21,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0076086956521739,
+        "share_of_rebalances": 0.0760869565217391,
+        "ticker": "CDE"
+      },
+      {
+        "appearance_count": 21,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0076086956521739,
+        "share_of_rebalances": 0.0760869565217391,
+        "ticker": "ENPH"
+      },
+      {
+        "appearance_count": 21,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0076086956521739,
+        "share_of_rebalances": 0.0760869565217391,
+        "ticker": "PATH"
+      },
+      {
+        "appearance_count": 20,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0072463768115942,
+        "share_of_rebalances": 0.072463768115942,
+        "ticker": "MP"
+      },
+      {
+        "appearance_count": 20,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0072463768115942,
+        "share_of_rebalances": 0.072463768115942,
+        "ticker": "RVMD"
+      },
+      {
+        "appearance_count": 19,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0068840579710144,
+        "share_of_rebalances": 0.0688405797101449,
+        "ticker": "SOFI"
+      },
+      {
+        "appearance_count": 18,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0065217391304347,
+        "share_of_rebalances": 0.0652173913043478,
+        "ticker": "TEAM"
+      },
+      {
+        "appearance_count": 17,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.006159420289855,
+        "share_of_rebalances": 0.0615942028985507,
+        "ticker": "ROKU"
+      },
+      {
+        "appearance_count": 17,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.006159420289855,
+        "share_of_rebalances": 0.0615942028985507,
+        "ticker": "USAR"
+      },
+      {
+        "appearance_count": 16,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0057971014492753,
+        "share_of_rebalances": 0.0579710144927536,
+        "ticker": "SNOW"
+      },
+      {
+        "appearance_count": 15,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0054347826086956,
+        "share_of_rebalances": 0.0543478260869565,
+        "ticker": "MRNA"
+      },
+      {
+        "appearance_count": 15,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0054347826086956,
+        "share_of_rebalances": 0.0543478260869565,
+        "ticker": "MXL"
+      },
+      {
+        "appearance_count": 14,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0050724637681159,
+        "share_of_rebalances": 0.0507246376811594,
+        "ticker": "NET"
+      },
+      {
+        "appearance_count": 14,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0050724637681159,
+        "share_of_rebalances": 0.0507246376811594,
+        "ticker": "BB"
+      },
+      {
+        "appearance_count": 14,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0050724637681159,
+        "share_of_rebalances": 0.0507246376811594,
+        "ticker": "CRDO"
+      },
+      {
+        "appearance_count": 13,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0047101449275362,
+        "share_of_rebalances": 0.0471014492753623,
+        "ticker": "SHOP"
+      },
+      {
+        "appearance_count": 13,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0047101449275362,
+        "share_of_rebalances": 0.0471014492753623,
+        "ticker": "SMTC"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "DASH"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "TSLA"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "GH"
+      },
+      {
+        "appearance_count": 12,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0043478260869565,
+        "share_of_rebalances": 0.0434782608695652,
+        "ticker": "TEM"
+      },
+      {
+        "appearance_count": 11,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0039855072463768,
+        "share_of_rebalances": 0.0398550724637681,
+        "ticker": "MRVL"
+      },
+      {
+        "appearance_count": 11,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0039855072463768,
+        "share_of_rebalances": 0.0398550724637681,
+        "ticker": "RDDT"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "PLTR"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "DKNG"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "TWLO"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "STRL"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "PINS"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "VRT"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "OKTA"
+      },
+      {
+        "appearance_count": 10,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0036231884057971,
+        "share_of_rebalances": 0.036231884057971,
+        "ticker": "COHR"
+      },
+      {
+        "appearance_count": 9,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0032608695652173,
+        "share_of_rebalances": 0.0326086956521739,
+        "ticker": "HL"
+      },
+      {
+        "appearance_count": 9,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0032608695652173,
+        "share_of_rebalances": 0.0326086956521739,
+        "ticker": "WBD"
+      },
+      {
+        "appearance_count": 9,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0032608695652173,
+        "share_of_rebalances": 0.0326086956521739,
+        "ticker": "NU"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "NCLH"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "DDOG"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "HOOD"
+      },
+      {
+        "appearance_count": 8,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0028985507246376,
+        "share_of_rebalances": 0.0289855072463768,
+        "ticker": "ECHO"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "OXY"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "NTRA"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "ALB"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "INTC"
+      },
+      {
+        "appearance_count": 7,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0025362318840579,
+        "share_of_rebalances": 0.0253623188405797,
+        "ticker": "FTAI"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "CCJ"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "AMKR"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "HUBS"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "MOD"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "CCL"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "FSLR"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "RMBS"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "CAVA"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "CORZ"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "NXT"
+      },
+      {
+        "appearance_count": 6,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0021739130434782,
+        "share_of_rebalances": 0.0217391304347826,
+        "ticker": "CHTR"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "WSM"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "LSCC"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "CPNG"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "ATI"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "TOST"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "HUM"
+      },
+      {
+        "appearance_count": 5,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0018115942028985,
+        "share_of_rebalances": 0.0181159420289855,
+        "ticker": "AMD"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "THC"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "WDC"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "RKT"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "FORM"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "INSM"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "OWL"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "AAL"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "AA"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "ILMN"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "META"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "DELL"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "ADM"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "FLUT"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "AVGO"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "CNC"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "NVO"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "FISV"
+      },
+      {
+        "appearance_count": 4,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0014492753623188,
+        "share_of_rebalances": 0.0144927536231884,
+        "ticker": "TSEM"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "CRS"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "PAAS"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "XYZ"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "RCL"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "TTMI"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "KEY"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "NVDA"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "TLN"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "ON"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "ALNY"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "MU"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "FTNT"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "RBRK"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "VST"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "ORCL"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "CLS"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "CIEN"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "INTU"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "ZS"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "FICO"
+      },
+      {
+        "appearance_count": 3,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0010869565217391,
+        "share_of_rebalances": 0.0108695652173913,
+        "ticker": "ZTS"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "EQT"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "ZM"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "AXON"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "HAL"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "ONTO"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "XPO"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "SCHW"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "MPWR"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "ANET"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "FN"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "CEG"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "DXCM"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "FIVE"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "DG"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "DLTR"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "STLD"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "DAL"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "LITE"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "STX"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "KLAC"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "CF"
+      },
+      {
+        "appearance_count": 2,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0007246376811594,
+        "share_of_rebalances": 0.0072463768115942,
+        "ticker": "AKAM"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "PBR"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "MKSI"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "MTSI"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "NKE"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "SPOT"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "KTOS"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "ABNB"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "TFC"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "VEEV"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "AU"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "DKS"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "BA"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "CRM"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "TKO"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "DUK"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "TMO"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "EXPE"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "STM"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "LRCX"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "NUE"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "ODFL"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "WST"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "BBY"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "TER"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "ENTG"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "VSH"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "NRG"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "FIX"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "VIAV"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "GLW"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "TSCO"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "HPQ"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "NOW"
+      },
+      {
+        "appearance_count": 1,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_portfolio_slots": 0.0003623188405797,
+        "share_of_rebalances": 0.0036231884057971,
+        "ticker": "NTAP"
+      }
+    ],
+    "bootstrap": [
+      {
+        "block_length_rebalances": 6,
+        "ci_95_lower": -0.0110716408849557,
+        "ci_95_upper": 0.0006734974439957,
+        "comparison": "risk_managed_minus_alpha_benchmark",
+        "iterations": 5000,
+        "metric": "mean_net_return",
+        "observed_difference": -0.0052414940080315,
+        "probability_difference_positive": 0.0426,
+        "statistically_significant_5pct": false,
+        "two_sided_bootstrap_p_value": 0.0852
+      },
+      {
+        "block_length_rebalances": 6,
+        "ci_95_lower": -0.0080259851108146,
+        "ci_95_upper": 0.0015099615995478,
+        "comparison": "risk_managed_minus_alpha_benchmark",
+        "iterations": 5000,
+        "metric": "mean_excess_return",
+        "observed_difference": -0.0032261275024089,
+        "probability_difference_positive": 0.095,
+        "statistically_significant_5pct": false,
+        "two_sided_bootstrap_p_value": 0.19
+      },
+      {
+        "block_length_rebalances": 6,
+        "ci_95_lower": -0.4055666889190309,
+        "ci_95_upper": 0.3143996551414983,
+        "comparison": "risk_managed_minus_alpha_benchmark",
+        "iterations": 5000,
+        "metric": "net_sharpe",
+        "observed_difference": -0.0294402473443323,
+        "probability_difference_positive": 0.4408,
+        "statistically_significant_5pct": false,
+        "two_sided_bootstrap_p_value": 0.8816
+      },
+      {
+        "block_length_rebalances": 6,
+        "ci_95_lower": -0.4579895063060654,
+        "ci_95_upper": 0.3269634796348953,
+        "comparison": "risk_managed_minus_alpha_benchmark",
+        "iterations": 5000,
+        "metric": "excess_sharpe",
+        "observed_difference": -0.0534072943817646,
+        "probability_difference_positive": 0.404,
+        "statistically_significant_5pct": false,
+        "two_sided_bootstrap_p_value": 0.808
+      },
+      {
+        "block_length_rebalances": 6,
+        "ci_95_lower": 0.0412243021395085,
+        "ci_95_upper": 0.3562873736240676,
+        "comparison": "risk_managed_minus_alpha_benchmark",
+        "iterations": 5000,
+        "metric": "max_drawdown",
+        "observed_difference": 0.1896740632477407,
+        "probability_difference_positive": 0.9922,
+        "statistically_significant_5pct": true,
+        "two_sided_bootstrap_p_value": 0.0156
+      }
+    ],
+    "cost_stress": [
+      {
+        "annualized_net_return": 0.4868837125606149,
+        "avg_excess_5d_return": 0.0066658475925479,
+        "avg_net_5d_return": 0.0116866683210037,
+        "cash_rate_annual": 0.0,
+        "excess_sharpe": 0.6729743137445574,
+        "fees_bps": 10.0,
+        "financing_rate_annual": 0.0,
+        "max_drawdown": -0.7683063224514697,
+        "net_sharpe": 0.9445171143896424,
+        "policy": "baseline_equal_weight",
+        "scenario": "current_assumption",
+        "slippage_bps": 0.0,
+        "spread_bps": 0.0,
+        "total_trading_cost_bps": 10.0
+      },
+      {
+        "annualized_net_return": 0.5361071621503666,
+        "avg_excess_5d_return": 0.0073147606360262,
+        "avg_net_5d_return": 0.012335581364482,
+        "cash_rate_annual": 0.03,
+        "excess_sharpe": 0.7385111954847109,
+        "fees_bps": 1.0,
+        "financing_rate_annual": 0.055,
+        "max_drawdown": -0.7596556438435389,
+        "net_sharpe": 0.9969844672253744,
+        "policy": "baseline_equal_weight",
+        "scenario": "institutional_low",
+        "slippage_bps": 2.0,
+        "spread_bps": 2.0,
+        "total_trading_cost_bps": 5.0
+      },
+      {
+        "annualized_net_return": 0.4676295841793785,
+        "avg_excess_5d_return": 0.0064062823751566,
+        "avg_net_5d_return": 0.0114271031036124,
+        "cash_rate_annual": 0.03,
+        "excess_sharpe": 0.6467597480048204,
+        "fees_bps": 2.0,
+        "financing_rate_annual": 0.06,
+        "max_drawdown": -0.7716803754611443,
+        "net_sharpe": 0.9235299261571644,
+        "policy": "baseline_equal_weight",
+        "scenario": "realistic_base",
+        "slippage_bps": 5.0,
+        "spread_bps": 5.0,
+        "total_trading_cost_bps": 12.0
+      },
+      {
+        "annualized_net_return": 0.3049709397708131,
+        "avg_excess_5d_return": 0.0040701954186349,
+        "avg_net_5d_return": 0.0090910161470907,
+        "cash_rate_annual": 0.02,
+        "excess_sharpe": 0.4108462823537004,
+        "fees_bps": 5.0,
+        "financing_rate_annual": 0.08,
+        "max_drawdown": -0.8010919533119846,
+        "net_sharpe": 0.7346454577575517,
+        "policy": "baseline_equal_weight",
+        "scenario": "conservative",
+        "slippage_bps": 15.0,
+        "spread_bps": 10.0,
+        "total_trading_cost_bps": 30.0
+      },
+      {
+        "annualized_net_return": 0.0722366078328238,
+        "avg_excess_5d_return": 0.0001767171577653,
+        "avg_net_5d_return": 0.0051975378862211,
+        "cash_rate_annual": 0.0,
+        "excess_sharpe": 0.0178300939897088,
+        "fees_bps": 10.0,
+        "financing_rate_annual": 0.1,
+        "max_drawdown": -0.8608882147025757,
+        "net_sharpe": 0.4198915156889121,
+        "policy": "baseline_equal_weight",
+        "scenario": "stress",
+        "slippage_bps": 30.0,
+        "spread_bps": 20.0,
+        "total_trading_cost_bps": 60.0
+      },
+      {
+        "annualized_net_return": 0.2998458955181975,
+        "avg_excess_5d_return": 0.0034397200901389,
+        "avg_net_5d_return": 0.0064451743129722,
+        "cash_rate_annual": 0.0,
+        "excess_sharpe": 0.619567019362792,
+        "fees_bps": 10.0,
+        "financing_rate_annual": 0.0,
+        "max_drawdown": -0.5786322592037292,
+        "net_sharpe": 0.91507686704531,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "scenario": "current_assumption",
+        "slippage_bps": 0.0,
+        "spread_bps": 0.0,
+        "total_trading_cost_bps": 10.0
+      },
+      {
+        "annualized_net_return": 0.3393384000676165,
+        "avg_excess_5d_return": 0.0040371132255395,
+        "avg_net_5d_return": 0.0070425674483727,
+        "cash_rate_annual": 0.03,
+        "excess_sharpe": 0.7267946917216324,
+        "fees_bps": 1.0,
+        "financing_rate_annual": 0.055,
+        "max_drawdown": -0.5548978760094012,
+        "net_sharpe": 0.9994887871855096,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "scenario": "institutional_low",
+        "slippage_bps": 2.0,
+        "spread_bps": 2.0,
+        "total_trading_cost_bps": 5.0
+      },
+      {
+        "annualized_net_return": 0.3093930744662132,
+        "avg_excess_5d_return": 0.0035844912469426,
+        "avg_net_5d_return": 0.0065899454697758,
+        "cash_rate_annual": 0.03,
+        "excess_sharpe": 0.6460211422480241,
+        "fees_bps": 2.0,
+        "financing_rate_annual": 0.06,
+        "max_drawdown": -0.5709614639953214,
+        "net_sharpe": 0.9361604643348544,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "scenario": "realistic_base",
+        "slippage_bps": 5.0,
+        "spread_bps": 5.0,
+        "total_trading_cost_bps": 12.0
+      },
+      {
+        "annualized_net_return": 0.2297462546126323,
+        "avg_excess_5d_return": 0.002330121702939,
+        "avg_net_5d_return": 0.0053355759257722,
+        "cash_rate_annual": 0.02,
+        "excess_sharpe": 0.421052244133299,
+        "fees_bps": 5.0,
+        "financing_rate_annual": 0.08,
+        "max_drawdown": -0.6133489867960593,
+        "net_sharpe": 0.7597314763548255,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "scenario": "conservative",
+        "slippage_bps": 15.0,
+        "spread_bps": 10.0,
+        "total_trading_cost_bps": 30.0
+      },
+      {
+        "annualized_net_return": 0.1055650755530959,
+        "avg_excess_5d_return": 0.0002067059573039,
+        "avg_net_5d_return": 0.0032121601801372,
+        "cash_rate_annual": 0.0,
+        "excess_sharpe": 0.0374996528090506,
+        "fees_bps": 10.0,
+        "financing_rate_annual": 0.1,
+        "max_drawdown": -0.6760969254392171,
+        "net_sharpe": 0.4590331870419977,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "scenario": "stress",
+        "slippage_bps": 30.0,
+        "spread_bps": 20.0,
+        "total_trading_cost_bps": 60.0
+      }
+    ],
+    "coverage": {
+      "asset_concentration": "available_by_holding_frequency",
+      "factor_exposure": "unavailable_no_factor_dataset",
+      "market_regime_exposure": "available",
+      "sector_exposure": "unavailable_no_sector_metadata"
+    },
+    "drawdown_episodes": [
+      {
+        "episode": 1,
+        "max_drawdown": -0.4201896556184701,
+        "peak_date": "2021-02-02",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2021-10-26",
+        "trough_date": "2021-05-06",
+        "trough_to_recovery_days": 173.0,
+        "trough_to_recovery_rebalances": 24.0,
+        "underwater_calendar_days": 266,
+        "underwater_rebalances": 37
+      },
+      {
+        "episode": 2,
+        "max_drawdown": -0.7683063224514697,
+        "peak_date": "2021-11-02",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2024-10-31",
+        "trough_date": "2022-12-22",
+        "trough_to_recovery_days": 679.0,
+        "trough_to_recovery_rebalances": 94.0,
+        "underwater_calendar_days": 1094,
+        "underwater_rebalances": 152
+      },
+      {
+        "episode": 3,
+        "max_drawdown": -0.0461113599557724,
+        "peak_date": "2024-10-31",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2024-11-14",
+        "trough_date": "2024-11-07",
+        "trough_to_recovery_days": 7.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 14,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 4,
+        "max_drawdown": -0.106851583174564,
+        "peak_date": "2024-11-29",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2024-12-30",
+        "trough_date": "2024-12-13",
+        "trough_to_recovery_days": 17.0,
+        "trough_to_recovery_rebalances": 2.0,
+        "underwater_calendar_days": 31,
+        "underwater_rebalances": 4
+      },
+      {
+        "episode": 5,
+        "max_drawdown": -0.006400118425776,
+        "peak_date": "2024-12-30",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2025-01-10",
+        "trough_date": "2025-01-02",
+        "trough_to_recovery_days": 8.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 11,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 6,
+        "max_drawdown": -0.3196439524616784,
+        "peak_date": "2025-02-10",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2025-05-07",
+        "trough_date": "2025-04-01",
+        "trough_to_recovery_days": 36.0,
+        "trough_to_recovery_rebalances": 5.0,
+        "underwater_calendar_days": 86,
+        "underwater_rebalances": 12
+      },
+      {
+        "episode": 7,
+        "max_drawdown": -0.0578071464791793,
+        "peak_date": "2025-05-07",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2025-05-21",
+        "trough_date": "2025-05-14",
+        "trough_to_recovery_days": 7.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 14,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 8,
+        "max_drawdown": -0.0314483326877036,
+        "peak_date": "2025-06-05",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2025-06-20",
+        "trough_date": "2025-06-12",
+        "trough_to_recovery_days": 8.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 15,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 9,
+        "max_drawdown": -0.0404454938729051,
+        "peak_date": "2025-06-20",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2025-07-07",
+        "trough_date": "2025-06-27",
+        "trough_to_recovery_days": 10.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 17,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 10,
+        "max_drawdown": -0.0342666035008829,
+        "peak_date": "2025-07-28",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2025-08-11",
+        "trough_date": "2025-08-04",
+        "trough_to_recovery_days": 7.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 14,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 11,
+        "max_drawdown": -0.0141537988576608,
+        "peak_date": "2025-08-11",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2025-09-02",
+        "trough_date": "2025-08-18",
+        "trough_to_recovery_days": 15.0,
+        "trough_to_recovery_rebalances": 2.0,
+        "underwater_calendar_days": 22,
+        "underwater_rebalances": 3
+      },
+      {
+        "episode": 12,
+        "max_drawdown": -0.0185688307958318,
+        "peak_date": "2025-09-16",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2025-09-30",
+        "trough_date": "2025-09-23",
+        "trough_to_recovery_days": 7.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 14,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 13,
+        "max_drawdown": -0.3195719627115621,
+        "peak_date": "2025-10-07",
+        "policy": "baseline_equal_weight",
+        "recovered": true,
+        "recovery_date": "2026-04-15",
+        "trough_date": "2025-12-10",
+        "trough_to_recovery_days": 126.0,
+        "trough_to_recovery_rebalances": 17.0,
+        "underwater_calendar_days": 190,
+        "underwater_rebalances": 26
+      },
+      {
+        "episode": 14,
+        "max_drawdown": -0.1115982115997729,
+        "peak_date": "2026-05-28",
+        "policy": "baseline_equal_weight",
+        "recovered": false,
+        "recovery_date": null,
+        "trough_date": "2026-06-11",
+        "trough_to_recovery_days": null,
+        "trough_to_recovery_rebalances": null,
+        "underwater_calendar_days": 14,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 1,
+        "max_drawdown": -0.578632259203729,
+        "peak_date": "2021-02-02",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2024-10-31",
+        "trough_date": "2022-12-22",
+        "trough_to_recovery_days": 679.0,
+        "trough_to_recovery_rebalances": 94.0,
+        "underwater_calendar_days": 1367,
+        "underwater_rebalances": 190
+      },
+      {
+        "episode": 2,
+        "max_drawdown": -0.0203901937183783,
+        "peak_date": "2024-10-31",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2024-11-14",
+        "trough_date": "2024-11-07",
+        "trough_to_recovery_days": 7.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 14,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 3,
+        "max_drawdown": -0.1286685507085747,
+        "peak_date": "2024-11-29",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2025-01-10",
+        "trough_date": "2024-12-13",
+        "trough_to_recovery_days": 28.0,
+        "trough_to_recovery_rebalances": 4.0,
+        "underwater_calendar_days": 42,
+        "underwater_rebalances": 6
+      },
+      {
+        "episode": 4,
+        "max_drawdown": -0.2178430166469001,
+        "peak_date": "2025-02-10",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2025-04-30",
+        "trough_date": "2025-04-01",
+        "trough_to_recovery_days": 29.0,
+        "trough_to_recovery_rebalances": 4.0,
+        "underwater_calendar_days": 79,
+        "underwater_rebalances": 11
+      },
+      {
+        "episode": 5,
+        "max_drawdown": -0.0568418261705192,
+        "peak_date": "2025-05-07",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2025-05-29",
+        "trough_date": "2025-05-14",
+        "trough_to_recovery_days": 15.0,
+        "trough_to_recovery_rebalances": 2.0,
+        "underwater_calendar_days": 22,
+        "underwater_rebalances": 3
+      },
+      {
+        "episode": 6,
+        "max_drawdown": -0.0193896516341905,
+        "peak_date": "2025-06-05",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2025-06-20",
+        "trough_date": "2025-06-12",
+        "trough_to_recovery_days": 8.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 15,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 7,
+        "max_drawdown": -0.0238873045651639,
+        "peak_date": "2025-06-20",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2025-07-07",
+        "trough_date": "2025-06-27",
+        "trough_to_recovery_days": 10.0,
+        "trough_to_recovery_rebalances": 1.0,
+        "underwater_calendar_days": 17,
+        "underwater_rebalances": 2
+      },
+      {
+        "episode": 8,
+        "max_drawdown": -0.0234678043202768,
+        "peak_date": "2025-07-14",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2025-09-02",
+        "trough_date": "2025-08-04",
+        "trough_to_recovery_days": 29.0,
+        "trough_to_recovery_rebalances": 4.0,
+        "underwater_calendar_days": 50,
+        "underwater_rebalances": 7
+      },
+      {
+        "episode": 9,
+        "max_drawdown": -0.1251461422347288,
+        "peak_date": "2025-10-07",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2026-03-10",
+        "trough_date": "2025-12-10",
+        "trough_to_recovery_days": 90.0,
+        "trough_to_recovery_rebalances": 12.0,
+        "underwater_calendar_days": 154,
+        "underwater_rebalances": 21
+      },
+      {
+        "episode": 10,
+        "max_drawdown": -0.0441179473767797,
+        "peak_date": "2026-03-10",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": true,
+        "recovery_date": "2026-04-08",
+        "trough_date": "2026-03-24",
+        "trough_to_recovery_days": 15.0,
+        "trough_to_recovery_rebalances": 2.0,
+        "underwater_calendar_days": 29,
+        "underwater_rebalances": 4
+      },
+      {
+        "episode": 11,
+        "max_drawdown": -0.0451482116983216,
+        "peak_date": "2026-05-28",
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "recovered": false,
+        "recovery_date": null,
+        "trough_date": "2026-06-11",
+        "trough_to_recovery_days": null,
+        "trough_to_recovery_rebalances": null,
+        "underwater_calendar_days": 14,
+        "underwater_rebalances": 2
+      }
+    ],
+    "regime_exposure": [
+      {
+        "avg_excess_5d_return": 0.0051835715881759,
+        "avg_exposure": 1.0,
+        "avg_net_5d_return": 0.0012051441958445,
+        "market_risk_state": "neutral",
+        "net_sharpe": 0.0787168999488479,
+        "num_rebalances": 12,
+        "policy": "baseline_equal_weight",
+        "share_of_rebalances": 0.0434782608695652
+      },
+      {
+        "avg_excess_5d_return": 0.0056333436850913,
+        "avg_exposure": 1.0,
+        "avg_net_5d_return": 0.0101444706221998,
+        "market_risk_state": "risk_off",
+        "net_sharpe": 0.8368004672746318,
+        "num_rebalances": 229,
+        "policy": "baseline_equal_weight",
+        "share_of_rebalances": 0.8297101449275363
+      },
+      {
+        "avg_excess_5d_return": 0.0139295820742628,
+        "avg_exposure": 1.0,
+        "avg_net_5d_return": 0.0253707129646609,
+        "market_risk_state": "risk_on",
+        "net_sharpe": 1.9345332903744563,
+        "num_rebalances": 35,
+        "policy": "baseline_equal_weight",
+        "share_of_rebalances": 0.1268115942028985
+      },
+      {
+        "avg_excess_5d_return": 0.0048297423963854,
+        "avg_exposure": 0.75,
+        "avg_net_5d_return": 0.0018459218521369,
+        "market_risk_state": "neutral",
+        "net_sharpe": 0.1663931944156863,
+        "num_rebalances": 12,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_rebalances": 0.0434782608695652
+      },
+      {
+        "avg_excess_5d_return": 0.0018052044654981,
+        "avg_exposure": 0.4500000000000002,
+        "avg_net_5d_return": 0.0038352115871969,
+        "market_risk_state": "risk_off",
+        "net_sharpe": 0.7376789999516306,
+        "num_rebalances": 229,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_rebalances": 0.8297101449275363
+      },
+      {
+        "avg_excess_5d_return": 0.0136575432435045,
+        "avg_exposure": 1.0,
+        "avg_net_5d_return": 0.0250986741339025,
+        "market_risk_state": "risk_on",
+        "net_sharpe": 1.9137449540714837,
+        "num_rebalances": 35,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "share_of_rebalances": 0.1268115942028985
+      }
+    ],
+    "summary": [
+      {
+        "annualized_net_return": 0.4868837125606149,
+        "avg_exposure": 1.0,
+        "avg_herfindahl_index": 0.0999999999999999,
+        "avg_maximum_weight": 0.0999999999999999,
+        "avg_turnover": 1.297826086956522,
+        "deepest_drawdown_recovered": true,
+        "deepest_drawdown_trough_to_recovery_days": 679.0,
+        "effective_assets_by_slot_frequency": 67.83863211327812,
+        "excess_kurtosis": 0.7524725952767457,
+        "excess_return_10th_percentile": -0.0656202601104154,
+        "excess_sharpe": 0.6729743137445571,
+        "expected_shortfall_95_return": -0.1676644324098216,
+        "expected_shortfall_99_return": -0.2037884412251288,
+        "longest_underwater_calendar_days": 1094,
+        "longest_underwater_rebalances": 152,
+        "max_drawdown": -0.7683063224514697,
+        "median_excess_5d_return": 1.8239383877300037e-05,
+        "median_monthly_return": 0.0201014583579217,
+        "median_net_5d_return": 0.0076550915401177,
+        "monthly_hit_rate": 0.5454545454545454,
+        "net_return_10th_percentile": -0.0920280761234607,
+        "net_sharpe": 0.9445171143896424,
+        "num_rebalances": 276,
+        "policy": "baseline_equal_weight",
+        "skewness": 0.2678483774625345,
+        "sortino_ratio": 1.5448571648021356,
+        "top_asset_rebalance_frequency": 0.3514492753623188,
+        "var_95_return": -0.1246680741449033,
+        "var_99_return": -0.1973509118890442,
+        "worst_decile_mean_excess_return": -0.1077199919713725,
+        "worst_decile_mean_net_return": -0.1381884035130541,
+        "worst_excess_5d_return": -0.1935475248401652,
+        "worst_maximum_weight": 0.1,
+        "worst_monthly_return": -0.2588597846525863,
+        "worst_net_5d_return": -0.2156162753831841
+      },
+      {
+        "annualized_net_return": 0.2998458955181982,
+        "avg_exposure": 0.5327898550724639,
+        "avg_herfindahl_index": 0.0340186110143503,
+        "avg_maximum_weight": 0.0743322779531126,
+        "avg_turnover": 0.6466028265670025,
+        "deepest_drawdown_recovered": true,
+        "deepest_drawdown_trough_to_recovery_days": 679.0,
+        "effective_assets_by_slot_frequency": 66.7157120336311,
+        "excess_kurtosis": 2.759239825224182,
+        "excess_return_10th_percentile": -0.0353370500701465,
+        "excess_sharpe": 0.6195670193627925,
+        "expected_shortfall_95_return": -0.1016925948121687,
+        "expected_shortfall_99_return": -0.1432828332890291,
+        "longest_underwater_calendar_days": 1367,
+        "longest_underwater_rebalances": 190,
+        "max_drawdown": -0.578632259203729,
+        "median_excess_5d_return": 0.0002565042691049,
+        "median_monthly_return": 0.0049400112688099,
+        "median_net_5d_return": 0.0042768456605963,
+        "monthly_hit_rate": 0.5454545454545454,
+        "net_return_10th_percentile": -0.0498478472383755,
+        "net_sharpe": 0.91507686704531,
+        "num_rebalances": 276,
+        "policy": "turnover_buffer_inverse_volatility_risk_scaled",
+        "skewness": 0.4135013534854261,
+        "sortino_ratio": 1.4919767389651315,
+        "top_asset_rebalance_frequency": 0.3695652173913043,
+        "var_95_return": -0.0710691069459664,
+        "var_99_return": -0.1191878130589833,
+        "worst_decile_mean_excess_return": -0.0635085316539388,
+        "worst_decile_mean_net_return": -0.0814522373010774,
+        "worst_excess_5d_return": -0.1487125918501668,
+        "worst_maximum_weight": 0.18,
+        "worst_monthly_return": -0.1992935358751689,
+        "worst_net_5d_return": -0.1731466273012112
       }
     ]
   },

@@ -1,0 +1,9 @@
+{
+  "artifact": "candidate_funnel_snapshot.json",
+  "candidate_count": 20,
+  "candidate_run_id": "20260811T040100888187Z",
+  "generated_at_utc": "2026-08-11T04:16:51.549104+00:00",
+  "schema_version": "1.0",
+  "sha256": "8a9c51115c16564e734a8337f2febc591873245500df3aaa8a16ef004ae36973",
+  "size_bytes": 39705
+}

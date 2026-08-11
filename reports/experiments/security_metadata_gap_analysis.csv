@@ -1,0 +1,16 @@
+field,available_anywhere,point_in_time_verified,historical_backtest_status,next_action
+sector,True,False,blocked,verify_source_provenance
+industry,True,False,blocked,verify_source_provenance
+market_cap,True,False,blocked,verify_source_provenance
+shares_outstanding,False,False,blocked,source_data
+book_value,False,False,blocked,source_data
+book_to_market,False,False,blocked,source_data
+price_to_book,False,False,blocked,source_data
+price_to_earnings,False,False,blocked,source_data
+revenue,False,False,blocked,source_data
+operating_income,False,False,blocked,source_data
+net_income,False,False,blocked,source_data
+return_on_equity,False,False,blocked,source_data
+return_on_assets,False,False,blocked,source_data
+gross_margin,False,False,blocked,source_data
+debt_to_equity,False,False,blocked,source_data

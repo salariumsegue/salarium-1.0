@@ -51,3 +51,35 @@ data/cache/
 
 # Local dashboard replacement backups
 /app/streamlit_app.py.backup.*
+results/approved_policy_results.csv
+results/approved_policy_summary.csv
+results/walkforward_oos_scores.csv
+results/policy_asset_concentration.csv
+results/policy_bootstrap_results.csv
+results/policy_cost_stress.csv
+results/policy_drawdown_episodes.csv
+results/policy_regime_exposure.csv
+results/policy_robustness_report.json
+results/policy_robustness_summary.csv
+results/policy_position_weights.csv
+results/policy_factor_exposures.csv
+results/policy_factor_exposure_summary.csv
+results/policy_weighted_concentration.csv
+results/policy_sector_exposures.csv
+results/policy_factor_exposure_report.json
+data/processed/sec_point_in_time_fundamental_facts.csv
+data/processed/sec_point_in_time_factor_panel.csv
+results/policy_pit_factor_exposures.csv
+results/policy_pit_factor_exposure_summary.csv
+results/policy_pit_factor_latest.csv
+results/policy_pit_factor_comparison.csv
+results/pit_factor_mimicking_returns.csv
+results/factor_adjusted_policy_return_summary.csv
+results/factor_adjusted_policy_coefficients.csv
+results/nested_factor_returns.csv
+results/nested_factor_model_summary.csv
+results/nested_factor_model_coefficients.csv
+data/processed/current_candidate_funnel_input.csv
+data/processed/current_candidate_funnel_input_manifest.json
+data/processed/current_candidate_funnel_feature_audit.csv
+results/candidate_funnel/
