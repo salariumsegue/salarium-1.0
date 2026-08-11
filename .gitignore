@@ -106,3 +106,6 @@ results/portfolio_breadth_leverage/
 # Covariance-aware portfolio research generated outputs
 results/covariance_portfolio_leverage/
 data/cache/covariance_research/
+
+# Signal-aware covariance research generated outputs
+results/signal_aware_covariance/
