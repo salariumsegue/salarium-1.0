@@ -1,0 +1,27 @@
+{
+  "factor_definitions": {
+    "book_to_market": "book_to_market_z",
+    "earnings_yield": "earnings_yield_z",
+    "gross_profitability": "gross_profitability_z",
+    "leverage": "leverage_z",
+    "operating_profitability": "operating_profitability_z",
+    "quality": "quality_composite_z",
+    "roa": "roa_z",
+    "roe": "roe_z",
+    "size": "log_market_cap_z",
+    "value": "value_composite_z"
+  },
+  "methodology": {
+    "cash_scaled_exposure": "Invested-sleeve factor exposure multiplied by the policy's portfolio exposure. Cash is assigned zero factor exposure.",
+    "coverage": "covered_normalized_weight reports the fraction of the invested sleeve with usable factor data.",
+    "invested_sleeve_exposure": "Weighted mean factor z-score among holdings with available point-in-time factor data.",
+    "missing_values": "Missing factors are never filled with current or future data."
+  },
+  "observations": 5520,
+  "policies": [
+    "baseline_equal_weight",
+    "turnover_buffer_inverse_volatility_risk_scaled"
+  ],
+  "rebalance_dates": 276,
+  "schema_version": "1.0"
+}
