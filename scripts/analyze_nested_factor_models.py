@@ -23,7 +23,6 @@ FUNDAMENTAL_FACTORS = [
 TECHNICAL_FACTORS = [
     "beta",
     "momentum",
-    "relative_strength",
     "low_volatility",
     "reversal",
 ]

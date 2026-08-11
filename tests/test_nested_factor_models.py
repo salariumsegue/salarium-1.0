@@ -39,7 +39,12 @@ def test_three_nested_models_exist() -> None:
         MODULE.MODEL_FACTORS[
             "C_combined"
         ]
-    ) == 9
+    ) == 8
+
+    assert (
+        "relative_strength"
+        not in MODULE.TECHNICAL_FACTORS
+    )
 
 
 def test_adjusted_r_squared() -> None:
