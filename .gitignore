@@ -99,3 +99,10 @@ data/cache/horizon_research/
 
 # Horizon x rebalance x leverage research outputs
 results/horizon_rebalance_leverage/
+
+# Portfolio breadth research generated outputs
+results/portfolio_breadth_leverage/
+
+# Covariance-aware portfolio research generated outputs
+results/covariance_portfolio_leverage/
+data/cache/covariance_research/
