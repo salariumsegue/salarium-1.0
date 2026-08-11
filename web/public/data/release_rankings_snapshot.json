@@ -1,0 +1,292 @@
+{
+  "architecture": {
+    "model_horizon_days": 20,
+    "persistence_buffer_rank": 15,
+    "portfolio_top_n": 10,
+    "rebalance_every_days": 10,
+    "universe": "Liquid-500"
+  },
+  "disclosures": [
+    "This is a committed out-of-sample research cross-section, not a live market feed.",
+    "Model scores are relative ranking outputs, not price targets, expected-return guarantees, or trade instructions.",
+    "The release portfolio applies a Top-10 selection, rank-15 persistence buffer, covariance-aware weighting, position limits, and portfolio-level exposure controls after ranking.",
+    "Historical research remains subject to data, model, universe-selection, transaction-cost, and regime risks."
+  ],
+  "generated_at_utc": "2026-08-11T23:12:01.166566+00:00",
+  "latest_signal_state": {
+    "count": 25,
+    "date": "2026-06-10",
+    "rankings": [
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 1,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0449036588699233,
+        "score_percentile": 1.0,
+        "ticker": "FTNT",
+        "volatility_20d": 0.0296521401889051
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 2,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0438821581503719,
+        "score_percentile": 0.998,
+        "ticker": "SITM",
+        "volatility_20d": 0.0424047289038823
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 3,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.043015757516456,
+        "score_percentile": 0.996,
+        "ticker": "CNC",
+        "volatility_20d": 0.0236689857883999
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 4,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0422551528789549,
+        "score_percentile": 0.994,
+        "ticker": "KTOS",
+        "volatility_20d": 0.0546203570698911
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 5,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0405311899900258,
+        "score_percentile": 0.992,
+        "ticker": "HOOD",
+        "volatility_20d": 0.0512690064464072
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 6,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0404691504890575,
+        "score_percentile": 0.99,
+        "ticker": "AMKR",
+        "volatility_20d": 0.0492515610717236
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 7,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.040468951029842,
+        "score_percentile": 0.988,
+        "ticker": "TEM",
+        "volatility_20d": 0.048233381407318
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 8,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0402192039892718,
+        "score_percentile": 0.986,
+        "ticker": "NOW",
+        "volatility_20d": 0.0580825347348581
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 9,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0398687591175989,
+        "score_percentile": 0.984,
+        "ticker": "F",
+        "volatility_20d": 0.0511201335276802
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 10,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0397896658762445,
+        "score_percentile": 0.982,
+        "ticker": "WULF",
+        "volatility_20d": 0.0523245743670472
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 11,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0396964597465547,
+        "score_percentile": 0.98,
+        "ticker": "CASY",
+        "volatility_20d": 0.049936766230664
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 12,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0396903269754864,
+        "score_percentile": 0.978,
+        "ticker": "W",
+        "volatility_20d": 0.0458586330876651
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 13,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0394275713178526,
+        "score_percentile": 0.976,
+        "ticker": "MARA",
+        "volatility_20d": 0.049688176305577
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 14,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0393690668049141,
+        "score_percentile": 0.974,
+        "ticker": "HIMS",
+        "volatility_20d": 0.0438886129333063
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 15,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0391101035800172,
+        "score_percentile": 0.972,
+        "ticker": "RDDT",
+        "volatility_20d": 0.0444099522324483
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 16,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0389033386920479,
+        "score_percentile": 0.97,
+        "ticker": "IBM",
+        "volatility_20d": 0.0498659362002521
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 17,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0388210666757776,
+        "score_percentile": 0.968,
+        "ticker": "PATH",
+        "volatility_20d": 0.0431020813572735
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 18,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0388061090923391,
+        "score_percentile": 0.966,
+        "ticker": "HPQ",
+        "volatility_20d": 0.0507180076515347
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 19,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0387867204113452,
+        "score_percentile": 0.964,
+        "ticker": "DLTR",
+        "volatility_20d": 0.0463350313622691
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 20,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0385444690070402,
+        "score_percentile": 0.962,
+        "ticker": "WDAY",
+        "volatility_20d": 0.0437957350399244
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 21,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0384827398594949,
+        "score_percentile": 0.96,
+        "ticker": "INTC",
+        "volatility_20d": 0.0485779092820897
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 22,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0384110492634122,
+        "score_percentile": 0.958,
+        "ticker": "HUBS",
+        "volatility_20d": 0.0634021357441954
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 23,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.038309916499786,
+        "score_percentile": 0.956,
+        "ticker": "ORCL",
+        "volatility_20d": 0.0488519653705275
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 24,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0378405357752968,
+        "score_percentile": 0.954,
+        "ticker": "MOD",
+        "volatility_20d": 0.0568884649116845
+      },
+      {
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 25,
+        "regime_is_confident": true,
+        "risk_state": "risk_off",
+        "score": 0.0377050702042807,
+        "score_percentile": 0.952,
+        "ticker": "AXON",
+        "volatility_20d": 0.0421658436023922
+      }
+    ],
+    "universe_count": 500
+  },
+  "model": {
+    "configuration": "governed_technical_hardened_horizon_20d",
+    "latest_cross_section_rows": 500,
+    "source_rows": 667815,
+    "target_horizon_days": 20,
+    "test_year": 2026
+  },
+  "provenance": {
+    "git_branch": "release/salarium-1.0-web-production",
+    "git_commit": "6b1ebca788347e1b63e9216c3f76e831ddb187fc",
+    "git_dirty": false,
+    "source_path": "results/horizon_walkforward/horizon_20d/walkforward_oos_scores.csv"
+  },
+  "schema_version": "1.0",
+  "system": {
+    "name": "Salarium",
+    "status": "committed_research_artifact",
+    "surface": "Release Ranking Snapshot"
+  }
+}
