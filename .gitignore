@@ -96,3 +96,6 @@ results/horizon_walkforward_pilot/
 results/horizon_exposure_research/
 results/horizon_exposure_pilot/
 data/cache/horizon_research/
+
+# Horizon x rebalance x leverage research outputs
+results/horizon_rebalance_leverage/
