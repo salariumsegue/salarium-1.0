@@ -12,7 +12,7 @@
     "The release portfolio applies a Top-10 selection, rank-15 persistence buffer, covariance-aware weighting, position limits, and portfolio-level exposure controls after ranking.",
     "Historical research remains subject to data, model, universe-selection, transaction-cost, and regime risks."
   ],
-  "generated_at_utc": "2026-08-11T23:12:01.166566+00:00",
+  "generated_at_utc": "2026-08-11T23:14:25.528490+00:00",
   "latest_signal_state": {
     "count": 25,
     "date": "2026-06-10",
@@ -279,7 +279,7 @@
   },
   "provenance": {
     "git_branch": "release/salarium-1.0-web-production",
-    "git_commit": "6b1ebca788347e1b63e9216c3f76e831ddb187fc",
+    "git_commit": "5c614670ddfd9b873dd3565e9a882ee7f0402e4e",
     "git_dirty": false,
     "source_path": "results/horizon_walkforward/horizon_20d/walkforward_oos_scores.csv"
   },
