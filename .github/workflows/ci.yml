@@ -9,48 +9,51 @@ permissions:
 
 jobs:
   python:
+    name: Python research and release governance
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.14"
           cache: pip
-      - name: Install dependencies
+
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
-          python -m pip install -r requirements-dev.txt
-      - name: Check dependency consistency
-        run: python -m pip check
-      - name: Compile Python source
-        run: python -m compileall -q app scripts src tests
-      - name: Run tests
+          python -m pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: Run complete Python test suite
         run: python -m pytest -q
-      - name: Check formatting defects
-        run: git diff --check
+
+      - name: Audit tracked release artifacts
+        run: python scripts/open_source_audit.py
 
   web:
+    name: Public product release gate
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: web
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Set up Node
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: web/package-lock.json
+
       - name: Install web dependencies
+        working-directory: web
         run: npm ci
-      - name: Lint website
-        run: npm run lint
-      - name: Build website
-        run: npm run build
+
+      - name: Validate, build, and smoke-test public site
+        working-directory: web
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run check

@@ -1,373 +1,191 @@
-import SiteNav from "@/components/site-nav";
-import fs from "fs";
-import path from "path";
+import type { Metadata } from "next";
 import Link from "next/link";
-import RobustnessPanel, {
-  type RobustnessData,
-} from "@/components/robustness-panel";
-import FactorExposurePanel, {
-  type FactorExposureData,
-} from "@/components/factor-exposure-panel";
 
-type PolicyResult = {
-  policy: string;
-  period: string;
-  num_rebalances: number;
-  avg_net_portfolio_5d: number;
-  avg_net_excess_5d: number;
-  avg_long_short_5d: number;
-  avg_spearman_ic: number;
-  avg_turnover: number;
-  avg_transaction_cost: number;
-  avg_exposure: number;
-  annualized_net_return: number;
-  net_sharpe: number;
-  excess_sharpe: number;
-  max_drawdown: number;
+import DataStatusStrip from "@/components/data-status-strip";
+import MandateCard from "@/components/mandate-card";
+import MetricCard from "@/components/metric-card";
+import {
+  AnnualPerformanceTable,
+  ConstructorComparison,
+  DecisionGrid,
+  RobustnessTable,
+  SignalBlendFrontier,
+} from "@/components/research-visuals";
+import { number, percent } from "@/lib/format";
+import { loadReleaseSnapshot } from "@/lib/site-data";
+
+export const metadata: Metadata = {
+  title: "Research",
+  description:
+    "Review Salarium's walk-forward evidence, annual performance, rejected hypotheses, robustness checks, and locked release decisions.",
+  alternates: { canonical: "/research" },
 };
-
-type Snapshot = {
-  research_results: {
-    overall: PolicyResult[];
-    yearly: PolicyResult[];
-  };
-  approved_policies: {
-    alpha_benchmark: string;
-    risk_managed_candidate: string;
-  };
-  robustness: RobustnessData;
-  factor_exposure: FactorExposureData;
-  generated_at_utc: string;
-};
-
-function loadSnapshot(): Snapshot {
-  const filePath = path.join(
-    process.cwd(),
-    "public",
-    "data",
-    "salarium_snapshot.json"
-  );
-
-  return JSON.parse(
-    fs.readFileSync(filePath, "utf8")
-  );
-}
-
-function pct(value: number) {
-  return `${(value * 100).toFixed(1)}%`;
-}
-
-function num(value: number) {
-  return value.toFixed(3);
-}
-
-function label(policy: string) {
-  if (policy === "baseline_equal_weight") {
-    return "Alpha Benchmark";
-  }
-
-  return "Risk-Managed Candidate";
-}
 
 export default function ResearchPage() {
-  const snapshot = loadSnapshot();
-
-  const years = Array.from(
-    new Set(
-      snapshot.research_results.yearly.map(
-        (item) => item.period
-      )
-    )
-  ).sort();
-
-  const alpha = snapshot.research_results.overall.find(
-    (item) =>
-      item.policy ===
-      snapshot.approved_policies.alpha_benchmark
-  );
-
-  const risk = snapshot.research_results.overall.find(
-    (item) =>
-      item.policy ===
-      snapshot.approved_policies.risk_managed_candidate
-  );
+  const release = loadReleaseSnapshot();
+  const research = release.research;
+  const core = release.results.core_balanced;
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <div className="grid-overlay fixed inset-0 pointer-events-none" />
-
-      <header className="relative border-b border-white/10 px-6 py-5 lg:px-12">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <Link href="/">
-            <p className="text-xs tracking-[0.42em] text-white/40">
-              AUTONOMOUS EQUITY INTELLIGENCE
-            </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-[0.3em]">
-              SALARIUM
+    <main id="main-content" className="site-main">
+      <section className="page-section pb-12 pt-16 lg:pt-20">
+        <div className="grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:items-end">
+          <div>
+            <p className="eyebrow">Research record</p>
+            <h1 className="mt-5 text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
+              Evidence first.
+              <span className="block text-white/32">Rejected ideas included.</span>
             </h1>
-          </Link>
+            <p className="mt-6 max-w-3xl text-base leading-7 text-white/48">
+              The release architecture is the result of controlled walk-forward experiments—not a collection of parameters chosen because they looked sophisticated. This page shows what improved, what failed, and what remains uncertain.
+            </p>
+          </div>
 
-          <SiteNav active="research" />
+          <aside className="border border-white/10 bg-white/[0.018] p-6">
+            <p className="eyebrow">Committed evaluation</p>
+            <dl className="mt-5 grid gap-4">
+              <Fact label="Period" value={research.period} />
+              <Fact label="Core rebalances" value={String(core.num_rebalances)} />
+              <Fact label="Average exposure" value={`${core.avg_exposure.toFixed(3)}x`} />
+              <Fact label="Live performance" value="No" risk />
+            </dl>
+          </aside>
         </div>
-      </header>
+      </section>
 
-      <section className="relative mx-auto max-w-7xl px-6 py-14 lg:px-12">
-        <div className="max-w-4xl">
-          <p className="eyebrow">WALK-FORWARD EVIDENCE</p>
+      <DataStatusStrip snapshot={release} />
 
-          <h2 className="mt-4 text-5xl font-semibold tracking-tight lg:text-6xl">
-            Research history
-            <span className="block text-white/35">
-              across market regimes.
-            </span>
-          </h2>
+      <section className="page-section">
+        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="eyebrow">Three operating mandates</p>
+            <h2 className="mt-4 text-4xl font-medium tracking-tight">One alpha engine, different risk choices.</h2>
+          </div>
+          <Link href="/architecture" className="text-link">Trace the architecture <span aria-hidden="true">→</span></Link>
+        </div>
 
-          <p className="mt-6 max-w-2xl text-base leading-7 text-white/50">
-            Annual expanding-window evaluation from 2021 through 2026,
-            comparing maximum signal capture against a risk-managed
-            portfolio policy.
+        <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          <MandateCard title="Core balanced" subtitle="Release candidate" result={release.results.core_balanced} featured />
+          <MandateCard title="Aggressive" subtitle="Static 1.00x research" result={release.results.aggressive} />
+          <MandateCard title="Defensive" subtitle="Minimum-variance anchor" result={release.results.defensive} defensive />
+        </div>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <MetricCard label="Core net return" value={percent(core.annualized_net_return)} detail="Simulated annualized net result" tone="positive" />
+          <MetricCard label="Core Sharpe" value={number(core.net_sharpe)} detail="Risk-adjusted return across the full record" />
+          <MetricCard label="Core Sortino" value={number(core.net_sortino)} detail="Downside-risk-adjusted result" />
+          <MetricCard label="Core max drawdown" value={percent(core.max_drawdown)} detail="Historical simulated peak-to-trough decline" tone="negative" />
+        </div>
+      </section>
+
+      <section className="page-section border-y border-white/8 bg-white/[0.012]">
+        <div className="max-w-3xl">
+          <p className="eyebrow">Annual out-of-sample record</p>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">No single aggregate number gets the final word.</h2>
+          <p className="mt-5 text-sm leading-7 text-white/42">
+            Annual expanding-window fits produce a year-by-year view of the same locked architecture. This helps expose whether the result depends on one unusually favorable regime.
           </p>
         </div>
-
-        <div className="mt-12 grid gap-4 md:grid-cols-2">
-          {alpha && (
-            <OverallCard
-              title="Alpha Benchmark"
-              subtitle="Maximum signal capture"
-              result={alpha}
-            />
-          )}
-
-          {risk && (
-            <OverallCard
-              title="Risk-Managed Candidate"
-              subtitle="Reduced exposure and drawdown"
-              result={risk}
-              risk
-            />
-          )}
+        <div className="mt-8">
+          <AnnualPerformanceTable
+            core={research.yearly.core_balanced}
+            aggressive={research.yearly.aggressive}
+            defensive={research.yearly.defensive}
+          />
         </div>
+      </section>
 
-        <section className="panel mt-6">
-          <div className="panel-header">
-            <div>
-              <p className="eyebrow">YEARLY COMPARISON</p>
-              <h3 className="panel-title">
-                Out-of-sample performance
-              </h3>
-            </div>
+      <section className="page-section">
+        <div className="max-w-3xl">
+          <p className="eyebrow">Controlled decisions</p>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">The path to the locked release.</h2>
+          <p className="mt-5 text-sm leading-7 text-white/42">
+            Every decision below corresponds to a committed comparison. Failed hypotheses stay visible because a credible research platform records what did not work.
+          </p>
+        </div>
+        <div className="mt-9">
+          <DecisionGrid decisions={research.decisions} />
+        </div>
+      </section>
 
-            <span className="status-chip">
-              {years[0]}–{years[years.length - 1]}
-            </span>
-          </div>
-
-          <div className="overflow-x-auto">
-            <div className="min-w-[980px]">
-              <div className="grid grid-cols-[90px_1.2fr_130px_130px_130px_130px] border-b border-white/10 px-4 py-3 text-[10px] tracking-[0.18em] text-white/30">
-                <span>YEAR</span>
-                <span>POLICY</span>
-                <span>NET RETURN</span>
-                <span>EXCESS SHARPE</span>
-                <span>TURNOVER</span>
-                <span>MAX DRAWDOWN</span>
-              </div>
-
-              <div className="divide-y divide-white/5">
-                {years.flatMap((year) =>
-                  snapshot.research_results.yearly
-                    .filter((item) => item.period === year)
-                    .map((item) => (
-                      <div
-                        key={`${year}-${item.policy}`}
-                        className="grid grid-cols-[90px_1.2fr_130px_130px_130px_130px] items-center px-4 py-4"
-                      >
-                        <span className="font-mono text-sm text-white/40">
-                          {year}
-                        </span>
-
-                        <div>
-                          <p className="text-sm text-white/80">
-                            {label(item.policy)}
-                          </p>
-                          <p className="mt-1 font-mono text-[10px] text-white/25">
-                            {item.policy}
-                          </p>
-                        </div>
-
-                        <span className="font-mono text-sm text-white/70">
-                          {pct(item.annualized_net_return)}
-                        </span>
-
-                        <span
-                          className={`font-mono text-sm ${
-                            item.excess_sharpe >= 0
-                              ? "text-emerald-400"
-                              : "text-red-400"
-                          }`}
-                        >
-                          {num(item.excess_sharpe)}
-                        </span>
-
-                        <span className="font-mono text-sm text-white/60">
-                          {num(item.avg_turnover)}
-                        </span>
-
-                        <span className="font-mono text-sm text-red-400">
-                          {pct(item.max_drawdown)}
-                        </span>
-                      </div>
-                    ))
-                )}
-              </div>
+      <section className="page-section border-y border-white/8 bg-black/45">
+        <div className="grid gap-10 lg:grid-cols-2">
+          <div>
+            <p className="eyebrow">Covariance constructor</p>
+            <h2 className="mt-4 text-3xl font-medium">Joint risk improved the Top-10.</h2>
+            <p className="mt-4 max-w-xl text-sm leading-7 text-white/42">
+              The 60-day shrinkage covariance tournament compared the original inverse-volatility baseline with minimum-variance and maximum-diversification portfolios while holding the upstream alpha signal fixed.
+            </p>
+            <div className="mt-7">
+              <ConstructorComparison rows={research.covariance} />
             </div>
           </div>
-        </section>
 
-        <RobustnessPanel
-          robustness={snapshot.robustness}
-        />
+          <div>
+            <p className="eyebrow">Signal-aware weighting</p>
+            <h2 className="mt-4 text-3xl font-medium">Conviction helps—until it dominates risk.</h2>
+            <p className="mt-4 max-w-xl text-sm leading-7 text-white/42">
+              A 25% signal blend gives model conviction a meaningful vote while preserving the covariance engine as the primary portfolio-risk anchor.
+            </p>
+            <div className="mt-7">
+              <SignalBlendFrontier rows={research.signal_blend} />
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <FactorExposurePanel
-          data={snapshot.factor_exposure}
-        />
+      <section className="page-section">
+        <div className="max-w-3xl">
+          <p className="eyebrow">Robustness</p>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">Stability matters more than one winning cell.</h2>
+          <p className="mt-5 text-sm leading-7 text-white/42">
+            The selected blend is evaluated against the same-anchor 0% signal baseline across six annual test periods. The record is mixed rather than universal, which is why the signal share remains governed at 25%.
+          </p>
+        </div>
+        <div className="mt-8 grid gap-5 lg:grid-cols-2">
+          <RobustnessTable rows={release.robustness.max_diversification_legacy} title="Legacy risk-scaled mandate" />
+          <RobustnessTable rows={release.robustness.max_diversification_static} title="Static 1.00x mandate" />
+        </div>
+      </section>
 
-        <section className="mt-6 grid gap-6 lg:grid-cols-3">
-          <Insight
-            label="ALPHA"
-            title="The benchmark captures more upside."
-            body="The equal-weight benchmark retains the strongest overall excess Sharpe and net excess return, but requires substantially more turnover."
-          />
-
-          <Insight
-            label="RISK"
-            title="Exposure scaling improves survival."
-            body="The risk-managed candidate materially reduces maximum drawdown and transaction costs while preserving most of the benchmark's risk-adjusted performance."
-            risk
-          />
-
-          <Insight
-            label="METHOD"
-            title="Every policy uses identical scores."
-            body="Both portfolio policies are evaluated from the same out-of-sample score artifact, isolating portfolio construction from alpha-model training."
-          />
-        </section>
-
-        <footer className="mt-10 border-t border-white/10 py-8 text-xs text-white/30">
-          Snapshot generated{" "}
-          {new Date(snapshot.generated_at_utc).toLocaleString()}
-        </footer>
+      <section className="page-section border-y border-white/8 bg-red-400/[0.025]">
+        <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
+          <div>
+            <p className="eyebrow text-red-300">Research limitations</p>
+            <h2 className="mt-4 text-3xl font-medium">Strong evidence is not certainty.</h2>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Limit title="Simulated returns" body="All displayed performance is historical research, not live account performance." />
+            <Limit title="Survivorship exposure" body="The current universe process retains a documented survivorship-bias limitation." />
+            <Limit title="Model selection" body="Multiple experiments increase the chance of choosing patterns that may not persist." />
+            <Limit title="Execution reality" body="Borrow costs, market impact, taxes, and capacity can differ from research assumptions." />
+            <Limit title="Covariance instability" body="A 60-day risk estimate can fail when correlations change abruptly." />
+            <Limit title="No suitability assessment" body="The system does not know any visitor's objectives, constraints, or risk tolerance." />
+          </div>
+        </div>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/disclosures" className="button-primary">Read complete disclosures <span aria-hidden="true">→</span></Link>
+          <a href="/data/release_snapshot.json" className="button-secondary">Inspect release JSON</a>
+        </div>
       </section>
     </main>
   );
 }
 
-function OverallCard({
-  title,
-  subtitle,
-  result,
-  risk = false,
-}: {
-  title: string;
-  subtitle: string;
-  result: PolicyResult;
-  risk?: boolean;
-}) {
+function Fact({ label, value, risk = false }: { label: string; value: string; risk?: boolean }) {
   return (
-    <div className="border border-white/10 bg-white/[0.025] p-6">
-      <div className="flex items-start justify-between gap-6">
-        <div>
-          <p className="text-lg font-medium">{title}</p>
-          <p
-            className={`mt-2 text-[10px] tracking-[0.2em] ${
-              risk ? "text-red-400" : "text-emerald-400"
-            }`}
-          >
-            {subtitle.toUpperCase()}
-          </p>
-        </div>
-
-        <span className="font-mono text-xs text-white/25">
-          {result.num_rebalances} REBALANCES
-        </span>
-      </div>
-
-      <div className="mt-7 grid grid-cols-2 gap-5">
-        <Metric
-          label="ANNUALIZED NET"
-          value={pct(result.annualized_net_return)}
-        />
-        <Metric
-          label="NET SHARPE"
-          value={num(result.net_sharpe)}
-        />
-        <Metric
-          label="EXCESS SHARPE"
-          value={num(result.excess_sharpe)}
-        />
-        <Metric
-          label="MAX DRAWDOWN"
-          value={pct(result.max_drawdown)}
-          danger
-        />
-      </div>
+    <div className="flex items-center justify-between gap-5 border-t border-white/8 pt-4 first:border-t-0 first:pt-0">
+      <dt className="text-[9px] uppercase tracking-[0.16em] text-white/25">{label}</dt>
+      <dd className={`font-mono text-xs ${risk ? "text-red-300" : "text-white/62"}`}>{value}</dd>
     </div>
   );
 }
 
-function Metric({
-  label,
-  value,
-  danger = false,
-}: {
-  label: string;
-  value: string;
-  danger?: boolean;
-}) {
+function Limit({ title, body }: { title: string; body: string }) {
   return (
-    <div>
-      <p className="text-[9px] tracking-[0.2em] text-white/30">
-        {label}
-      </p>
-      <p
-        className={`mt-2 font-mono text-lg ${
-          danger ? "text-red-400" : "text-white/80"
-        }`}
-      >
-        {value}
-      </p>
-    </div>
-  );
-}
-
-function Insight({
-  label,
-  title,
-  body,
-  risk = false,
-}: {
-  label: string;
-  title: string;
-  body: string;
-  risk?: boolean;
-}) {
-  return (
-    <div className="border border-white/10 bg-white/[0.02] p-6">
-      <p
-        className={`text-[10px] tracking-[0.22em] ${
-          risk ? "text-red-400" : "text-emerald-400"
-        }`}
-      >
-        {label}
-      </p>
-
-      <h3 className="mt-5 text-lg font-medium">
-        {title}
-      </h3>
-
-      <p className="mt-4 text-sm leading-6 text-white/45">
-        {body}
-      </p>
-    </div>
+    <article className="border border-red-400/15 bg-black/25 p-5">
+      <h3 className="text-sm font-medium text-red-200">{title}</h3>
+      <p className="mt-2 text-xs leading-6 text-white/38">{body}</p>
+    </article>
   );
 }

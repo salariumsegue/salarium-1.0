@@ -1,144 +1,88 @@
-import SiteNav from "@/components/site-nav";
-import fs from "fs";
-import path from "path";
+import type { Metadata } from "next";
+import RankingExplorer from "@/components/ranking-explorer";
+import { DisclosurePanel, InternalCta, MetricCard, PageIntro, PlainEnglish, SectionHeading, StatusBadge } from "@/components/ui";
+import { formatDate, formatDateTime, number, percent } from "@/lib/format";
+import { loadRankingSnapshot, loadReleaseSnapshot } from "@/lib/site-data";
 
-type Ranking = {
-  ticker: string;
-  score: number;
-  volatility_20d: number;
-  risk_state: string;
-  regime_is_confident: boolean;
-  model_configuration: string;
+export const metadata: Metadata = {
+  title: "Rankings",
+  description: "Inspect Salarium's latest committed out-of-sample equity ranking snapshot, score context, volatility, and regime state.",
+  alternates: { canonical: "/rankings" },
 };
-
-type Snapshot = {
-  latest_signal_state: {
-    date: string;
-    count: number;
-    rankings: Ranking[];
-  };
-};
-
-function loadSnapshot(): Snapshot {
-  const filePath = path.join(
-    process.cwd(),
-    "public",
-    "data",
-    "salarium_snapshot.json"
-  );
-
-  return JSON.parse(
-    fs.readFileSync(filePath, "utf8")
-  );
-}
-
-function percent(value: number) {
-  return `${(value * 100).toFixed(2)}%`;
-}
 
 export default function RankingsPage() {
-  const snapshot = loadSnapshot();
+  const snapshot = loadRankingSnapshot();
+  const release = loadReleaseSnapshot();
   const rankings = snapshot.latest_signal_state.rankings;
+  const avgVolatility = rankings.reduce((sum, item) => sum + item.volatility_20d, 0) / rankings.length;
+  const riskOffCount = rankings.filter((item) => item.risk_state === "risk_off").length;
+  const topScore = Math.max(...rankings.map((item) => item.score));
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <div className="grid-overlay fixed inset-0 pointer-events-none" />
+    <main id="main-content" className="site-main">
+      <section className="site-container site-section">
+        <PageIntro
+          eyebrow="OUT-OF-SAMPLE MODEL OUTPUT"
+          title="Ranked securities."
+          muted="Full context, no false precision."
+          description={`Explore the top ${snapshot.latest_signal_state.count} names from the final ${snapshot.architecture.model_horizon_days}D model's latest committed ${snapshot.latest_signal_state.universe_count}-security cross-section. Scores express relative conviction; they are not price targets, recommendations, or guaranteed expected returns.`}
+          aside={<div className="card min-w-64 p-5"><p className="eyebrow">SIGNAL DATE</p><p className="mt-3 font-mono text-xl text-emerald-300">{formatDate(snapshot.latest_signal_state.date)}</p><div className="mt-4"><StatusBadge>NOT LIVE</StatusBadge></div></div>}
+        />
 
-      <header className="relative border-b border-white/10 px-6 py-5 lg:px-12">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div>
-            <p className="text-xs tracking-[0.42em] text-white/40">
-              AUTONOMOUS EQUITY INTELLIGENCE
-            </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-[0.3em]">
-              SALARIUM
-            </h1>
-          </div>
-
-          <SiteNav active="rankings" />
-        </div>
-      </header>
-
-      <section className="relative mx-auto max-w-7xl px-6 py-12 lg:px-12">
-        <div className="flex flex-col gap-6 border-b border-white/10 pb-8 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="eyebrow">LATEST MODEL OUTPUT</p>
-            <h2 className="mt-3 text-4xl font-semibold tracking-tight">
-              Ranked securities
-            </h2>
-            <p className="mt-3 text-sm text-white/45">
-              Signal date {snapshot.latest_signal_state.date}
-            </p>
-          </div>
-
-          <div className="border border-white/10 bg-white/[0.025] px-5 py-4">
-            <p className="text-[10px] tracking-[0.22em] text-white/30">
-              SECURITIES DISPLAYED
-            </p>
-            <p className="mt-2 font-mono text-xl">
-              {rankings.length}
-            </p>
-          </div>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <MetricCard label="PUBLISHED RANKINGS" value={String(rankings.length)} detail={`${snapshot.latest_signal_state.universe_count}-name cross-section`} />
+          <MetricCard label="TOP MODEL SCORE" value={topScore.toFixed(6)} detail="relative cross-sectional output" tone="positive" />
+          <MetricCard label="AVERAGE 20D VOL" value={percent(avgVolatility, 2)} detail="recent single-name volatility" />
+          <MetricCard label="RISK-OFF NAMES" value={`${riskOffCount}/${rankings.length}`} detail="committed regime state" tone={riskOffCount > rankings.length / 2 ? "negative" : "default"} />
         </div>
 
-        <div className="mt-8 overflow-hidden border border-white/10 bg-white/[0.02]">
-          <div className="grid grid-cols-[64px_1fr_150px_150px_160px] border-b border-white/10 px-5 py-4 text-[10px] tracking-[0.2em] text-white/30">
-            <span>RANK</span>
-            <span>TICKER</span>
-            <span>SCORE</span>
-            <span>VOLATILITY</span>
-            <span>RISK STATE</span>
-          </div>
-
-          <div className="divide-y divide-white/5">
-            {rankings.map((item, index) => (
-              <div
-                key={item.ticker}
-                className="grid grid-cols-[64px_1fr_150px_150px_160px] items-center px-5 py-5 transition hover:bg-white/[0.025]"
-              >
-                <span className="font-mono text-sm text-white/25">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-
-                <div>
-                  <p className="font-medium tracking-[0.2em]">
-                    {item.ticker}
-                  </p>
-                  <p className="mt-1 text-xs text-white/30">
-                    {item.model_configuration}
-                  </p>
-                </div>
-
-                <span className="font-mono text-sm text-emerald-400">
-                  {item.score.toFixed(6)}
-                </span>
-
-                <span className="font-mono text-sm text-white/70">
-                  {percent(item.volatility_20d)}
-                </span>
-
-                <div>
-                  <span
-                    className={`inline-flex border px-3 py-1 text-[10px] tracking-[0.18em] ${
-                      item.risk_state === "risk_off"
-                        ? "border-red-500/25 text-red-400"
-                        : "border-emerald-500/25 text-emerald-400"
-                    }`}
-                  >
-                    {item.risk_state.toUpperCase()}
-                  </span>
-
-                  <p className="mt-2 text-[10px] text-white/25">
-                    {item.regime_is_confident
-                      ? "CONFIDENT REGIME"
-                      : "LOW CONFIDENCE"}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="mt-6">
+          <PlainEnglish>
+            A higher-ranked stock scored better than other stocks in the same governed Liquid-500 cross-section at this historical signal date. The public table shows the top 25 for inspection; the release portfolio still applies Top-10 selection, persistence, covariance, position limits, and exposure rules before a name can influence a research mandate.
+          </PlainEnglish>
         </div>
+
+        <section className="mt-10">
+          <SectionHeading
+            eyebrow="INTERACTIVE RANKING EXPLORER"
+            title="Search, filter, sort, and inspect."
+            description="Open any row for a plain-language explanation of the score, volatility field, and portfolio status."
+          />
+          <RankingExplorer rankings={rankings} />
+        </section>
+
+        <section className="mt-10 grid gap-4 lg:grid-cols-3">
+          <InterpretationCard title="Model score" body="A relative signal produced by the governed technical ranking model. Magnitudes are meaningful only inside the same model snapshot." />
+          <InterpretationCard title="20-day volatility" body="A recent single-name risk estimate. It is not the portfolio forecast; the covariance engine evaluates how selected holdings interact." />
+          <InterpretationCard title="Risk state" body="A macro/risk context flag used by downstream exposure controls. It does not overwrite the cross-sectional ranking." />
+        </section>
+
+        <section className="mt-10 card p-6 sm:p-8">
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <p className="eyebrow text-emerald-300">FROM RANK TO PORTFOLIO</p>
+              <h2 className="mt-4 text-2xl font-semibold tracking-[-0.035em]">Rankings are an input—not the final product.</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/42">The release architecture uses a Top-{release.architecture.top_n} selection, rank-{release.architecture.buffer_rank} persistence buffer, {release.architecture.covariance_lookback_days}-day shrinkage covariance, and a {Math.round(release.architecture.signal_blend * 100)}% signal-aware blend before exposure control.</p>
+            </div>
+            <div className="flex flex-wrap gap-3"><InternalCta href="/architecture">See construction</InternalCta><InternalCta href="/candidates" secondary>Open candidate research</InternalCta></div>
+          </div>
+        </section>
+
+        <p className="mt-8 font-mono text-[10px] leading-5 text-white/22">MODEL {snapshot.model.configuration.toUpperCase()} · {snapshot.model.source_rows.toLocaleString()} OOS SCORE ROWS · SNAPSHOT GENERATED {formatDateTime(snapshot.generated_at_utc).toUpperCase()} · RELEASE SHARPE REFERENCE {number(release.results.core_balanced.net_sharpe)}</p>
+      </section>
+
+      <section className="site-container pb-8">
+        <DisclosurePanel items={[
+          "The ranking snapshot is committed research data, not a continuously updated market feed.",
+          "Rankings can change materially as prices, volatility, features, and model-training windows change.",
+          "A high score does not imply suitability, valuation support, catalyst certainty, or a buy instruction.",
+          "The release result is simulated and should not be interpreted as future performance evidence.",
+        ]} />
       </section>
     </main>
   );
+}
+
+function InterpretationCard({ title, body }: { title: string; body: string }) {
+  return <div className="card p-6"><p className="text-base font-medium">{title}</p><p className="mt-3 text-sm leading-6 text-white/42">{body}</p></div>;
 }

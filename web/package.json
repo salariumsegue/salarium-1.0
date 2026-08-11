@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "validate:site": "node scripts/validate-site.mjs",
+    "smoke": "node scripts/smoke-site.mjs",
+    "release:check": "npm run lint && npm run validate:site && npm run build && npm run smoke",
+    "check": "npm run release:check",
+    "check:deployment": "node scripts/check-deployment.mjs"
   },
   "dependencies": {
     "next": "16.3.0",

@@ -1,291 +1,182 @@
-import SiteNav from "@/components/site-nav";
-import fs from "fs";
-import path from "path";
+import Link from "next/link";
 
-type LegacyRanking = {
-  ticker: string;
-  score: number;
-  volatility_20d: number;
-  risk_state: string;
-  regime_is_confident: boolean;
-  model_configuration: string;
-};
+import { ArrowRightIcon } from "@/components/icons";
+import { DecisionCard, MandateCard } from "@/components/research-components";
+import { DisclosurePanel, ExternalCta, InternalCta, MetricCard, PlainEnglish, SectionHeading, StatusBadge } from "@/components/ui";
+import { formatDate, number, percent } from "@/lib/format";
+import { GITHUB_URL, MODEL_CARD_URL } from "@/lib/site-config";
+import { loadRankingSnapshot, loadReleaseSnapshot } from "@/lib/site-data";
 
-type LegacySnapshot = {
-  latest_signal_state: {
-    date: string;
-    count: number;
-    rankings: LegacyRanking[];
-  };
-};
-
-type Result = {
-  risk_anchor: string;
-  signal_blend: number;
-  exposure_policy: string;
-  annualized_net_return: number;
-  net_sharpe: number;
-  net_sortino: number;
-  max_drawdown: number;
-  annualized_net_volatility: number;
-  avg_exposure: number;
-  max_exposure: number;
-};
-
-type ReleaseSnapshot = {
-  generated_at_utc: string;
-  release: {
-    name: string;
-    version: string;
-    status: string;
-  };
-  architecture: {
-    universe: string;
-    model_horizon_days: number;
-    rebalance_every_days: number;
-    top_n: number;
-    buffer_rank: number;
-    covariance_estimator: string;
-    covariance_lookback_days: number;
-    primary_risk_anchor: string;
-    signal_blend: number;
-    leverage_cap: number;
-  };
-  results: {
-    core_balanced: Result;
-    pure_risk_anchor: Result;
-    aggressive: Result;
-    defensive: Result;
-  };
-  provenance: {
-    git_branch: string;
-    git_commit: string;
-    git_dirty: boolean;
-  };
-};
-
-function loadJson<T>(filename: string): T {
-  const filePath = path.join(process.cwd(), "public", "data", filename);
-  return JSON.parse(fs.readFileSync(filePath, "utf8"));
-}
-
-function pct(value: number) {
-  return `${(value * 100).toFixed(1)}%`;
-}
-
-function num(value: number) {
-  return value.toFixed(3);
-}
-
-function readable(value: string) {
-  return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
-}
-
-export default function Home() {
-  const release = loadJson<ReleaseSnapshot>("release_snapshot.json");
-  const legacy = loadJson<LegacySnapshot>("salarium_snapshot.json");
+export default function HomePage() {
+  const release = loadReleaseSnapshot();
+  const rankingSnapshot = loadRankingSnapshot();
   const core = release.results.core_balanced;
-  const aggressive = release.results.aggressive;
-  const defensive = release.results.defensive;
-
-  const architecture = [
-    `${release.architecture.universe} research universe`,
-    `${release.architecture.model_horizon_days}D alpha target`,
-    `${release.architecture.rebalance_every_days}D rebalance`,
-    `Top-${release.architecture.top_n} concentration`,
-    `${release.architecture.covariance_lookback_days}D shrinkage covariance`,
-    `${Math.round(release.architecture.signal_blend * 100)}% signal-aware weighting`,
-  ];
+  const topRankings = rankingSnapshot.latest_signal_state.rankings.slice(0, 5);
+  const decisions = release.research.decisions.slice(0, 3);
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <div className="grid-overlay fixed inset-0 pointer-events-none" />
-      <header className="relative border-b border-white/10 px-6 py-5 lg:px-12">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div>
-            <p className="text-xs tracking-[0.42em] text-white/40">AUTONOMOUS EQUITY INTELLIGENCE</p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-[0.3em]">SALARIUM</h1>
+    <main id="main-content" className="site-main">
+      <section className="site-container relative overflow-hidden pb-16 pt-16 sm:pt-24 lg:pb-24 lg:pt-28">
+        <div className="pointer-events-none absolute right-0 top-16 hidden h-72 w-72 rounded-full border border-emerald-300/10 lg:block" aria-hidden="true">
+          <div className="absolute inset-8 rounded-full border border-white/8" />
+          <div className="absolute inset-20 rounded-full border border-white/8" />
+          <div className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-300 shadow-[0_0_30px_rgba(110,231,183,.8)]" />
+        </div>
+
+        <div className="relative max-w-5xl">
+          <div className="flex flex-wrap items-center gap-3">
+            <StatusBadge tone="positive">SALARIUM 1.0</StatusBadge>
+            <span className="font-mono text-[9px] tracking-[0.16em] text-white/25">COMMITTED RESEARCH SNAPSHOT</span>
           </div>
-          <div className="flex items-center gap-3 text-xs text-white/50">
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            RESEARCH BUILD ONLINE
+          <p className="mt-8 eyebrow text-emerald-300">SYSTEMATIC EQUITY RESEARCH</p>
+          <h1 className="mt-5 max-w-5xl text-5xl font-semibold leading-[0.98] tracking-[-0.06em] sm:text-7xl lg:text-[5.8rem]">
+            Institutional-style research workflow,
+            <span className="block text-white/28">built in public.</span>
+          </h1>
+          <p className="mt-7 max-w-3xl text-base leading-7 text-white/50 sm:text-lg sm:leading-8">
+            Salarium turns governed market data into out-of-sample rankings, concentrated portfolios, covariance-aware weights, and auditable exposure decisions—without pretending a backtest is a live trading record.
+          </p>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <InternalCta href="/rankings">Explore rankings</InternalCta>
+            <InternalCta href="/architecture" secondary>See the system</InternalCta>
+            <ExternalCta href={GITHUB_URL}>View source</ExternalCta>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-x-7 gap-y-2 font-mono text-[10px] tracking-[0.1em] text-white/28">
+            <span>2021–2026 WALK-FORWARD</span>
+            <span>LIQUID-500</span>
+            <span>LONG-ONLY</span>
+            <span>1.25x HARD LEVERAGE CAP</span>
           </div>
         </div>
-        <div className="mx-auto flex max-w-7xl justify-end px-6 pb-5 lg:px-12">
-          <SiteNav active="overview" />
+      </section>
+
+      <section className="border-y border-white/10 bg-white/[0.012]">
+        <div className="site-container grid gap-px bg-white/8 sm:grid-cols-2 lg:grid-cols-4">
+          <MetricCard label="SIMULATED NET RETURN" value={percent(core.annualized_net_return)} detail="annualized, after modeled costs" tone="positive" />
+          <MetricCard label="NET SHARPE" value={number(core.net_sharpe)} detail="core balanced candidate" />
+          <MetricCard label="MAX DRAWDOWN" value={percent(core.max_drawdown)} detail="historical simulation" tone="negative" />
+          <MetricCard label="AVERAGE EXPOSURE" value={`${core.avg_exposure.toFixed(3)}x`} detail="risk-governed, not fully invested" />
         </div>
-      </header>
+      </section>
 
-      <section className="relative mx-auto max-w-7xl px-6 py-16 lg:px-12">
-        <div className="max-w-5xl">
-          <p className="mb-5 text-sm tracking-[0.35em] text-emerald-400">SALARIUM 1.0 RELEASE CANDIDATE</p>
-          <h2 className="text-5xl font-semibold leading-tight tracking-tight lg:text-7xl">
-            Concentrated alpha.
-            <span className="block text-white/40">Governed portfolio risk.</span>
-          </h2>
-          <p className="mt-7 max-w-3xl text-base leading-7 text-white/55">
-            An open-source quantitative equity research platform combining expanding-window walk-forward models,
-            covariance-aware portfolio construction, signal-aware weighting, macro/risk controls, and reproducible research artifacts.
-          </p>
-          <p className="mt-4 max-w-3xl text-sm leading-6 text-white/35">
-            Historical results shown below are simulated research results, not live trading performance or investment advice.
-          </p>
+      <section className="site-container site-section">
+        <SectionHeading
+          eyebrow="WHAT THE SYSTEM DOES"
+          title="One research engine. Four governed decisions."
+          description="The product is not a single stock score. It is a chain of separately auditable research decisions—from data eligibility to final portfolio exposure."
+        />
+        <div className="grid gap-4 lg:grid-cols-4">
+          <Capability index="01" title="Rank" body="An expanding-window model compares liquid equities using only information available before each test period." href="/rankings" />
+          <Capability index="02" title="Investigate" body="A broader evidence funnel prioritizes names for quantitative, fundamental, catalyst, and risk review." href="/candidates" />
+          <Capability index="03" title="Construct" body="Top-ranked names are weighted with a 60-day shrinkage covariance model and controlled signal influence." href="/architecture" />
+          <Capability index="04" title="Govern" body="Portfolio exposure responds to regime and risk constraints under a hard 1.25x ceiling." href="/research" />
         </div>
-
-        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <MetricCard label="CORE NET RETURN" value={pct(core.annualized_net_return)} detail="simulated annualized" />
-          <MetricCard label="CORE NET SHARPE" value={num(core.net_sharpe)} detail="2021–2026 walk-forward" />
-          <MetricCard label="CORE MAX DRAWDOWN" value={pct(core.max_drawdown)} detail="simulated" danger />
-          <MetricCard label="MAX LEVERAGE" value={`${release.architecture.leverage_cap.toFixed(2)}x`} detail="hard governance ceiling" />
+        <div className="mt-5">
+          <PlainEnglish>
+            Salarium studies a governed stock universe, estimates which names may outperform over roughly one month, concentrates on the strongest ten, reduces redundant correlated risk, and then decides how much portfolio exposure the evidence deserves.
+          </PlainEnglish>
         </div>
+      </section>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[1.35fr_0.95fr]">
-          <section className="panel">
-            <div className="panel-header">
-              <div>
-                <p className="eyebrow">LOCKED RELEASE ARCHITECTURE</p>
-                <h3 className="panel-title">Research pipeline</h3>
-              </div>
-              <span className="status-chip">{release.release.version.toUpperCase()}</span>
-            </div>
-            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-              {architecture.map((item, index) => (
-                <div key={item} className="border border-white/10 bg-black/30 p-5">
-                  <p className="font-mono text-xs text-emerald-400">0{index + 1}</p>
-                  <p className="mt-5 text-xs uppercase leading-5 tracking-[0.16em] text-white/65">{item}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4 border border-white/10 bg-white/[0.02] p-5">
-              <p className="text-[10px] tracking-[0.22em] text-white/30">PRIMARY RISK ANCHOR</p>
-              <p className="mt-3 text-sm text-white/70">{readable(release.architecture.primary_risk_anchor)}</p>
-              <p className="mt-2 text-xs leading-5 text-white/35">
-                Final Top-10 weights combine 75% covariance-risk structure with 25% model-signal influence before portfolio-level exposure control.
-              </p>
-            </div>
-          </section>
-
-          <section className="panel">
-            <div className="panel-header">
-              <div>
-                <p className="eyebrow">RESEARCH MANDATES</p>
-                <h3 className="panel-title">One model, multiple risk postures</h3>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <PolicyCard title="Core Balanced" tag="RELEASE CANDIDATE" result={core} />
-              <PolicyCard title="Aggressive Reference" tag="STATIC 1.00X" result={aggressive} />
-              <PolicyCard title="Defensive Reference" tag="MINIMUM VARIANCE" result={defensive} risk />
-            </div>
-          </section>
-        </div>
-
-        <section className="panel mt-6">
-          <div className="panel-header">
-            <div>
-              <p className="eyebrow">LATEST COMMITTED SIGNAL OUTPUT</p>
-              <h3 className="panel-title">Top-ranked securities</h3>
-            </div>
-            <span className="status-chip">{legacy.latest_signal_state.date}</span>
+      <section className="border-y border-white/10 bg-white/[0.012]">
+        <div className="site-container site-section">
+          <SectionHeading
+            eyebrow="CORE RESEARCH MANDATE"
+            title="Concentrated alpha, with risk visibly attached."
+            description="The same out-of-sample signal supports multiple risk postures. The balanced candidate is the release focus; aggressive and defensive variants remain explicit comparators."
+            action={<Link href="/research" className="footer-link text-xs tracking-[0.12em] text-emerald-300">OPEN FULL EVIDENCE <ArrowRightIcon className="h-4 w-4" /></Link>}
+          />
+          <div className="grid gap-4 lg:grid-cols-3">
+            <MandateCard title="Core Balanced" subtitle="Release candidate" result={core} featured />
+            <MandateCard title="Aggressive Reference" subtitle="Static 1.00x" result={release.results.aggressive} />
+            <MandateCard title="Defensive Reference" subtitle="Minimum variance" result={release.results.defensive} defensive />
           </div>
-          <p className="mb-5 text-xs leading-5 text-white/35">
-            This is the latest ranking snapshot committed to the repository. It is not represented as a live market feed.
-          </p>
-          <div className="divide-y divide-white/5">
-            {legacy.latest_signal_state.rankings.slice(0, 10).map((item, index) => (
-              <div key={item.ticker} className="grid grid-cols-[48px_1fr_auto_auto] items-center gap-4 py-4">
-                <span className="font-mono text-sm text-white/25">{String(index + 1).padStart(2, "0")}</span>
-                <div>
-                  <p className="font-medium tracking-[0.2em]">{item.ticker}</p>
-                  <p className="mt-1 text-xs text-white/35">{readable(item.risk_state)}</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-mono text-sm text-emerald-400">{item.score.toFixed(5)}</p>
-                  <p className="mt-1 text-[10px] tracking-[0.2em] text-white/30">SCORE</p>
-                </div>
-                <div className="hidden text-right sm:block">
-                  <p className="font-mono text-sm text-white/70">{pct(item.volatility_20d)}</p>
-                  <p className="mt-1 text-[10px] tracking-[0.2em] text-white/30">VOL 20D</p>
-                </div>
-              </div>
+        </div>
+      </section>
+
+      <section className="site-container site-section">
+        <SectionHeading
+          eyebrow="LATEST COMMITTED SIGNALS"
+          title="The model output is inspectable—not mystified."
+          description={`Signal date ${formatDate(rankingSnapshot.latest_signal_state.date)}. This is a repository snapshot, not a live market feed.`}
+          action={<InternalCta href="/rankings" secondary>Open all rankings</InternalCta>}
+        />
+        <div className="card overflow-hidden">
+          <div className="hidden grid-cols-[72px_1fr_160px_160px] border-b border-white/10 px-5 py-3 text-[9px] tracking-[0.18em] text-white/25 sm:grid">
+            <span>RANK</span><span>SECURITY</span><span>MODEL SCORE</span><span>20D VOLATILITY</span>
+          </div>
+          <div className="divide-y divide-white/6">
+            {topRankings.map((item) => (
+              <Link key={item.ticker} href="/rankings" className="grid gap-3 px-5 py-5 transition hover:bg-white/[0.025] sm:grid-cols-[72px_1fr_160px_160px] sm:items-center">
+                <span className="font-mono text-sm text-white/25">{String(item.rank).padStart(2, "0")}</span>
+                <div><p className="font-semibold tracking-[0.16em]">{item.ticker}</p><p className="mt-1 text-xs text-white/28">{item.risk_state.replaceAll("_", " ").toUpperCase()}</p></div>
+                <span className="font-mono text-sm text-emerald-300">{item.score.toFixed(6)}</span>
+                <span className="font-mono text-sm text-white/60">{percent(item.volatility_20d, 2)}</span>
+              </Link>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="mt-6 border border-red-500/15 bg-red-500/[0.025] p-6">
-          <p className="eyebrow text-red-400">RESEARCH DISCLOSURE</p>
-          <div className="mt-4 grid gap-3 md:grid-cols-2">
-            <p className="text-sm leading-6 text-white/45">Historical results are simulated and do not represent live trading performance.</p>
-            <p className="text-sm leading-6 text-white/45">The system remains exposed to data, model, universe-selection, transaction-cost, and regime risks.</p>
-            <p className="text-sm leading-6 text-white/45">The 1.25x leverage limit is a hard ceiling, not a target. The current core research run did not exceed 1.00x.</p>
-            <p className="text-sm leading-6 text-white/45">Salarium is an educational and research system and does not provide investment advice.</p>
+      <section className="border-y border-white/10 bg-white/[0.012]">
+        <div className="site-container site-section">
+          <SectionHeading
+            eyebrow="RESEARCH DECISION LEDGER"
+            title="Progress came from rejecting attractive ideas."
+            description="A serious research platform records what failed, not just what won. These decisions are generated from committed experiment reports."
+            action={<InternalCta href="/research" secondary>View all decisions</InternalCta>}
+          />
+          <div className="grid gap-4 lg:grid-cols-3">{decisions.map((decision) => <DecisionCard key={decision.key} decision={decision} />)}</div>
+        </div>
+      </section>
+
+      <section className="site-container site-section">
+        <div className="grid gap-6 lg:grid-cols-[1.15fr_.85fr]">
+          <div className="card p-7 sm:p-9">
+            <p className="eyebrow text-emerald-300">WHY THIS IS DIFFERENT</p>
+            <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] sm:text-4xl">The research artifact is the product.</h2>
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-white/48">Salarium is designed around point-in-time discipline, expanding-window evaluation, reproducible score artifacts, portfolio-policy separation, transaction-cost assumptions, governance tests, and public limitations. The system is intended to be examined—not merely believed.</p>
+            <div className="mt-8 flex flex-wrap gap-3"><ExternalCta href={MODEL_CARD_URL} secondary={false}>Read model card</ExternalCta><InternalCta href="/about" secondary>About the project</InternalCta></div>
           </div>
-        </section>
+          <div className="card p-7 sm:p-9">
+            <p className="eyebrow">DATA STATUS</p>
+            <div className="mt-6 space-y-5">
+              <DataStatus label="Release research" value={formatDate(release.data_status.release_snapshot.generated_at_utc)} live={false} />
+              <DataStatus label="Ranking signal" value={formatDate(release.data_status.ranking_snapshot.signal_date)} live={release.data_status.ranking_snapshot.live} />
+              <DataStatus label="Candidate research" value={formatDate(release.data_status.candidate_snapshot.as_of_date)} live={release.data_status.candidate_snapshot.live} />
+            </div>
+            <p className="mt-6 border-t border-white/8 pt-5 text-xs leading-5 text-white/28">Salarium labels data freshness explicitly. No public surface represents committed snapshots as a live feed.</p>
+          </div>
+        </div>
+      </section>
 
-        <footer className="mt-10 flex flex-col gap-3 border-t border-white/10 py-8 text-xs text-white/30 md:flex-row md:items-center md:justify-between">
-          <span>COMMIT {release.provenance.git_commit.slice(0, 12)}</span>
-          <span>RELEASE SNAPSHOT {new Date(release.generated_at_utc).toLocaleString()}</span>
-        </footer>
+      <section className="site-container pb-8">
+        <DisclosurePanel items={[
+          "Historical results are simulated and do not represent live trading performance.",
+          "The system remains exposed to data, model, universe-selection, transaction-cost, covariance-estimation, and regime risks.",
+          "The 1.25x leverage limit is a ceiling, not a target; the current core result did not exceed 1.00x.",
+          "Salarium is an educational research system and does not provide investment advice or personal suitability analysis.",
+        ]} />
       </section>
     </main>
   );
 }
 
-function MetricCard({
-  label,
-  value,
-  detail,
-  danger = false,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-  danger?: boolean;
-}) {
+function Capability({ index, title, body, href }: { index: string; title: string; body: string; href: string }) {
   return (
-    <div className="border border-white/10 bg-white/[0.025] p-5 backdrop-blur">
-      <p className="text-[10px] tracking-[0.24em] text-white/35">{label}</p>
-      <p className={`mt-5 font-mono text-2xl ${danger ? "text-red-400" : "text-white"}`}>{value}</p>
-      <p className="mt-2 text-xs text-white/30">{detail}</p>
-    </div>
+    <Link href={href} className="card card-hover group flex min-h-64 flex-col p-6">
+      <div className="flex items-center justify-between"><span className="font-mono text-xs text-emerald-300">{index}</span><ArrowRightIcon className="h-4 w-4 text-white/20 transition group-hover:translate-x-1 group-hover:text-emerald-300" /></div>
+      <h3 className="mt-auto pt-16 text-xl font-medium">{title}</h3>
+      <p className="mt-3 text-sm leading-6 text-white/40">{body}</p>
+    </Link>
   );
 }
 
-function PolicyCard({
-  title,
-  tag,
-  result,
-  risk = false,
-}: {
-  title: string;
-  tag: string;
-  result: Result;
-  risk?: boolean;
-}) {
+function DataStatus({ label, value, live }: { label: string; value: string; live: boolean }) {
   return (
-    <div className="border border-white/10 bg-black/40 p-5">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-medium">{title}</p>
-          <p className={`mt-2 text-[10px] tracking-[0.22em] ${risk ? "text-red-400" : "text-emerald-400"}`}>{tag}</p>
-        </div>
-        <span className="font-mono text-xs text-white/30">{result.avg_exposure.toFixed(3)}x AVG</span>
-      </div>
-      <div className="mt-5 grid grid-cols-2 gap-4">
-        <PolicyMetric label="NET RETURN" value={pct(result.annualized_net_return)} />
-        <PolicyMetric label="NET SHARPE" value={num(result.net_sharpe)} />
-        <PolicyMetric label="SORTINO" value={num(result.net_sortino)} />
-        <PolicyMetric label="MAX DD" value={pct(result.max_drawdown)} danger />
-      </div>
-    </div>
-  );
-}
-
-function PolicyMetric({ label, value, danger = false }: { label: string; value: string; danger?: boolean }) {
-  return (
-    <div>
-      <p className="text-[9px] tracking-[0.2em] text-white/30">{label}</p>
-      <p className={`mt-2 font-mono text-sm ${danger ? "text-red-400" : "text-white/80"}`}>{value}</p>
+    <div className="flex items-center justify-between gap-5 border-b border-white/6 pb-4 last:border-0 last:pb-0">
+      <div><p className="text-sm text-white/62">{label}</p><p className="mt-1 font-mono text-[10px] text-white/25">{value.toUpperCase()}</p></div>
+      <StatusBadge tone={live ? "positive" : "neutral"}>{live ? "LIVE" : "SNAPSHOT"}</StatusBadge>
     </div>
   );
 }
