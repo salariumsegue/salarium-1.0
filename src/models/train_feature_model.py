@@ -39,7 +39,7 @@ X_test = X.iloc[split_idx:]
 y_train = y.iloc[:split_idx]
 y_test = y.iloc[split_idx:]
 
-print("Training Solarium v2...")
+print("Training Salarium feature model...")
 
 model = RandomForestRegressor(
     n_estimators=300,
@@ -62,16 +62,16 @@ naive_mse = mean_squared_error(
 )
 
 print("\n===================")
-print("SOLARIUM V2 RESULTS")
+print("SALARIUM FEATURE MODEL RESULTS")
 print("===================")
 
 print(f"Model MSE: {mse:.8f}")
 print(f"Benchmark MSE: {naive_mse:.8f}")
 
 if mse < naive_mse:
-    print("\n🚀 Solarium beats benchmark")
+    print("\n🚀 Salarium beats benchmark")
 else:
-    print("\n⚠️ Solarium does not beat benchmark")
+    print("\n⚠️ Salarium does not beat benchmark")
 
 print("\nTop Feature Importances")
 

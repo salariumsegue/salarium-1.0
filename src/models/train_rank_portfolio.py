@@ -62,7 +62,7 @@ model = RandomForestRegressor(
     n_jobs=-1,
 )
 
-print("\nTraining Solarium ranking model...")
+print("\nTraining Salarium ranking model...")
 model.fit(X_train, y_train)
 
 # Backtest results
