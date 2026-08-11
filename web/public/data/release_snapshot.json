@@ -26,7 +26,7 @@
     "ranking_snapshot": {
       "artifact_role": "release_model_cross_section",
       "count": 25,
-      "generated_at_utc": "2026-08-11T23:12:01.166566+00:00",
+      "generated_at_utc": "2026-08-11T23:14:25.528490+00:00",
       "live": false,
       "model_horizon_days": 20,
       "release_compatible": true,
@@ -35,11 +35,11 @@
       "universe_count": 500
     },
     "release_snapshot": {
-      "generated_at_utc": "2026-08-11T23:12:01.968860+00:00",
+      "generated_at_utc": "2026-08-11T23:14:26.524889+00:00",
       "source": "reports/experiments/signal_aware_covariance_overall.csv"
     }
   },
-  "generated_at_utc": "2026-08-11T23:12:01.968860+00:00",
+  "generated_at_utc": "2026-08-11T23:14:26.524889+00:00",
   "governance": {
     "historical_results_are_simulated": true,
     "investment_advice": false,
@@ -60,7 +60,7 @@
   },
   "provenance": {
     "git_branch": "release/salarium-1.0-web-production",
-    "git_commit": "0d1e5a159b8e76edcd0cac1b59b2fb2160c24c1c",
+    "git_commit": "7c730e84c4095b66a44285967e9bb99f8be16491",
     "git_dirty": false,
     "source_report": "reports/experiments/signal_aware_covariance_overall.csv"
   },
