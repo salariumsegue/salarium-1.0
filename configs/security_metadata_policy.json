@@ -1,5 +1,10 @@
 {
-  "schema_version": "1.0",
+  "current_snapshot_allowed_uses": [
+    "current website display",
+    "current research explanation",
+    "current cross-sectional screening",
+    "descriptive universe diagnostics"
+  ],
   "description": "Governance policy for security metadata used by Salarium research.",
   "point_in_time_required_for_backtests": [
     "sector",
@@ -18,17 +23,29 @@
     "gross_margin",
     "debt_to_equity"
   ],
-  "current_snapshot_allowed_uses": [
-    "current website display",
-    "current research explanation",
-    "current cross-sectional screening",
-    "descriptive universe diagnostics"
-  ],
   "prohibited_uses": [
     "backfilling historical sector exposure using current sector classifications",
     "backfilling historical market capitalization using current market capitalization",
     "backfilling historical fundamentals using current fundamentals",
     "treating a dated file as point-in-time verified without source provenance"
   ],
-  "verified_point_in_time_sources": []
+  "schema_version": "1.0",
+  "verified_point_in_time_sources": [
+    {
+      "availability_semantics": "SEC filed date plus one business day",
+      "path": "data/processed/sec_point_in_time_fundamental_facts.csv",
+      "point_in_time_verified": true,
+      "source": "SEC EDGAR Company Facts XBRL",
+      "verified_fields": [
+        "shares_outstanding",
+        "assets",
+        "liabilities",
+        "stockholders_equity",
+        "revenue",
+        "gross_profit",
+        "operating_income",
+        "net_income"
+      ]
+    }
+  ]
 }

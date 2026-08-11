@@ -2,22 +2,11 @@
   "schema_version": "1.0",
   "sources": [
     {
-      "path": "data/processed/salarium_training_with_macro.csv",
-      "fields": [
-        "sector"
-      ],
-      "classification": "static_metadata_propagated_backward",
-      "historical_backtest_eligible": false,
       "allowed_uses": [
         "legacy descriptive display",
         "pipeline compatibility"
       ],
-      "prohibited_uses": [
-        "historical sector attribution",
-        "historical sector neutralization",
-        "historical sector exposure constraints",
-        "historical sector factor construction"
-      ],
+      "classification": "static_metadata_propagated_backward",
       "evidence": [
         "20 tickers each retain exactly one sector across 1599 dates from 2020-01-31 through 2026-06-11",
         "zero sector transitions exist in the historical panel",
@@ -25,64 +14,101 @@
         "src/features/build_stock_training_data.py assigns one sector value across each ticker dataframe",
         "src/llm/merge_macro_features.py copies stock_row sector into salarium_training_with_macro.csv",
         "generated CSV is not directly tracked in Git"
-      ]
-    },
-    {
-      "path": "data/processed/demo_stock_training_data.csv",
+      ],
       "fields": [
         "sector"
       ],
-      "classification": "static_metadata",
       "historical_backtest_eligible": false,
+      "path": "data/processed/salarium_training_with_macro.csv",
+      "prohibited_uses": [
+        "historical sector attribution",
+        "historical sector neutralization",
+        "historical sector exposure constraints",
+        "historical sector factor construction"
+      ]
+    },
+    {
       "allowed_uses": [
         "demo display",
         "current descriptive classification"
       ],
+      "classification": "static_metadata",
+      "fields": [
+        "sector"
+      ],
+      "historical_backtest_eligible": false,
+      "path": "data/processed/demo_stock_training_data.csv",
       "prohibited_uses": [
         "historical sector attribution",
         "historical sector neutralization"
       ]
     },
     {
-      "path": "configs/universe_snapshots/2026-07-08_market_cap_fetch_all.csv",
+      "allowed_uses": [
+        "current descriptive metadata",
+        "current website display"
+      ],
+      "classification": "current_snapshot",
       "fields": [
         "sector",
         "industry",
         "market_cap"
       ],
-      "classification": "current_snapshot",
       "historical_backtest_eligible": false,
-      "allowed_uses": [
-        "current descriptive metadata",
-        "current website display"
-      ]
+      "path": "configs/universe_snapshots/2026-07-08_market_cap_fetch_all.csv"
     },
     {
-      "path": "configs/universe_snapshots/2026-07-08_top125_yahoo.csv",
+      "allowed_uses": [
+        "current descriptive metadata",
+        "current website display"
+      ],
+      "classification": "current_snapshot",
       "fields": [
         "sector",
         "industry",
         "market_cap"
       ],
-      "classification": "current_snapshot",
       "historical_backtest_eligible": false,
-      "allowed_uses": [
-        "current descriptive metadata",
-        "current website display"
-      ]
+      "path": "configs/universe_snapshots/2026-07-08_top125_yahoo.csv"
     },
     {
-      "path": "configs/universe_snapshots/2026-07-12_liquid_125_validation.csv",
+      "allowed_uses": [
+        "current descriptive metadata",
+        "current website display"
+      ],
+      "classification": "current_snapshot",
       "fields": [
         "sector",
         "industry",
         "market_cap"
       ],
-      "classification": "current_snapshot",
       "historical_backtest_eligible": false,
+      "path": "configs/universe_snapshots/2026-07-12_liquid_125_validation.csv"
+    },
+    {
       "allowed_uses": [
-        "current descriptive metadata",
-        "current website display"
+        "historical size attribution",
+        "historical value attribution",
+        "historical quality attribution",
+        "historical leverage attribution"
+      ],
+      "availability_semantics": "SEC filing date plus one business day",
+      "classification": "sec_point_in_time_filing_ledger",
+      "fields": [
+        "shares_outstanding",
+        "assets",
+        "liabilities",
+        "stockholders_equity",
+        "revenue",
+        "gross_profit",
+        "operating_income",
+        "net_income"
+      ],
+      "historical_backtest_eligible": true,
+      "path": "data/processed/sec_point_in_time_fundamental_facts.csv",
+      "prohibited_uses": [
+        "using statement period end as information availability date",
+        "historical sector or industry classification"
       ]
     }
   ]

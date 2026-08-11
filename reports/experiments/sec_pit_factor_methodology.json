@@ -1,0 +1,30 @@
+{
+  "annual_fact_rule": "Income-statement factors use annual 10-K, 20-F, or 40-F facts with 250-450 day reporting periods. These are latest-known annual fundamentals, not rolling TTM.",
+  "availability_rule": "Every SEC fact is joined only when its conservative available_date is less than or equal to the rebalance date.",
+  "factor_event_counts": {
+    "assets": 3536,
+    "gross_profit": 1503,
+    "liabilities": 2652,
+    "net_income": 3182,
+    "operating_income": 2848,
+    "revenue": 3271,
+    "shares_outstanding": 12082,
+    "stockholders_equity": 3533
+  },
+  "gross_profitability_warning": "Gross-profit coverage is materially lower than other quality inputs and is treated as a secondary component.",
+  "methodology": {
+    "book_to_market": "Latest known positive annual stockholders equity divided by point-in-time market cap.",
+    "earnings_yield": "Latest known annual net income divided by point-in-time market cap.",
+    "gross_profitability": "Latest known annual gross profit divided by assets.",
+    "leverage": "Latest known annual liabilities divided by assets.",
+    "market_cap": "Raw historical close multiplied by the latest SEC-reported shares outstanding known as of the rebalance date.",
+    "operating_profitability": "Latest known annual operating income divided by assets.",
+    "roa": "Latest known annual net income divided by latest known annual assets.",
+    "roe": "Latest known annual net income divided by latest known positive annual stockholders equity."
+  },
+  "price_rule": "Raw close is used for market-cap construction because SEC shares outstanding are unadjusted actual shares. Adjusted close is not used for market capitalization.",
+  "rebalance_dates": 276,
+  "rows": 135022,
+  "schema_version": "1.0",
+  "tickers": 500
+}
