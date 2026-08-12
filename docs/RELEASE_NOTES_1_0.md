@@ -17,3 +17,7 @@ Salarium began as a small technical stock-ranking experiment and evolved into a 
 ## Release philosophy
 
 Salarium 1.0 is being released as a research system, not as a claim of a deployable trading edge. The release emphasizes reproducibility, architecture, research discipline, and honest presentation of both improvements and limitations.
+
+## Post-freeze research candidate
+
+The repository now contains a validated high-water-mark drawdown-budget candidate that reached a -21.6% simulated maximum drawdown. It is approved for a USD 100,000 paper-only shadow mandate, with no historical backfill, brokerage connection, orders, or live capital. It remains outside the canonical release pending independent forward or newly sequestered evidence plus separate release approval; the current 2024-2026 segment was inspected during design and is not represented as a pristine holdout.

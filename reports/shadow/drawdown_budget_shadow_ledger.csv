@@ -1,0 +1,1 @@
+rebalance_date,source_snapshot_generated_at_utc,source_snapshot_sha256,baseline_equity_exposure,shadow_equity_exposure,cash_weight,paper_nav_before,paper_nav_after,net_return,drawdown_after_rebalance,status

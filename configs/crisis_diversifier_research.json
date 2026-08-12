@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0",
+  "experiment": {
+    "key": "crisis_diversifier_sleeve",
+    "title": "Crisis-diversifier sleeve",
+    "status": "research_candidate",
+    "protocol_frozen_before_evaluation": true,
+    "frozen_at_utc": "2026-08-12T03:00:00Z",
+    "hypothesis": "A bounded, cash-funded, regime-aware diversifier sleeve can reduce Salarium tail loss and recovery time without materially diluting the governed equity return stream."
+  },
+  "baseline": {
+    "source": "results/signal_aware_covariance/signal_aware_covariance_results.csv",
+    "base_policy": "signal_shrinkage_max_diversification_blend_0.25",
+    "exposure_policy": "legacy_risk_scaled",
+    "expected_rebalances": 139,
+    "expected_start": "2021-01-04",
+    "expected_end": "2026-05-28"
+  },
+  "data": {
+    "provider": "Yahoo adjusted-close total-return proxy history",
+    "start_date": "2007-01-01",
+    "end_date": "2026-07-01",
+    "signal_information_lag_sessions": 1,
+    "proxies": {
+      "GLD": "Physical gold trust proxy",
+      "USO": "WTI oil futures-roll ETF proxy",
+      "DBC": "Diversified commodity futures-roll ETF proxy",
+      "TLT": "Long-duration US Treasury ETF proxy",
+      "TIP": "US inflation-linked Treasury ETF proxy",
+      "BIL": "US Treasury bill collateral/cash proxy",
+      "UUP": "Long US dollar futures-roll ETF proxy",
+      "SPY": "US equity index stress benchmark"
+    }
+  },
+  "costs": {
+    "base_sleeve_turnover_bps": 10.0,
+    "short_borrow_bps_annual": 50.0,
+    "stress_turnover_bps": [5.0, 10.0, 25.0, 50.0]
+  },
+  "signals": {
+    "trend_horizons_sessions": [63, 126, 252],
+    "volatility_lookback_sessions": 60,
+    "minimum_positive_trend_votes": 2,
+    "risk_off_budget": 0.2,
+    "neutral_budget": 0.1,
+    "risk_on_budget": 0.0
+  },
+  "policies": [
+    {
+      "key": "official_baseline",
+      "label": "Official Salarium baseline",
+      "kind": "baseline"
+    },
+    {
+      "key": "baseline_cash_yield",
+      "label": "Baseline plus Treasury-bill collateral yield",
+      "kind": "cash_yield"
+    },
+    {
+      "key": "strategic_gold_10",
+      "label": "Strategic 10% gold",
+      "kind": "strategic_single",
+      "asset": "GLD",
+      "budget": 0.1
+    },
+    {
+      "key": "strategic_oil_10",
+      "label": "Strategic 10% oil",
+      "kind": "strategic_single",
+      "asset": "USO",
+      "budget": 0.1
+    },
+    {
+      "key": "strategic_diversified_10",
+      "label": "Strategic 10% diversified real-assets/defensive basket",
+      "kind": "strategic_equal",
+      "assets": ["GLD", "DBC", "TLT"],
+      "budget": 0.1
+    },
+    {
+      "key": "regime_fixed_20",
+      "label": "Risk-state 20% fixed defensive basket",
+      "kind": "regime_equal",
+      "assets": ["GLD", "DBC", "TLT"]
+    },
+    {
+      "key": "regime_trend_20",
+      "label": "Risk-state 20% trend-confirmed diversifiers",
+      "kind": "regime_trend_long",
+      "assets": ["GLD", "DBC", "USO", "TLT", "TIP"]
+    },
+    {
+      "key": "diversified_trend_overlay_20",
+      "label": "Risk-state 20% diversified long/short trend overlay",
+      "kind": "regime_trend_long_short",
+      "assets": ["GLD", "DBC", "USO", "TLT", "UUP", "SPY"]
+    }
+  ],
+  "robustness": {
+    "sleeve_budgets": [0.05, 0.1, 0.15, 0.2],
+    "development_years": [2021, 2022, 2023],
+    "holdout_years": [2024, 2025, 2026],
+    "bootstrap_samples": 10000,
+    "bootstrap_block_rebalances": 6,
+    "bootstrap_seed": 20260811
+  },
+  "stress_windows": [
+    {"key": "global_financial_crisis", "label": "Global financial crisis", "start": "2008-09-01", "end": "2009-03-09"},
+    {"key": "us_debt_crisis", "label": "US debt downgrade / euro stress", "start": "2011-07-01", "end": "2011-10-03"},
+    {"key": "q4_2018", "label": "Q4 2018 equity selloff", "start": "2018-10-01", "end": "2018-12-24"},
+    {"key": "covid_crash", "label": "COVID-19 liquidity shock", "start": "2020-02-19", "end": "2020-03-23"},
+    {"key": "inflation_bear", "label": "2022 inflation/rate bear market", "start": "2022-01-03", "end": "2022-10-12"}
+  ],
+  "acceptance_gates": {
+    "maximum_drawdown_absolute_improvement": 0.08,
+    "expected_shortfall_95_relative_improvement": 0.1,
+    "maximum_recovery_days_relative_reduction": 0.2,
+    "maximum_annualized_return_drag": 0.05,
+    "minimum_sharpe_delta": 0.0,
+    "minimum_years_with_drawdown_improvement": 4,
+    "holdout_drawdown_must_not_worsen": true,
+    "holdout_sharpe_must_not_worsen": true,
+    "required_cost_stress_bps": 25.0
+  },
+  "governance": {
+    "long_only_equity_model_unchanged": true,
+    "maximum_total_capital": 1.0,
+    "live_trading": false,
+    "promotion_requires_all_gates": true,
+    "proxy_results_are_not_futures_backtests": true
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "mandate": {
+    "key": "drawdown_budget_78_m3_shadow",
+    "name": "Salarium drawdown-budget shadow mandate",
+    "status": "approved_awaiting_first_eligible_snapshot",
+    "approved_at_utc": "2026-08-12T03:32:34Z",
+    "approval_scope": "shadow_paper_tracking_only",
+    "paper_notional_usd": 100000,
+    "currency": "USD"
+  },
+  "policy": {
+    "key": "drawdown_budget_78_m3",
+    "floor_ratio": 0.78,
+    "cushion_multiplier": 3.0,
+    "maximum_equity_exposure": 1.0,
+    "cash_proxy": "BIL",
+    "cash_turnover_bps": 10.0
+  },
+  "activation": {
+    "historical_backfill_permitted": false,
+    "first_eligible_observation": "First release-aligned, point-in-time portfolio snapshot generated after approval",
+    "current_status": "awaiting_first_forward_observation",
+    "minimum_required_fields": [
+      "rebalance_date",
+      "source_snapshot_generated_at_utc",
+      "source_snapshot_sha256",
+      "baseline_equity_exposure",
+      "shadow_equity_exposure",
+      "cash_weight",
+      "paper_nav_before",
+      "paper_nav_after",
+      "net_return",
+      "drawdown_after_rebalance"
+    ]
+  },
+  "execution": {
+    "live_capital": false,
+    "brokerage_connection": false,
+    "order_generation": false,
+    "order_submission": false,
+    "portfolio_snapshot_required": true,
+    "canonical_release_unchanged": true
+  },
+  "monitoring": {
+    "cadence": "each governed 10-trading-day rebalance",
+    "minimum_observations_before_promotion_review": 26,
+    "minimum_calendar_days_before_promotion_review": 365,
+    "tracked_metrics": [
+      "paper_nav",
+      "maximum_drawdown",
+      "equity_exposure",
+      "cash_weight",
+      "turnover",
+      "modeled_cost",
+      "recovery_days",
+      "difference_from_canonical_policy"
+    ],
+    "mandatory_review_events": [
+      "maximum_drawdown_reaches_20_percent",
+      "maximum_drawdown_reaches_25_percent",
+      "equity_exposure_below_5_percent_for_three_rebalances",
+      "source_snapshot_or_provenance_failure",
+      "policy_parameter_change"
+    ]
+  },
+  "promotion": {
+    "automatic_promotion": false,
+    "independent_forward_evidence_required": true,
+    "explicit_release_approval_required": true,
+    "pristine_holdout_or_forward_record_required": true
+  },
+  "ledger": {
+    "path": "reports/shadow/drawdown_budget_shadow_ledger.csv",
+    "observations": 0,
+    "status": "empty_awaiting_activation"
+  }
+}

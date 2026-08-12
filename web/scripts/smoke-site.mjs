@@ -19,6 +19,9 @@ const DATA_ROUTES = [
   "/data/release_snapshot.json",
   "/data/release_rankings_snapshot.json",
   "/data/candidate_funnel_snapshot.json",
+  "/data/hypothetical_account_snapshot.json",
+  "/data/crisis_diversifier_research.json",
+  "/data/drawdown_budget_research.json",
 ];
 const DISCOVERY_ROUTES = [
   "/manifest.webmanifest",

@@ -39,6 +39,12 @@ The committed walk-forward research report currently shows approximately:
 
 The 1.25x leverage ceiling is a permission limit, not an exposure target. The referenced research run did not require leverage above 1.00x.
 
+## Validated Drawdown-Budget Candidate
+
+A post-freeze research candidate applies a 78% soft high-water-mark floor and a 3x capital-cushion multiplier above the existing exposure layer. It reduced the observed simulated maximum drawdown to -21.6%, retained approximately 70% of the cash-yield comparator's annualized return, and improved full-period Sharpe.
+
+It is not part of the locked release architecture. It is approved for a USD 100,000 paper-only shadow mandate with no brokerage connection, orders, or live capital. The full 2021-2026 record was inspected during design, so its 2024-2026 slice is not a pristine holdout. The floor is not a guarantee and the controller can become nearly cash-locked after a deep loss. See `docs/drawdown_budget_research.md` and `docs/drawdown_budget_shadow_mandate.md` for the evidence, activation rules, and limitations.
+
 ## Aggressive Research Reference
 
 The same 25% signal-aware maximum-diversification portfolio at static 1.00x exposure produced a materially higher simulated return, but also materially higher volatility and drawdown. It is retained as a research comparison rather than the default release candidate.

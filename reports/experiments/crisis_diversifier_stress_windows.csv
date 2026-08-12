@@ -1,0 +1,41 @@
+window,window_label,start,end,asset,total_return
+global_financial_crisis,Global financial crisis,2008-09-01,2009-03-09,BIL,0.004847254748933105
+global_financial_crisis,Global financial crisis,2008-09-01,2009-03-09,DBC,-0.4864658062046284
+global_financial_crisis,Global financial crisis,2008-09-01,2009-03-09,GLD,0.1084322691172408
+global_financial_crisis,Global financial crisis,2008-09-01,2009-03-09,SPY,-0.4637755719642255
+global_financial_crisis,Global financial crisis,2008-09-01,2009-03-09,TIP,-0.07268950552808873
+global_financial_crisis,Global financial crisis,2008-09-01,2009-03-09,TLT,0.1301430560385899
+global_financial_crisis,Global financial crisis,2008-09-01,2009-03-09,USO,-0.6915042664884842
+global_financial_crisis,Global financial crisis,2008-09-01,2009-03-09,UUP,0.12488776321344464
+us_debt_crisis,US debt downgrade / euro stress,2011-07-01,2011-10-03,BIL,0.0
+us_debt_crisis,US debt downgrade / euro stress,2011-07-01,2011-10-03,DBC,-0.11655176765180597
+us_debt_crisis,US debt downgrade / euro stress,2011-07-01,2011-10-03,GLD,0.110605222163767
+us_debt_crisis,US debt downgrade / euro stress,2011-07-01,2011-10-03,SPY,-0.17488974840970717
+us_debt_crisis,US debt downgrade / euro stress,2011-07-01,2011-10-03,TIP,0.05467931202401699
+us_debt_crisis,US debt downgrade / euro stress,2011-07-01,2011-10-03,TLT,0.33411893444448726
+us_debt_crisis,US debt downgrade / euro stress,2011-07-01,2011-10-03,USO,-0.19946168103388706
+us_debt_crisis,US debt downgrade / euro stress,2011-07-01,2011-10-03,UUP,0.06179239039673412
+q4_2018,Q4 2018 equity selloff,2018-10-01,2018-12-24,BIL,0.004896120081365307
+q4_2018,Q4 2018 equity selloff,2018-10-01,2018-12-24,DBC,-0.20388258539573934
+q4_2018,Q4 2018 equity selloff,2018-10-01,2018-12-24,GLD,0.06618101597671178
+q4_2018,Q4 2018 equity selloff,2018-10-01,2018-12-24,SPY,-0.19203223239665124
+q4_2018,Q4 2018 equity selloff,2018-10-01,2018-12-24,TIP,-0.003886429359058474
+q4_2018,Q4 2018 equity selloff,2018-10-01,2018-12-24,TLT,0.05196497657581012
+q4_2018,Q4 2018 equity selloff,2018-10-01,2018-12-24,USO,-0.4175548543608695
+q4_2018,Q4 2018 equity selloff,2018-10-01,2018-12-24,UUP,0.02074208937485955
+covid_crash,COVID-19 liquidity shock,2020-02-19,2020-03-23,BIL,0.0025921080416830833
+covid_crash,COVID-19 liquidity shock,2020-02-19,2020-03-23,DBC,-0.2570470456232691
+covid_crash,COVID-19 liquidity shock,2020-02-19,2020-03-23,GLD,-0.03616832780242807
+covid_crash,COVID-19 liquidity shock,2020-02-19,2020-03-23,SPY,-0.3371726113109632
+covid_crash,COVID-19 liquidity shock,2020-02-19,2020-03-23,TIP,-0.005978754305045242
+covid_crash,COVID-19 liquidity shock,2020-02-19,2020-03-23,TLT,0.14234216720609982
+covid_crash,COVID-19 liquidity shock,2020-02-19,2020-03-23,USO,-0.5635062628595238
+covid_crash,COVID-19 liquidity shock,2020-02-19,2020-03-23,UUP,0.03939069109646032
+inflation_bear,2022 inflation/rate bear market,2022-01-03,2022-10-12,BIL,0.006108281161343987
+inflation_bear,2022 inflation/rate bear market,2022-01-03,2022-10-12,DBC,0.2142857067769124
+inflation_bear,2022 inflation/rate bear market,2022-01-03,2022-10-12,GLD,-0.07330835979127348
+inflation_bear,2022 inflation/rate bear market,2022-01-03,2022-10-12,SPY,-0.24496385408336474
+inflation_bear,2022 inflation/rate bear market,2022-01-03,2022-10-12,TIP,-0.1274162882360772
+inflation_bear,2022 inflation/rate bear market,2022-01-03,2022-10-12,TLT,-0.29334799370571374
+inflation_bear,2022 inflation/rate bear market,2022-01-03,2022-10-12,USO,0.2936348337848851
+inflation_bear,2022 inflation/rate bear market,2022-01-03,2022-10-12,UUP,0.18069025639341607

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import re
 from pathlib import Path
 
@@ -28,6 +29,9 @@ ALLOWED_INTERNAL = set(ROUTES) | {
     "/data/release_snapshot.json",
     "/data/release_rankings_snapshot.json",
     "/data/candidate_funnel_snapshot.json",
+    "/data/hypothetical_account_snapshot.json",
+    "/data/crisis_diversifier_research.json",
+    "/data/drawdown_budget_research.json",
     "/salarium-mark.svg",
     "/salarium-edge-glyph.svg",
     "/salarium-logo.svg",
@@ -134,6 +138,9 @@ def test_release_metadata_discovery_error_and_loading_surfaces_exist() -> None:
         APP / "error.tsx",
         APP / "loading.tsx",
         WEB / "public" / "salarium-mark.svg",
+        WEB / "public" / "data" / "hypothetical_account_snapshot.json",
+        WEB / "public" / "data" / "crisis_diversifier_research.json",
+        WEB / "public" / "data" / "drawdown_budget_research.json",
     ]:
         assert path.is_file(), f"Missing production web artifact: {path.relative_to(ROOT)}"
 
@@ -142,6 +149,108 @@ def test_release_metadata_discovery_error_and_loading_surfaces_exist() -> None:
     assert "application/ld+json" in layout
     assert "SiteHeader" in layout and "SiteFooter" in layout
     assert 'href="#main-content"' in layout
+
+
+def test_hypothetical_account_is_governed_by_the_release_evidence() -> None:
+    account = json.loads((WEB / "public" / "data" / "hypothetical_account_snapshot.json").read_text(encoding="utf-8"))
+    release = json.loads((WEB / "public" / "data" / "release_snapshot.json").read_text(encoding="utf-8"))
+    core = release["results"]["core_balanced"]
+
+    assert account["schema_version"] == "1.0"
+    assert account["currency"] == "USD"
+    assert account["starting_balance"] == 100_000
+    assert account["ending_balance"] == account["points"][-1]["value"]
+    assert account["period"] == {"start": account["points"][0]["date"], "end": account["points"][-1]["date"]}
+    assert len(account["points"]) == core["num_rebalances"] == account["statistics"]["rebalances"]
+    assert [point["date"] for point in account["points"]] == sorted(point["date"] for point in account["points"])
+    for metric in ["annualized_net_return", "net_sharpe", "max_drawdown"]:
+        assert account["statistics"][metric] == core[metric]
+    for key in ["base_policy", "exposure_policy", "risk_anchor", "signal_blend"]:
+        assert account["model"][key] == core[key]
+    assert account["model"]["horizon_days"] == release["architecture"]["model_horizon_days"]
+    assert account["model"]["rebalance_every_days"] == release["architecture"]["rebalance_every_days"]
+    assert account["governance"]["hypothetical"] is True
+    assert account["governance"]["live"] is False
+    assert account["governance"]["modeled_costs_included"] is True
+    assert account["governance"]["taxes_and_market_impact_excluded"] is True
+    assert re.fullmatch(r"[a-f0-9]{64}", account["provenance"]["source_sha256"])
+
+
+def test_crisis_diversifier_research_preserves_failed_gate_verdict() -> None:
+    crisis = json.loads((WEB / "public" / "data" / "crisis_diversifier_research.json").read_text(encoding="utf-8"))
+    release = json.loads((WEB / "public" / "data" / "release_snapshot.json").read_text(encoding="utf-8"))
+    core = release["results"]["core_balanced"]
+    baseline = next(row for row in crisis["overall"] if row["policy"] == "official_baseline" and row["period"] == "overall")
+
+    assert crisis["schema_version"] == "1.0"
+    assert crisis["experiment"]["status"] == "research_candidate"
+    assert crisis["period"]["rebalances"] == core["num_rebalances"] == 139
+    assert crisis["comparator"] == "baseline_cash_yield"
+    assert crisis["verdict"]["promotion"] is False
+    assert crisis["verdict"]["promoted_policies"] == []
+    assert len(crisis["acceptance"]) == 24
+    assert not any(row["all_gates_pass"] for row in crisis["acceptance"])
+    assert len(crisis["robustness"]) == 96
+    assert len(crisis["bootstrap"]) == 6
+    assert len(crisis["stress_windows"]) == 40
+    for metric in ["annualized_net_return", "net_sharpe", "max_drawdown"]:
+        assert abs(baseline[metric] - core[metric]) <= 1e-12
+    for key in ["config_sha256", "baseline_source_sha256", "proxy_report_sha256"]:
+        assert re.fullmatch(r"[a-f0-9]{64}", crisis["provenance"][key])
+    for path_key, hash_key in [
+        ("config", "config_sha256"),
+        ("baseline_source", "baseline_source_sha256"),
+        ("proxy_report", "proxy_report_sha256"),
+    ]:
+        source = ROOT / crisis["provenance"][path_key]
+        assert source.is_file()
+        assert hashlib.sha256(source.read_bytes()).hexdigest() == crisis["provenance"][hash_key]
+
+
+def test_drawdown_budget_candidate_meets_target_without_claiming_release_promotion() -> None:
+    research = json.loads((WEB / "public" / "data" / "drawdown_budget_research.json").read_text(encoding="utf-8"))
+
+    assert research["schema_version"] == "1.0"
+    assert research["experiment"]["status"] == "validated_research_candidate"
+    assert research["experiment"]["confirmation_segment_pristine"] is False
+    assert research["period"]["rebalances"] == 139
+    assert research["acceptance"]["all_gates_pass"] is True
+    assert research["acceptance"]["overall_max_drawdown"] >= -0.25
+    assert research["acceptance"]["development_max_drawdown"] >= -0.25
+    assert research["acceptance"]["confirmation_max_drawdown"] >= -0.25
+    assert research["acceptance"]["parameter_neighborhood_pass_rate"] == 1.0
+    assert research["bootstrap"]["candidate_max_drawdown_probability_below_25pct"] >= 0.95
+    assert research["verdict"]["research_target_achieved"] is True
+    assert research["verdict"]["promotion"] is False
+    assert research["verdict"]["status"] == "validated_candidate"
+    assert research["verdict"]["independent_holdout_available"] is False
+    assert research["verdict"]["explicit_release_approval"] is False
+    assert research["verdict"]["shadow_mandate_approved"] is True
+    assert research["verdict"]["explicit_shadow_approval"] is True
+    assert research["verdict"]["soft_floor_is_not_a_guarantee"] is True
+    shadow = research["shadow_mandate"]
+    assert shadow["mandate"]["status"] == "approved_awaiting_first_eligible_snapshot"
+    assert shadow["mandate"]["approval_scope"] == "shadow_paper_tracking_only"
+    assert shadow["mandate"]["paper_notional_usd"] == 100_000
+    assert shadow["activation"]["historical_backfill_permitted"] is False
+    assert shadow["activation"]["current_status"] == "awaiting_first_forward_observation"
+    assert shadow["execution"]["live_capital"] is False
+    assert shadow["execution"]["brokerage_connection"] is False
+    assert shadow["execution"]["order_generation"] is False
+    assert shadow["execution"]["order_submission"] is False
+    assert shadow["execution"]["canonical_release_unchanged"] is True
+    assert shadow["promotion"]["automatic_promotion"] is False
+    assert shadow["ledger"]["observations"] == 0
+    for path_key, hash_key in [
+        ("config", "config_sha256"),
+        ("shadow_mandate_config", "shadow_mandate_config_sha256"),
+        ("baseline_source", "baseline_source_sha256"),
+        ("cash_proxy_report", "cash_proxy_report_sha256"),
+        ("result_path", "result_sha256"),
+    ]:
+        source = ROOT / research["provenance"][path_key]
+        assert source.is_file()
+        assert hashlib.sha256(source.read_bytes()).hexdigest() == research["provenance"][hash_key]
 
 
 def test_security_headers_and_dynamic_production_url_are_configured() -> None:

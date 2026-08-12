@@ -109,5 +109,6 @@ data/cache/covariance_research/
 
 # Signal-aware covariance research generated outputs
 results/signal_aware_covariance/
+results/crisis_diversifier/
 web/node_modules/
 web/.next/

@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
@@ -27,6 +28,9 @@ const ALLOWED_INTERNAL = new Set([
   "/data/release_snapshot.json",
   "/data/release_rankings_snapshot.json",
   "/data/candidate_funnel_snapshot.json",
+  "/data/hypothetical_account_snapshot.json",
+  "/data/crisis_diversifier_research.json",
+  "/data/drawdown_budget_research.json",
   "/salarium-mark.svg",
   "/salarium-edge-glyph.svg",
   "/salarium-logo.svg",
@@ -55,6 +59,9 @@ const REQUIRED_ARTIFACTS = [
   "public/data/release_snapshot.json",
   "public/data/release_rankings_snapshot.json",
   "public/data/candidate_funnel_snapshot.json",
+  "public/data/hypothetical_account_snapshot.json",
+  "public/data/crisis_diversifier_research.json",
+  "public/data/drawdown_budget_research.json",
   "scripts/smoke-site.mjs",
   "scripts/check-deployment.mjs",
   "../docs/SALARIUM_1_0_MODEL_CARD.md",
@@ -91,6 +98,10 @@ function read(relative) {
 
 function readJson(filename) {
   return JSON.parse(fs.readFileSync(path.join(DATA, filename), "utf8"));
+}
+
+function repositorySha256(relativePath) {
+  return crypto.createHash("sha256").update(fs.readFileSync(path.resolve(ROOT, "..", relativePath))).digest("hex");
 }
 
 function relative(filename) {
@@ -145,6 +156,9 @@ for (const filename of sourceFiles) {
 const release = readJson("release_snapshot.json");
 const ranking = readJson("release_rankings_snapshot.json");
 const candidates = readJson("candidate_funnel_snapshot.json");
+const account = readJson("hypothetical_account_snapshot.json");
+const crisis = readJson("crisis_diversifier_research.json");
+const drawdownBudget = readJson("drawdown_budget_research.json");
 
 if (release.schema_version !== "1.1") errors.push(`Expected release schema 1.1; found ${release.schema_version}`);
 const architecture = release.architecture ?? {};
@@ -182,6 +196,78 @@ if (scores.some((value, index) => index > 0 && value > scores[index - 1])) error
 
 const candidateRows = candidates.candidates ?? [];
 if (candidates.evidence_summary?.candidate_count !== candidateRows.length) errors.push("Candidate snapshot count does not match candidate rows");
+
+const accountPoints = account.points ?? [];
+const coreResult = release.results?.core_balanced ?? {};
+if (account.schema_version !== "1.0") errors.push(`Expected hypothetical account schema 1.0; found ${account.schema_version}`);
+if (account.currency !== "USD") errors.push("Hypothetical account is not denominated in USD");
+if (account.starting_balance !== 100000) errors.push("Hypothetical account must begin with exactly $100,000");
+if (account.ending_balance !== accountPoints.at(-1)?.value) errors.push("Hypothetical ending balance does not match the final chart point");
+if (accountPoints.length !== coreResult.num_rebalances) errors.push("Hypothetical account observations do not match the release rebalance count");
+if (account.statistics?.rebalances !== coreResult.num_rebalances) errors.push("Hypothetical account rebalance statistic is inconsistent with the release");
+for (const key of ["annualized_net_return", "net_sharpe", "max_drawdown"]) {
+  if (account.statistics?.[key] !== coreResult[key]) errors.push(`Hypothetical account ${key} is inconsistent with the core release result`);
+}
+for (const key of ["base_policy", "exposure_policy", "risk_anchor", "signal_blend"]) {
+  if (account.model?.[key] !== coreResult[key]) errors.push(`Hypothetical account model ${key} is inconsistent with the core release result`);
+}
+if (account.model?.horizon_days !== architecture.model_horizon_days) errors.push("Hypothetical account horizon does not match the release architecture");
+if (account.model?.rebalance_every_days !== architecture.rebalance_every_days) errors.push("Hypothetical account rebalance cadence does not match the release architecture");
+if (account.period?.start !== accountPoints[0]?.date || account.period?.end !== accountPoints.at(-1)?.date) errors.push("Hypothetical account period does not match its chart points");
+if (accountPoints.some((point, index) => index > 0 && point.date <= accountPoints[index - 1].date)) errors.push("Hypothetical account points are not in chronological order");
+if (account.governance?.hypothetical !== true || account.governance?.live !== false) errors.push("Hypothetical account must be explicitly labeled simulated and not live");
+if (account.governance?.modeled_costs_included !== true) errors.push("Hypothetical account must declare modeled transaction costs");
+if (account.governance?.taxes_and_market_impact_excluded !== true) errors.push("Hypothetical account must disclose excluded taxes and additional market impact");
+if (!/^[a-f0-9]{64}$/.test(account.provenance?.source_sha256 ?? "")) errors.push("Hypothetical account source hash is missing or malformed");
+
+if (crisis.schema_version !== "1.0") errors.push(`Expected crisis-diversifier schema 1.0; found ${crisis.schema_version}`);
+if (crisis.experiment?.status !== "research_candidate") errors.push("Crisis-diversifier artifact is not labeled as a research candidate");
+if (crisis.period?.rebalances !== coreResult.num_rebalances) errors.push("Crisis-diversifier rebalance count does not match the release record");
+if (crisis.comparator !== "baseline_cash_yield") errors.push("Crisis-diversifier research does not use the governed cash-yield comparator");
+if (crisis.verdict?.promotion !== false || (crisis.verdict?.promoted_policies ?? []).length !== 0) errors.push("Crisis-diversifier artifact must preserve the no-promotion verdict");
+if ((crisis.acceptance ?? []).length !== 24) errors.push(`Expected 24 crisis-diversifier policy/budget gate rows; found ${(crisis.acceptance ?? []).length}`);
+if ((crisis.acceptance ?? []).some((row) => row.all_gates_pass === true)) errors.push("Crisis-diversifier artifact contains a policy that passed despite the no-promotion verdict");
+if ((crisis.robustness ?? []).length !== 96) errors.push(`Expected 96 crisis-diversifier cost/budget robustness rows; found ${(crisis.robustness ?? []).length}`);
+if ((crisis.bootstrap ?? []).length !== 6) errors.push(`Expected six crisis-diversifier bootstrap comparisons; found ${(crisis.bootstrap ?? []).length}`);
+if ((crisis.stress_windows ?? []).length !== 40) errors.push(`Expected 40 crisis-diversifier stress observations; found ${(crisis.stress_windows ?? []).length}`);
+const officialCrisisBaseline = (crisis.overall ?? []).find((row) => row.policy === "official_baseline" && row.period === "overall");
+for (const key of ["annualized_net_return", "net_sharpe", "max_drawdown"]) {
+  if (Math.abs(Number(officialCrisisBaseline?.[key]) - Number(coreResult[key])) > 1e-12) errors.push(`Crisis-diversifier baseline ${key} does not reproduce the release`);
+}
+for (const key of ["config_sha256", "baseline_source_sha256", "proxy_report_sha256"]) {
+  if (!/^[a-f0-9]{64}$/.test(crisis.provenance?.[key] ?? "")) errors.push(`Crisis-diversifier ${key} is missing or malformed`);
+}
+for (const [pathKey, hashKey] of [["config", "config_sha256"], ["baseline_source", "baseline_source_sha256"], ["proxy_report", "proxy_report_sha256"]]) {
+  const relativePath = crisis.provenance?.[pathKey];
+  if (!relativePath || !fs.existsSync(path.resolve(ROOT, "..", relativePath))) errors.push(`Crisis-diversifier provenance file is missing: ${relativePath}`);
+  else if (repositorySha256(relativePath) !== crisis.provenance?.[hashKey]) errors.push(`Crisis-diversifier provenance hash does not match ${relativePath}`);
+}
+
+if (drawdownBudget.schema_version !== "1.0") errors.push(`Expected drawdown-budget schema 1.0; found ${drawdownBudget.schema_version}`);
+if (drawdownBudget.experiment?.status !== "validated_research_candidate") errors.push("Drawdown-budget artifact is not labeled as a validated research candidate");
+if (drawdownBudget.experiment?.confirmation_segment_pristine !== false) errors.push("Drawdown-budget artifact must disclose that its confirmation segment is not pristine");
+if (drawdownBudget.period?.rebalances !== 139) errors.push("Drawdown-budget observation count is not the governed 139-period record");
+if (drawdownBudget.acceptance?.all_gates_pass !== true) errors.push("Drawdown-budget candidate did not pass its frozen research gates");
+if (Number(drawdownBudget.acceptance?.overall_max_drawdown) < -0.25) errors.push("Drawdown-budget candidate exceeds the 25% research drawdown target");
+if (drawdownBudget.verdict?.research_target_achieved !== true) errors.push("Drawdown-budget target-achieved verdict is missing");
+if (drawdownBudget.verdict?.promotion !== false || drawdownBudget.verdict?.status !== "validated_candidate") errors.push("Drawdown-budget candidate must not be represented as canonically promoted");
+if (drawdownBudget.verdict?.independent_holdout_available !== false || drawdownBudget.verdict?.explicit_release_approval !== false) errors.push("Drawdown-budget release blockers are not disclosed");
+if (drawdownBudget.verdict?.shadow_mandate_approved !== true || drawdownBudget.verdict?.explicit_shadow_approval !== true) errors.push("Drawdown-budget shadow approval is not recorded");
+if (drawdownBudget.verdict?.soft_floor_is_not_a_guarantee !== true) errors.push("Drawdown-budget soft-floor limitation is missing");
+if (Number(drawdownBudget.bootstrap?.candidate_max_drawdown_probability_below_25pct) < 0.95) errors.push("Drawdown-budget bootstrap drawdown gate failed");
+const shadowMandate = drawdownBudget.shadow_mandate ?? {};
+if (shadowMandate.mandate?.status !== "approved_awaiting_first_eligible_snapshot" || shadowMandate.mandate?.paper_notional_usd !== 100000) errors.push("Drawdown-budget shadow mandate approval state is invalid");
+if (shadowMandate.activation?.historical_backfill_permitted !== false || shadowMandate.activation?.current_status !== "awaiting_first_forward_observation") errors.push("Drawdown-budget shadow activation rules are invalid");
+for (const key of ["live_capital", "brokerage_connection", "order_generation", "order_submission"]) {
+  if (shadowMandate.execution?.[key] !== false) errors.push(`Drawdown-budget shadow execution control ${key} must be false`);
+}
+if (shadowMandate.execution?.canonical_release_unchanged !== true || shadowMandate.promotion?.automatic_promotion !== false) errors.push("Drawdown-budget shadow mandate must preserve the canonical release and prohibit automatic promotion");
+if (shadowMandate.ledger?.observations !== 0) errors.push("Drawdown-budget shadow ledger must begin with zero forward observations");
+for (const [pathKey, hashKey] of [["config", "config_sha256"], ["shadow_mandate_config", "shadow_mandate_config_sha256"], ["baseline_source", "baseline_source_sha256"], ["cash_proxy_report", "cash_proxy_report_sha256"], ["result_path", "result_sha256"]]) {
+  const relativePath = drawdownBudget.provenance?.[pathKey];
+  if (!relativePath || !fs.existsSync(path.resolve(ROOT, "..", relativePath))) errors.push(`Drawdown-budget provenance file is missing: ${relativePath}`);
+  else if (repositorySha256(relativePath) !== drawdownBudget.provenance?.[hashKey]) errors.push(`Drawdown-budget provenance hash does not match ${relativePath}`);
+}
 
 const releaseRankingStatus = release.data_status?.ranking_snapshot ?? {};
 if (releaseRankingStatus.source !== "web/public/data/release_rankings_snapshot.json") errors.push("Release snapshot does not point to the governed 20D ranking artifact");

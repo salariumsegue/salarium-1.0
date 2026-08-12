@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Salarium — systematic equity research from signal to portfolio";
+export const alt = "Salarium — research the edge, govern the risk";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -22,8 +22,8 @@ export default function OpenGraphImage() {
         <div style={{ fontSize: 16, letterSpacing: "4px", color: "#6ee7b7" }}>1.0 RELEASE CANDIDATE</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
-        <div style={{ fontSize: 76, lineHeight: 1.02, fontWeight: 700, maxWidth: 950 }}>Systematic equity research, from signal to portfolio.</div>
-        <div style={{ marginTop: 28, fontSize: 24, color: "rgba(255,255,255,.5)" }}>Walk-forward rankings · covariance-aware portfolios · governed risk</div>
+        <div style={{ display: "flex", flexDirection: "column", fontSize: 82, lineHeight: .96, fontWeight: 700, maxWidth: 900 }}><span>Research the edge.</span><span>Govern the risk.</span></div>
+        <div style={{ marginTop: 28, fontSize: 24, color: "rgba(255,255,255,.58)" }}>Systematic equity research for liquid markets.</div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", position: "relative", fontSize: 15, letterSpacing: "2px", color: "rgba(255,255,255,.35)" }}><span>OPEN SOURCE QUANTITATIVE EQUITY RESEARCH</span><span>RESEARCH ONLY · NOT INVESTMENT ADVICE</span></div>
     </div>,

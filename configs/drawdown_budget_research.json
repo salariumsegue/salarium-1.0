@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "experiment": {
+    "key": "drawdown_budget_controller",
+    "title": "High-water-mark drawdown budget",
+    "status": "validated_research_candidate",
+    "protocol_frozen_before_final_governed_run": true,
+    "confirmation_segment_pristine": false,
+    "frozen_at_utc": "2026-08-12T04:30:00Z",
+    "hypothesis": "Sizing equity risk from the remaining capital cushion can keep the simulated risk-controlled mandate below a 25% maximum drawdown without changing the ranking or portfolio-construction alpha model."
+  },
+  "baseline": {
+    "source": "results/signal_aware_covariance/signal_aware_covariance_results.csv",
+    "base_policy": "signal_shrinkage_max_diversification_blend_0.25",
+    "exposure_policy": "legacy_risk_scaled",
+    "expected_rebalances": 139,
+    "expected_start": "2021-01-04",
+    "expected_end": "2026-05-28",
+    "development_years": [2021, 2022, 2023],
+    "confirmation_years": [2024, 2025, 2026]
+  },
+  "cash": {
+    "proxy": "BIL",
+    "proxy_report": "reports/experiments/crisis_diversifier_proxy_prices.csv",
+    "price_field": "adjusted_close_total_return_proxy",
+    "base_turnover_bps": 10.0,
+    "stress_turnover_bps": [5.0, 10.0, 25.0, 50.0]
+  },
+  "selected_policy": {
+    "key": "drawdown_budget_78_m3",
+    "floor_ratio": 0.78,
+    "cushion_multiplier": 3.0,
+    "max_equity_exposure": 1.0,
+    "design_rationale": "A 22% soft capital cushion paired with a 3x multiplier budgets for an approximately one-third equity shock before the soft floor is consumed. The floor is a sizing target, not a guarantee."
+  },
+  "robustness": {
+    "floor_ratios": [0.77, 0.78, 0.79],
+    "cushion_multipliers": [2.75, 3.0, 3.25],
+    "bootstrap_samples": 10000,
+    "bootstrap_block_rebalances": 6,
+    "bootstrap_seed": 20260811
+  },
+  "acceptance_gates": {
+    "maximum_overall_drawdown": 0.225,
+    "maximum_development_drawdown": 0.25,
+    "maximum_confirmation_drawdown": 0.25,
+    "minimum_overall_return_retention_vs_cash_comparator": 0.65,
+    "minimum_confirmation_return_retention_vs_cash_comparator": 0.60,
+    "minimum_overall_sharpe_delta_vs_cash_comparator": 0.0,
+    "minimum_confirmation_sharpe_delta_vs_cash_comparator": -0.15,
+    "minimum_worst_rebalance_return": -0.12,
+    "required_cost_stress_bps": 25.0,
+    "minimum_parameter_neighborhood_pass_rate": 1.0,
+    "minimum_bootstrap_probability_drawdown_below_25pct": 0.95,
+    "minimum_bootstrap_probability_drawdown_improvement": 0.95
+  },
+  "shadow_mandate": {
+    "approved": true,
+    "configuration": "configs/drawdown_budget_shadow_mandate.json",
+    "approval_scope": "shadow_paper_tracking_only",
+    "canonical_release_unchanged": true
+  },
+  "governance": {
+    "ranking_model_unchanged": true,
+    "portfolio_constructor_unchanged": true,
+    "uses_only_information_available_before_each_return": true,
+    "maximum_total_capital": 1.0,
+    "soft_floor_is_not_a_guarantee": true,
+    "independent_holdout_available": false,
+    "canonical_release_unchanged": true,
+    "live_trading": false,
+    "promotion_requires_independent_holdout_and_explicit_approval": true
+  }
+}

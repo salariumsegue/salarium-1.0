@@ -3,7 +3,10 @@ import path from "node:path";
 
 import type {
   CandidateSnapshot,
+  CrisisDiversifierResearch,
   DataState,
+  DrawdownBudgetResearch,
+  HypotheticalAccountSnapshot,
   PortfolioSnapshot,
   RankingSnapshot,
   ReleaseSnapshot,
@@ -47,6 +50,18 @@ export function loadRankingSnapshot(): RankingSnapshot {
 
 export function loadCandidateSnapshot(): CandidateSnapshot {
   return loadJson<CandidateSnapshot>("candidate_funnel_snapshot.json");
+}
+
+export function loadHypotheticalAccountSnapshot(): HypotheticalAccountSnapshot {
+  return loadJson<HypotheticalAccountSnapshot>("hypothetical_account_snapshot.json");
+}
+
+export function loadCrisisDiversifierResearch(): CrisisDiversifierResearch {
+  return loadJson<CrisisDiversifierResearch>("crisis_diversifier_research.json");
+}
+
+export function loadDrawdownBudgetResearch(): DrawdownBudgetResearch {
+  return loadJson<DrawdownBudgetResearch>("drawdown_budget_research.json");
 }
 
 export function loadPortfolioSnapshot(): DataState<PortfolioSnapshot> {
