@@ -1,0 +1,74 @@
+{
+  "base_weights": {
+    "APLD": 0.09566583587478822,
+    "CIFR": 0.09896100585593418,
+    "DOCN": 0.162698167841942,
+    "IREN": 0.02333164541743544,
+    "LUNR": 0.157480488333504,
+    "MTSI": 0.15594787451587147,
+    "NVTS": 0.07484918765211061,
+    "OKLO": 0.01985732617188199,
+    "RIOT": 0.06814697195593784,
+    "RKLB": 0.14306149638059434
+  },
+  "baseline_equity_exposure": 0.75,
+  "cash_proxy": "BIL",
+  "cash_weight": 0.33999999999999997,
+  "controller": {
+    "cushion_ratio": 0.22,
+    "exposure_cap": 0.66,
+    "soft_floor_value": 78000.0
+  },
+  "high_water_mark": 100000.0,
+  "holdings": [
+    "NVTS",
+    "LUNR",
+    "APLD",
+    "DOCN",
+    "RIOT",
+    "IREN",
+    "MTSI",
+    "RKLB",
+    "OKLO",
+    "CIFR"
+  ],
+  "last_rebalance_date": "2026-08-11",
+  "last_source_snapshot_generated_at_utc": "2026-08-12T04:22:16.220444+00:00",
+  "last_source_snapshot_sha256": "bfc597e34fdf1c60d8ec6b661400486264d41086a77c7d29f096830407db4962",
+  "paper_nav_after": 99934.0,
+  "portfolio_diagnostics": {
+    "average_pairwise_correlation": 0.4702755272824349,
+    "covariance_observations": 60,
+    "maximum_pairwise_correlation": 0.7672396327389872,
+    "optimizer_fallback": false,
+    "optimizer_reason": "ok"
+  },
+  "reference_prices": {
+    "APLD": 29.690000534057617,
+    "BIL": 91.48999786376953,
+    "CIFR": 17.209999084472656,
+    "DOCN": 120.86000061035156,
+    "IREN": 39.75,
+    "LUNR": 16.479999542236328,
+    "MTSI": 299.92999267578125,
+    "NVTS": 13.600000381469727,
+    "OKLO": 47.0099983215332,
+    "RIOT": 20.239999771118164,
+    "RKLB": 80.01000213623047
+  },
+  "schema_version": "1.0",
+  "shadow_equity_exposure": 0.66,
+  "status": "active_awaiting_first_completed_interval",
+  "weights": {
+    "APLD": 0.06313945167736022,
+    "CIFR": 0.06531426386491655,
+    "DOCN": 0.10738079077568172,
+    "IREN": 0.01539888597550739,
+    "LUNR": 0.10393712230011265,
+    "MTSI": 0.10292559718047517,
+    "NVTS": 0.049400463850393005,
+    "OKLO": 0.013105835273442114,
+    "RIOT": 0.04497700149091898,
+    "RKLB": 0.09442058761119228
+  }
+}

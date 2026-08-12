@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import RankingExplorer from "@/components/ranking-explorer";
 import { DisclosurePanel, InternalCta, MetricCard, PageIntro, PlainEnglish, SectionHeading, StatusBadge } from "@/components/ui";
 import { formatDate, formatDateTime, number, percent } from "@/lib/format";
-import { loadRankingSnapshot, loadReleaseSnapshot } from "@/lib/site-data";
+import { loadForwardPaperSnapshot, loadRankingSnapshot, loadReleaseSnapshot } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Rankings",
@@ -11,7 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default function RankingsPage() {
-  const snapshot = loadRankingSnapshot();
+  const committed = loadRankingSnapshot();
+  const forward = loadForwardPaperSnapshot();
+  const snapshot = forward.status === "available" ? forward.data : committed;
+  const isForward = forward.status === "available";
   const release = loadReleaseSnapshot();
   const rankings = snapshot.latest_signal_state.rankings;
   const avgVolatility = rankings.reduce((sum, item) => sum + item.volatility_20d, 0) / rankings.length;
@@ -22,18 +25,18 @@ export default function RankingsPage() {
     <main id="main-content" className="site-main">
       <section className="site-container site-section">
         <PageIntro
-          eyebrow="OUT-OF-SAMPLE MODEL OUTPUT"
+          eyebrow={isForward ? "FORWARD PAPER / MARKET CLOSE" : "OUT-OF-SAMPLE MODEL OUTPUT"}
           title="Ranked securities."
           muted="Full context, no false precision."
-          description={`Explore the top ${snapshot.latest_signal_state.count} names from the final ${snapshot.architecture.model_horizon_days}D model's latest committed ${snapshot.latest_signal_state.universe_count}-security cross-section. Scores express relative conviction; they are not price targets, recommendations, or guaranteed expected returns.`}
-          aside={<div className="card min-w-64 p-5"><p className="eyebrow">SIGNAL DATE</p><p className="mt-3 font-mono text-xl text-emerald-300">{formatDate(snapshot.latest_signal_state.date)}</p><div className="mt-4"><StatusBadge>NOT LIVE</StatusBadge></div></div>}
+          description={`Explore the top ${snapshot.latest_signal_state.count} names from the frozen ${snapshot.architecture.model_horizon_days}D model's latest ${isForward ? "paper" : "committed"} ${snapshot.latest_signal_state.universe_count}-security cross-section. Scores express relative conviction; they are not price targets, recommendations, or guaranteed expected returns.`}
+          aside={<div className="card min-w-64 p-5"><p className="eyebrow">SIGNAL DATE</p><p className="mt-3 font-mono text-xl text-emerald-300">{formatDate(snapshot.latest_signal_state.date)}</p><div className="mt-4"><StatusBadge tone={isForward ? "positive" : "neutral"}>{isForward ? "PAPER / NO ORDERS" : "NOT LIVE"}</StatusBadge></div></div>}
         />
 
         <div className="ranking-summary-grid mt-7 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard label="PUBLISHED RANKINGS" value={String(rankings.length)} detail={`${snapshot.latest_signal_state.universe_count}-name cross-section`} />
           <MetricCard label="TOP MODEL SCORE" value={topScore.toFixed(6)} detail="relative cross-sectional output" tone="positive" />
           <MetricCard label="AVERAGE 20D VOL" value={percent(avgVolatility, 2)} detail="recent single-name volatility" />
-          <RegimeStateCard riskOffCount={riskOffCount} total={rankings.length} />
+          {isForward ? <ForwardStateCard exposure={forward.data.forward_portfolio.shadow_equity_exposure} coverage={forward.data.data_quality.feature_coverage} /> : <RegimeStateCard riskOffCount={riskOffCount} total={rankings.length} />}
         </div>
 
         <section className="ranking-primary mt-8">
@@ -47,7 +50,7 @@ export default function RankingsPage() {
 
         <div className="mt-6">
           <PlainEnglish>
-            A higher-ranked stock scored better than other stocks in the same governed Liquid-500 cross-section at this historical signal date. The public table shows the top 25 for inspection; the release portfolio still applies Top-10 selection, persistence, covariance, position limits, and exposure rules before a name can influence a research mandate.
+            A higher-ranked stock scored better than other stocks in the same governed Liquid-500 cross-section at this signal date. The paper feed scores fresh market-close data with frozen model weights; Top-10 selection, persistence, covariance, position limits, and exposure controls still operate before a name enters the paper portfolio.
           </PlainEnglish>
         </div>
 
@@ -68,19 +71,23 @@ export default function RankingsPage() {
           </div>
         </section>
 
-        <p className="mt-8 font-mono text-[10px] leading-5 text-white/22">MODEL {snapshot.model.configuration.toUpperCase()} · {snapshot.model.source_rows.toLocaleString()} OOS SCORE ROWS · SNAPSHOT GENERATED {formatDateTime(snapshot.generated_at_utc).toUpperCase()} · RELEASE SHARPE REFERENCE {number(release.results.core_balanced.net_sharpe)}</p>
+        <p className="mt-8 font-mono text-[10px] leading-5 text-white/22">MODEL {snapshot.model.configuration.toUpperCase()} · {snapshot.model.source_rows.toLocaleString()} TRAINING ROWS · SNAPSHOT GENERATED {formatDateTime(snapshot.generated_at_utc).toUpperCase()} · RELEASE SHARPE REFERENCE {number(release.results.core_balanced.net_sharpe)}</p>
       </section>
 
       <section className="site-container pb-8">
         <DisclosurePanel items={[
-          "The ranking snapshot is committed research data, not a continuously updated market feed.",
-          "Rankings can change materially as prices, volatility, features, and model-training windows change.",
+          isForward ? "This ranking is a forward paper market-close feed, not live investment performance or an exchange-grade quote feed." : "The ranking snapshot is committed research data, not a continuously updated market feed.",
+          "Rankings can change materially as prices, volatility, and features change. The frozen model is not retrained by the daily refresh.",
           "A high score does not imply suitability, valuation support, catalyst certainty, or a buy instruction.",
           "The release result is simulated and should not be interpreted as future performance evidence.",
         ]} />
       </section>
     </main>
   );
+}
+
+function ForwardStateCard({ exposure, coverage }: { exposure: number; coverage: number }) {
+  return <div className="regime-state-card"><p>PAPER RISK STATE</p><div><strong>{percent(exposure, 0)}</strong><em>EXPOSURE</em></div><small><i className="positive-dot" />{percent(coverage, 1)} feature coverage</small></div>;
 }
 
 function InterpretationCard({ title, body }: { title: string; body: string }) {

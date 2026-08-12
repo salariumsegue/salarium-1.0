@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "mode": "forward_paper_only",
+  "provider": {
+    "name": "yahoo_research_feed",
+    "cache_directory": "data/cache/forward_paper/yahoo",
+    "lookback_calendar_days": 180,
+    "minimum_universe_coverage": 0.95,
+    "maximum_stale_calendar_days": 4
+  },
+  "universe": {
+    "manifest": "configs/universe_snapshots/2026-07-10_liquid_500_manifest.json",
+    "expected_count": 500
+  },
+  "model": {
+    "bundle": "artifacts/models/salarium_20d_forward_model.pkl",
+    "manifest": "artifacts/models/salarium_20d_forward_model_manifest.json",
+    "horizon_days": 20,
+    "retraining_policy": "frozen_until_governed_validation_and_explicit_approval"
+  },
+  "portfolio": {
+    "rebalance_every_sessions": 10,
+    "top_n": 10,
+    "buffer_rank": 15,
+    "covariance_lookback_sessions": 60,
+    "covariance_minimum_coverage": 0.95,
+    "risk_anchor": "shrinkage_max_diversification",
+    "signal_blend": 0.25,
+    "signal_score_clip": 2.5,
+    "signal_temperature": 1.0,
+    "maximum_single_name_weight": 0.18,
+    "baseline_exposure": 0.75,
+    "baseline_exposure_reason": "conservative_neutral_fallback_until_governed_live_macro_feed_exists",
+    "transaction_cost_bps": 10.0
+  },
+  "shadow": {
+    "mandate": "configs/drawdown_budget_shadow_mandate.json",
+    "ledger": "reports/shadow/drawdown_budget_shadow_ledger.csv",
+    "state": "reports/shadow/drawdown_budget_shadow_state.json",
+    "paper_notional_usd": 100000
+  },
+  "publication": {
+    "snapshot": "web/public/data/forward_paper_snapshot.json",
+    "display_count": 25
+  }
+}

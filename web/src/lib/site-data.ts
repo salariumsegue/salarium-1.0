@@ -6,6 +6,7 @@ import type {
   CrisisDiversifierResearch,
   DataState,
   DrawdownBudgetResearch,
+  ForwardPaperSnapshot,
   HypotheticalAccountSnapshot,
   PortfolioSnapshot,
   RankingSnapshot,
@@ -40,12 +41,35 @@ function isPortfolioSnapshot(value: unknown): value is PortfolioSnapshot {
   return isRecord(value) && typeof value.schema_version === "string" && typeof value.snapshot_date === "string" && Array.isArray(value.holdings);
 }
 
+function isForwardPaperSnapshot(value: unknown): value is ForwardPaperSnapshot {
+  if (!isRecord(value) || value.schema_version !== "1.0") return false;
+  const system = value.system;
+  const signal = value.latest_signal_state;
+  const governance = value.governance;
+  const quality = value.data_quality;
+  return isRecord(system)
+    && system.status === "forward_paper_no_orders"
+    && isRecord(signal)
+    && typeof signal.date === "string"
+    && Array.isArray(signal.rankings)
+    && isRecord(governance)
+    && governance.paper_only === true
+    && governance.live_capital === false
+    && governance.order_generation === false
+    && isRecord(quality)
+    && quality.passed === true;
+}
+
 export function loadReleaseSnapshot(): ReleaseSnapshot {
   return loadJson<ReleaseSnapshot>("release_snapshot.json");
 }
 
 export function loadRankingSnapshot(): RankingSnapshot {
   return loadJson<RankingSnapshot>("release_rankings_snapshot.json");
+}
+
+export function loadForwardPaperSnapshot(): DataState<ForwardPaperSnapshot> {
+  return safeLoadJson("forward_paper_snapshot.json", isForwardPaperSnapshot);
 }
 
 export function loadCandidateSnapshot(): CandidateSnapshot {

@@ -4,7 +4,7 @@ import { EdgeGlyph } from "@/components/edge-glyph";
 import HistoricalAccountChart from "@/components/historical-account-chart";
 import { InternalCta } from "@/components/ui";
 import { formatDate, percent } from "@/lib/format";
-import { loadHypotheticalAccountSnapshot, loadRankingSnapshot, loadReleaseSnapshot } from "@/lib/site-data";
+import { loadForwardPaperSnapshot, loadHypotheticalAccountSnapshot, loadRankingSnapshot, loadReleaseSnapshot } from "@/lib/site-data";
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -14,7 +14,10 @@ const currency = new Intl.NumberFormat("en-US", {
 
 export default function HomePage() {
   const release = loadReleaseSnapshot();
-  const ranking = loadRankingSnapshot();
+  const committedRanking = loadRankingSnapshot();
+  const forward = loadForwardPaperSnapshot();
+  const ranking = forward.status === "available" ? forward.data : committedRanking;
+  const paper = forward.status === "available" ? forward.data : null;
   const account = loadHypotheticalAccountSnapshot();
   const architecture = release.architecture;
   const core = release.results.core_balanced;
@@ -34,21 +37,21 @@ export default function HomePage() {
               <InternalCta href="/rankings">Explore Rankings</InternalCta>
               <InternalCta href="/methodology" secondary>Inspect Method</InternalCta>
             </div>
-            <p className="hero-disclaimer">SIMULATED RESEARCH · NO LIVE EXECUTION</p>
+            <p className="hero-disclaimer">PAPER SIGNALS · NO LIVE EXECUTION</p>
           </div>
 
           <aside className="system-status" aria-label="Current Salarium research system status">
-            <header><span>SALARIUM / RESEARCH SYSTEM</span><i>COMMITTED SNAPSHOT</i></header>
+            <header><span>SALARIUM / RESEARCH SYSTEM</span><i>{paper ? "FORWARD PAPER" : "COMMITTED SNAPSHOT"}</i></header>
             <div className="system-status-mark">
               <EdgeGlyph title="Salarium Imperial Edge Glyph" />
-              <p>MARKET-EDGE RING / PROPRIETARY SIGNAL MARK</p>
+              <p>{paper ? `PAPER NAV ${currency.format(paper.forward_portfolio.indicative_nav)} / ${percent(paper.data_quality.feature_coverage, 1)} COVERAGE` : "MARKET-EDGE RING / PROPRIETARY SIGNAL MARK"}</p>
             </div>
             <dl>
               <div><dt>Model</dt><dd>{architecture.model_horizon_days}D</dd></div>
               <div><dt>Universe</dt><dd>{architecture.universe.toUpperCase()}</dd></div>
               <div><dt>Release</dt><dd>{release.release.version}</dd></div>
               <div><dt>Snapshot</dt><dd>{formatDate(ranking.latest_signal_state.date)}</dd></div>
-              <div className="system-status-state"><dt>Status</dt><dd><span />Committed / not live</dd></div>
+              <div className="system-status-state"><dt>Status</dt><dd><span />{paper ? "Paper / no orders" : "Committed / not live"}</dd></div>
             </dl>
           </aside>
         </div>
@@ -107,7 +110,7 @@ export default function HomePage() {
       <section className="ranking-stage">
         <div className="site-container ranking-stage-grid">
           <header>
-            <p className="roman-inscription">LATEST SIGNAL / III</p>
+            <p className="roman-inscription">{paper ? "FORWARD PAPER SIGNAL / III" : "LATEST SIGNAL / III"}</p>
             <h2>Ranked now.</h2>
             <p>{formatDate(ranking.latest_signal_state.date)}</p>
             <InternalCta href="/rankings" secondary>Open all rankings</InternalCta>

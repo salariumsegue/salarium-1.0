@@ -26,6 +26,7 @@ const PRIMARY_NAV_ROUTES = ["/rankings", "/portfolio", "/research", "/methodolog
 const ALLOWED_INTERNAL = new Set([
   ...ROUTES.keys(),
   "/data/release_snapshot.json",
+  "/data/forward_paper_snapshot.json",
   "/data/release_rankings_snapshot.json",
   "/data/candidate_funnel_snapshot.json",
   "/data/hypothetical_account_snapshot.json",
@@ -57,6 +58,7 @@ const REQUIRED_ARTIFACTS = [
   "public/salarium-mark-light.svg",
   "public/salarium-mark-dark.svg",
   "public/data/release_snapshot.json",
+  "public/data/forward_paper_snapshot.json",
   "public/data/release_rankings_snapshot.json",
   "public/data/candidate_funnel_snapshot.json",
   "public/data/hypothetical_account_snapshot.json",
@@ -155,6 +157,7 @@ for (const filename of sourceFiles) {
 
 const release = readJson("release_snapshot.json");
 const ranking = readJson("release_rankings_snapshot.json");
+const forward = readJson("forward_paper_snapshot.json");
 const candidates = readJson("candidate_funnel_snapshot.json");
 const account = readJson("hypothetical_account_snapshot.json");
 const crisis = readJson("crisis_diversifier_research.json");
@@ -193,6 +196,25 @@ const ranks = rankingRows.map((row) => Number(row.rank));
 if (ranks.some((value, index) => value !== index + 1)) errors.push("Release rankings are not numbered consecutively from 1");
 const scores = rankingRows.map((row) => Number(row.score));
 if (scores.some((value, index) => index > 0 && value > scores[index - 1])) errors.push("Release rankings are not sorted by descending score");
+
+if (forward.schema_version !== "1.0") errors.push(`Expected forward-paper schema 1.0; found ${forward.schema_version}`);
+if (forward.system?.status !== "forward_paper_no_orders") errors.push("Forward snapshot is not explicitly paper-only");
+const forwardRows = forward.latest_signal_state?.rankings ?? [];
+if (forward.latest_signal_state?.count !== forwardRows.length || forwardRows.length !== 25) errors.push("Forward snapshot must publish exactly 25 ranked rows");
+if ((forward.latest_signal_state?.universe_count ?? 0) < 475) errors.push("Forward snapshot scored fewer than 95% of the governed universe");
+if (forward.data_quality?.passed !== true || Number(forward.data_quality?.feature_coverage) < 0.95) errors.push("Forward data-quality gate did not pass");
+if (forward.model?.target_horizon_days !== 20 || forward.model?.daily_retraining !== false) errors.push("Forward snapshot does not use the frozen 20D model contract");
+if ((forward.forward_portfolio?.holdings ?? []).length !== 10) errors.push("Forward paper portfolio does not contain ten holdings");
+const forwardPaperWeight = (forward.forward_portfolio?.holdings ?? []).reduce((sum, row) => sum + Number(row.paper_weight), 0);
+if (Math.abs(forwardPaperWeight - Number(forward.forward_portfolio?.shadow_equity_exposure)) > 1e-10) errors.push("Forward paper weights do not sum to governed equity exposure");
+for (const key of ["paper_only", "append_only_ledger", "canonical_release_unchanged"]) {
+  if (forward.governance?.[key] !== true) errors.push(`Forward governance control ${key} must be true`);
+}
+for (const key of ["historical_backfill", "live_capital", "brokerage_connection", "order_generation", "order_submission", "automatic_model_retraining"]) {
+  if (forward.governance?.[key] !== false) errors.push(`Forward governance control ${key} must be false`);
+}
+if (!/^[a-f0-9]{64}$/.test(forward.provenance?.model_sha256 ?? "")) errors.push("Forward model hash is missing or malformed");
+if (!/^[a-f0-9]{64}$/.test(forward.provenance?.market_data_sha256 ?? "")) errors.push("Forward market-data hash is missing or malformed");
 
 const candidateRows = candidates.candidates ?? [];
 if (candidates.evidence_summary?.candidate_count !== candidateRows.length) errors.push("Candidate snapshot count does not match candidate rows");

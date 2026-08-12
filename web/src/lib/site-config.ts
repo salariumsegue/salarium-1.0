@@ -45,6 +45,7 @@ export const SECONDARY_LINKS = [
 ] as const;
 
 export const DATA_LINKS = [
+  { href: "/data/forward_paper_snapshot.json", label: "Forward paper snapshot" },
   { href: "/data/release_snapshot.json", label: "Release snapshot" },
   { href: "/data/release_rankings_snapshot.json", label: "20D release rankings" },
   { href: "/data/candidate_funnel_snapshot.json", label: "Candidate snapshot" },

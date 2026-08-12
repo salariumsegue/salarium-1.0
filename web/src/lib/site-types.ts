@@ -165,6 +165,7 @@ export type ReleaseSnapshot = {
 export type Ranking = {
   rank: number;
   ticker: string;
+  company_name?: string | null;
   score: number;
   score_percentile: number;
   volatility_20d: number;
@@ -517,6 +518,89 @@ export type RankingSnapshot = {
     git_branch: string;
     git_commit: string;
     git_dirty: boolean;
+  };
+};
+
+export type ForwardPaperSnapshot = RankingSnapshot & {
+  system: RankingSnapshot["system"] & {
+    status: "forward_paper_no_orders";
+  };
+  model: RankingSnapshot["model"] & {
+    frozen_training_end: string;
+    model_sha256: string;
+    daily_retraining: false;
+  };
+  data_quality: {
+    provider: string;
+    requested_as_of: string;
+    signal_date: string;
+    market_rows: number;
+    market_names_on_signal_date: number;
+    market_coverage: number;
+    feature_rows: number;
+    feature_coverage: number;
+    maximum_stale_calendar_days: number;
+    passed: true;
+  };
+  forward_portfolio: {
+    status: string;
+    last_rebalance_date: string;
+    sessions_since_rebalance: number;
+    rebalance_performed: boolean;
+    rebalance_due: boolean;
+    sessions_until_next_rebalance: number;
+    holdings: Array<{
+      ticker: string;
+      company_name: string | null;
+      rank: number;
+      base_weight: number;
+      paper_weight: number;
+      reference_price: number;
+    }>;
+    baseline_equity_exposure: number;
+    shadow_equity_exposure: number;
+    cash_weight: number;
+    cash_proxy: string;
+    last_completed_nav: number;
+    indicative_nav: number;
+    high_water_mark: number;
+    current_drawdown: number;
+    completed_intervals: number;
+    portfolio_diagnostics: {
+      optimizer_fallback: boolean;
+      optimizer_reason: string;
+      covariance_observations: number;
+      average_pairwise_correlation: number | null;
+      maximum_pairwise_correlation: number | null;
+    };
+    controller: {
+      soft_floor_value: number;
+      cushion_ratio: number;
+      exposure_cap: number;
+    };
+  };
+  governance: {
+    paper_only: true;
+    append_only_ledger: true;
+    historical_backfill: false;
+    live_capital: false;
+    brokerage_connection: false;
+    order_generation: false;
+    order_submission: false;
+    canonical_release_unchanged: true;
+    automatic_model_retraining: false;
+  };
+  provenance: RankingSnapshot["provenance"] & {
+    config_path: string;
+    config_sha256: string;
+    universe_manifest: string;
+    universe_snapshot_sha256: string;
+    model_manifest: string;
+    model_sha256: string;
+    market_data_sha256: string;
+    source_snapshot_sha256: string;
+    ledger_path: string;
+    state_path: string;
   };
 };
 

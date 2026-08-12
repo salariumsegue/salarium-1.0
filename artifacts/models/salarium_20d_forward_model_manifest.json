@@ -1,0 +1,56 @@
+{
+  "created_at_utc": "2026-08-12T04:21:43.685982+00:00",
+  "feature_columns": [
+    "return_1d",
+    "volume_change_1d",
+    "high_low_spread",
+    "open_close_spread",
+    "momentum_5d",
+    "momentum_20d",
+    "volatility_20d",
+    "price_vs_ma20",
+    "price_vs_ma50",
+    "rsi_14d",
+    "relative_strength"
+  ],
+  "feature_source": "data/processed/training_data_liquid500_model_safe_with_global_macro.csv",
+  "feature_source_sha256": "95a10ce9c572cd6c70d02d7843c2c59c47596419d4adef0544c0fedfc44fb631",
+  "git": {
+    "branch": "feat/institutional-website-redesign-20260811-211413",
+    "commit": "8286a36b8023b1a1a6c52cdbf602ba7ccaa4b35d",
+    "dirty": true
+  },
+  "governance": {
+    "daily_retraining": false,
+    "explicit_validation_required_before_retraining": true,
+    "live_capital": false,
+    "paper_only": true
+  },
+  "model_configuration": "governed_technical_hardened_horizon_20d",
+  "model_parameters": {
+    "bootstrap": true,
+    "estimators": 100,
+    "max_depth": 6,
+    "max_features": 0.7,
+    "min_samples_leaf": 100,
+    "random_state": 42,
+    "type": "RandomForestRegressor"
+  },
+  "model_path": "artifacts/models/salarium_20d_forward_model.pkl",
+  "model_sha256": "a48dc2ed5e9540f34714b802ee63ce37c690c5c24d063a93f7f7a7329734f0ad",
+  "runtime": {
+    "joblib": "1.5.3",
+    "python": "3.14.6",
+    "scikit_learn": "1.9.0"
+  },
+  "schema_version": "1.0",
+  "status": "frozen_forward_paper_model",
+  "target_column": "target_20d_return_research",
+  "target_horizon_days": 20,
+  "target_source": "data/cache/horizon_research/horizon_targets.pkl",
+  "target_source_sha256": "3e1b0349f5644414f45a7efbda9e815f075baed8656c84a89c5bece9a0ab8eea",
+  "training_end": "2026-06-10",
+  "training_rows": 976668,
+  "training_start": "2018-03-14",
+  "training_tickers": 500
+}

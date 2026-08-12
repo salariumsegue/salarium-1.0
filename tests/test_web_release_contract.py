@@ -5,6 +5,8 @@ import json
 import re
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
@@ -27,6 +29,7 @@ ROUTES = {
 
 ALLOWED_INTERNAL = set(ROUTES) | {
     "/data/release_snapshot.json",
+    "/data/forward_paper_snapshot.json",
     "/data/release_rankings_snapshot.json",
     "/data/candidate_funnel_snapshot.json",
     "/data/hypothetical_account_snapshot.json",
@@ -141,6 +144,7 @@ def test_release_metadata_discovery_error_and_loading_surfaces_exist() -> None:
         WEB / "public" / "data" / "hypothetical_account_snapshot.json",
         WEB / "public" / "data" / "crisis_diversifier_research.json",
         WEB / "public" / "data" / "drawdown_budget_research.json",
+        WEB / "public" / "data" / "forward_paper_snapshot.json",
     ]:
         assert path.is_file(), f"Missing production web artifact: {path.relative_to(ROOT)}"
 
@@ -192,6 +196,71 @@ def test_hypothetical_account_is_governed_by_the_release_evidence() -> None:
     assert account["provenance"]["benchmark_source_sha256"] == hashlib.sha256(
         (ROOT / account["provenance"]["benchmark_source_path"]).read_bytes()
     ).hexdigest()
+
+
+def test_forward_paper_snapshot_is_current_governed_and_non_executing() -> None:
+    forward = json.loads(
+        (WEB / "public" / "data" / "forward_paper_snapshot.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    state = json.loads(
+        (ROOT / "reports" / "shadow" / "drawdown_budget_shadow_state.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    model_manifest = json.loads(
+        (ROOT / "artifacts" / "models" / "salarium_20d_forward_model_manifest.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    rows = forward["latest_signal_state"]["rankings"]
+    assert forward["schema_version"] == "1.0"
+    assert forward["system"]["status"] == "forward_paper_no_orders"
+    assert forward["latest_signal_state"]["date"] >= "2026-08-11"
+    assert len(rows) == forward["latest_signal_state"]["count"] == 25
+    assert forward["latest_signal_state"]["universe_count"] >= 475
+    assert [row["rank"] for row in rows] == list(range(1, 26))
+    assert [row["score"] for row in rows] == sorted(
+        [row["score"] for row in rows], reverse=True
+    )
+    assert forward["model"]["daily_retraining"] is False
+    assert forward["model"]["target_horizon_days"] == 20
+    assert forward["model"]["model_sha256"] == model_manifest["model_sha256"]
+    assert hashlib.sha256(
+        (ROOT / model_manifest["model_path"]).read_bytes()
+    ).hexdigest() == model_manifest["model_sha256"]
+    assert forward["data_quality"]["passed"] is True
+    assert forward["data_quality"]["feature_coverage"] >= 0.95
+    assert forward["forward_portfolio"]["last_rebalance_date"] == state["last_rebalance_date"]
+    assert len(forward["forward_portfolio"]["holdings"]) == 10
+    assert sum(
+        holding["paper_weight"]
+        for holding in forward["forward_portfolio"]["holdings"]
+    ) == pytest.approx(forward["forward_portfolio"]["shadow_equity_exposure"])
+    for key in [
+        "paper_only",
+        "append_only_ledger",
+        "canonical_release_unchanged",
+    ]:
+        assert forward["governance"][key] is True
+    for key in [
+        "historical_backfill",
+        "live_capital",
+        "brokerage_connection",
+        "order_generation",
+        "order_submission",
+        "automatic_model_retraining",
+    ]:
+        assert forward["governance"][key] is False
+
+    ledger = (ROOT / "reports" / "shadow" / "drawdown_budget_shadow_ledger.csv").read_text(
+        encoding="utf-8"
+    ).splitlines()
+    assert len(ledger) >= 2
+    assert "initialized_no_market_outcome" in ledger[1]
+    rebalance_dates = [row.split(",")[1] for row in ledger[1:]]
+    assert rebalance_dates == sorted(set(rebalance_dates))
 
 
 def test_crisis_diversifier_research_preserves_failed_gate_verdict() -> None:

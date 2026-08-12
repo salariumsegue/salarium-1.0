@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import DataStatusStrip from "@/components/data-status-strip";
 import { formatDate, formatDateTime } from "@/lib/format";
-import { loadCandidateSnapshot, loadRankingSnapshot, loadReleaseSnapshot } from "@/lib/site-data";
+import { loadCandidateSnapshot, loadForwardPaperSnapshot, loadRankingSnapshot, loadReleaseSnapshot } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Disclosures",
@@ -16,6 +16,7 @@ export default function DisclosuresPage() {
   const release = loadReleaseSnapshot();
   const ranking = loadRankingSnapshot();
   const candidates = loadCandidateSnapshot();
+  const forward = loadForwardPaperSnapshot();
 
   const sections = [
     {
@@ -52,7 +53,7 @@ export default function DisclosuresPage() {
     },
     {
       title: "No live execution",
-      body: "Salarium 1.0 does not connect to a broker, route orders, manage client assets, monitor personal accounts, or provide execution services. The public site reads committed research artifacts.",
+      body: "Salarium 1.0 does not connect to a broker, route orders, manage client assets, monitor personal accounts, or provide execution services. The public site reads frozen research and forward paper artifacts.",
     },
     {
       title: "Open-source responsibility",
@@ -95,12 +96,13 @@ export default function DisclosuresPage() {
       <section className="page-section border-y border-white/8 bg-white/[0.012]">
         <div className="max-w-3xl">
           <p className="eyebrow">Artifact freshness</p>
-          <h2 className="mt-4 text-4xl font-medium tracking-tight">The public data is committed, not streamed.</h2>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">The public data is versioned, not streamed.</h2>
           <p className="mt-5 text-sm leading-7 text-white/42">
-            Dates below identify the precise research artifacts displayed by the site. They should never be interpreted as a real-time market feed.
+            Dates below identify the precise artifacts displayed by the site. The forward paper file refreshes after eligible market closes; it is not an exchange-grade real-time feed or brokerage record.
           </p>
         </div>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Artifact label="Forward paper signal" value={forward.status === "available" ? formatDate(forward.data.latest_signal_state.date) : "Unavailable"} note={forward.status === "available" ? `${forward.data.latest_signal_state.universe_count} scored · no orders` : "Publication gate not passed"} />
           <Artifact label="Release evidence" value={formatDateTime(release.generated_at_utc)} note={release.provenance.git_commit.slice(0, 12)} />
           <Artifact label="Ranking signal date" value={formatDate(ranking.latest_signal_state.date)} note={`${ranking.latest_signal_state.count} committed rankings`} />
           <Artifact label="Candidate as-of date" value={formatDate(candidates.as_of_date)} note={`${candidates.evidence_summary.candidate_count} monitored candidates`} />
@@ -121,6 +123,7 @@ export default function DisclosuresPage() {
             <div className="mt-6 grid gap-3">
               <Link href="/research" className="button-primary">Review research evidence <span aria-hidden="true">→</span></Link>
               <Link href="/architecture" className="button-secondary">Understand the system</Link>
+              <a href="/data/forward_paper_snapshot.json" className="button-secondary">Open paper JSON</a>
               <a href="/data/release_snapshot.json" className="button-secondary">Open release JSON</a>
             </div>
           </div>

@@ -1,0 +1,7 @@
+/*
+!/web
+
+/web/.next
+/web/node_modules
+/web/.vercel
+/web/.env*
