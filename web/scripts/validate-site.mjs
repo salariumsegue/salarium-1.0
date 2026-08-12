@@ -199,11 +199,17 @@ if (candidates.evidence_summary?.candidate_count !== candidateRows.length) error
 
 const accountPoints = account.points ?? [];
 const coreResult = release.results?.core_balanced ?? {};
-if (account.schema_version !== "1.0") errors.push(`Expected hypothetical account schema 1.0; found ${account.schema_version}`);
+if (account.schema_version !== "1.1") errors.push(`Expected hypothetical account schema 1.1; found ${account.schema_version}`);
 if (account.currency !== "USD") errors.push("Hypothetical account is not denominated in USD");
 if (account.starting_balance !== 100000) errors.push("Hypothetical account must begin with exactly $100,000");
 if (account.ending_balance !== accountPoints.at(-1)?.value) errors.push("Hypothetical ending balance does not match the final chart point");
-if (accountPoints.length !== coreResult.num_rebalances) errors.push("Hypothetical account observations do not match the release rebalance count");
+if (account.benchmark?.ticker !== "SPY") errors.push("Hypothetical account benchmark must be the governed SPY market proxy");
+if (account.benchmark?.starting_balance !== 100000 || accountPoints[0]?.benchmark_value !== 100000) errors.push("Benchmark comparison must begin with exactly $100,000");
+if (account.benchmark?.ending_balance !== accountPoints.at(-1)?.benchmark_value) errors.push("Benchmark ending balance does not match the final chart point");
+if (!(account.benchmark?.statistics?.annualized_total_return > 0)) errors.push("Benchmark annualized return is missing or invalid");
+if (!(account.benchmark?.statistics?.max_drawdown < 0)) errors.push("Benchmark maximum drawdown is missing or invalid");
+if (accountPoints[0]?.value !== 100000) errors.push("Salarium chart must include its initial $100,000 observation");
+if (accountPoints.length !== coreResult.num_rebalances + 1) errors.push("Hypothetical account observations must include one initial point plus every release holding interval");
 if (account.statistics?.rebalances !== coreResult.num_rebalances) errors.push("Hypothetical account rebalance statistic is inconsistent with the release");
 for (const key of ["annualized_net_return", "net_sharpe", "max_drawdown"]) {
   if (account.statistics?.[key] !== coreResult[key]) errors.push(`Hypothetical account ${key} is inconsistent with the core release result`);
@@ -215,10 +221,15 @@ if (account.model?.horizon_days !== architecture.model_horizon_days) errors.push
 if (account.model?.rebalance_every_days !== architecture.rebalance_every_days) errors.push("Hypothetical account rebalance cadence does not match the release architecture");
 if (account.period?.start !== accountPoints[0]?.date || account.period?.end !== accountPoints.at(-1)?.date) errors.push("Hypothetical account period does not match its chart points");
 if (accountPoints.some((point, index) => index > 0 && point.date <= accountPoints[index - 1].date)) errors.push("Hypothetical account points are not in chronological order");
+if (accountPoints.some((point) => !(point.value > 0) || !(point.benchmark_value > 0))) errors.push("Hypothetical account contains a non-positive Salarium or benchmark value");
 if (account.governance?.hypothetical !== true || account.governance?.live !== false) errors.push("Hypothetical account must be explicitly labeled simulated and not live");
 if (account.governance?.modeled_costs_included !== true) errors.push("Hypothetical account must declare modeled transaction costs");
 if (account.governance?.taxes_and_market_impact_excluded !== true) errors.push("Hypothetical account must disclose excluded taxes and additional market impact");
+if (account.governance?.benchmark_is_market_proxy !== true) errors.push("Hypothetical account must identify SPY as a market proxy");
+if (account.governance?.benchmark_fund_expenses_and_distributions_reflected_in_adjusted_close !== true) errors.push("Benchmark adjusted-close treatment is missing");
+if (account.governance?.benchmark_initial_trade_cost_excluded !== true) errors.push("Benchmark initial trade-cost exclusion is missing");
 if (!/^[a-f0-9]{64}$/.test(account.provenance?.source_sha256 ?? "")) errors.push("Hypothetical account source hash is missing or malformed");
+if (!/^[a-f0-9]{64}$/.test(account.provenance?.benchmark_source_sha256 ?? "")) errors.push("Benchmark source hash is missing or malformed");
 
 if (crisis.schema_version !== "1.0") errors.push(`Expected crisis-diversifier schema 1.0; found ${crisis.schema_version}`);
 if (crisis.experiment?.status !== "research_candidate") errors.push("Crisis-diversifier artifact is not labeled as a research candidate");

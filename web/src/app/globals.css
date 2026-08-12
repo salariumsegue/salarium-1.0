@@ -478,11 +478,22 @@ input {
   letter-spacing: 0.16em;
 }
 
+.account-ending-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.5rem;
+}
+
 .account-ending-value strong {
   display: block;
   margin-top: 0.5rem;
   font: 500 clamp(2.1rem, 4.8vw, 4.6rem) ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: -0.07em;
+}
+
+.account-ending-benchmark strong {
+  color: var(--text-secondary);
+  font-size: clamp(1.45rem, 2.8vw, 2.7rem);
 }
 
 .account-chart-shell {
@@ -492,6 +503,34 @@ input {
     repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255, 255, 255, 0.013) 80px),
     var(--background-inset);
   padding: 1.3rem 0 0.4rem;
+}
+
+.account-chart-legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.25rem;
+  padding: 0 0.55rem 0.35rem;
+  color: var(--text-tertiary);
+  font: 0.54rem ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.account-chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.account-chart-legend i {
+  width: 1.35rem;
+  height: 2px;
+  background: var(--positive);
+}
+
+.account-chart-legend .account-legend-benchmark i {
+  height: 1px;
+  background: var(--text-secondary);
 }
 
 .account-chart {
@@ -545,6 +584,15 @@ input {
   stroke-width: 2.25;
 }
 
+.account-benchmark-line {
+  fill: none;
+  stroke: var(--text-secondary);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
 .account-cursor {
   stroke: rgba(255, 255, 255, 0.32);
   stroke-width: 1;
@@ -557,10 +605,22 @@ input {
   stroke-width: 3;
 }
 
+.account-benchmark-point {
+  fill: var(--background-inset);
+  stroke: var(--text-secondary);
+  stroke-width: 2;
+}
+
 .account-tooltip-value {
   fill: var(--text-primary);
   font: 600 17px ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: -0.03em;
+}
+
+.account-tooltip-benchmark {
+  fill: var(--text-secondary);
+  font: 500 13px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: -0.01em;
 }
 
 .account-chart-hint {
@@ -596,6 +656,17 @@ input {
 .account-ledger dd {
   font: 0.69rem ui-monospace, SFMono-Regular, Menlo, monospace;
   text-align: right;
+}
+
+.account-ledger dd b,
+.account-ledger dd small {
+  display: block;
+  font: inherit;
+}
+
+.account-ledger dd small {
+  margin-top: 0.35rem;
+  color: var(--text-tertiary);
 }
 
 .account-disclosure {
@@ -904,6 +975,12 @@ summary::-webkit-details-marker {
 }
 
 @media (min-width: 768px){.configuration-strip>.site-container{grid-template-columns:repeat(5,1fr)}.configuration-strip div div{border-bottom:0}.pipeline-row{grid-template-columns:repeat(3,1fr)}.pipeline-row>div{border-right:1px solid var(--border)}.ranking-preview a{grid-template-columns:3rem 1fr 9rem 10rem}.ranking-preview small{display:block}.split-feature,.methodology-grid{grid-template-columns:1fr 1fr}.architecture-explorer{grid-template-columns:1.05fr .95fr}.architecture-detail{position:sticky;top:6rem;align-self:start}.account-stage-heading{grid-template-columns:minmax(0,1fr) auto}.account-ending-value{text-align:right}.account-ledger{grid-template-columns:repeat(4,1fr)}.account-ledger div{display:block;border-right:1px solid var(--border);padding:1.1rem}.account-ledger div:last-child{border-right:0}.account-ledger dd{margin-top:.75rem;text-align:left}.ranking-stage-grid{grid-template-columns:minmax(13rem,.65fr) minmax(0,1.35fr);align-items:start}.evidence-strip>div{grid-template-columns:repeat(4,1fr)}.evidence-strip>div>div{display:block;border-right:1px solid var(--border);border-bottom:0;padding:1.4rem}.evidence-strip>div>div:last-child{border-right:0}.evidence-strip strong{display:block;margin-top:1.1rem}.home-portals{grid-template-columns:repeat(2,1fr)}.home-portals a:nth-child(odd){border-right:1px solid var(--border)}.home-portals a{padding-inline:1.25rem}.home-portals a:hover{padding-inline:1.7rem}}
+
+@media (min-width: 768px) {
+  .account-ending-values {
+    justify-content: flex-end;
+  }
+}
 @media (min-width: 768px){.crisis-research-header{flex-direction:row;align-items:flex-start;justify-content:space-between}.crisis-result-grid{grid-template-columns:repeat(2,1fr);gap:1px}.crisis-decision-grid{grid-template-columns:minmax(18rem,.8fr) minmax(0,1.2fr)}.crisis-verdict{border-left:1px solid var(--border)}}
 @media (min-width: 1100px){.crisis-result-grid{grid-template-columns:repeat(4,1fr)}}
 @media (min-width: 1100px){.hero-grid{grid-template-columns:minmax(0,1fr) 21rem}.system-status{display:block}.pipeline-row{grid-template-columns:repeat(6,1fr)}.architecture-modules{grid-template-columns:repeat(2,1fr)}.showcase-heading{flex-direction:row;align-items:end;justify-content:space-between}.showcase-heading h2{max-width:12ch}.account-chart{min-height:22rem}}

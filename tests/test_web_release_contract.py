@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import json
 import hashlib
+import json
 import re
 from pathlib import Path
 
@@ -156,13 +156,23 @@ def test_hypothetical_account_is_governed_by_the_release_evidence() -> None:
     release = json.loads((WEB / "public" / "data" / "release_snapshot.json").read_text(encoding="utf-8"))
     core = release["results"]["core_balanced"]
 
-    assert account["schema_version"] == "1.0"
+    assert account["schema_version"] == "1.1"
     assert account["currency"] == "USD"
     assert account["starting_balance"] == 100_000
     assert account["ending_balance"] == account["points"][-1]["value"]
+    assert account["benchmark"]["ticker"] == "SPY"
+    assert account["benchmark"]["data_provider"] == "Yahoo adjusted-close proxy history"
+    assert account["benchmark"]["starting_balance"] == 100_000
+    assert account["benchmark"]["ending_balance"] == account["points"][-1]["benchmark_value"]
+    assert account["benchmark"]["statistics"]["annualized_total_return"] > 0
+    assert account["benchmark"]["statistics"]["max_drawdown"] < 0
+    assert account["points"][0]["value"] == 100_000
+    assert account["points"][0]["benchmark_value"] == 100_000
     assert account["period"] == {"start": account["points"][0]["date"], "end": account["points"][-1]["date"]}
-    assert len(account["points"]) == core["num_rebalances"] == account["statistics"]["rebalances"]
+    assert len(account["points"]) == core["num_rebalances"] + 1
+    assert core["num_rebalances"] == account["statistics"]["rebalances"]
     assert [point["date"] for point in account["points"]] == sorted(point["date"] for point in account["points"])
+    assert all(point["value"] > 0 and point["benchmark_value"] > 0 for point in account["points"])
     for metric in ["annualized_net_return", "net_sharpe", "max_drawdown"]:
         assert account["statistics"][metric] == core[metric]
     for key in ["base_policy", "exposure_policy", "risk_anchor", "signal_blend"]:
@@ -173,7 +183,15 @@ def test_hypothetical_account_is_governed_by_the_release_evidence() -> None:
     assert account["governance"]["live"] is False
     assert account["governance"]["modeled_costs_included"] is True
     assert account["governance"]["taxes_and_market_impact_excluded"] is True
-    assert re.fullmatch(r"[a-f0-9]{64}", account["provenance"]["source_sha256"])
+    assert account["governance"]["benchmark_is_market_proxy"] is True
+    assert account["governance"]["benchmark_fund_expenses_and_distributions_reflected_in_adjusted_close"] is True
+    assert account["governance"]["benchmark_initial_trade_cost_excluded"] is True
+    assert account["provenance"]["source_sha256"] == hashlib.sha256(
+        (ROOT / account["provenance"]["source_path"]).read_bytes()
+    ).hexdigest()
+    assert account["provenance"]["benchmark_source_sha256"] == hashlib.sha256(
+        (ROOT / account["provenance"]["benchmark_source_path"]).read_bytes()
+    ).hexdigest()
 
 
 def test_crisis_diversifier_research_preserves_failed_gate_verdict() -> None:

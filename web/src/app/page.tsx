@@ -58,24 +58,30 @@ export default function HomePage() {
         <div className="site-container">
           <header className="account-stage-heading">
             <div>
-              <p className="roman-inscription">HYPOTHETICAL ACCOUNT / I</p>
-              <h2>$100,000, through the system.</h2>
+              <p className="roman-inscription">HYPOTHETICAL ACCOUNT / MARKET COMPARISON</p>
+              <h2>$100,000, system versus market.</h2>
             </div>
-            <div className="account-ending-value">
-              <span>SIMULATED ENDING VALUE</span>
-              <strong>{currency.format(account.ending_balance)}</strong>
+            <div className="account-ending-values">
+              <div className="account-ending-value account-ending-model">
+                <span>SALARIUM / SIMULATED</span>
+                <strong>{currency.format(account.ending_balance)}</strong>
+              </div>
+              <div className="account-ending-value account-ending-benchmark">
+                <span>S&amp;P 500 / SPY PROXY</span>
+                <strong>{currency.format(account.benchmark.ending_balance)}</strong>
+              </div>
             </div>
           </header>
 
           <HistoricalAccountChart snapshot={account} />
 
           <dl className="account-ledger">
-            <div><dt>Period</dt><dd>JAN 2021 — MAY 2026</dd></div>
-            <div><dt>Net return</dt><dd>{percent(account.statistics.annualized_net_return)} annualized</dd></div>
-            <div><dt>Maximum drawdown</dt><dd className="negative-value">{percent(account.statistics.max_drawdown)}</dd></div>
+            <div><dt>Holding period</dt><dd>{monthYear(account.period.start)} — {monthYear(account.period.end)}</dd></div>
+            <div><dt>Annualized</dt><dd><b>Salarium {percent(account.statistics.annualized_net_return)}</b><small>SPY {percent(account.benchmark.statistics.annualized_total_return)}</small></dd></div>
+            <div><dt>Maximum drawdown</dt><dd><b className="negative-value">Salarium {percent(account.statistics.max_drawdown)}</b><small>SPY {percent(account.benchmark.statistics.max_drawdown)}</small></dd></div>
             <div><dt>Observations</dt><dd>{account.statistics.rebalances} rebalances</dd></div>
           </dl>
-          <p className="account-disclosure">Hypothetical compounding of the governed out-of-sample portfolio stream after modeled transaction costs. No deposits, withdrawals, taxes, capacity limits, or additional market impact. Not live performance.</p>
+          <p className="account-disclosure">Both lines begin with a hypothetical $100,000 on identical dates. Salarium compounds the governed out-of-sample portfolio stream after modeled transaction costs; the market comparison is a buy-and-hold SPY adjusted-close total-return proxy. Taxes, capacity limits, additional market impact, and the benchmark&apos;s initial trade cost are excluded. Simulated research—not live performance.</p>
         </div>
       </section>
 
@@ -140,4 +146,12 @@ export default function HomePage() {
       </section>
     </main>
   );
+}
+
+function monthYear(value: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T00:00:00Z`)).toUpperCase();
 }

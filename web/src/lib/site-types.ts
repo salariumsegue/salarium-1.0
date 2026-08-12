@@ -193,7 +193,19 @@ export type HypotheticalAccountSnapshot = {
     net_sharpe: number;
     max_drawdown: number;
   };
-  points: Array<{ date: string; value: number }>;
+  benchmark: {
+    ticker: "SPY";
+    label: string;
+    data_provider: string;
+    starting_balance: number;
+    ending_balance: number;
+    statistics: {
+      annualized_total_return: number;
+      max_drawdown: number;
+    };
+    calculation: string;
+  };
+  points: Array<{ date: string; value: number; benchmark_value: number }>;
   governance: {
     hypothetical: boolean;
     live: boolean;
@@ -201,11 +213,16 @@ export type HypotheticalAccountSnapshot = {
     modeled_costs_included: boolean;
     taxes_and_market_impact_excluded: boolean;
     calculation: string;
+    benchmark_is_market_proxy: boolean;
+    benchmark_fund_expenses_and_distributions_reflected_in_adjusted_close: boolean;
+    benchmark_initial_trade_cost_excluded: boolean;
   };
   provenance: {
     source_path: string;
     source_sha256: string;
     release_report: string;
+    benchmark_source_path: string;
+    benchmark_source_sha256: string;
   };
 };
 

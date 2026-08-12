@@ -21,7 +21,9 @@ export default function HistoricalAccountChart({ snapshot }: { snapshot: Hypothe
   const active = snapshot.points[activeIndex];
   const activeX = chart.x(activeIndex);
   const activeY = chart.y(active.value);
+  const activeBenchmarkY = chart.y(active.benchmark_value);
   const alignRight = activeX > WIDTH * 0.74;
+  const tooltipY = Math.max(58, Math.min(activeY, activeBenchmarkY) - 24);
 
   function inspect(event: PointerEvent<SVGSVGElement>) {
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -31,11 +33,15 @@ export default function HistoricalAccountChart({ snapshot }: { snapshot: Hypothe
 
   return (
     <div className="account-chart-shell">
+      <div className="account-chart-legend" aria-hidden="true">
+        <span className="account-legend-model"><i />Salarium</span>
+        <span className="account-legend-benchmark"><i />S&amp;P 500 / SPY</span>
+      </div>
       <svg
         className="account-chart"
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         role="img"
-        aria-label={`Hypothetical account value from ${snapshot.period.start} to ${snapshot.period.end}, ending at ${currency.format(snapshot.ending_balance)}`}
+        aria-label={`Hypothetical Salarium account versus the S&P 500 SPY total-return proxy from ${snapshot.period.start} to ${snapshot.period.end}. Salarium ends at ${currency.format(snapshot.ending_balance)} and SPY ends at ${currency.format(snapshot.benchmark.ending_balance)}.`}
         onPointerMove={inspect}
         onPointerLeave={() => setActiveIndex(snapshot.points.length - 1)}
       >
@@ -66,14 +72,17 @@ export default function HistoricalAccountChart({ snapshot }: { snapshot: Hypothe
 
         <line x1="0" y1={chart.y(snapshot.starting_balance)} x2={WIDTH} y2={chart.y(snapshot.starting_balance)} className="account-start-line" />
         <path d={chart.areaPath} fill="url(#account-fill)" />
+        <path d={chart.benchmarkPath} className="account-benchmark-line" />
         <path d={chart.linePath} className="account-line-glow" filter="url(#account-glow)" />
         <path d={chart.linePath} className="account-line" />
 
         <line x1={activeX} y1={TOP} x2={activeX} y2={HEIGHT - BOTTOM} className="account-cursor" />
         <circle cx={activeX} cy={activeY} r="6" className="account-point" />
-        <g transform={`translate(${alignRight ? activeX - 18 : activeX + 18} ${Math.max(48, activeY - 20)})`} textAnchor={alignRight ? "end" : "start"}>
-          <text className="account-tooltip-value">{currency.format(active.value)}</text>
-          <text y="21" className="account-tooltip-date">{formatDate(active.date)}</text>
+        <circle cx={activeX} cy={activeBenchmarkY} r="5" className="account-benchmark-point" />
+        <g transform={`translate(${alignRight ? activeX - 18 : activeX + 18} ${tooltipY})`} textAnchor={alignRight ? "end" : "start"}>
+          <text className="account-tooltip-value">SALARIUM {currency.format(active.value)}</text>
+          <text y="21" className="account-tooltip-benchmark">SPY {currency.format(active.benchmark_value)}</text>
+          <text y="42" className="account-tooltip-date">{formatDate(active.date)}</text>
         </g>
       </svg>
       <p className="account-chart-hint">MOVE ACROSS THE CURVE TO INSPECT</p>
@@ -82,7 +91,7 @@ export default function HistoricalAccountChart({ snapshot }: { snapshot: Hypothe
 }
 
 function buildChart(snapshot: HypotheticalAccountSnapshot) {
-  const values = [snapshot.starting_balance, ...snapshot.points.map((point) => point.value)];
+  const values = snapshot.points.flatMap((point) => [point.value, point.benchmark_value]);
   const minimum = Math.min(...values);
   const maximum = Math.max(...values);
   const padding = (maximum - minimum) * 0.08;
@@ -90,7 +99,11 @@ function buildChart(snapshot: HypotheticalAccountSnapshot) {
   const ceiling = maximum + padding;
   const x = (index: number) => (index / (snapshot.points.length - 1)) * WIDTH;
   const y = (value: number) => TOP + ((ceiling - value) / (ceiling - floor)) * (HEIGHT - TOP - BOTTOM);
-  const linePath = snapshot.points.map((point, index) => `${index ? "L" : "M"}${x(index).toFixed(2)} ${y(point.value).toFixed(2)}`).join(" ");
+  const pathFor = (value: (point: HypotheticalAccountSnapshot["points"][number]) => number) => snapshot.points
+    .map((point, index) => `${index ? "L" : "M"}${x(index).toFixed(2)} ${y(value(point)).toFixed(2)}`)
+    .join(" ");
+  const linePath = pathFor((point) => point.value);
+  const benchmarkPath = pathFor((point) => point.benchmark_value);
   const areaPath = `${linePath} L${WIDTH} ${HEIGHT - BOTTOM} L0 ${HEIGHT - BOTTOM} Z`;
   const years = new Map<string, number>();
   snapshot.points.forEach((point, index) => {
@@ -99,7 +112,7 @@ function buildChart(snapshot: HypotheticalAccountSnapshot) {
   });
   const yearMarkers = [...years].map(([year, index]) => ({ year, x: x(index) }));
   const gridValues = [100000, 300000, 500000, 700000, 900000].filter((value) => value >= floor && value <= ceiling);
-  return { x, y, linePath, areaPath, yearMarkers, gridValues };
+  return { x, y, linePath, benchmarkPath, areaPath, yearMarkers, gridValues };
 }
 
 function compactCurrency(value: number) {
