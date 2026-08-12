@@ -13,9 +13,13 @@ APP = SRC / "app"
 ROUTES = {
     "/": APP / "page.tsx",
     "/rankings": APP / "rankings" / "page.tsx",
+    "/portfolio": APP / "portfolio" / "page.tsx",
+    "/methodology": APP / "methodology" / "page.tsx",
     "/candidates": APP / "candidates" / "page.tsx",
     "/architecture": APP / "architecture" / "page.tsx",
     "/research": APP / "research" / "page.tsx",
+    "/research/performance": APP / "research" / "performance" / "page.tsx",
+    "/research/experiments": APP / "research" / "experiments" / "page.tsx",
     "/about": APP / "about" / "page.tsx",
     "/disclosures": APP / "disclosures" / "page.tsx",
 }
@@ -25,6 +29,10 @@ ALLOWED_INTERNAL = set(ROUTES) | {
     "/data/release_rankings_snapshot.json",
     "/data/candidate_funnel_snapshot.json",
     "/salarium-mark.svg",
+    "/salarium-edge-glyph.svg",
+    "/salarium-logo.svg",
+    "/salarium-mark-light.svg",
+    "/salarium-mark-dark.svg",
     "/manifest.webmanifest",
     "/robots.txt",
     "/sitemap.xml",
@@ -52,7 +60,7 @@ def test_all_public_routes_exist_and_identify_main_content() -> None:
 
 def test_navigation_and_footer_reach_every_public_route() -> None:
     config = (SRC / "lib" / "site-config.ts").read_text(encoding="utf-8")
-    for route in ["/", "/rankings", "/candidates", "/architecture", "/research", "/about"]:
+    for route in ["/", "/rankings", "/portfolio", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about"]:
         assert f'href: "{route}"' in config
     footer = (SRC / "components" / "site-footer.tsx").read_text(encoding="utf-8")
     assert 'href="/disclosures"' in footer
@@ -130,7 +138,7 @@ def test_release_metadata_discovery_error_and_loading_surfaces_exist() -> None:
         assert path.is_file(), f"Missing production web artifact: {path.relative_to(ROOT)}"
 
     layout = (APP / "layout.tsx").read_text(encoding="utf-8")
-    assert "Autonomous Equity Research" in layout
+    assert "Autonomous Investment Research" in layout
     assert "application/ld+json" in layout
     assert "SiteHeader" in layout and "SiteFooter" in layout
     assert 'href="#main-content"' in layout

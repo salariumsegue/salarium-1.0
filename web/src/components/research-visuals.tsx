@@ -1,5 +1,5 @@
 import { humanize, number, percent, signedNumber } from "@/lib/format";
-import type { ResearchDecision, ResearchResult, RobustnessRow, YearlyResearchResult } from "@/lib/site-types";
+import type { ResearchDecision, RobustnessRow, YearlyResearchResult } from "@/lib/site-types";
 import { StatusBadge } from "@/components/ui";
 
 export function ArchitectureNode({

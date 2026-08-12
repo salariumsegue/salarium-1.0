@@ -1,7 +1,6 @@
 import { humanize, number, percent, signedNumber } from "@/lib/format";
 import type { ResearchDecision, ResearchResult, RobustnessRow } from "@/lib/site-types";
 import { StatusBadge } from "@/components/ui";
-import type { ReactNode } from "react";
 
 export function MandateCard({
   title,

@@ -1,0 +1,10 @@
+import type { Metadata } from "next";
+import { PageIntro, StatusBadge } from "@/components/ui";
+import { formatDateTime } from "@/lib/format";
+import { loadReleaseSnapshot } from "@/lib/site-data";
+
+export const metadata: Metadata = { title: "Experiment Archive", description: "Accepted and rejected Salarium research hypotheses with evidence, decisions, and provenance.", alternates: { canonical: "/research/experiments" } };
+export default function ExperimentsPage(){ const release=loadReleaseSnapshot(); return <main id="main-content" className="site-main"><section className="page-section"><PageIntro eyebrow="EXPERIMENT ARCHIVE" title="Rejected hypotheses are evidence." muted="Not debris." description="The archive preserves the comparisons that shaped the locked release. Statuses are mapped conservatively from the governed decision ledger; no undocumented experiment is added." />
+  <div className="mt-10 grid gap-4 lg:grid-cols-2">{release.research.decisions.map((item)=><article key={item.key} className="experiment-card"><div className="flex items-center justify-between gap-4"><span className="font-mono text-xs text-white/30">EXP {item.step}</span><StatusBadge tone={item.status==="rejected"?"negative":"positive"}>{item.status==="rejected"?"REJECTED":"ACCEPTED"}</StatusBadge></div><h2>{item.title}</h2><dl><div><dt>Hypothesis</dt><dd>{item.question}</dd></div><div><dt>Result</dt><dd>{item.finding}</dd></div><div><dt>Decision</dt><dd>{item.decision}</dd></div><div><dt>Evaluation period</dt><dd>{release.research.period}</dd></div><div><dt>Source artifact</dt><dd>{item.source_report}</dd></div><div><dt>Commit / updated</dt><dd>{release.provenance.git_commit.slice(0,12)} · {formatDateTime(release.generated_at_utc)}</dd></div></dl></article>)}</div>
+  <p className="mt-8 text-sm leading-6 text-white/40">The public ledger currently supports Accepted and Rejected outcomes. Inconclusive and Superseded remain valid contract states, but no governed release entry presently carries enough evidence to publish under those labels.</p>
+  </section></main>; }

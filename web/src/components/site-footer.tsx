@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { ArrowUpRightIcon, GitHubIcon } from "@/components/icons";
-import { DATA_LINKS, GITHUB_URL, MODEL_CARD_URL, NAV_LINKS, RELEASE_NOTES_URL } from "@/lib/site-config";
+import { SalariumLogo } from "@/components/edge-glyph";
+import { DATA_LINKS, GITHUB_URL, MODEL_CARD_URL, NAV_LINKS, RELEASE_NOTES_URL, RESEARCH_LINKS } from "@/lib/site-config";
 import { formatDateTime } from "@/lib/format";
 
 export default function SiteFooter({
@@ -16,10 +17,7 @@ export default function SiteFooter({
     <footer className="relative mt-24 border-t border-white/10 bg-black/70">
       <div className="site-container grid gap-12 py-12 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-3">
-            <span className="brand-mark" aria-hidden="true"><span className="brand-mark-core" /></span>
-            <span className="text-lg font-semibold tracking-[0.22em]">SALARIUM</span>
-          </div>
+          <SalariumLogo />
           <p className="mt-5 max-w-sm text-sm leading-6 text-white/40">
             Open-source systematic equity research: governed data, out-of-sample rankings, concentrated portfolio construction, and auditable risk decisions.
           </p>
@@ -28,6 +26,8 @@ export default function SiteFooter({
 
         <FooterGroup title="Explore">
           {NAV_LINKS.map((link) => <Link key={link.href} href={link.href} className="footer-link">{link.label}</Link>)}
+          {RESEARCH_LINKS.map((link) => <Link key={link.href} href={link.href} className="footer-link">{link.label}</Link>)}
+          <Link href="/candidates" className="footer-link">Candidates</Link>
           <Link href="/disclosures" className="footer-link">Disclosures</Link>
         </FooterGroup>
 

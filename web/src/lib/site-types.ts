@@ -210,6 +210,43 @@ export type RankingSnapshot = {
   };
 };
 
+export type PortfolioHolding = {
+  ticker: string;
+  rank: number | null;
+  weight: number;
+  risk_contribution?: number;
+  selection_status: string;
+};
+
+export type PortfolioSnapshot = {
+  schema_version: string;
+  generated_at_utc: string;
+  snapshot_date: string;
+  portfolio: string;
+  exposure: number;
+  holdings: PortfolioHolding[];
+  provenance: {
+    source_path: string;
+    git_commit: string;
+  };
+};
+
+export type DataState<T> =
+  | { status: "available"; data: T }
+  | { status: "unavailable"; artifact: string; reason: string }
+  | { status: "error"; artifact: string; reason: string };
+
+export type ProvenanceRecord = {
+  source: string;
+  artifact: string;
+  outOfSamplePeriod?: string;
+  portfolio?: string;
+  model?: string;
+  commit: string;
+  generatedAt: string;
+  updatedAt?: string;
+};
+
 export type CandidateScores = {
   agentic: number | null;
   advanced: number | null;

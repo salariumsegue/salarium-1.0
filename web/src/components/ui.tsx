@@ -20,8 +20,8 @@ export function PageIntro({
     <div className="grid gap-8 border-b border-white/10 pb-10 lg:grid-cols-[1fr_auto] lg:items-end">
       <div className="max-w-4xl">
         <p className="eyebrow text-emerald-300">{eyebrow}</p>
-        <h1 className="mt-5 text-4xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl lg:text-7xl">
-          {title}{muted && <span className="block text-white/30">{muted}</span>}
+        <h1 className="mt-5 text-4xl font-semibold leading-[0.96] tracking-[-0.045em] sm:text-5xl lg:text-7xl">
+          {title}{muted && <span className="block text-white/48">{muted}</span>}
         </h1>
         <p className="mt-6 max-w-3xl text-base leading-7 text-white/48 sm:text-lg">{description}</p>
       </div>

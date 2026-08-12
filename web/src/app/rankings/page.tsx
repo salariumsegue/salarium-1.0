@@ -29,27 +29,27 @@ export default function RankingsPage() {
           aside={<div className="card min-w-64 p-5"><p className="eyebrow">SIGNAL DATE</p><p className="mt-3 font-mono text-xl text-emerald-300">{formatDate(snapshot.latest_signal_state.date)}</p><div className="mt-4"><StatusBadge>NOT LIVE</StatusBadge></div></div>}
         />
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="ranking-summary-grid mt-7 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard label="PUBLISHED RANKINGS" value={String(rankings.length)} detail={`${snapshot.latest_signal_state.universe_count}-name cross-section`} />
           <MetricCard label="TOP MODEL SCORE" value={topScore.toFixed(6)} detail="relative cross-sectional output" tone="positive" />
           <MetricCard label="AVERAGE 20D VOL" value={percent(avgVolatility, 2)} detail="recent single-name volatility" />
-          <MetricCard label="RISK-OFF NAMES" value={`${riskOffCount}/${rankings.length}`} detail="committed regime state" tone={riskOffCount > rankings.length / 2 ? "negative" : "default"} />
+          <RegimeStateCard riskOffCount={riskOffCount} total={rankings.length} />
         </div>
+
+        <section className="ranking-primary mt-8">
+          <SectionHeading
+            eyebrow="SALARIUM EQUITY RANKING"
+            title="The ranked cross-section."
+            description="Open any row for supported score, percentile, volatility, risk, selection-band, and provenance fields."
+          />
+          <RankingExplorer rankings={rankings} snapshot={snapshot} />
+        </section>
 
         <div className="mt-6">
           <PlainEnglish>
             A higher-ranked stock scored better than other stocks in the same governed Liquid-500 cross-section at this historical signal date. The public table shows the top 25 for inspection; the release portfolio still applies Top-10 selection, persistence, covariance, position limits, and exposure rules before a name can influence a research mandate.
           </PlainEnglish>
         </div>
-
-        <section className="mt-10">
-          <SectionHeading
-            eyebrow="INTERACTIVE RANKING EXPLORER"
-            title="Search, filter, sort, and inspect."
-            description="Open any row for a plain-language explanation of the score, volatility field, and portfolio status."
-          />
-          <RankingExplorer rankings={rankings} />
-        </section>
 
         <section className="mt-10 grid gap-4 lg:grid-cols-3">
           <InterpretationCard title="Model score" body="A relative signal produced by the governed technical ranking model. Magnitudes are meaningful only inside the same model snapshot." />
@@ -85,4 +85,9 @@ export default function RankingsPage() {
 
 function InterpretationCard({ title, body }: { title: string; body: string }) {
   return <div className="card p-6"><p className="text-base font-medium">{title}</p><p className="mt-3 text-sm leading-6 text-white/42">{body}</p></div>;
+}
+
+function RegimeStateCard({ riskOffCount, total }: { riskOffCount: number; total: number }) {
+  const riskOff = riskOffCount > total / 2;
+  return <div className="regime-state-card"><p>REGIME STATE</p><div><strong>{riskOffCount}<span> / {total}</span></strong><em className={riskOff?"is-risk-off":""}>{riskOff?"RISK-OFF":"MIXED"}</em></div><small><i className={riskOff?"negative-dot":"positive-dot"} />Committed snapshot</small></div>;
 }

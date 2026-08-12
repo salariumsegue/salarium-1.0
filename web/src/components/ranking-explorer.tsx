@@ -1,127 +1,43 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
+import ProvenanceDisclosure from "@/components/provenance-disclosure";
 import { SearchIcon } from "@/components/icons";
 import { humanize, percent } from "@/lib/format";
-import type { Ranking } from "@/lib/site-types";
+import type { Ranking, RankingSnapshot } from "@/lib/site-types";
 
-const FILTERS = ["all", "risk_on", "neutral", "risk_off"] as const;
-type Filter = (typeof FILTERS)[number];
-type SortMode = "rank" | "score" | "volatility_low" | "volatility_high";
+type SortKey = "rank" | "ticker" | "score" | "score_percentile" | "volatility_20d";
+type Direction = "asc" | "desc";
 
-export default function RankingExplorer({ rankings }: { rankings: Ranking[] }) {
+export default function RankingExplorer({ rankings, snapshot }: { rankings: Ranking[]; snapshot: RankingSnapshot }) {
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<Filter>("all");
-  const [sortMode, setSortMode] = useState<SortMode>("rank");
+  const [sort, setSort] = useState<{ key: SortKey; direction: Direction }>({ key: "rank", direction: "asc" });
+  const [selected, setSelected] = useState<Ranking | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const visible = useMemo(() => {
     const normalized = query.trim().toUpperCase();
-    const rows = rankings
-      .filter((item) => !normalized || item.ticker.toUpperCase().includes(normalized))
-      .filter((item) => filter === "all" || item.risk_state === filter);
-
-    return [...rows].sort((a, b) => {
-      if (sortMode === "score") return b.score - a.score;
-      if (sortMode === "volatility_low") return a.volatility_20d - b.volatility_20d;
-      if (sortMode === "volatility_high") return b.volatility_20d - a.volatility_20d;
-      return a.rank - b.rank;
+    return rankings.filter((row) => !normalized || row.ticker.includes(normalized)).sort((a, b) => {
+      const av = a[sort.key]; const bv = b[sort.key];
+      const order = typeof av === "string" ? av.localeCompare(String(bv)) : Number(av) - Number(bv);
+      return sort.direction === "asc" ? order : -order;
     });
-  }, [filter, query, rankings, sortMode]);
+  }, [query, rankings, sort]);
 
-  const maxScore = rankings.length ? Math.max(...rankings.map((item) => item.score)) : 1;
-  const minScore = rankings.length ? Math.min(...rankings.map((item) => item.score)) : 0;
+  function changeSort(key: SortKey) { setSort((current) => ({ key, direction: current.key === key && current.direction === "asc" ? "desc" : "asc" })); }
+  function openDetail(row: Ranking) { setSelected(row); requestAnimationFrame(() => dialogRef.current?.showModal()); }
+  function closeDetail() { dialogRef.current?.close(); setSelected(null); }
 
-  return (
-    <div className="card overflow-hidden">
-      <div className="grid gap-4 border-b border-white/10 p-5 lg:grid-cols-[1fr_auto_auto] lg:items-center">
-        <label className="search-field">
-          <SearchIcon className="h-4 w-4 text-white/30" />
-          <span className="sr-only">Search ticker</span>
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search ticker"
-            className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/25"
-          />
-        </label>
-
-        <div className="flex flex-wrap gap-2" aria-label="Risk-state filters">
-          {FILTERS.map((value) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => setFilter(value)}
-              className={`filter-button ${filter === value ? "filter-button-active" : ""}`}
-            >
-              {value === "all" ? "All states" : humanize(value)}
-            </button>
-          ))}
-        </div>
-
-        <label className="select-field">
-          <span className="sr-only">Sort rankings</span>
-          <select value={sortMode} onChange={(event) => setSortMode(event.target.value as SortMode)}>
-            <option value="rank">Original rank</option>
-            <option value="score">Score: high to low</option>
-            <option value="volatility_low">Volatility: low to high</option>
-            <option value="volatility_high">Volatility: high to low</option>
-          </select>
-        </label>
-      </div>
-
-      <div className="flex items-center justify-between border-b border-white/8 px-5 py-3 font-mono text-[10px] tracking-[0.12em] text-white/25" aria-live="polite">
-        <span>{visible.length} OF {rankings.length} SECURITIES</span>
-        <span>COMMITTED SNAPSHOT · NOT LIVE</span>
-      </div>
-
-      <div className="hidden min-w-[760px] grid-cols-[72px_1fr_150px_150px_180px] border-b border-white/10 px-5 py-3 text-[9px] tracking-[0.18em] text-white/25 md:grid">
-        <span>RANK</span><span>SECURITY</span><span>MODEL SCORE</span><span>20D VOLATILITY</span><span>RISK STATE</span>
-      </div>
-
-      <div className="divide-y divide-white/6">
-        {visible.map((item) => {
-          const denominator = maxScore - minScore || 1;
-          const scoreWidth = Math.max(4, ((item.score - minScore) / denominator) * 100);
-          return (
-            <details key={item.ticker} className="group ranking-row">
-              <summary className="list-none cursor-pointer px-5 py-5">
-                <div className="grid gap-4 md:grid-cols-[72px_1fr_150px_150px_180px] md:items-center">
-                  <span className="font-mono text-sm text-white/25">{String(item.rank).padStart(2, "0")}</span>
-                  <div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-base font-semibold tracking-[0.16em] text-white">{item.ticker}</span>
-                      <span className="text-[9px] tracking-[0.14em] text-white/20 group-open:text-emerald-300">DETAILS +</span>
-                    </div>
-                    <p className="mt-1 text-xs text-white/30">{humanize(item.model_configuration)}</p>
-                  </div>
-                  <div>
-                    <p className="font-mono text-sm text-emerald-300">{item.score.toFixed(6)}</p>
-                    <div className="mt-2 h-px w-full bg-white/8"><div className="h-px bg-emerald-300" style={{ width: `${scoreWidth}%` }} /></div>
-                  </div>
-                  <div className="font-mono text-sm text-white/65">{percent(item.volatility_20d, 2)}</div>
-                  <div className="flex items-center gap-3">
-                    <span className={`status-pill ${item.risk_state === "risk_off" ? "status-pill-risk" : "status-pill-positive"}`}>{humanize(item.risk_state)}</span>
-                    <span className="text-[9px] text-white/25">{item.regime_is_confident ? "CONFIDENT" : "LOW CONF."}</span>
-                  </div>
-                </div>
-              </summary>
-              <div className="grid gap-4 border-t border-white/6 bg-white/[0.015] px-5 py-5 text-sm leading-6 text-white/42 md:grid-cols-3">
-                <div><p className="detail-label">WHAT THE SCORE MEANS</p><p className="mt-2">A higher score indicates stronger relative model conviction inside this committed cross-section. This name sits at the {percent(item.score_percentile, 1)} score percentile. It is not a price target or expected return guarantee.</p></div>
-                <div><p className="detail-label">RISK CONTEXT</p><p className="mt-2">The displayed volatility is a recent 20-day estimate. Portfolio risk is later evaluated jointly through the covariance engine.</p></div>
-                <div><p className="detail-label">PORTFOLIO STATUS</p><p className="mt-2">A high ranking does not automatically become a holding. Buffer, covariance, signal-weight and exposure rules are applied afterward.</p></div>
-              </div>
-            </details>
-          );
-        })}
-
-        {visible.length === 0 && (
-          <div className="px-6 py-16 text-center">
-            <p className="text-sm text-white/50">No securities match the current filters.</p>
-            <button type="button" className="button-secondary mt-5" onClick={() => { setQuery(""); setFilter("all"); setSortMode("rank"); }}>Reset filters</button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  return <div className="ranking-surface">
+    <div className="ranking-toolbar"><label className="search-field"><SearchIcon className="h-4 w-4 text-white/35" /><span className="sr-only">Search published tickers</span><input value={query} onChange={(event)=>setQuery(event.target.value.toUpperCase())} placeholder="Search ticker" /></label><span aria-live="polite">{visible.length} / {rankings.length} PUBLISHED SECURITIES</span></div>
+    <div className="ranking-desktop"><table className="institutional-table"><thead><tr><SortHeader label="Rank" field="rank" active={sort} onSort={changeSort} /><SortHeader label="Ticker / company" field="ticker" active={sort} onSort={changeSort} /><SortHeader label="Salarium score" field="score" active={sort} onSort={changeSort} /><SortHeader label="Percentile" field="score_percentile" active={sort} onSort={changeSort} /><SortHeader label="20D volatility" field="volatility_20d" active={sort} onSort={changeSort} /><th>Risk state</th><th>Selection band</th></tr></thead><tbody>{visible.map((row)=><tr key={row.ticker}><td className="muted-number">{String(row.rank).padStart(2,"0")}</td><td><button type="button" className="ticker-button" onClick={()=>openDetail(row)}><strong>{row.ticker}</strong><small>Company not provided</small></button></td><td className="positive-number">{row.score.toFixed(6)}</td><td>{percent(row.score_percentile,1)}</td><td>{percent(row.volatility_20d,2)}</td><td><span className="risk-label"><i className={row.risk_state==="risk_off"?"negative-dot":"positive-dot"} />{humanize(row.risk_state)}</span></td><td>{selectionBand(row.rank, snapshot)}</td></tr>)}</tbody></table></div>
+    <div className="ranking-mobile">{visible.map((row)=><button type="button" key={row.ticker} className="ranking-mobile-row" onClick={()=>openDetail(row)}><span><small>#{String(row.rank).padStart(2,"0")}</small><strong>{row.ticker}</strong><em>Company not provided</em></span><span><b>{row.score.toFixed(6)}</b><small>{percent(row.score_percentile,1)} percentile</small><em>{selectionBand(row.rank,snapshot)}</em></span></button>)}</div>
+    {visible.length===0 && <div className="empty-state"><span>0 RESULTS</span><h3>No published ticker matches “{query}”.</h3><p>Search is limited to the 25 securities in this committed snapshot.</p><button type="button" onClick={()=>setQuery("")} className="button-secondary">Clear search</button></div>}
+    <dialog ref={dialogRef} className="ranking-dialog" onClose={()=>setSelected(null)}>{selected && <div><header><div><p className="eyebrow">RANKING DETAIL / {String(selected.rank).padStart(2,"0")}</p><h2>{selected.ticker}</h2><p>Company name is not present in the governed ranking artifact.</p></div><button type="button" onClick={closeDetail} aria-label={`Close ${selected.ticker} detail`}>Close</button></header><dl className="detail-ledger"><Detail label="Salarium score" value={selected.score.toFixed(6)} /><Detail label="Universe percentile" value={percent(selected.score_percentile,1)} /><Detail label="Model rank" value={`${selected.rank} of ${snapshot.latest_signal_state.universe_count}`} /><Detail label="Selection status" value={selectionBand(selected.rank,snapshot)} /><Detail label="20D volatility" value={percent(selected.volatility_20d,2)} /><Detail label="Risk state" value={`${humanize(selected.risk_state)} · ${selected.regime_is_confident?"confident":"low confidence"}`} /></dl><p className="dialog-note">The selection band is a ranking-stage label, not confirmation that the security is held. Covariance, persistence, weighting, and exposure controls operate downstream.</p><ProvenanceDisclosure record={{source:"Governed 20D out-of-sample score stream",artifact:snapshot.provenance.source_path,outOfSamplePeriod:String(snapshot.model.test_year),model:snapshot.model.configuration,commit:snapshot.provenance.git_commit,generatedAt:snapshot.generated_at_utc}} /></div>}</dialog>
+  </div>;
 }
+
+function selectionBand(rank: number, snapshot: RankingSnapshot) { if(rank<=snapshot.architecture.portfolio_top_n) return "Top-10 selection band"; if(rank<=snapshot.architecture.persistence_buffer_rank) return "Persistence buffer band"; return "Outside portfolio band"; }
+function SortHeader({label,field,active,onSort}:{label:string;field:SortKey;active:{key:SortKey;direction:Direction};onSort:(field:SortKey)=>void}){const selected=active.key===field;return <th aria-sort={selected?(active.direction==="asc"?"ascending":"descending"):"none"}><button type="button" onClick={()=>onSort(field)}>{label}<span aria-hidden="true">{selected?(active.direction==="asc"?" ↑":" ↓"):" ↕"}</span></button></th>;}
+function Detail({label,value}:{label:string;value:string}){return <div><dt>{label}</dt><dd>{value}</dd></div>;}

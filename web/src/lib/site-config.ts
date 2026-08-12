@@ -16,21 +16,32 @@ export const GITHUB_URL =
   "https://github.com/salariumsegue/salarium-1.0";
 
 export const RELEASE_BRANCH_URL =
-  "https://github.com/salariumsegue/salarium-1.0/tree/release/salarium-1.0-web-production";
+  GITHUB_URL;
 
 export const MODEL_CARD_URL =
-  "https://github.com/salariumsegue/salarium-1.0/blob/release/salarium-1.0-web-production/docs/SALARIUM_1_0_MODEL_CARD.md";
+  `${GITHUB_URL}/blob/main/docs/SALARIUM_1_0_MODEL_CARD.md`;
 
 export const RELEASE_NOTES_URL =
-  "https://github.com/salariumsegue/salarium-1.0/blob/release/salarium-1.0-web-production/docs/RELEASE_NOTES_1_0.md";
+  `${GITHUB_URL}/blob/main/docs/RELEASE_NOTES_1_0.md`;
 
 export const NAV_LINKS = [
-  { href: "/", label: "Overview" },
   { href: "/rankings", label: "Rankings" },
-  { href: "/candidates", label: "Candidates" },
-  { href: "/architecture", label: "Architecture" },
+  { href: "/portfolio", label: "Portfolio" },
   { href: "/research", label: "Research" },
+  { href: "/methodology", label: "Methodology" },
+  { href: "/architecture", label: "Architecture" },
   { href: "/about", label: "About" },
+] as const;
+
+export const RESEARCH_LINKS = [
+  { href: "/research/performance", label: "Performance" },
+  { href: "/research/experiments", label: "Experiments" },
+] as const;
+
+export const SECONDARY_LINKS = [
+  { href: "/", label: "Overview" },
+  { href: "/candidates", label: "Candidates" },
+  { href: "/disclosures", label: "Disclosures" },
 ] as const;
 
 export const DATA_LINKS = [

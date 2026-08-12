@@ -11,7 +11,7 @@ import { loadReleaseSnapshot } from "@/lib/site-data";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Salarium — Autonomous Equity Research",
+    default: "Salarium — Autonomous Investment Research",
     template: "%s | Salarium",
   },
   description:
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Salarium",
-    title: "Salarium — Autonomous Equity Research",
+    title: "Salarium — Autonomous Investment Research",
     description:
       "Transparent quantitative equity research from governed data to signal-aware portfolio construction.",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Salarium — Autonomous Equity Research",
+    title: "Salarium — Autonomous Investment Research",
     description:
       "Transparent quantitative equity research from governed data to signal-aware portfolio construction.",
     images: ["/opengraph-image"],
@@ -89,8 +89,6 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en" className="h-full bg-black">
       <body className="min-h-full bg-black antialiased">
         <a href="#main-content" className="skip-link">Skip to content</a>
-        <div className="grid-overlay pointer-events-none fixed inset-0 z-0" aria-hidden="true" />
-        <div className="ambient-glow pointer-events-none fixed inset-0 z-0" aria-hidden="true" />
         <div className="relative z-10 flex min-h-screen flex-col">
           <SiteHeader version={release.release.version} status={release.release.status} />
           <div className="flex-1">{children}</div>

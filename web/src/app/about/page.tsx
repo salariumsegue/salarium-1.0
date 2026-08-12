@@ -26,7 +26,7 @@ export default function AboutPage() {
               <span className="block text-white/32">can survive questions.</span>
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-7 text-white/48">
-              Salarium is an open-source equity-research system built to connect finance intuition with reproducible software: governed data, walk-forward learning, transparent portfolio construction, and explicit risk controls.
+              Modern investment research is fragmented across data acquisition, signal generation, model validation, portfolio construction, and risk management. Salarium explores whether those layers can be unified into a governed research system.
             </p>
           </div>
 
@@ -49,7 +49,7 @@ export default function AboutPage() {
           </div>
           <div className="space-y-6 text-base leading-8 text-white/45">
             <p>
-              Salarium began as a systematic stock-ranking project and evolved into a modular research platform. The system now separates universe governance, feature construction, annual walk-forward models, portfolio optimization, exposure control, candidate intelligence, evidence export, and public presentation.
+              Salarium is a systematic equity research platform, a governed research workflow, and a project built in public. It combines data, alpha research, portfolio construction, risk, and validation without presenting itself as a hedge fund or treating simulation as live performance.
             </p>
             <p>
               The project is built by Niall Gillen, a finance student at Indiana University&apos;s Kelley School of Business, as a serious demonstration of quantitative research, software architecture, and the ability to turn iterative analysis into a coherent product.
@@ -58,6 +58,13 @@ export default function AboutPage() {
               The name references the Roman <em>salarium</em>—historically associated with compensation and the linguistic root of “salary.” The modern project uses that idea as a symbol for disciplined capital allocation rather than as a claim about Roman payment practices.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="page-section border-y border-white/8 bg-white/[0.012]">
+        <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
+          <div><p className="eyebrow">Automation boundary</p><h2 className="mt-4 text-4xl font-medium tracking-tight">AI supports the research infrastructure.</h2></div>
+          <div className="text-base leading-8 text-white/45"><p>Automation supports data validation, macro analysis, model tournaments, backtest review, risk review, and research orchestration. Model outputs still pass through explicit quantitative artifacts, portfolio rules, validation periods, and human-inspectable release gates.</p><p className="mt-5">The product is not positioned as an AI stock picker. Its credibility rests on governed evidence and reproducibility, not on anthropomorphizing the model.</p></div>
         </div>
       </section>
 

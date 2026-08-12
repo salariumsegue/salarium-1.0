@@ -1,5 +1,12 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="8" fill="#020403"/>
-  <path d="M16 18H48V24H24V29H44C47.3137 29 50 31.6863 50 35V46H16V40H42V35H22C18.6863 35 16 32.3137 16 29V18Z" fill="#39F59D"/>
-  <path d="M16 47H50" stroke="#FFFFFF" stroke-opacity="0.32"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t d">
+  <title id="t">Salarium app icon</title>
+  <desc id="d">A simplified proprietary Imperial S within a precision candlestick edge.</desc>
+  <rect width="64" height="64" rx="8" fill="#050605"/>
+  <circle cx="32" cy="32" r="25" fill="none" stroke="#777d79" stroke-width="4" stroke-dasharray="1.5 3.7"/>
+  <g transform="scale(.533333)">
+    <path d="M80 35H53c-10.5 0-18 5.8-18 14.2 0 7.1 4.7 11.5 13.7 14l18.7 5.1c3.5 1 5.1 2.3 5.1 4.5 0 3.1-2.8 5.2-7.2 5.2H43l-5 8h28.8C77.5 86 85 80.3 85 71.5c0-7.2-4.6-11.7-13.6-14.2l-18.8-5.2c-3.4-.9-5-2.1-5-4.1 0-2.6 2.6-4.2 6.8-4.2h18.8L80 35Z" fill="#f4f6f4"/>
+    <path d="M65.2 43.8c.2 3.2-1.2 5.8-4.2 7.8l4.5 1.3 3.6-2.6-1.8-2.2 2.8-1.7-1.5-2.6h-3.4Z" fill="#090b0a"/>
+  </g>
+  <path d="M13 20l3 2m-5 7 4 1m36-10-3 2m5 7-4 1" stroke="#42d98b" stroke-width="2"/>
+  <path d="M13 44l3-2m-5-7 4-1m36 10-3-2m5-7-4-1" stroke="#e26363" stroke-width="2"/>
 </svg>

@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
+import { SalariumLogo } from "@/components/edge-glyph";
 import { CloseIcon, GitHubIcon, MenuIcon } from "@/components/icons";
 import { GITHUB_URL, NAV_LINKS } from "@/lib/site-config";
 
@@ -16,32 +17,36 @@ export default function SiteHeader({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
     };
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+    firstLinkRef.current?.focus();
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
     <header className="site-header">
       <div className="site-container flex h-20 items-center justify-between gap-6">
-        <Link href="/" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="brand-mark" aria-hidden="true">
-            <span className="brand-mark-core" />
-          </span>
-          <span>
-            <span className="block text-[9px] font-medium tracking-[0.34em] text-white/35">AUTONOMOUS EQUITY RESEARCH</span>
-            <span className="mt-1 block text-lg font-semibold tracking-[0.22em] text-white transition group-hover:text-emerald-300">SALARIUM</span>
-          </span>
+        <Link href="/" className="group" onClick={() => setOpen(false)} aria-label="Salarium home">
+          <SalariumLogo />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
           {NAV_LINKS.map((link) => {
-            const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+            const active = pathname.startsWith(link.href);
             return (
               <Link key={link.href} href={link.href} className={`nav-link ${active ? "nav-link-active" : ""}`} aria-current={active ? "page" : undefined}>
                 {link.label}
@@ -51,7 +56,7 @@ export default function SiteHeader({
         </nav>
 
         <div className="flex items-center gap-3">
-          <div className="hidden items-center gap-2 border border-white/10 bg-black/50 px-3 py-2 text-[9px] tracking-[0.18em] text-white/40 sm:flex">
+          <div className="release-status hidden sm:flex" aria-label={`Release ${version}, ${status.replaceAll("_", " ")}`}>
             <span className="status-dot" />
             <span>{version.toUpperCase()}</span>
             <span className="text-white/15">/</span>
@@ -67,6 +72,7 @@ export default function SiteHeader({
             <GitHubIcon className="h-4 w-4" />
           </a>
           <button
+            ref={toggleRef}
             type="button"
             className="icon-button lg:hidden"
             aria-label={open ? "Close navigation" : "Open navigation"}
@@ -83,9 +89,10 @@ export default function SiteHeader({
         <div id="mobile-navigation" className="border-t border-white/10 bg-black/95 lg:hidden">
           <nav className="site-container grid gap-1 py-4" aria-label="Mobile navigation">
             {NAV_LINKS.map((link) => {
-              const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+              const active = pathname.startsWith(link.href);
               return (
                 <Link
+                  ref={link === NAV_LINKS[0] ? firstLinkRef : undefined}
                   key={link.href}
                   href={link.href}
                   className={`flex items-center justify-between border px-4 py-4 text-sm tracking-[0.12em] transition ${

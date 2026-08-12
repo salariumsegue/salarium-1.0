@@ -5,9 +5,13 @@ import { spawn } from "node:child_process";
 const HTML_ROUTES = [
   "/",
   "/rankings",
+  "/portfolio",
+  "/methodology",
   "/candidates",
   "/architecture",
   "/research",
+  "/research/performance",
+  "/research/experiments",
   "/about",
   "/disclosures",
 ];
@@ -22,6 +26,8 @@ const DISCOVERY_ROUTES = [
   "/sitemap.xml",
   "/opengraph-image",
   "/salarium-mark.svg",
+  "/salarium-edge-glyph.svg",
+  "/salarium-logo.svg",
 ];
 
 function availablePort() {

@@ -10,12 +10,17 @@ const DATA = path.join(ROOT, "public", "data");
 const ROUTES = new Map([
   ["/", "src/app/page.tsx"],
   ["/rankings", "src/app/rankings/page.tsx"],
+  ["/portfolio", "src/app/portfolio/page.tsx"],
+  ["/methodology", "src/app/methodology/page.tsx"],
   ["/candidates", "src/app/candidates/page.tsx"],
   ["/architecture", "src/app/architecture/page.tsx"],
   ["/research", "src/app/research/page.tsx"],
+  ["/research/performance", "src/app/research/performance/page.tsx"],
+  ["/research/experiments", "src/app/research/experiments/page.tsx"],
   ["/about", "src/app/about/page.tsx"],
   ["/disclosures", "src/app/disclosures/page.tsx"],
 ]);
+const PRIMARY_NAV_ROUTES = ["/rankings", "/portfolio", "/research", "/methodology", "/architecture", "/about"];
 
 const ALLOWED_INTERNAL = new Set([
   ...ROUTES.keys(),
@@ -23,6 +28,10 @@ const ALLOWED_INTERNAL = new Set([
   "/data/release_rankings_snapshot.json",
   "/data/candidate_funnel_snapshot.json",
   "/salarium-mark.svg",
+  "/salarium-edge-glyph.svg",
+  "/salarium-logo.svg",
+  "/salarium-mark-light.svg",
+  "/salarium-mark-dark.svg",
   "/manifest.webmanifest",
   "/robots.txt",
   "/sitemap.xml",
@@ -39,6 +48,10 @@ const REQUIRED_ARTIFACTS = [
   "src/app/error.tsx",
   "src/app/loading.tsx",
   "public/salarium-mark.svg",
+  "public/salarium-edge-glyph.svg",
+  "public/salarium-logo.svg",
+  "public/salarium-mark-light.svg",
+  "public/salarium-mark-dark.svg",
   "public/data/release_snapshot.json",
   "public/data/release_rankings_snapshot.json",
   "public/data/candidate_funnel_snapshot.json",
@@ -188,8 +201,7 @@ if (!String(packageJson.scripts?.["release:check"] ?? "").includes("validate:sit
 if (!String(packageJson.scripts?.["release:check"] ?? "").includes("smoke")) errors.push("release:check does not run the production smoke test");
 
 const siteConfig = read("src/lib/site-config.ts");
-for (const route of ROUTES.keys()) {
-  if (route === "/disclosures") continue;
+for (const route of PRIMARY_NAV_ROUTES) {
   if (!siteConfig.includes(`href: "${route}"`)) errors.push(`Primary navigation does not include ${route}`);
 }
 if (siteConfig.includes("salarium-ten.vercel.app")) errors.push("Site configuration contains the obsolete hard-coded Vercel URL");
