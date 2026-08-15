@@ -1,0 +1,96 @@
+name: Salarium Forward Paper Close
+
+on:
+  schedule:
+    - cron: "30 18 * * 1-5"
+      timezone: "America/New_York"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: salarium-forward-paper-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Governed paper refresh and release
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out the scheduled branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: Score the latest eligible close
+        run: python scripts/run_forward_paper_snapshot.py --provider yahoo
+
+      - name: Enforce the publication allowlist
+        id: release_diff
+        run: >-
+          python scripts/validate_forward_paper_release_diff.py
+          --github-output "$GITHUB_OUTPUT"
+
+      - name: Run Python governance gates
+        if: steps.release_diff.outputs.changed == 'true'
+        run: |
+          python -m pytest -q
+          python scripts/open_source_audit.py
+
+      - name: Install web dependencies
+        if: steps.release_diff.outputs.changed == 'true'
+        working-directory: web
+        run: npm ci
+
+      - name: Validate, build, and smoke-test the site
+        if: steps.release_diff.outputs.changed == 'true'
+        working-directory: web
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run check
+
+      - name: Recheck the publication allowlist after validation
+        if: steps.release_diff.outputs.changed == 'true'
+        run: python scripts/validate_forward_paper_release_diff.py
+
+      - name: Commit and push the governed release
+        if: steps.release_diff.outputs.changed == 'true'
+        env:
+          TARGET_BRANCH: ${{ github.ref_name }}
+        run: |
+          signal_date=$(python -c 'import json; print(json.load(open("web/public/data/forward_paper_snapshot.json"))["latest_signal_state"]["date"])')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- \
+            reports/shadow/drawdown_budget_shadow_ledger.csv \
+            reports/shadow/drawdown_budget_shadow_state.json \
+            web/public/data/forward_paper_snapshot.json
+          git diff --cached --check
+          git commit -m "Refresh forward paper snapshot ${signal_date}"
+          git push origin "HEAD:${TARGET_BRANCH}"
+
+      - name: Record a no-change close
+        if: steps.release_diff.outputs.changed == 'false'
+        run: echo "No new eligible market close; no paper record or website history was changed."

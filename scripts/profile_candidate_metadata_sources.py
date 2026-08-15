@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -31,7 +32,10 @@ FIELD_PATH = Path(
 )
 
 OUTPUT_DIRECTORY = Path(
-    "reports/experiments"
+    os.getenv(
+        "SALARIUM_PROFILE_OUTPUT_DIRECTORY",
+        "reports/experiments",
+    )
 )
 
 DATE_ALIASES = {
@@ -437,6 +441,7 @@ def main() -> int:
     print()
 
     records = []
+    missing_sources: list[str] = []
 
     for path_text in candidates[
         "path"
@@ -448,6 +453,16 @@ def main() -> int:
         print(
             f"Profiling: {path}"
         )
+
+        if not path.is_file():
+            missing_sources.append(
+                path.as_posix()
+            )
+            print(
+                "Skipping unavailable local source: "
+                f"{path}"
+            )
+            continue
 
         records.append(
             profile_source(
@@ -503,6 +518,11 @@ def main() -> int:
     csv_path = (
         OUTPUT_DIRECTORY
         / "candidate_metadata_source_profiles.csv"
+    )
+
+    OUTPUT_DIRECTORY.mkdir(
+        parents=True,
+        exist_ok=True,
     )
 
     output.to_csv(
@@ -587,6 +607,9 @@ def main() -> int:
         "schema_version": "1.0",
         "candidate_source_count": int(
             len(ranking)
+        ),
+        "unavailable_local_sources": (
+            missing_sources
         ),
         "historical_panel_candidates": (
             historical_candidates[

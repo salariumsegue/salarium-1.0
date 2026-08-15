@@ -21,4 +21,29 @@ Daily inference does not retrain the model. A new model requires a separate trai
 
 ## Automation
 
-The repository contains the manual refresh command and all validation gates. A scheduled job that writes commits and triggers deployments is intentionally not enabled until that ongoing external authority is explicitly approved.
+The approved automation is defined in `.github/workflows/forward-paper.yml`. It
+runs at 6:30 p.m. `America/New_York` every Monday through Friday, after the
+regular US market close and with additional time for the research feed to
+settle. Market holidays and delayed closes are handled by the existing
+coverage/staleness gates. If there is no newly eligible close, the job exits
+without changing the ledger, snapshot, or repository.
+
+Only three generated files may enter an automated release: the append-only
+ledger, the current paper state, and the public forward-paper snapshot. A
+dedicated diff gate rejects additions, deletions, untracked outputs, or any
+change outside that allowlist. Fresh releases must then pass the full Python
+suite, the tracked-artifact audit, and the website validation/build/smoke
+checks before the workflow creates and pushes a commit. One concurrency group
+prevents overlapping closes. A failed gate leaves the remote repository and
+production site unchanged.
+
+The workflow uses GitHub's short-lived `GITHUB_TOKEN` with repository-content
+write permission; it does not require or commit a personal access token or
+Vercel credential. The repository's Vercel Git integration is expected to
+deploy the successful push.
+
+GitHub runs scheduled workflows only from the repository's default branch.
+Therefore this workflow becomes active only after the release branch containing
+it is merged into the default branch. Repository rules must also permit the
+workflow token to push governed snapshot commits. If either condition is not
+met, the automation fails closed rather than weakening the safeguards.

@@ -1,5 +1,6 @@
 from pathlib import Path
 import importlib.util
+import os
 import subprocess
 import sys
 
@@ -143,7 +144,13 @@ def test_historical_shape_does_not_mean_verified(
     )
 
 
-def test_profile_script_runs() -> None:
+def test_profile_script_runs(
+    tmp_path: Path,
+) -> None:
+    environment = os.environ.copy()
+    environment[
+        "SALARIUM_PROFILE_OUTPUT_DIRECTORY"
+    ] = str(tmp_path)
     completed = subprocess.run(
         [
             sys.executable,
@@ -152,6 +159,7 @@ def test_profile_script_runs() -> None:
         capture_output=True,
         text=True,
         check=False,
+        env=environment,
     )
 
     assert completed.returncode == 0
@@ -165,3 +173,7 @@ def test_profile_script_runs() -> None:
         "=== HISTORICAL PANEL CANDIDATES ==="
         in completed.stdout
     )
+    assert (
+        tmp_path
+        / "candidate_metadata_source_profile.json"
+    ).is_file()

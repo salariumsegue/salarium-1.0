@@ -24,7 +24,6 @@ from src.backtesting.risk_controls import (
     weight_diagnostics,
 )
 
-FEATURE_FILE = resolve_training_data_path()
 RESULTS_DIR = resolve_results_dir()
 
 TOP_N = 10
@@ -640,7 +639,7 @@ def main():
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
     print("Loading feature data...")
-    df = pd.read_csv(FEATURE_FILE)
+    df = pd.read_csv(resolve_training_data_path())
 
     all_model_features = list(
         dict.fromkeys(

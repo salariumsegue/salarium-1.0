@@ -22,8 +22,6 @@ reports/agent_runs/
 
 # Generated model-safe training data
 data/processed/training_data_model_safe.csv
-EOFgrep -q "data/processed/training_data_model_safe.csv" .gitignore || cat >> .gitignore <<'EOF'
-
 # Generated model-safe training data
 data/processed/training_data_model_safe.csv
 

@@ -1,3 +1,4 @@
+import importlib
 from pathlib import Path
 
 import pytest
@@ -67,3 +68,14 @@ def test_missing_explicit_training_path_fails(
         resolve_training_data_path(
             tmp_path / "missing.csv"
         )
+
+
+def test_walkforward_helpers_import_without_the_local_training_dataset(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    module = importlib.import_module(
+        "src.backtesting.walkforward_rank_backtest"
+    )
+    assert callable(module.split_train_test_by_year)
