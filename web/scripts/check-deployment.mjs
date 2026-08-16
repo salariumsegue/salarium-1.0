@@ -10,7 +10,7 @@ if (!RAW_URL) {
 const BASE_URL = /^https?:\/\//i.test(RAW_URL) ? RAW_URL.replace(/\/$/, "") : `https://${RAW_URL.replace(/\/$/, "")}`;
 const HTML_ROUTES = ["/", "/rankings", "/portfolio", "/simulation", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about", "/disclosures"];
 const DATA_ROUTES = ["/api/simulation/quotes", "/data/release_snapshot.json", "/data/release_rankings_snapshot.json", "/data/candidate_funnel_snapshot.json", "/data/hypothetical_account_snapshot.json", "/data/crisis_diversifier_research.json", "/data/drawdown_budget_research.json"];
-const DISCOVERY_ROUTES = ["/manifest.webmanifest", "/robots.txt", "/sitemap.xml", "/opengraph-image", "/salarium-mark.svg", "/salarium-edge-glyph.svg", "/salarium-logo.svg"];
+const DISCOVERY_ROUTES = ["/manifest.webmanifest", "/robots.txt", "/sitemap.xml", "/opengraph-image", "/salarium-mark.svg", "/salarium-edge-glyph.svg", "/salarium-logo.svg", "/salarium-roman-bust.png"];
 
 function internalLinks(html) {
   const links = new Set();

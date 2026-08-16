@@ -33,6 +33,7 @@ const DISCOVERY_ROUTES = [
   "/salarium-mark.svg",
   "/salarium-edge-glyph.svg",
   "/salarium-logo.svg",
+  "/salarium-roman-bust.png",
 ];
 
 function availablePort() {
