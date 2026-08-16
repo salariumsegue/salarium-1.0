@@ -6,6 +6,7 @@ const HTML_ROUTES = [
   "/",
   "/rankings",
   "/portfolio",
+  "/simulation",
   "/methodology",
   "/candidates",
   "/architecture",
@@ -16,6 +17,7 @@ const HTML_ROUTES = [
   "/disclosures",
 ];
 const DATA_ROUTES = [
+  "/api/simulation/quotes",
   "/data/release_snapshot.json",
   "/data/release_rankings_snapshot.json",
   "/data/candidate_funnel_snapshot.json",

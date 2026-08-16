@@ -2,32 +2,34 @@ import type { SVGProps } from "react";
 
 type GlyphVariant = "color" | "light" | "dark";
 
-const imperialSPath = "M80 35H53c-10.5 0-18 5.8-18 14.2 0 7.1 4.7 11.5 13.7 14l18.7 5.1c3.5 1 5.1 2.3 5.1 4.5 0 3.1-2.8 5.2-7.2 5.2H43l-5 8h28.8C77.5 86 85 80.3 85 71.5c0-7.2-4.6-11.7-13.6-14.2l-18.8-5.2c-3.4-.9-5-2.1-5-4.1 0-2.6 2.6-4.2 6.8-4.2h18.8L80 35Z";
-const portraitNotchPath = "M65.2 43.8c.2 3.2-1.2 5.8-4.2 7.8l4.5 1.3 3.6-2.6-1.8-2.2 2.8-1.7-1.5-2.6h-3.4Z";
+const classicalProfilePath = "M78 92c-8 3-17 3-23-1-5-3-7-8-5-13l3-7c1-3 0-6-3-8l-4-2c-3-2-3-5-1-8l4-5c-1-3 0-5 3-7 1-12 6-21 15-25 12-5 25 0 29 11 4 10 0 20-5 28-3 5-3 12 0 18l4 8-13 4Z";
+const hairPath = "M55 46c1-10 7-17 16-19 10-2 20 2 23 11 2 7 0 14-4 20-3-7-8-10-13-12-7-2-14 0-22 0Z";
 
-const marks = Array.from({ length: 24 }, (_, index) => ({
-  angle: index * 15,
-  side: index >= 14 && index <= 22 ? "positive" : index >= 2 && index <= 10 ? "negative" : "neutral",
-  body: index % 3 === 0 ? 8 : index % 3 === 1 ? 6 : 5,
-  wick: index % 2 === 0 ? 15 : 13,
+const marks = Array.from({ length: 12 }, (_, index) => ({
+  angle: index * 30,
+  diamond: index % 2 === 1,
+  accent: index === 4 || index === 5 || index === 10 || index === 11,
 }));
 
-export function EdgeGlyph({ className, variant = "color", title = "Salarium Edge Glyph", ...props }: SVGProps<SVGSVGElement> & { variant?: GlyphVariant; title?: string }) {
+export function EdgeGlyph({ className, variant = "color", title = "Salarium Classical Profile Mark", ...props }: SVGProps<SVGSVGElement> & { variant?: GlyphVariant; title?: string }) {
   const monochrome = variant !== "color";
   const mono = variant === "dark" ? "#090b0a" : "#f4f6f4";
   return (
     <svg viewBox="0 0 120 120" role="img" aria-label={title} className={className} {...props}>
       <title>{title}</title>
-      <circle cx="60" cy="60" r="42" fill="none" stroke={monochrome ? mono : "#3b403d"} strokeWidth="1" />
+      <circle cx="60" cy="60" r="52" fill="none" stroke={monochrome ? mono : "#454c47"} strokeWidth="1.5" />
+      <circle cx="60" cy="60" r="47" fill="none" stroke={monochrome ? mono : "#26302a"} strokeWidth="0.75" />
       <g aria-hidden="true">
         {marks.map((mark) => {
-          const color = monochrome ? mono : mark.side === "positive" ? "#42d98b" : mark.side === "negative" ? "#e26363" : "#737a76";
-          return <g key={mark.angle} transform={`rotate(${mark.angle} 60 60)`}><line x1="60" y1={5 + (15 - mark.wick) / 2} x2="60" y2={5 + (15 + mark.wick) / 2} stroke={color} strokeWidth="1.4" /><rect x="57.7" y={10 - mark.body / 2} width="4.6" height={mark.body} fill={color} /></g>;
+          const color = monochrome ? mono : mark.accent ? "#42d98b" : "#848c87";
+          return mark.diamond
+            ? <rect key={mark.angle} x="57.4" y="11" width="5.2" height="5.2" transform={`rotate(${45 + mark.angle} 60 60)`} fill="none" stroke={color} strokeWidth="1.5" />
+            : <path key={mark.angle} d="M56.5 15h7M60 9v12" transform={`rotate(${mark.angle} 60 60)`} fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="square" />;
         })}
       </g>
-      <path d={imperialSPath} fill={monochrome ? mono : "#f4f6f4"} aria-hidden="true" />
-      <path d={portraitNotchPath} fill={monochrome ? (variant === "dark" ? "#fff" : "#090b0a") : "#090b0a"} aria-hidden="true" />
-      <path d="M44 58.5h29M45 72h27" stroke={monochrome ? (variant === "dark" ? "#fff" : "#090b0a") : "#090b0a"} strokeWidth="1.35" opacity=".48" aria-hidden="true" />
+      <path d={classicalProfilePath} fill={monochrome ? mono : "#f3eddd"} stroke={monochrome ? mono : "#d8d1bf"} strokeWidth="1.25" strokeLinejoin="round" aria-hidden="true" />
+      <path d={hairPath} fill={monochrome ? (variant === "dark" ? "#f4f6f4" : "#090b0a") : "#0b3a2a"} aria-hidden="true" />
+      <path d="M56 48c6-3 12-2 17 2m-20 5 7 1-5 3m2 7c3 2 6 2 9 0m7-33c6 1 11 5 13 11m-20-9c7-3 14 0 18 5m-21 0c8-3 17 1 21 8" fill="none" stroke={monochrome ? (variant === "dark" ? "#f4f6f4" : "#090b0a") : "#0b3a2a"} strokeWidth="1.8" strokeLinecap="round" aria-hidden="true" />
     </svg>
   );
 }

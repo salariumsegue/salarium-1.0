@@ -12,6 +12,7 @@ const ROUTES = new Map([
   ["/", "src/app/page.tsx"],
   ["/rankings", "src/app/rankings/page.tsx"],
   ["/portfolio", "src/app/portfolio/page.tsx"],
+  ["/simulation", "src/app/simulation/page.tsx"],
   ["/methodology", "src/app/methodology/page.tsx"],
   ["/candidates", "src/app/candidates/page.tsx"],
   ["/architecture", "src/app/architecture/page.tsx"],
@@ -21,7 +22,7 @@ const ROUTES = new Map([
   ["/about", "src/app/about/page.tsx"],
   ["/disclosures", "src/app/disclosures/page.tsx"],
 ]);
-const PRIMARY_NAV_ROUTES = ["/rankings", "/portfolio", "/research", "/methodology", "/architecture", "/about"];
+const PRIMARY_NAV_ROUTES = ["/rankings", "/portfolio", "/simulation", "/research", "/methodology", "/architecture", "/about"];
 
 const ALLOWED_INTERNAL = new Set([
   ...ROUTES.keys(),

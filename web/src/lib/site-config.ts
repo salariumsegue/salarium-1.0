@@ -27,6 +27,7 @@ export const RELEASE_NOTES_URL =
 export const NAV_LINKS = [
   { href: "/rankings", label: "Rankings" },
   { href: "/portfolio", label: "Portfolio" },
+  { href: "/simulation", label: "Simulation" },
   { href: "/research", label: "Research" },
   { href: "/methodology", label: "Methodology" },
   { href: "/architecture", label: "Architecture" },
