@@ -177,6 +177,10 @@ def test_release_metadata_discovery_error_and_loading_surfaces_exist() -> None:
     assert "application/ld+json" in layout
     assert "SiteHeader" in layout and "SiteFooter" in layout
     assert 'href="#main-content"' in layout
+    assert 'import { Analytics } from "@vercel/analytics/next"' in layout
+    assert "<Analytics />" in layout
+    assert 'import { SpeedInsights } from "@vercel/speed-insights/next"' in layout
+    assert "<SpeedInsights />" in layout
 
 
 def test_hypothetical_account_is_governed_by_the_release_evidence() -> None:
