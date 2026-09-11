@@ -15,8 +15,8 @@
     "maximum_stale_calendar_days": 4,
     "passed": true,
     "provider": "yahoo_research_feed",
-    "requested_as_of": "2026-09-08",
-    "signal_date": "2026-09-04"
+    "requested_as_of": "2026-09-11",
+    "signal_date": "2026-09-09"
   },
   "disclosures": [
     "This is an append-only forward paper feed, not live investment performance.",
@@ -29,115 +29,115 @@
   "forward_portfolio": {
     "baseline_equity_exposure": 0.75,
     "cash_proxy": "BIL",
-    "cash_weight": 0.4391270821745472,
-    "completed_intervals": 1,
+    "cash_weight": 0.3475278637630099,
+    "completed_intervals": 2,
     "controller": {
-      "cushion_ratio": 0.1869576392751509,
-      "exposure_cap": 0.5608729178254528,
+      "cushion_ratio": 0.21749071207899667,
+      "exposure_cap": 0.6524721362369901,
       "soft_floor_value": 78000.0
     },
-    "current_drawdown": -0.02567795333847056,
+    "current_drawdown": -0.004250337398344017,
     "high_water_mark": 100000.0,
     "holdings": [
       {
-        "base_weight": 0.15085008043316,
-        "company_name": "DigitalOcean Holdings, Inc. Common Stock",
-        "paper_weight": 0.0846077247667507,
-        "rank": 12,
-        "reference_price": 112.56999969482422,
-        "ticker": "DOCN"
-      },
-      {
-        "base_weight": 0.11193759765804744,
-        "company_name": "Rocket Lab Corporation - Common Stock",
-        "paper_weight": 0.06278276701284063,
-        "rank": 157,
-        "reference_price": 66.91000366210938,
-        "ticker": "RKLB"
-      },
-      {
-        "base_weight": 0.08968838734304811,
-        "company_name": "Monster Beverage Corporation - Common Stock",
-        "paper_weight": 0.050303787504154804,
-        "rank": 313,
-        "reference_price": 48.72999954223633,
-        "ticker": "MNST"
-      },
-      {
-        "base_weight": 0.0618923881588197,
+        "base_weight": 0.06146579596336634,
         "company_name": "T1 Energy Inc. Common Stock",
-        "paper_weight": 0.03471376433782271,
-        "rank": 78,
-        "reference_price": 4.650000095367432,
+        "paper_weight": 0.0401047191977246,
+        "rank": 6,
+        "reference_price": 4.909999847412109,
         "ticker": "TE"
       },
       {
-        "base_weight": 0.076341737730501,
-        "company_name": "Astera Labs, Inc. - Common Stock",
-        "paper_weight": 0.04281801319277156,
-        "rank": 42,
-        "reference_price": 282.6499938964844,
-        "ticker": "ALAB"
-      },
-      {
-        "base_weight": 0.03721378362301242,
-        "company_name": "MaxLinear, Inc - Common Stock",
-        "paper_weight": 0.020872203403964024,
-        "rank": 131,
-        "reference_price": 66.36000061035156,
-        "ticker": "MXL"
-      },
-      {
-        "base_weight": 0.09888985660972133,
-        "company_name": "TTM Technologies, Inc. - Common Stock",
-        "paper_weight": 0.055464642420035036,
-        "rank": 4,
-        "reference_price": 112.30000305175781,
-        "ticker": "TTMI"
-      },
-      {
-        "base_weight": 0.09978769877112603,
+        "base_weight": 0.11339117732327457,
         "company_name": "Amkor Technology, Inc. - Common Stock",
-        "paper_weight": 0.055968217772848806,
-        "rank": 33,
-        "reference_price": 48.70000076293945,
+        "paper_weight": 0.0739845836985443,
+        "rank": 13,
+        "reference_price": 51.349998474121094,
         "ticker": "AMKR"
       },
       {
-        "base_weight": 0.1610166577296489,
-        "company_name": "Dick's Sporting Goods Inc Common Stock",
-        "paper_weight": 0.09030988263933043,
-        "rank": 227,
-        "reference_price": 124.30999755859375,
-        "ticker": "DKS"
+        "base_weight": 0.1624959730565748,
+        "company_name": "CAVA Group, Inc. Common Stock",
+        "paper_weight": 0.10602409467013173,
+        "rank": 1,
+        "reference_price": 56.5099983215332,
+        "ticker": "CAVA"
       },
       {
-        "base_weight": 0.11238181194291509,
-        "company_name": "Intel Corporation - Common Stock",
-        "paper_weight": 0.06303191477493411,
-        "rank": 109,
-        "reference_price": 87.4800033569336,
-        "ticker": "INTC"
+        "base_weight": 0.15933044684977368,
+        "company_name": "Reddit, Inc. Class A Common Stock",
+        "paper_weight": 0.10395867702366604,
+        "rank": 2,
+        "reference_price": 146.44000244140625,
+        "ticker": "RDDT"
+      },
+      {
+        "base_weight": 0.1624959730565748,
+        "company_name": "Fair Isaac Corporation Common Stock",
+        "paper_weight": 0.10602409467013173,
+        "rank": 3,
+        "reference_price": 983.1900024414062,
+        "ticker": "FICO"
+      },
+      {
+        "base_weight": 0.1306556019569151,
+        "company_name": "Ciena Corporation Common Stock",
+        "paper_weight": 0.08524913972015827,
+        "rank": 4,
+        "reference_price": 338.0,
+        "ticker": "CIEN"
+      },
+      {
+        "base_weight": 0.08183206104774746,
+        "company_name": "Hims & Hers Health, Inc. Class A Common Stock",
+        "paper_weight": 0.05339313968449957,
+        "rank": 5,
+        "reference_price": 27.899999618530273,
+        "ticker": "HIMS"
+      },
+      {
+        "base_weight": 0.023450188115552027,
+        "company_name": "POET Technologies Inc. - Common Shares",
+        "paper_weight": 0.015300594334913507,
+        "rank": 7,
+        "reference_price": 8.0,
+        "ticker": "POET"
+      },
+      {
+        "base_weight": 0.07704069542458752,
+        "company_name": "Applied Digital Corporation - Common Stock",
+        "paper_weight": 0.05026690712086393,
+        "rank": 8,
+        "reference_price": 27.139999389648438,
+        "ticker": "APLD"
+      },
+      {
+        "base_weight": 0.02784208720563377,
+        "company_name": "IonQ, Inc. Common Stock",
+        "paper_weight": 0.018166186116356436,
+        "rank": 9,
+        "reference_price": 38.13999938964844,
+        "ticker": "IONQ"
       }
     ],
-    "indicative_nav": 97432.20466615295,
-    "last_completed_nav": 95848.52283701749,
-    "last_rebalance_date": "2026-08-25",
+    "indicative_nav": 99574.9662601656,
+    "last_completed_nav": 99574.9662601656,
+    "last_rebalance_date": "2026-09-09",
     "portfolio_diagnostics": {
-      "average_pairwise_correlation": 0.23082306083653742,
+      "average_pairwise_correlation": 0.22602462624136185,
       "covariance_observations": 60,
-      "maximum_pairwise_correlation": 0.5206591945053227,
+      "maximum_pairwise_correlation": 0.6436261886267951,
       "optimizer_fallback": false,
       "optimizer_reason": "ok"
     },
     "rebalance_due": false,
-    "rebalance_performed": false,
-    "sessions_since_rebalance": 8,
-    "sessions_until_next_rebalance": 2,
-    "shadow_equity_exposure": 0.5608729178254528,
+    "rebalance_performed": true,
+    "sessions_since_rebalance": 10,
+    "sessions_until_next_rebalance": 10,
+    "shadow_equity_exposure": 0.6524721362369901,
     "status": "active_forward_paper"
   },
-  "generated_at_utc": "2026-09-08T00:37:26.531420+00:00",
+  "generated_at_utc": "2026-09-11T00:23:44.010672+00:00",
   "governance": {
     "append_only_ledger": true,
     "automatic_model_retraining": false,
@@ -151,282 +151,282 @@
   },
   "latest_signal_state": {
     "count": 25,
-    "date": "2026-09-04",
+    "date": "2026-09-09",
     "rankings": [
       {
-        "company_name": "Fair Isaac Corporation Common Stock",
+        "company_name": "CAVA Group, Inc. Common Stock",
         "model_configuration": "governed_technical_hardened_horizon_20d",
         "rank": 1,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.05355096063199699,
+        "score": 0.06274231835967448,
         "score_percentile": 1.0,
-        "ticker": "FICO",
-        "volatility_20d": 0.04711101504801104
+        "ticker": "CAVA",
+        "volatility_20d": 0.0465275323991575
       },
       {
-        "company_name": "Atlassian Corporation  - Class A Common Stock",
+        "company_name": "Reddit, Inc. Class A Common Stock",
         "model_configuration": "governed_technical_hardened_horizon_20d",
         "rank": 2,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04964380540856558,
+        "score": 0.05289050844868752,
         "score_percentile": 0.9979959919839679,
-        "ticker": "TEAM",
-        "volatility_20d": 0.03668556194154172
+        "ticker": "RDDT",
+        "volatility_20d": 0.04849145508743154
       },
       {
-        "company_name": "Datadog, Inc. - Class A Common Stock",
+        "company_name": "Fair Isaac Corporation Common Stock",
         "model_configuration": "governed_technical_hardened_horizon_20d",
         "rank": 3,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04731329865375997,
+        "score": 0.049583057512966607,
         "score_percentile": 0.9959919839679359,
-        "ticker": "DDOG",
-        "volatility_20d": 0.04477295313642861
+        "ticker": "FICO",
+        "volatility_20d": 0.04876575619248481
       },
       {
-        "company_name": "TTM Technologies, Inc. - Common Stock",
+        "company_name": "Ciena Corporation Common Stock",
         "model_configuration": "governed_technical_hardened_horizon_20d",
         "rank": 4,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.045583279129696376,
+        "score": 0.049379357140629354,
         "score_percentile": 0.9939879759519038,
-        "ticker": "TTMI",
-        "volatility_20d": 0.04949541385434988
+        "ticker": "CIEN",
+        "volatility_20d": 0.052917077210848804
       },
       {
-        "company_name": "USA Rare Earth, Inc. - Common Stock",
+        "company_name": "Hims & Hers Health, Inc. Class A Common Stock",
         "model_configuration": "governed_technical_hardened_horizon_20d",
         "rank": 5,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04531462820196543,
+        "score": 0.047482152623386176,
         "score_percentile": 0.9919839679358717,
-        "ticker": "USAR",
-        "volatility_20d": 0.04723862334028642
+        "ticker": "HIMS",
+        "volatility_20d": 0.05254730406443868
       },
       {
-        "company_name": "Viavi Solutions Inc. - Common Stock",
+        "company_name": "T1 Energy Inc. Common Stock",
         "model_configuration": "governed_technical_hardened_horizon_20d",
         "rank": 6,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04483045413315627,
+        "score": 0.04661820552056897,
         "score_percentile": 0.9899799599198397,
-        "ticker": "VIAV",
-        "volatility_20d": 0.050027960982351134
-      },
-      {
-        "company_name": "Cipher Digital Inc. - Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 7,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04413076046124864,
-        "score_percentile": 0.9879759519038076,
-        "ticker": "CIFR",
-        "volatility_20d": 0.06954882706004506
-      },
-      {
-        "company_name": "Lumentum Holdings Inc. - Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 8,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04390290939894685,
-        "score_percentile": 0.9859719438877755,
-        "ticker": "LITE",
-        "volatility_20d": 0.06077497264556277
-      },
-      {
-        "company_name": "Hut 8 Corp. - Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 9,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04380246380018914,
-        "score_percentile": 0.9829659318637275,
-        "ticker": "HUT",
-        "volatility_20d": 0.0568725141257197
-      },
-      {
-        "company_name": "Riot Platforms, Inc. - Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 10,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04380246380018914,
-        "score_percentile": 0.9829659318637275,
-        "ticker": "RIOT",
-        "volatility_20d": 0.057627386444519924
-      },
-      {
-        "company_name": "TeraWulf Inc. - Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 11,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.0436323972233902,
-        "score_percentile": 0.9799599198396793,
-        "ticker": "WULF",
-        "volatility_20d": 0.05156481015517696
-      },
-      {
-        "company_name": "DigitalOcean Holdings, Inc. Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 12,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.043305367194445006,
-        "score_percentile": 0.9779559118236473,
-        "ticker": "DOCN",
-        "volatility_20d": 0.04965256061773549
-      },
-      {
-        "company_name": "Semtech Corporation - Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 13,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04330171054150242,
-        "score_percentile": 0.9759519038076152,
-        "ticker": "SMTC",
-        "volatility_20d": 0.061703393229866656
-      },
-      {
-        "company_name": "IREN Limited - Ordinary Shares",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 14,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.043246304339511675,
-        "score_percentile": 0.9739478957915831,
-        "ticker": "IREN",
-        "volatility_20d": 0.057001478997569945
-      },
-      {
-        "company_name": "CleanSpark, Inc. - Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 15,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04309268187270572,
-        "score_percentile": 0.9719438877755511,
-        "ticker": "CLSK",
-        "volatility_20d": 0.0562242702581856
-      },
-      {
-        "company_name": "Marvell Technology, Inc. - Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 16,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04308575285833406,
-        "score_percentile": 0.969939879759519,
-        "ticker": "MRVL",
-        "volatility_20d": 0.05097355605417376
-      },
-      {
-        "company_name": "Bloom Energy Corporation Class A Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 17,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04270074634569987,
-        "score_percentile": 0.9679358717434869,
-        "ticker": "BE",
-        "volatility_20d": 0.04956007135388657
-      },
-      {
-        "company_name": "CrowdStrike Holdings, Inc. - Class A Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 18,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04228367112463546,
-        "score_percentile": 0.9659318637274549,
-        "ticker": "CRWD",
-        "volatility_20d": 0.06069245502576036
-      },
-      {
-        "company_name": "NuScale Power Corporation Class A Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 19,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04224020480308317,
-        "score_percentile": 0.9639278557114228,
-        "ticker": "SMR",
-        "volatility_20d": 0.047972936055109244
-      },
-      {
-        "company_name": "HubSpot, Inc. Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 20,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04219442362150616,
-        "score_percentile": 0.9619238476953907,
-        "ticker": "HUBS",
-        "volatility_20d": 0.05035196189490875
-      },
-      {
-        "company_name": "Palo Alto Networks, Inc. - Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 21,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.041981241463429395,
-        "score_percentile": 0.9599198396793587,
-        "ticker": "PANW",
-        "volatility_20d": 0.04530560114606291
-      },
-      {
-        "company_name": "Dell Technologies Inc. Class C Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 22,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.04165150873575592,
-        "score_percentile": 0.9579158316633266,
-        "ticker": "DELL",
-        "volatility_20d": 0.05265693840168892
-      },
-      {
-        "company_name": "Robinhood Markets, Inc. - Class A Common Stock",
-        "model_configuration": "governed_technical_hardened_horizon_20d",
-        "rank": 23,
-        "regime_is_confident": false,
-        "risk_state": "neutral",
-        "score": 0.041645301460443956,
-        "score_percentile": 0.9559118236472945,
-        "ticker": "HOOD",
-        "volatility_20d": 0.05805884076768148
+        "ticker": "TE",
+        "volatility_20d": 0.057174959321279556
       },
       {
         "company_name": "POET Technologies Inc. - Common Shares",
         "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 7,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.046105480878483124,
+        "score_percentile": 0.9879759519038076,
+        "ticker": "POET",
+        "volatility_20d": 0.0476557000069435
+      },
+      {
+        "company_name": "Applied Digital Corporation - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 8,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04568622622046063,
+        "score_percentile": 0.9859719438877755,
+        "ticker": "APLD",
+        "volatility_20d": 0.04652339387771068
+      },
+      {
+        "company_name": "IonQ, Inc. Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 9,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04534458251422192,
+        "score_percentile": 0.9839679358717435,
+        "ticker": "IONQ",
+        "volatility_20d": 0.046167038316250436
+      },
+      {
+        "company_name": "Rubrik, Inc. Class A Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 10,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.045284363066835726,
+        "score_percentile": 0.9819639278557114,
+        "ticker": "RBRK",
+        "volatility_20d": 0.05220707628767836
+      },
+      {
+        "company_name": "AST SpaceMobile, Inc. - Class A Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 11,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04516664689384012,
+        "score_percentile": 0.9799599198396793,
+        "ticker": "ASTS",
+        "volatility_20d": 0.0495997297221709
+      },
+      {
+        "company_name": "Coherent Corp. Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 12,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.0450545417599771,
+        "score_percentile": 0.9779559118236473,
+        "ticker": "COHR",
+        "volatility_20d": 0.05503125176413993
+      },
+      {
+        "company_name": "Amkor Technology, Inc. - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 13,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.044872300536398624,
+        "score_percentile": 0.9759519038076152,
+        "ticker": "AMKR",
+        "volatility_20d": 0.04586180181087231
+      },
+      {
+        "company_name": "Oklo Inc. Class A common stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 14,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04464420410079144,
+        "score_percentile": 0.9739478957915831,
+        "ticker": "OKLO",
+        "volatility_20d": 0.0466038037665486
+      },
+      {
+        "company_name": "FormFactor, Inc. - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 15,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04435998418269858,
+        "score_percentile": 0.9719438877755511,
+        "ticker": "FORM",
+        "volatility_20d": 0.04895071047981118
+      },
+      {
+        "company_name": "TTM Technologies, Inc. - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 16,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04432788578991532,
+        "score_percentile": 0.969939879759519,
+        "ticker": "TTMI",
+        "volatility_20d": 0.04943805171831114
+      },
+      {
+        "company_name": "Hut 8 Corp. - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 17,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04413174374252622,
+        "score_percentile": 0.9679358717434869,
+        "ticker": "HUT",
+        "volatility_20d": 0.05809403878319205
+      },
+      {
+        "company_name": "USA Rare Earth, Inc. - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 18,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04401952075296408,
+        "score_percentile": 0.9659318637274549,
+        "ticker": "USAR",
+        "volatility_20d": 0.047692665094406776
+      },
+      {
+        "company_name": "Riot Platforms, Inc. - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 19,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04401100929500867,
+        "score_percentile": 0.9639278557114228,
+        "ticker": "RIOT",
+        "volatility_20d": 0.05549509602276032
+      },
+      {
+        "company_name": "DigitalOcean Holdings, Inc. Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 20,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04380246380018913,
+        "score_percentile": 0.9619238476953907,
+        "ticker": "DOCN",
+        "volatility_20d": 0.05520249942882021
+      },
+      {
+        "company_name": "MaxLinear, Inc - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 21,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04379340702022587,
+        "score_percentile": 0.9599198396793587,
+        "ticker": "MXL",
+        "volatility_20d": 0.062035728588580856
+      },
+      {
+        "company_name": "Cipher Digital Inc. - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 22,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.04370097049746093,
+        "score_percentile": 0.9579158316633266,
+        "ticker": "CIFR",
+        "volatility_20d": 0.07117883093196725
+      },
+      {
+        "company_name": "Viavi Solutions Inc. - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
+        "rank": 23,
+        "regime_is_confident": false,
+        "risk_state": "neutral",
+        "score": 0.043583827869954794,
+        "score_percentile": 0.9559118236472945,
+        "ticker": "VIAV",
+        "volatility_20d": 0.05474179719296526
+      },
+      {
+        "company_name": "SiTime Corporation - Common Stock",
+        "model_configuration": "governed_technical_hardened_horizon_20d",
         "rank": 24,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04155327088906569,
+        "score": 0.04354127958058322,
         "score_percentile": 0.9539078156312625,
-        "ticker": "POET",
-        "volatility_20d": 0.04619209504232623
+        "ticker": "SITM",
+        "volatility_20d": 0.04445644502335876
       },
       {
-        "company_name": "Workday, Inc. - Class A Common Stock",
+        "company_name": "MARA Holdings, Inc. - Common Stock",
         "model_configuration": "governed_technical_hardened_horizon_20d",
         "rank": 25,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04118165718061142,
+        "score": 0.043464342276708076,
         "score_percentile": 0.9519038076152304,
-        "ticker": "WDAY",
-        "volatility_20d": 0.04996869353600877
+        "ticker": "MARA",
+        "volatility_20d": 0.06313507007040466
       }
     ],
     "universe_count": 499
@@ -445,14 +445,14 @@
     "config_path": "configs/forward_paper.json",
     "config_sha256": "abe74a41b4bc98b27541fae679c83bdf01a1d3a6f5df6472dbb1479cbc9db15a",
     "git_branch": "main",
-    "git_commit": "62b86bfb54fe203ad155cd2f31dd1bce1f11330e",
-    "git_dirty": false,
+    "git_commit": "feab295a1d89ad7090eaba7b90b000b71d1110cc",
+    "git_dirty": true,
     "ledger_path": "reports/shadow/drawdown_budget_shadow_ledger.csv",
-    "market_data_sha256": "125ffddb7eb3577baa9200420d0a77e3383e8dd3ef7b920e71d8f397ce9eb686",
+    "market_data_sha256": "2a0ebda59aafcf136f1790164f44754fdc1aade7714eff7dbd7a122c1bf1016b",
     "model_manifest": "artifacts/models/salarium_20d_forward_model_manifest.json",
     "model_sha256": "a48dc2ed5e9540f34714b802ee63ce37c690c5c24d063a93f7f7a7329734f0ad",
     "source_path": "web/public/data/forward_paper_snapshot.json",
-    "source_snapshot_sha256": "29550b89ea232c77ebfcbc7aae99c1dc20f7704296116885881e0ac3d1cf5913",
+    "source_snapshot_sha256": "045f81af2ed07836aeb606bf39defe7b626fe88e6a82e9be53a1e9117fe2ea25",
     "state_path": "reports/shadow/drawdown_budget_shadow_state.json",
     "universe_manifest": "configs/universe_snapshots/2026-07-10_liquid_500_manifest.json",
     "universe_snapshot_sha256": "2276a83186b3a2828c47a1a95806059080d4320192e8b98f87b4c1ce61220e4b"
