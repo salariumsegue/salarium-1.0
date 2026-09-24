@@ -11,11 +11,11 @@
     "feature_rows": 499,
     "market_coverage": 0.998,
     "market_names_on_signal_date": 499,
-    "market_rows": 61001,
+    "market_rows": 60501,
     "maximum_stale_calendar_days": 4,
     "passed": true,
     "provider": "yahoo_research_feed",
-    "requested_as_of": "2026-09-23",
+    "requested_as_of": "2026-09-24",
     "signal_date": "2026-09-21"
   },
   "disclosures": [
@@ -137,7 +137,7 @@
     "shadow_equity_exposure": 0.6524721362369901,
     "status": "active_forward_paper"
   },
-  "generated_at_utc": "2026-09-23T00:51:35.736023+00:00",
+  "generated_at_utc": "2026-09-24T00:45:24.248719+00:00",
   "governance": {
     "append_only_ledger": true,
     "automatic_model_retraining": false,
@@ -159,7 +159,7 @@
         "rank": 1,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.0464756483940582,
+        "score": 0.04647564839405818,
         "score_percentile": 1.0,
         "ticker": "SMR",
         "volatility_20d": 0.06870760892472533
@@ -181,10 +181,10 @@
         "rank": 3,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04547643328112303,
+        "score": 0.045476433281123024,
         "score_percentile": 0.9959919839679359,
         "ticker": "VIAV",
-        "volatility_20d": 0.04781468040871926
+        "volatility_20d": 0.047814680408719265
       },
       {
         "company_name": "Navitas Semiconductor Corporation - Common Stock",
@@ -195,7 +195,7 @@
         "score": 0.04484874988886665,
         "score_percentile": 0.9939879759519038,
         "ticker": "NVTS",
-        "volatility_20d": 0.04413604091109325
+        "volatility_20d": 0.04413604091109328
       },
       {
         "company_name": "MongoDB, Inc. - Class A Common Stock",
@@ -203,10 +203,10 @@
         "rank": 5,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.043998790070834064,
+        "score": 0.04399879007083407,
         "score_percentile": 0.9919839679358717,
         "ticker": "MDB",
-        "volatility_20d": 0.05030854012123904
+        "volatility_20d": 0.05030854012123903
       },
       {
         "company_name": "Cipher Digital Inc. - Common Stock",
@@ -214,10 +214,10 @@
         "rank": 6,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.043585076724225624,
+        "score": 0.04358507672422563,
         "score_percentile": 0.9899799599198397,
         "ticker": "CIFR",
-        "volatility_20d": 0.0657454888578331
+        "volatility_20d": 0.06574548885783307
       },
       {
         "company_name": "Ciena Corporation Common Stock",
@@ -239,7 +239,7 @@
         "score": 0.04345424504657573,
         "score_percentile": 0.9859719438877755,
         "ticker": "AAOI",
-        "volatility_20d": 0.05216177941714592
+        "volatility_20d": 0.052161779417145955
       },
       {
         "company_name": "Hut 8 Corp. - Common Stock",
@@ -258,7 +258,7 @@
         "rank": 10,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.043408673986816554,
+        "score": 0.04340867398681656,
         "score_percentile": 0.9819639278557114,
         "ticker": "TE",
         "volatility_20d": 0.055178258786831
@@ -280,7 +280,7 @@
         "rank": 12,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04333704879745028,
+        "score": 0.04333704879745029,
         "score_percentile": 0.9779559118236473,
         "ticker": "POET",
         "volatility_20d": 0.04833029604664108
@@ -316,7 +316,7 @@
         "score": 0.0429930190820789,
         "score_percentile": 0.9719438877755511,
         "ticker": "LUNR",
-        "volatility_20d": 0.04861181499926084
+        "volatility_20d": 0.048611814999260816
       },
       {
         "company_name": "Oklo Inc. Class A common stock",
@@ -324,10 +324,10 @@
         "rank": 16,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04293468340918052,
+        "score": 0.04293468340918051,
         "score_percentile": 0.969939879759519,
         "ticker": "OKLO",
-        "volatility_20d": 0.056949519650130474
+        "volatility_20d": 0.05694951965013048
       },
       {
         "company_name": "TTM Technologies, Inc. - Common Stock",
@@ -338,7 +338,7 @@
         "score": 0.04288205744385773,
         "score_percentile": 0.9679358717434869,
         "ticker": "TTMI",
-        "volatility_20d": 0.04563028157963704
+        "volatility_20d": 0.045630281579637055
       },
       {
         "company_name": "TeraWulf Inc. - Common Stock",
@@ -346,10 +346,10 @@
         "rank": 18,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04275106486774055,
+        "score": 0.04275106486774054,
         "score_percentile": 0.9659318637274549,
         "ticker": "WULF",
-        "volatility_20d": 0.0525630504634366
+        "volatility_20d": 0.052563050463436616
       },
       {
         "company_name": "CleanSpark, Inc. - Common Stock",
@@ -360,7 +360,7 @@
         "score": 0.04268613175747686,
         "score_percentile": 0.9639278557114228,
         "ticker": "CLSK",
-        "volatility_20d": 0.05420915827025323
+        "volatility_20d": 0.05420915827025321
       },
       {
         "company_name": "Applied Digital Corporation - Common Stock",
@@ -368,7 +368,7 @@
         "rank": 20,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.042623346195432885,
+        "score": 0.04262334619543288,
         "score_percentile": 0.9619238476953907,
         "ticker": "APLD",
         "volatility_20d": 0.05174139589151907
@@ -390,7 +390,7 @@
         "rank": 22,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04234926196005606,
+        "score": 0.042349261960056055,
         "score_percentile": 0.9579158316633266,
         "ticker": "ALAB",
         "volatility_20d": 0.06146008825027516
@@ -401,7 +401,7 @@
         "rank": 23,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04230399860517431,
+        "score": 0.0423039986051743,
         "score_percentile": 0.9559118236472945,
         "ticker": "PANW",
         "volatility_20d": 0.05139738354180164
@@ -412,7 +412,7 @@
         "rank": 24,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04220820921754271,
+        "score": 0.0422082092175427,
         "score_percentile": 0.9539078156312625,
         "ticker": "CLS",
         "volatility_20d": 0.045597560539282954
@@ -445,14 +445,14 @@
     "config_path": "configs/forward_paper.json",
     "config_sha256": "abe74a41b4bc98b27541fae679c83bdf01a1d3a6f5df6472dbb1479cbc9db15a",
     "git_branch": "main",
-    "git_commit": "201a596c0d6c9d8695be02c5644bb50a3a527bda",
+    "git_commit": "6ca1fe29471c05ff858634c30b805d1fb266c2b3",
     "git_dirty": false,
     "ledger_path": "reports/shadow/drawdown_budget_shadow_ledger.csv",
-    "market_data_sha256": "d523353581c21ab4176f609e66728a30331d7c4e31eadc5028bfd97b7639dd51",
+    "market_data_sha256": "238b9e5b46e937d01e184ec5a91423aefa6971c70833dd50fec2a3619b338791",
     "model_manifest": "artifacts/models/salarium_20d_forward_model_manifest.json",
     "model_sha256": "a48dc2ed5e9540f34714b802ee63ce37c690c5c24d063a93f7f7a7329734f0ad",
     "source_path": "web/public/data/forward_paper_snapshot.json",
-    "source_snapshot_sha256": "2c258484138892a29e4abcae8753cc27ea6c2d706c3cb0027155db9bcc436074",
+    "source_snapshot_sha256": "a003814e40180963ef86cb7561d7ca9dfb6df20cf0262784f8654d510bc8d376",
     "state_path": "reports/shadow/drawdown_budget_shadow_state.json",
     "universe_manifest": "configs/universe_snapshots/2026-07-10_liquid_500_manifest.json",
     "universe_snapshot_sha256": "2276a83186b3a2828c47a1a95806059080d4320192e8b98f87b4c1ce61220e4b"
