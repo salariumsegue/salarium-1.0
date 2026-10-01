@@ -15,7 +15,7 @@
     "maximum_stale_calendar_days": 4,
     "passed": true,
     "provider": "yahoo_research_feed",
-    "requested_as_of": "2026-09-30",
+    "requested_as_of": "2026-10-01",
     "signal_date": "2026-09-29"
   },
   "disclosures": [
@@ -137,7 +137,7 @@
     "shadow_equity_exposure": 0.6261004047871704,
     "status": "active_forward_paper"
   },
-  "generated_at_utc": "2026-09-30T01:26:24.195848+00:00",
+  "generated_at_utc": "2026-10-01T01:26:32.355394+00:00",
   "governance": {
     "append_only_ledger": true,
     "automatic_model_retraining": false,
@@ -181,7 +181,7 @@
         "rank": 3,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04396009868961431,
+        "score": 0.04396009868961429,
         "score_percentile": 0.9959919839679359,
         "ticker": "LUNR",
         "volatility_20d": 0.04725238588241754
@@ -192,7 +192,7 @@
         "rank": 4,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04390683397968178,
+        "score": 0.043906833979681786,
         "score_percentile": 0.9939879759519038,
         "ticker": "CORZ",
         "volatility_20d": 0.04005446398919353
@@ -203,7 +203,7 @@
         "rank": 5,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04373246603957533,
+        "score": 0.04373246603957534,
         "score_percentile": 0.9919839679358717,
         "ticker": "OKLO",
         "volatility_20d": 0.045833704987979486
@@ -214,7 +214,7 @@
         "rank": 6,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04322294490294377,
+        "score": 0.043222944902943754,
         "score_percentile": 0.9899799599198397,
         "ticker": "CIFR",
         "volatility_20d": 0.062012076388658084
@@ -225,7 +225,7 @@
         "rank": 7,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.043210972984904485,
+        "score": 0.04321097298490448,
         "score_percentile": 0.9879759519038076,
         "ticker": "ASTS",
         "volatility_20d": 0.04746741157105221
@@ -247,7 +247,7 @@
         "rank": 9,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04305894758078641,
+        "score": 0.043058947580786405,
         "score_percentile": 0.9839679358717435,
         "ticker": "VIAV",
         "volatility_20d": 0.048952017563254624
@@ -258,7 +258,7 @@
         "rank": 10,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.043035694844735024,
+        "score": 0.04303569484473502,
         "score_percentile": 0.9819639278557114,
         "ticker": "DOCN",
         "volatility_20d": 0.05154295222007614
@@ -280,7 +280,7 @@
         "rank": 12,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04292184135054388,
+        "score": 0.04292184135054387,
         "score_percentile": 0.9779559118236473,
         "ticker": "HUT",
         "volatility_20d": 0.052948046258273346
@@ -324,7 +324,7 @@
         "rank": 16,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04222094851392819,
+        "score": 0.042220948513928186,
         "score_percentile": 0.969939879759519,
         "ticker": "MARA",
         "volatility_20d": 0.050910644646266975
@@ -335,7 +335,7 @@
         "rank": 17,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04215028297008085,
+        "score": 0.04215028297008084,
         "score_percentile": 0.9679358717434869,
         "ticker": "CLSK",
         "volatility_20d": 0.047024769100745524
@@ -346,7 +346,7 @@
         "rank": 18,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.0419533827118894,
+        "score": 0.04195338271188941,
         "score_percentile": 0.9659318637274549,
         "ticker": "SITM",
         "volatility_20d": 0.045777477249008255
@@ -368,7 +368,7 @@
         "rank": 20,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04179535877184772,
+        "score": 0.041795358771847715,
         "score_percentile": 0.9619238476953907,
         "ticker": "ALAB",
         "volatility_20d": 0.061102502156589744
@@ -390,7 +390,7 @@
         "rank": 22,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04161869136655476,
+        "score": 0.041618691366554744,
         "score_percentile": 0.9579158316633266,
         "ticker": "LITE",
         "volatility_20d": 0.049246938605137035
@@ -412,7 +412,7 @@
         "rank": 24,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.041544545924992675,
+        "score": 0.04154454592499267,
         "score_percentile": 0.9539078156312625,
         "ticker": "MRNA",
         "volatility_20d": 0.04699780052312078
@@ -445,14 +445,14 @@
     "config_path": "configs/forward_paper.json",
     "config_sha256": "abe74a41b4bc98b27541fae679c83bdf01a1d3a6f5df6472dbb1479cbc9db15a",
     "git_branch": "main",
-    "git_commit": "2bf7d91ba2ae8009da6989414487a6586e0f4778",
+    "git_commit": "ae6fc2f2bab55191e0d9e76118b66c364cbb066a",
     "git_dirty": false,
     "ledger_path": "reports/shadow/drawdown_budget_shadow_ledger.csv",
-    "market_data_sha256": "d8cf31b3db7a905ef86c3b79d57b4132f5c39a171d9afb4641308059324eed1f",
+    "market_data_sha256": "0ad66ec2a52d39e1739d013cf2b499b15b7dc824439e309b576a5a314b4bc44c",
     "model_manifest": "artifacts/models/salarium_20d_forward_model_manifest.json",
     "model_sha256": "a48dc2ed5e9540f34714b802ee63ce37c690c5c24d063a93f7f7a7329734f0ad",
     "source_path": "web/public/data/forward_paper_snapshot.json",
-    "source_snapshot_sha256": "c3e77031e318f6a550e50ad32bf1ccf82942bca6f1490b9a8808e7a7538a3ca7",
+    "source_snapshot_sha256": "41e3d31d721a0ae998150902694c16155a8d55612a4f5580aab22689777aeb8d",
     "state_path": "reports/shadow/drawdown_budget_shadow_state.json",
     "universe_manifest": "configs/universe_snapshots/2026-07-10_liquid_500_manifest.json",
     "universe_snapshot_sha256": "2276a83186b3a2828c47a1a95806059080d4320192e8b98f87b4c1ce61220e4b"
