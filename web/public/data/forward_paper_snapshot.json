@@ -15,7 +15,7 @@
     "maximum_stale_calendar_days": 4,
     "passed": true,
     "provider": "yahoo_research_feed",
-    "requested_as_of": "2026-10-02",
+    "requested_as_of": "2026-10-03",
     "signal_date": "2026-10-01"
   },
   "disclosures": [
@@ -137,7 +137,7 @@
     "shadow_equity_exposure": 0.6261004047871704,
     "status": "active_forward_paper"
   },
-  "generated_at_utc": "2026-10-02T01:47:13.878549+00:00",
+  "generated_at_utc": "2026-10-03T01:19:30.092768+00:00",
   "governance": {
     "append_only_ledger": true,
     "automatic_model_retraining": false,
@@ -170,7 +170,7 @@
         "rank": 2,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.05564362764190037,
+        "score": 0.055643627641900374,
         "score_percentile": 0.9979959919839679,
         "ticker": "TE",
         "volatility_20d": 0.05101217577568076
@@ -192,7 +192,7 @@
         "rank": 4,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.0447049511191955,
+        "score": 0.044704951119195514,
         "score_percentile": 0.9939879759519038,
         "ticker": "OKLO",
         "volatility_20d": 0.04429857527019893
@@ -214,7 +214,7 @@
         "rank": 6,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.043422419120869,
+        "score": 0.04342241912086899,
         "score_percentile": 0.9899799599198397,
         "ticker": "LUNR",
         "volatility_20d": 0.04657744623795591
@@ -225,7 +225,7 @@
         "rank": 7,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04333371727195197,
+        "score": 0.04333371727195196,
         "score_percentile": 0.9879759519038076,
         "ticker": "COHR",
         "volatility_20d": 0.05459067333721186
@@ -236,7 +236,7 @@
         "rank": 8,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04331925261328798,
+        "score": 0.04331925261328797,
         "score_percentile": 0.9859719438877755,
         "ticker": "CRDO",
         "volatility_20d": 0.04652645642665242
@@ -313,7 +313,7 @@
         "rank": 15,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.04238349293693144,
+        "score": 0.04238349293693145,
         "score_percentile": 0.9719438877755511,
         "ticker": "HUBS",
         "volatility_20d": 0.04341248383191287
@@ -357,7 +357,7 @@
         "rank": 19,
         "regime_is_confident": false,
         "risk_state": "neutral",
-        "score": 0.041832327124855836,
+        "score": 0.04183232712485583,
         "score_percentile": 0.9639278557114228,
         "ticker": "VIAV",
         "volatility_20d": 0.049061909479575234
@@ -445,14 +445,14 @@
     "config_path": "configs/forward_paper.json",
     "config_sha256": "abe74a41b4bc98b27541fae679c83bdf01a1d3a6f5df6472dbb1479cbc9db15a",
     "git_branch": "main",
-    "git_commit": "f692d6276ff82064172fbc0b1c80e4d6b2d5c4b9",
+    "git_commit": "5872b5e7af5448defbeadc48bafaf72dc0f7bd28",
     "git_dirty": false,
     "ledger_path": "reports/shadow/drawdown_budget_shadow_ledger.csv",
-    "market_data_sha256": "f7a1929eeb706fc1c0ed1177ee34c0fa904240b0b2c172bba91cc4150581ffad",
+    "market_data_sha256": "db372889be8e4c30bd5e20623d7944b0e7ce63add3287552ea8569e371a92589",
     "model_manifest": "artifacts/models/salarium_20d_forward_model_manifest.json",
     "model_sha256": "a48dc2ed5e9540f34714b802ee63ce37c690c5c24d063a93f7f7a7329734f0ad",
     "source_path": "web/public/data/forward_paper_snapshot.json",
-    "source_snapshot_sha256": "45d64bc5bb92a1b5cb017921b636465be185c736099172b2189a861c723d0d73",
+    "source_snapshot_sha256": "fb510eb85d0b317b8084c3d430ee602075b790addeb533dbaae2f51893ea6bd5",
     "state_path": "reports/shadow/drawdown_budget_shadow_state.json",
     "universe_manifest": "configs/universe_snapshots/2026-07-10_liquid_500_manifest.json",
     "universe_snapshot_sha256": "2276a83186b3a2828c47a1a95806059080d4320192e8b98f87b4c1ce61220e4b"
