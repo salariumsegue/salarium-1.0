@@ -8,7 +8,7 @@ if (!RAW_URL) {
 }
 
 const BASE_URL = /^https?:\/\//i.test(RAW_URL) ? RAW_URL.replace(/\/$/, "") : `https://${RAW_URL.replace(/\/$/, "")}`;
-const HTML_ROUTES = ["/dashboard","/replay", "/dependencies", "/research/courtroom", "/", "/rankings", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about", "/disclosures"];
+const HTML_ROUTES = ["/dashboard","/replay", "/dependencies", "/research/courtroom", "/", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about", "/disclosures"];
 const DATA_ROUTES = ["/data/paper_portfolios.json","/api/evidence-bundle", "/data/decision_archive.json", "/data/release_snapshot.json", "/data/release_rankings_snapshot.json", "/data/candidate_funnel_snapshot.json", "/data/hypothetical_account_snapshot.json", "/data/crisis_diversifier_research.json", "/data/drawdown_budget_research.json"];
 const DISCOVERY_ROUTES = ["/manifest.webmanifest", "/robots.txt", "/sitemap.xml", "/opengraph-image", "/salarium-mark.svg", "/salarium-edge-glyph.svg", "/salarium-logo.svg", "/salarium-roman-bust.png"];
 
@@ -48,6 +48,10 @@ try {
   const retiredSimulation = await fetch(`${BASE_URL}/simulation`, { redirect: "manual" });
   if (![307, 308].includes(retiredSimulation.status) || !retiredSimulation.headers.get("location")?.endsWith("/dashboard")) {
     throw new Error(`/simulation did not redirect to /dashboard (${retiredSimulation.status})`);
+  }
+  const retiredRankings = await fetch(`${BASE_URL}/rankings`, { redirect: "manual" });
+  if (![307, 308].includes(retiredRankings.status) || !retiredRankings.headers.get("location")?.endsWith("/candidates")) {
+    throw new Error(`/rankings did not redirect to /candidates (${retiredRankings.status})`);
   }
 
   for (const route of HTML_ROUTES) {

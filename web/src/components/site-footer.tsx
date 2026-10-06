@@ -26,7 +26,7 @@ export default function SiteFooter({
 
         <FooterGroup title="Navigate">
           <Link href="/dashboard" className="footer-link">Four paper portfolios</Link>
-          <Link href="/rankings" className="footer-link">Stock rankings</Link>
+          <Link href="/candidates" className="footer-link">Research candidates</Link>
           <Link href="/research" className="footer-link">Research record</Link>
           <Link href="/methodology" className="footer-link">Method and limits</Link>
           <Link href="/disclosures" className="footer-link">Disclosures</Link>

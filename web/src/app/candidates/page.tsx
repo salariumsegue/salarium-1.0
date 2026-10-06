@@ -56,7 +56,7 @@ export default function CandidatesPage() {
 
         <div className="mt-6">
           <PlainEnglish>
-            Rankings show which stocks scored well. This watchlist adds filings, news, and risk notes to help decide what deserves more research. A high score or a watchlist entry does not make a stock a holding.
+            The model score narrows the field. This watchlist adds filings, news, and risk notes to show which names deserve a closer review. A high score or a watchlist entry does not make a stock a portfolio holding.
           </PlainEnglish>
         </div>
 

@@ -19,7 +19,6 @@ ROUTES = {
     "/dependencies": APP / "dependencies" / "page.tsx",
     "/research/courtroom": APP / "research" / "courtroom" / "page.tsx",
     "/": APP / "page.tsx",
-    "/rankings": APP / "rankings" / "page.tsx",
     "/methodology": APP / "methodology" / "page.tsx",
     "/candidates": APP / "candidates" / "page.tsx",
     "/architecture": APP / "architecture" / "page.tsx",
@@ -74,12 +73,14 @@ def test_all_public_routes_exist_and_identify_main_content() -> None:
 
 def test_navigation_and_footer_reach_every_public_route() -> None:
     config = (SRC / "lib" / "site-config.ts").read_text(encoding="utf-8")
-    for route in ["/dashboard", "/rankings", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about"]:
+    for route in ["/dashboard", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about"]:
         assert f'href: "{route}"' in config
     assert 'href: "/portfolio"' not in config
     assert 'href: "/simulation"' not in config
     assert 'redirect("/dashboard")' in (APP / "portfolio" / "page.tsx").read_text(encoding="utf-8")
     assert 'redirect("/dashboard")' in (APP / "simulation" / "page.tsx").read_text(encoding="utf-8")
+    assert 'redirect("/candidates")' in (APP / "rankings" / "page.tsx").read_text(encoding="utf-8")
+    assert 'href: "/rankings"' not in config
     footer = (SRC / "components" / "site-footer.tsx").read_text(encoding="utf-8")
     assert 'href="/disclosures"' in footer
 

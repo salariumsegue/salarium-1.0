@@ -26,14 +26,6 @@ export const RELEASE_NOTES_URL =
 
 export const NAV_GROUPS = [
   {
-    label: "Rankings",
-    href: "/rankings",
-    items: [
-      { href: "/rankings", label: "Current rankings" },
-      { href: "/candidates", label: "Research candidates" },
-    ],
-  },
-  {
     label: "Portfolios",
     href: "/dashboard",
     items: [

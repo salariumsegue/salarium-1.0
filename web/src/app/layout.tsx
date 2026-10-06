@@ -45,14 +45,14 @@ export const metadata: Metadata = {
     siteName: "Salarium",
     title: "Salarium — Open Stock Research",
     description:
-      "See the stock rankings, paper portfolios, model rules, and historical results.",
+      "Review research candidates, paper portfolios, model rules, and historical results.",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Salarium — Open Stock Research",
     description:
-      "See the stock rankings, paper portfolios, model rules, and historical results.",
+      "Review research candidates, paper portfolios, model rules, and historical results.",
     images: ["/opengraph-image"],
   },
   robots: {
