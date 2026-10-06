@@ -3,281 +3,77 @@ import fs from "node:fs";
 import path from "node:path";
 import type { PaperPortfolios } from "@/lib/paper-portfolios";
 import HistoricalAccountChart from "@/components/historical-account-chart";
-import EvidencePassport from "@/components/evidence-passport";
+import { EdgeGlyph } from "@/components/edge-glyph";
 import {
-  loadForwardPaperSnapshot,
   loadHypotheticalAccountSnapshot,
   loadReleaseSnapshot,
 } from "@/lib/site-data";
 import { percent, formatDate } from "@/lib/format";
+
 export default function HomePage() {
   const comparison = JSON.parse(
-    fs.readFileSync(
-      path.join(process.cwd(), "public/data/paper_portfolios.json"),
-      "utf8",
-    ),
+    fs.readFileSync(path.join(process.cwd(), "public/data/paper_portfolios.json"), "utf8"),
   ) as PaperPortfolios;
-  const release = loadReleaseSnapshot(),
-    forward = loadForwardPaperSnapshot(),
-    account = loadHypotheticalAccountSnapshot();
-  const snapshot = forward.status === "available" ? forward.data : null,
-    p = snapshot?.forward_portfolio;
-  const money = (n: number) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 0,
-    }).format(n);
-  const common = {
-    category: "Forward paper / indicative mark",
-    source: "/data/forward_paper_snapshot.json",
-    generated: snapshot?.generated_at_utc ?? "Unavailable",
-    model: "Frozen 20D model / drawdown-budget paper control",
-    commit: snapshot?.provenance.git_commit ?? "Unavailable",
-    hash: snapshot?.provenance.model_sha256,
-    exclusions:
-      "Delayed research prices; no live execution. Soft floor cannot prevent gap losses. Indicative marks differ from completed rebalance NAV.",
-  };
+  const release = loadReleaseSnapshot();
+  const account = loadHypotheticalAccountSnapshot();
+  const money = (n: number) => new Intl.NumberFormat("en-US", {
+    style: "currency", currency: "USD", maximumFractionDigits: 0,
+  }).format(n);
+
   return (
-    <main id="main-content" className="site-main home-observatory">
-      <section className="observatory-hero site-container">
-        <div className="observatory-status">
-          <span className="status-dot" /> FORWARD PAPER{" "}
-          <span>
-            {snapshot
-              ? `SIGNALS / ${formatDate(snapshot.latest_signal_state.date)}`
-              : "SNAPSHOT UNAVAILABLE"}
-          </span>
-          <span>NO LIVE ORDERS</span>
+    <main id="main-content" className="site-main home-vision">
+      <section className="home-vision-hero" aria-labelledby="home-title">
+        <div className="home-hero-grid" aria-hidden="true" />
+        <div className="home-hero-meta"><span>INDEPENDENT INVESTMENT RESEARCH</span><span>EST. 2024 / BLOOMINGTON, IN</span></div>
+        <div className="home-hero-center">
+          <div className="home-mark-field"><span className="home-mark-ring home-mark-ring-a" /><span className="home-mark-ring home-mark-ring-b" /><EdgeGlyph className="home-center-mark" /></div>
+          <p className="home-hero-overline">SALARIUM / SYSTEMATIC EQUITY</p>
+          <h1 id="home-title">Capital allocation,<br /><em>under a microscope.</em></h1>
+          <p className="home-hero-deck">A stock-selection model and four paper portfolios, documented from first ranking to final rebalance.</p>
+          <div className="home-hero-actions"><Link href="/research">Enter the research record <span aria-hidden="true">↘</span></Link><Link href="/dashboard">See the portfolio policies <span aria-hidden="true">↗</span></Link></div>
         </div>
-        <div className="observatory-grid">
-          <div>
-            <p className="eyebrow">
-              SALARIUM / INDEPENDENT QUANTITATIVE RESEARCH
-            </p>
-            <h1>
-              A portfolio
-              <br />
-              with an
-              <br />
-              <em>open record.</em>
-            </h1>
-            <p className="observatory-copy">
-              Five hundred stocks. Ten holdings. A frozen model whose decisions
-              you can reopen, question, and follow as new evidence arrives.
-            </p>
-            <div className="observatory-actions">
-              <Link href="/dashboard">Compare four portfolios ↗</Link>
-              <Link href="/research/courtroom">Read the oil hedge case</Link>
-            </div>
-            <p className="research-muted">
-              Built by Niall Gillen. Educational research using simulated
-              capital and delayed market data.
-            </p>
-          </div>
-          <aside className="signal-instrument">
-            <div className="instrument-orbits" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </div>
-            <div className="instrument-center">
-              <span>MODEL HORIZON</span>
-              <strong>20D</strong>
-              <span>FROZEN BETWEEN RELEASES</span>
-            </div>
-            <div className="instrument-label top">
-              LIQUID-500 / EQUITY UNIVERSE
-            </div>
-            <div className="instrument-label bottom">
-              TOP 10 / COVARIANCE-AWARE WEIGHTS
-            </div>
-          </aside>
+        <div className="home-hero-foot"><span>500 STOCKS / 10 POSITIONS / 20-DAY HORIZON</span><a href="#research-system">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a><span>SIMULATED CAPITAL / NO LIVE ORDERS</span></div>
+      </section>
+
+      <section className="home-thesis site-container" id="research-system">
+        <div className="home-section-index"><span>01 / THE RESEARCH SYSTEM</span><span>MODEL RELEASE {release.release.version.toUpperCase()}</span></div>
+        <div className="home-thesis-layout"><h2>Every call leaves<br />a <em>paper trail.</em></h2><div><p>Salarium ranks a broad US stock universe, builds a concentrated portfolio, and applies explicit risk limits. Each decision can be checked against the data and rules available at the time.</p><Link href="/methodology">Read how the model works <span aria-hidden="true">↗</span></Link></div></div>
+        <div className="home-metrics-rail"><div><strong>500</strong><span>LIQUID STOCKS<br />IN THE RESEARCH UNIVERSE</span></div><div><strong>10</strong><span>POSITIONS<br />IN THE CORE POLICY</span></div><div><strong>20<span>D</span></strong><span>RANKING HORIZON<br />HELD FIXED BETWEEN RELEASES</span></div><div><strong>0</strong><span>LIVE TRADES<br />PAPER CAPITAL ONLY</span></div></div>
+      </section>
+
+      <section className="home-ledger site-container">
+        <div className="home-section-index"><span>02 / HOW A DECISION EARNS ITS PLACE</span><span>RULES BEFORE STORIES</span></div>
+        <div className="home-ledger-grid">
+          <article><span>01 — RANK</span><h3>Start with the full list.</h3><p>The frozen 20-day model scores the eligible universe. A high score is a relative ranking, not a price target.</p></article>
+          <article><span>02 — SIZE</span><h3>Budget for the whole book.</h3><p>Position weights reflect return forecasts, covariance, liquidity, and portfolio-level risk controls.</p></article>
+          <article><span>03 — CHALLENGE</span><h3>Keep the losing case.</h3><p>New sleeves face the same dates, costs, and risk limits. The oil hedge remains experimental after failing its out-of-sample test.</p><Link href="/research/courtroom">Read the oil decision <span aria-hidden="true">↗</span></Link></article>
         </div>
       </section>
-      <section className="site-container paper-record">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">FOUR INDEPENDENT PAPER ACCOUNTS</p>
-            <h2>Compare the portfolio policies.</h2>
-          </div>
-          <Link href="/dashboard">Open dashboard ↗</Link>
-        </div>
-        <div className="portfolio-account-grid">
-          {comparison.portfolios.map((account) => (
-            <Link
-              className="portfolio-account"
-              href="/dashboard"
-              key={account.key}
-            >
-              <span>
-                {account.name}
-                {account.experimental ? " / EXPERIMENTAL" : ""}
-              </span>
-              <strong>
-                {money(
-                  account.observations.at(-1)?.nav ??
-                    comparison.starting_capital,
-                )}
-              </strong>
-              <small>
-                {account.observations.length
-                  ? "Forward paper NAV"
-                  : "Starting capital · launch pending"}
-              </small>
-            </Link>
-          ))}
-        </div>
-        <p className="research-muted">
-          The four accounts share a common launch date. The
-          earlier paper account below retains its separate history.
-        </p>
+
+      <section className="home-history site-container">
+        <div className="home-section-index"><span>03 / HISTORICAL EVIDENCE</span><span>{account.period.start} — {account.period.end}</span></div>
+        <div className="home-history-heading"><div><h2>Tested on dates<br />the model had not seen.</h2><p>Walk-forward simulation. Transaction costs included where stated. Historical results are not live performance.</p></div><Link href="/research/performance">Full results and assumptions <span aria-hidden="true">↗</span></Link></div>
+        <div className="home-history-stats"><div><span>ANNUALIZED NET RETURN</span><strong>{percent(account.statistics.annualized_net_return)}</strong></div><div><span>MAXIMUM DRAWDOWN</span><strong>{percent(account.statistics.max_drawdown)}</strong></div><div><span>OUT-OF-SAMPLE REBALANCES</span><strong>{release.results.core_balanced.num_rebalances}</strong></div><div><span>BENCHMARK</span><strong>SPY / TOTAL-RETURN PROXY</strong></div></div>
+        <div className="home-chart-frame"><HistoricalAccountChart snapshot={account} /></div>
+        <p className="home-chart-note">Both curves start at $100,000. Salarium results include modeled trading costs; taxes, market capacity, additional impact, and benchmark entry costs are excluded.</p>
       </section>
-      <section className="site-container paper-record">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">THE FORWARD RECORD</p>
-            <h2>The earlier paper account.</h2>
-          </div>
-          <Link href="/portfolio">Inspect holdings ↗</Link>
-        </div>
-        <div className="passport-grid">
-          {p && (
-            <>
-              <EvidencePassport
-                evidence={{
-                  ...common,
-                  label: "Indicative paper NAV",
-                  value: money(p.indicative_nav),
-                  calculation: `Published forward_portfolio.indicative_nav. Last completed rebalance NAV: ${money(p.last_completed_nav)}.`,
-                }}
-              />
-              <EvidencePassport
-                evidence={{
-                  ...common,
-                  label: "Current drawdown",
-                  value: percent(p.current_drawdown),
-                  calculation: `NAV / high-water mark − 1. ${p.indicative_nav.toFixed(2)} / ${p.high_water_mark.toFixed(2)} − 1.`,
-                }}
-              />
-              <EvidencePassport
-                evidence={{
-                  ...common,
-                  label: "Equity exposure",
-                  value: percent(p.shadow_equity_exposure),
-                  calculation:
-                    "Sum of current holdings’ paper_weight. The remainder is allocated to the cash proxy.",
-                }}
-              />
-            </>
-          )}
-          {!p && (
-            <p>
-              Forward paper snapshot unavailable. Historical returns are not
-              substituted here.
-            </p>
-          )}
+
+      <section className="home-casefiles site-container">
+        <div className="home-section-index"><span>04 / OPEN CASE FILES</span><Link href="/research">ALL RESEARCH ↗</Link></div>
+        <div className="home-case-grid">
+          <Link href="/replay"><span>DECISION REPLAY / 01</span><h2>Rewind a rebalance.</h2><p>See the rankings, holdings, and constraints available on a past date.</p><b>Open the archive ↗</b></Link>
+          <Link href="/dependencies"><span>PORTFOLIO RISK / 02</span><h2>Find the shared exposure.</h2><p>Trace measured factors and documented business links across holdings.</p><b>Open the dependency map ↗</b></Link>
+          <Link href="/research/experiments"><span>EXPERIMENT LOG / 03</span><h2>Read what did not work.</h2><p>Accepted and rejected tests stay in the same record as their results.</p><b>Browse the experiments ↗</b></Link>
         </div>
       </section>
-      <section className="site-container research-destinations">
-        <Link href="/research/courtroom">
-          <span>01 / MODEL COURTROOM</span>
-          <h2>
-            Why the oil hedge
-            <br />
-            was rejected.
-          </h2>
-          <p>The argument, the objection, and the test it failed.</p>
-          <b>Open case ↗</b>
-        </Link>
-        <Link href="/replay">
-          <span>02 / DECISION REPLAY</span>
-          <h2>
-            {p ? formatDate(p.last_rebalance_date) : "Recorded rebalance"}
-            <br />
-              See what the model knew.
-          </h2>
-          <p>Original rankings, recorded weights, and risk limits.</p>
-          <b>View the archive ↗</b>
-        </Link>
-        <Link href="/dependencies">
-          <span>03 / DEPENDENCY MAP</span>
-          <h2>
-            What these holdings
-            <br />
-            have in common.
-          </h2>
-          <p>Business themes, measured allocation, and gaps in coverage.</p>
-          <b>Inspect relationships ↗</b>
-        </Link>
+
+      <section className="home-portfolios site-container" id="portfolios">
+        <div className="home-section-index"><span>05 / FORWARD PAPER ACCOUNTS</span><span>COMMON START DATE / INDEPENDENT RULES</span></div>
+        <div className="home-portfolio-heading"><div><h2>Four policies.<br /><em>One live paper record.</em></h2><p>Each account follows its own published rules. No broker connection and no live orders.</p></div><Link href="/dashboard">Compare all four <span aria-hidden="true">↗</span></Link></div>
+        <div className="home-portfolio-grid">{comparison.portfolios.map((portfolio) => <Link className="home-portfolio-card" href="/dashboard" key={portfolio.key}><span>{portfolio.name}{portfolio.experimental ? " / EXPERIMENTAL" : ""}</span><strong>{money(portfolio.observations.at(-1)?.nav ?? comparison.starting_capital)}</strong><small>{portfolio.observations.length ? `Paper NAV · ${formatDate(portfolio.observations.at(-1)!.date)}` : "Opening capital · awaiting first completed signal"}</small><b>View policy and holdings ↗</b></Link>)}</div>
       </section>
-      <section className="site-container historical-evidence">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">
-              HISTORICAL SIMULATION / {account.period.start} —{" "}
-              {account.period.end}
-            </p>
-            <h2>What the historical test shows.</h2>
-            <p className="research-muted">
-              Historical model selection and simulated trading. Separate from
-              the forward account above.
-            </p>
-          </div>
-        </div>
-        <div className="passport-grid">
-          <EvidencePassport
-            evidence={{
-              label: "Annualized simulated net return",
-              value: percent(account.statistics.annualized_net_return),
-              category: "Historical simulation / out-of-sample research",
-              source: "/data/hypothetical_account_snapshot.json",
-              generated: release.generated_at_utc,
-              model: account.model.base_policy,
-              commit: release.provenance.git_commit,
-              calculation:
-                "product(1 + net_return) ** ((252 / 10) / 139) − 1. Full-precision returns are included in the research bundle. Chart values are rounded.",
-              exclusions:
-                "Model-selection bias, universe-selection risk, taxes, capacity limits, additional market impact, and live execution.",
-            }}
-          />
-          <EvidencePassport
-            evidence={{
-              label: "Historical maximum drawdown",
-              value: percent(account.statistics.max_drawdown),
-              category: "Historical simulation / out-of-sample research",
-              source: "/data/hypothetical_account_snapshot.json",
-              generated: release.generated_at_utc,
-              model: account.model.base_policy,
-              commit: release.provenance.git_commit,
-              calculation:
-                "Minimum historical NAV / running NAV peak − 1, using the full-precision research stream.",
-              exclusions:
-                "Historical losses do not bound future losses. Rounded chart values can differ from underlying calculations.",
-            }}
-          />
-        </div>
-        <HistoricalAccountChart snapshot={account} />
-        <p className="research-muted">
-          Both curves begin at $100,000. SPY is an adjusted-close total-return
-          proxy. Modeled Salarium transaction costs are included; taxes,
-          capacity, additional impact, and the benchmark’s initial trade cost
-          are excluded.
-        </p>
-        <Link className="research-link" href="/research/performance">
-          Read the full performance record ↗
-        </Link>
-      </section>
-      <section className="site-container research-closing">
-        <h2>Inspect the work behind the website.</h2>
-        <div>
-          <Link href="/rankings">Equity rankings ↗</Link>
-          <Link href="/methodology">Model specification ↗</Link>
-          <Link href="/api/evidence-bundle" download>
-            Download research bundle ↓
-          </Link>
-        </div>
-      </section>
+
+      <footer className="home-endnote site-container"><EdgeGlyph className="home-end-mark" /><div><span>THE RECORD IS OPEN</span><p>Source code, model specification, decision archive, and evidence bundle.</p></div><Link href="/api/evidence-bundle" download>Download the research bundle ↗</Link></footer>
     </main>
   );
 }

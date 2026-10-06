@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import { ArrowUpRightIcon, GitHubIcon } from "@/components/icons";
 import { SalariumLogo } from "@/components/edge-glyph";
-import { DATA_LINKS, GITHUB_URL, MODEL_CARD_URL, NAV_LINKS, RELEASE_NOTES_URL, RESEARCH_LINKS } from "@/lib/site-config";
+import { DATA_LINKS, GITHUB_URL, MODEL_CARD_URL, RELEASE_NOTES_URL } from "@/lib/site-config";
 import { formatDateTime } from "@/lib/format";
 
 export default function SiteFooter({
@@ -24,11 +24,11 @@ export default function SiteFooter({
           <p className="mt-4 text-xs leading-5 text-white/25">For research and education. No live trading or personal investment advice.</p>
         </div>
 
-        <FooterGroup title="Explore">
-          {NAV_LINKS.map((link) => <Link key={link.href} href={link.href} className="footer-link">{link.label}</Link>)}
-          {RESEARCH_LINKS.map((link) => <Link key={link.href} href={link.href} className="footer-link">{link.label}</Link>)}
-          <Link href="/candidates" className="footer-link">Candidates</Link>
-          <Link href="/about" className="footer-link">About</Link>
+        <FooterGroup title="Navigate">
+          <Link href="/dashboard" className="footer-link">Four paper portfolios</Link>
+          <Link href="/rankings" className="footer-link">Stock rankings</Link>
+          <Link href="/research" className="footer-link">Research record</Link>
+          <Link href="/methodology" className="footer-link">Method and limits</Link>
           <Link href="/disclosures" className="footer-link">Disclosures</Link>
         </FooterGroup>
 

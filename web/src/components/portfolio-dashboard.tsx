@@ -221,7 +221,7 @@ export default function PortfolioDashboard({
               This account has no positions or outcomes yet. All four policies
               launch together after the configured start boundary.
             </p>
-            <Link href="/portfolio">Earlier drawdown-control record ↗</Link>
+            <Link href="/research/performance">See the historical research record ↗</Link>
           </div>
         ) : (
           <>

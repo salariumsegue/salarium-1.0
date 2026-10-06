@@ -68,6 +68,14 @@ const destinations = [
   },
 ];
 
+const nextIdeas = [
+  { code: "R-01", name: "Treasury ballast", sleeve: "20% 3-month T-bills", question: "Does a fixed bill ladder cut equity drawdowns without giving up too much return after costs?", review: "30 NOV 2026", date: "2026-11-30", risk: "Reinvestment risk / bill yield changes" },
+  { code: "R-02", name: "Developed markets ex-US", sleeve: "20% international equities", question: "Does adding developed-market stocks reduce portfolio concentration after currency and country risk?", review: "21 DEC 2026", date: "2026-12-21", risk: "FX, country weights, overlapping sectors" },
+  { code: "R-03", name: "Real-rate split", sleeve: "10% T-bills / 10% gold", question: "Can a small gold position diversify the equity book across inflation and real-rate regimes?", review: "25 JAN 2027", date: "2027-01-25", risk: "Gold carries no income; regime dependence" },
+  { code: "R-04", name: "Listed infrastructure", sleeve: "20% global infrastructure equities", question: "Do infrastructure operators add durable cash flows, or mostly add rate and equity exposure?", review: "22 FEB 2027", date: "2027-02-22", risk: "Leverage, rate sensitivity, sector concentration" },
+  { code: "R-05", name: "Digital-asset satellite", sleeve: "5% Bitcoin / 15% T-bills", question: "Does a tightly capped bitcoin position improve diversification enough to justify its tail risk?", review: "29 MAR 2027", date: "2027-03-29", risk: "Severe drawdowns, custody and market-hour gaps" },
+];
+
 export default function ResearchPage() {
   const release = loadReleaseSnapshot();
   const core = release.results.core_balanced;
@@ -112,6 +120,19 @@ export default function ResearchPage() {
         <p>Evidence standard</p>
         <span>Each result links to its method, evaluation period, and known limitations. The release candidate’s historical return is not a forecast.</span>
         <Link href="/disclosures">Read the full disclosures ↗</Link>
+      </section>
+
+      <section className="site-container research-next">
+        <div className="research-next-heading">
+          <div><p className="eyebrow">NEXT / FIVE HYPOTHESES</p><h2>What I would test next.</h2><p>These are proposed research reviews, not scheduled launches. Each idea starts in a separate paper ledger and has to beat the same out-of-sample, cost, and risk gates before it earns a release.</p></div>
+          <aside><span>NON-OIL CAPITAL</span><strong>20% target sleeve</strong><small>Every candidate tests an allocation outside oil. The digital-asset idea is capped at 5% because its drawdowns can dominate a portfolio.</small></aside>
+        </div>
+        <div className="research-next-grid">{nextIdeas.map((idea) => <article className="research-next-card" key={idea.code}>
+          <div className="research-next-top"><span>{idea.code} / PROPOSAL</span><time dateTime={idea.date}>{idea.review}</time></div>
+          <h3>{idea.name}</h3><strong>{idea.sleeve}</strong><p>{idea.question}</p>
+          <footer><span>MAIN RISK</span><span>{idea.risk}</span></footer>
+        </article>)}</div>
+        <p className="research-next-disclaimer">Review dates are planning targets for deciding whether to publish the evidence. None of these strategies is currently in a released portfolio.</p>
       </section>
     </main>
   );

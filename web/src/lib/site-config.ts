@@ -24,19 +24,7 @@ export const MODEL_CARD_URL =
 export const RELEASE_NOTES_URL =
   `${GITHUB_URL}/blob/main/docs/RELEASE_NOTES_1_0.md`;
 
-export const NAV_LINKS = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/rankings", label: "Rankings" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/simulation", label: "Simulation" },
-  { href: "/research", label: "Research" },
-  { href: "/methodology", label: "Methodology" },
-  { href: "/architecture", label: "Architecture" },
-
-] as const;
-
 export const NAV_GROUPS = [
-  { label: "Dashboard", href: "/dashboard" },
   {
     label: "Rankings",
     href: "/rankings",
@@ -46,11 +34,10 @@ export const NAV_GROUPS = [
     ],
   },
   {
-    label: "Portfolio",
-    href: "/portfolio",
+    label: "Portfolios",
+    href: "/dashboard",
     items: [
       { href: "/dashboard", label: "Four paper portfolios" },
-      { href: "/portfolio", label: "Earlier paper account" },
       { href: "/dependencies", label: "Business dependencies" },
       { href: "/replay", label: "Decision archive" },
     ],
@@ -76,21 +63,6 @@ export const NAV_GROUPS = [
       { href: "/disclosures", label: "Disclosures" },
     ],
   },
-] as const;
-
-export const RESEARCH_LINKS = [
-  { href: "/research/courtroom", label: "Model courtroom" },
-  { href: "/replay", label: "Decision replay" },
-  { href: "/dependencies", label: "Dependencies" },
-  { href: "/research/performance", label: "Performance" },
-  { href: "/research/experiments", label: "Experiments" },
-] as const;
-
-export const SECONDARY_LINKS = [
-  { href: "/about", label: "About" },
-  { href: "/", label: "Overview" },
-  { href: "/candidates", label: "Candidates" },
-  { href: "/disclosures", label: "Disclosures" },
 ] as const;
 
 export const DATA_LINKS = [
