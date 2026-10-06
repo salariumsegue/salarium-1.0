@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s | Salarium",
   },
   description:
-    "An open stock model with out-of-sample rankings, four paper portfolios, published results, and source code.",
+    "Open Quantitative Research on stock selection: an out-of-sample model with four paper portfolios, published results, and source code.",
   applicationName: "Salarium",
   authors: [{ name: "Niall Gillen" }],
   creator: "Niall Gillen",
