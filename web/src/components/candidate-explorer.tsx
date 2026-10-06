@@ -62,8 +62,8 @@ export default function CandidateExplorer({ candidates }: { candidates: Candidat
         <label className="select-field">
           <span className="sr-only">Sort candidates</span>
           <select value={sortMode} onChange={(event) => setSortMode(event.target.value as SortMode)}>
-            <option value="rank">Governed rank</option>
-            <option value="agentic">Agentic score</option>
+            <option value="rank">Candidate rank</option>
+            <option value="agentic">Research review score</option>
             <option value="confidence">Confidence</option>
             <option value="risk">Risk assessment</option>
           </select>
@@ -72,7 +72,7 @@ export default function CandidateExplorer({ candidates }: { candidates: Candidat
 
       <div className="flex items-center justify-between border-b border-white/8 px-5 py-3 font-mono text-[10px] tracking-[0.12em] text-white/25" aria-live="polite">
         <span>{visible.length} OF {candidates.length} CANDIDATES</span>
-        <span>EXPAND ANY NAME FOR THE FULL RESEARCH PACKET</span>
+        <span>OPEN A STOCK TO READ ITS RESEARCH NOTES</span>
       </div>
 
       <div className="divide-y divide-white/6">
@@ -129,11 +129,11 @@ export default function CandidateExplorer({ candidates }: { candidates: Candidat
                   </div>
                 </div>
                 <div>
-                  <p className="detail-label">GOVERNED SOURCE TYPES</p>
+                  <p className="detail-label">SOURCE TYPES</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {candidate.source_types.length > 0 ? candidate.source_types.map((source) => <span key={source} className="source-chip">{humanize(source)}</span>) : <span className="text-xs text-white/28">No governed source type recorded.</span>}
                   </div>
-                  <p className="mt-4 text-xs leading-5 text-white/28">Candidate rank is a research-prioritization output. It is not a portfolio weight, trade instruction, or suitability determination.</p>
+                  <p className="mt-4 text-xs leading-5 text-white/28">This rank helps order stocks for further research. It is not a portfolio weight or trading recommendation.</p>
                 </div>
               </div>
             </div>

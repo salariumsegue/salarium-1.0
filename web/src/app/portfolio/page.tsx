@@ -9,7 +9,7 @@ import { loadForwardPaperSnapshot, loadPortfolioSnapshot, loadReleaseSnapshot } 
 
 export const metadata: Metadata = {
   title: "Portfolio",
-  description: "Inspect the governed Salarium forward paper portfolio and its release boundary.",
+  description: "See the earlier paper account's holdings, dates, and simulated results.",
   alternates: { canonical: "/portfolio" },
 };
 
@@ -29,12 +29,12 @@ export default function PortfolioPage() {
       <section className="page-section">
         <PageIntro
           eyebrow="FORWARD PAPER PORTFOLIO"
-          title="Inside the paper portfolio"
-          muted="The earlier drawdown-control account."
-          description="A ranking is not a holding. This page shows the governed paper portfolio only when fresh prices, frozen-model scoring, covariance construction, exposure control, and provenance gates all pass."
+          title="The earlier paper account"
+          muted="Its holdings and past results."
+          description="This account tracks the original drawdown-control rules. The separate four-portfolio dashboard compares the newer policies from a shared start date."
         />
 
-        <div className="research-panel mt-10"><h2>Four comparable accounts are on the dashboard</h2><p>This page preserves the original drawdown-control history. The new Core, Defensive, Drawdown Control, and Oil Diversifier accounts launch together.</p><Link className="research-link" href="/dashboard">Open the four-account dashboard ↗</Link></div>
+        <div className="research-panel mt-10"><h2>Compare the four newer portfolios</h2><p>Core, Defensive, Drawdown Control, and the experimental Oil Diversifier share a start date and market data.</p><Link className="research-link" href="/dashboard">Open the four-portfolio dashboard ↗</Link></div>
         <div className="mt-10">
           {forward.status === "available" ? (
             <div className="card overflow-hidden">

@@ -6,7 +6,7 @@ import { loadForwardPaperSnapshot, loadRankingSnapshot, loadReleaseSnapshot } fr
 
 export const metadata: Metadata = {
   title: "Rankings",
-  description: "Inspect Salarium's latest committed out-of-sample equity ranking snapshot, score context, volatility, and regime state.",
+  description: "See which stocks Salarium's 20-day model ranked highest and how to read each score.",
   alternates: { canonical: "/rankings" },
 };
 
@@ -26,36 +26,36 @@ export default function RankingsPage() {
       <section className="site-container site-section">
         <PageIntro
           eyebrow={isForward ? "FORWARD PAPER / MARKET CLOSE" : "OUT-OF-SAMPLE MODEL OUTPUT"}
-          title="The latest equity rankings"
-          muted="Full context, no false precision."
-          description={`Explore the top ${snapshot.latest_signal_state.count} names from the frozen ${snapshot.architecture.model_horizon_days}D model's latest ${isForward ? "paper" : "committed"} ${snapshot.latest_signal_state.universe_count}-security cross-section. Scores express relative conviction; they are not price targets, recommendations, or guaranteed expected returns.`}
+          title="Stocks ranked by the 20-day model"
+          muted="A score is not a price target."
+          description={`These are the top ${snapshot.latest_signal_state.count} of ${snapshot.latest_signal_state.universe_count} stocks in the ${isForward ? "latest paper" : "committed research"} ranking dated ${formatDate(snapshot.latest_signal_state.date)}. Scores compare stocks in this group; they do not predict a specific return.`}
           aside={<div className="card min-w-64 p-5"><p className="eyebrow">SIGNAL DATE</p><p className="mt-3 font-mono text-xl text-emerald-300">{formatDate(snapshot.latest_signal_state.date)}</p><div className="mt-4"><StatusBadge tone={isForward ? "positive" : "neutral"}>{isForward ? "PAPER / NO ORDERS" : "NOT LIVE"}</StatusBadge></div></div>}
         />
 
         <div className="ranking-summary-grid mt-7 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
-          <MetricCard label="PUBLISHED RANKINGS" value={String(rankings.length)} detail={`${snapshot.latest_signal_state.universe_count}-name cross-section`} />
-          <MetricCard label="TOP MODEL SCORE" value={topScore.toFixed(6)} detail="relative cross-sectional output" tone="positive" />
+          <MetricCard label="STOCKS SHOWN" value={String(rankings.length)} detail={`ranked from ${snapshot.latest_signal_state.universe_count} stocks`} />
+          <MetricCard label="HIGHEST SCORE" value={topScore.toFixed(6)} detail="relative score in this ranking" tone="positive" />
           <MetricCard label="AVERAGE 20D VOL" value={percent(avgVolatility, 2)} detail="recent single-name volatility" />
           {isForward ? <ForwardStateCard exposure={forward.data.forward_portfolio.shadow_equity_exposure} coverage={forward.data.data_quality.feature_coverage} /> : <RegimeStateCard riskOffCount={riskOffCount} total={rankings.length} />}
         </div>
 
         <section className="ranking-primary mt-8">
           <SectionHeading
-            eyebrow="SALARIUM EQUITY RANKING"
-            title="The ranked cross-section."
-            description="Open any row for supported score, percentile, volatility, risk, selection-band, and provenance fields."
+            eyebrow="STOCK BY STOCK"
+            title="The full ranking"
+            description="Select a row to see its score, rank, recent volatility, risk label, and source snapshot."
           />
           <RankingExplorer rankings={rankings} snapshot={snapshot} />
         </section>
 
         <div className="mt-6">
           <PlainEnglish>
-            A higher-ranked stock scored better than other stocks in the same governed Liquid-500 cross-section at this signal date. The paper feed scores fresh market-close data with frozen model weights; Top-10 selection, persistence, covariance, position limits, and exposure controls still operate before a name enters the paper portfolio.
+            A higher rank means the model scored that stock above more of the other 499 names on this date. The model score alone does not put a stock in the portfolio. Selection rules, prior holdings, volatility, position limits, and total exposure also matter.
           </PlainEnglish>
         </div>
 
         <section className="mt-10 grid gap-4 lg:grid-cols-3">
-          <InterpretationCard title="Model score" body="A relative signal produced by the governed technical ranking model. Magnitudes are meaningful only inside the same model snapshot." />
+          <InterpretationCard title="Model score" body="A stock's score compared with the other names in this snapshot. Compare scores only within the same date." />
           <InterpretationCard title="20-day volatility" body="A recent single-name risk estimate. It is not the portfolio forecast; the covariance engine evaluates how selected holdings interact." />
           <InterpretationCard title="Risk state" body="A macro/risk context flag used by downstream exposure controls. It does not overwrite the cross-sectional ranking." />
         </section>

@@ -85,7 +85,7 @@ export default function PortfolioDashboard({
         })}
       </div>
       <section className="research-panel">
-        <h2>Four accounts on the same clock</h2>
+          <h2>Same start date. Same market closes.</h2>
         {dates.length > 0 ? (
           <>
             <div className="portfolio-chart-scroll">

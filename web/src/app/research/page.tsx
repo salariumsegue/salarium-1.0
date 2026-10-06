@@ -82,12 +82,11 @@ export default function ResearchPage() {
       <section className="page-section research-index-intro">
         <div>
           <p className="eyebrow">SALARIUM / RESEARCH RECORD</p>
-          <h1>Evidence for every portfolio decision.</h1>
+          <h1>What the model did, what it cost, and where it failed.</h1>
           <p>
-            Start with the live paper comparison, inspect a specific experiment,
-            or trace the historical results back to their limits and source records.
-            Performance shown here is simulated or paper tracked; Salarium has no
-            live investment record.
+            Compare the paper portfolios, read why the oil hedge failed its test,
+            and check the historical results against their assumptions. The returns
+            are simulated or paper tracked. No money is invested through this site.
           </p>
         </div>
         <aside aria-label="Research record scope">

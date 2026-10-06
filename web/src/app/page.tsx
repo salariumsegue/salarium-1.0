@@ -195,7 +195,7 @@ export default function HomePage() {
           <h2>
             {p ? formatDate(p.last_rebalance_date) : "Recorded rebalance"}
             <br />
-            Reopen the file.
+              See what the model knew.
           </h2>
           <p>Original rankings, recorded weights, and risk limits.</p>
           <b>View the archive ↗</b>
@@ -218,7 +218,7 @@ export default function HomePage() {
               HISTORICAL SIMULATION / {account.period.start} —{" "}
               {account.period.end}
             </p>
-            <h2>The backtest has a different story.</h2>
+            <h2>What the historical test shows.</h2>
             <p className="research-muted">
               Historical model selection and simulated trading. Separate from
               the forward account above.

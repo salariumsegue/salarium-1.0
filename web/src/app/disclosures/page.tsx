@@ -8,7 +8,7 @@ import { loadCandidateSnapshot, loadForwardPaperSnapshot, loadRankingSnapshot, l
 export const metadata: Metadata = {
   title: "Disclosures",
   description:
-    "Read Salarium's research, data, performance, model, execution, leverage, and investment-advice disclosures.",
+    "Read what Salarium's market data, model, simulations, and cost assumptions leave out.",
   alternates: { canonical: "/disclosures" },
 };
 
@@ -20,40 +20,40 @@ export default function DisclosuresPage() {
 
   const sections = [
     {
-      title: "Research—not investment advice",
-      body: "Salarium is an educational and quantitative research system. Nothing on this website is a recommendation, solicitation, personalized portfolio, suitability determination, or promise of future performance.",
+      title: "Research, not personal advice",
+      body: "Salarium is a student research project. Nothing here recommends a stock or portfolio for you, asks you to buy anything, or promises a return.",
     },
     {
       title: "Simulated historical performance",
-      body: "All displayed returns, Sharpe ratios, Sortino ratios, drawdowns, hit rates, turnover, exposure, and related metrics are simulated historical research outputs. They are not live brokerage-account results.",
+      body: "Returns, Sharpe and Sortino ratios, drawdowns, and turnover come from historical simulations. They are not results from a live brokerage account.",
     },
     {
       title: "Backtest and selection risk",
-      body: "The project evaluates multiple hypotheses. Even with walk-forward discipline, choosing an architecture after observing historical results creates model-selection and overfitting risk. Future market structure can differ materially from the research period.",
+      body: "I tested several model designs and chose settings after reviewing their historical results. That creates a risk of overfitting. Future markets may behave differently from the test period.",
     },
     {
       title: "Universe and data limitations",
-      body: "The Liquid-500 and broad-universe pipelines rely on available price, liquidity, macro, and fundamental inputs. The project retains a documented survivorship-bias limitation, and point-in-time coverage is not complete for every feature or security.",
+      body: "The model uses available prices, liquidity, economic data, and company information. The stock lists have survivorship bias, and historical point-in-time data is incomplete for some measures and stocks.",
     },
     {
       title: "Transaction costs and capacity",
-      body: "Research deductions cannot fully represent spreads, market impact, borrow availability, financing terms, taxes, operational latency, or portfolio capacity. Real execution can be materially worse than simulated execution.",
+      body: "The simulations cannot fully capture bid/ask spreads, market impact, stock-borrow costs, financing, taxes, delays, or how much the strategy can trade. Real results could be worse.",
     },
     {
       title: "Covariance and risk estimates",
-      body: "Ledoit-Wolf shrinkage improves stability but does not make covariance forecasts certain. Correlations and volatility can change abruptly, especially in market stress, causing realized risk to exceed forecasts.",
+      body: "The model estimates how stocks move together using a 60-day Ledoit-Wolf covariance estimate. Correlations and volatility can change quickly, so actual risk can be higher than estimated risk.",
     },
     {
-      title: "Leverage governance",
-      body: `The release architecture contains a hard ${release.architecture.leverage_cap.toFixed(2)}x exposure ceiling. That ceiling is permission, not a target. The selected release mandate did not require leverage above 1.00x in the committed evaluation. Leverage can magnify losses and financing costs.`,
+      title: "Exposure and leverage",
+      body: `The model's exposure limit is ${release.architecture.leverage_cap.toFixed(2)}x, but that is a maximum, not a target. The selected portfolio did not go above 1.00x in the historical test. Borrowing can increase losses and add financing costs.`,
     },
     {
       title: "Rankings and candidates",
-      body: "A high model rank or candidate score is not a trade instruction. Security selection, covariance, position caps, persistence buffers, evidence quality, and portfolio-level exposure rules intervene after ranking.",
+      body: "A high rank is not a buy instruction. The portfolio also applies a stock limit, considers how holdings move together, and adjusts total market exposure.",
     },
     {
       title: "No live execution",
-      body: "Salarium 1.0 does not connect to a broker, route orders, manage client assets, monitor personal accounts, or provide execution services. The public site reads frozen research and forward paper artifacts.",
+      body: "Salarium does not connect to a broker, place trades, manage money, or monitor personal accounts. The site shows saved research and paper portfolios only.",
     },
     {
       title: "Open-source responsibility",
@@ -71,7 +71,7 @@ export default function DisclosuresPage() {
             <span className="block text-white/32">and data disclosures.</span>
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-7 text-white/48">
-            This page explains the data sources, simulation assumptions, research biases, and execution limits behind the published numbers.
+            These notes explain how the data and historical tests were built, what costs they include, and what a real account could do differently.
           </p>
         </div>
       </section>
@@ -96,33 +96,33 @@ export default function DisclosuresPage() {
       <section className="page-section border-y border-white/8 bg-white/[0.012]">
         <div className="max-w-3xl">
           <p className="eyebrow">Artifact freshness</p>
-          <h2 className="mt-4 text-4xl font-medium tracking-tight">Publication dates and data sources</h2>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">When the published data was made</h2>
           <p className="mt-5 text-sm leading-7 text-white/42">
-            Dates below identify the precise artifacts displayed by the site. The forward paper file refreshes after eligible market closes; it is not an exchange-grade real-time feed or brokerage record.
+            Dates below show when each data file was made. Paper rankings update after eligible market closes. They are delayed research data, not live quotes or a brokerage statement.
           </p>
         </div>
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Artifact label="Forward paper signal" value={forward.status === "available" ? formatDate(forward.data.latest_signal_state.date) : "Unavailable"} note={forward.status === "available" ? `${forward.data.latest_signal_state.universe_count} scored · no orders` : "Publication gate not passed"} />
-          <Artifact label="Release evidence" value={formatDateTime(release.generated_at_utc)} note={release.provenance.git_commit.slice(0, 12)} />
-          <Artifact label="Ranking signal date" value={formatDate(ranking.latest_signal_state.date)} note={`${ranking.latest_signal_state.count} committed rankings`} />
-          <Artifact label="Candidate as-of date" value={formatDate(candidates.as_of_date)} note={`${candidates.evidence_summary.candidate_count} monitored candidates`} />
+          <Artifact label="Paper ranking date" value={forward.status === "available" ? formatDate(forward.data.latest_signal_state.date) : "Unavailable"} note={forward.status === "available" ? `${forward.data.latest_signal_state.universe_count} stocks scored · no orders` : "No published paper snapshot"} />
+          <Artifact label="Release file date" value={formatDateTime(release.generated_at_utc)} note={release.provenance.git_commit.slice(0, 12)} />
+          <Artifact label="Historical ranking date" value={formatDate(ranking.latest_signal_state.date)} note={`${ranking.latest_signal_state.count} saved rankings`} />
+          <Artifact label="Watchlist date" value={formatDate(candidates.as_of_date)} note={`${candidates.evidence_summary.candidate_count} stocks under review`} />
         </div>
       </section>
 
       <section className="page-section">
         <div className="grid gap-6 lg:grid-cols-[1fr_0.72fr]">
           <div className="border border-red-400/25 bg-red-400/[0.03] p-6 sm:p-9">
-            <p className="eyebrow text-red-300">Bottom line</p>
-            <h2 className="mt-4 text-3xl font-medium">Limits on use of this research</h2>
+            <p className="eyebrow text-red-300">Before using these results</p>
+            <h2 className="mt-4 text-3xl font-medium">The model can still be wrong</h2>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-white/45">
-              Independent due diligence, professional advice where appropriate, and a clear understanding of loss tolerance are necessary before any real capital decision. A transparent model can still be wrong.
+              Check the assumptions and consider your own circumstances before making a financial decision. The published results cannot tell you whether this strategy suits you.
             </p>
           </div>
           <div className="border border-white/10 bg-white/[0.018] p-6 sm:p-8">
-            <p className="eyebrow">Continue with context</p>
+            <p className="eyebrow">Read the supporting pages</p>
             <div className="mt-6 grid gap-3">
               <Link href="/research" className="button-primary">Review research evidence <span aria-hidden="true">→</span></Link>
-              <Link href="/architecture" className="button-secondary">Understand the system</Link>
+              <Link href="/architecture" className="button-secondary">See how the model works</Link>
               <a href="/data/forward_paper_snapshot.json" className="button-secondary">Open paper JSON</a>
               <a href="/data/release_snapshot.json" className="button-secondary">Open release JSON</a>
             </div>

@@ -17,12 +17,11 @@ export default function ReplayPage() {
   return (
     <main id="main-content" className="site-main research-page">
       <section className="site-container">
-        <p className="eyebrow">DECISION ARCHIVE / FORWARD PAPER</p>
-        <h1>Reopen the record.</h1>
+        <p className="eyebrow">PAST PORTFOLIO DECISIONS</p>
+        <h1>What the model knew then.</h1>
         <p className="research-lead">
-          {archive.entries.length} recorded rebalances. The rankings, weights,
-          and limits that were published at the time—without mixing in what
-          happened next.
+          {archive.entries.length} recorded rebalances. Review that day&apos;s
+          rankings, holdings, and limits without using information that came later.
         </p>
         <DecisionReplay archive={archive} />
       </section>

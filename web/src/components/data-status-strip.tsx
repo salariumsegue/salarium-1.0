@@ -9,25 +9,25 @@ export default function DataStatusStrip({ snapshot }: { snapshot: ReleaseSnapsho
     <section className="border-y border-white/8 bg-black/70" aria-label="Research data status">
       <div className="site-container grid gap-px bg-white/8 sm:grid-cols-2 lg:grid-cols-4">
         <StatusItem
-          label="Release evidence"
+          label="Release data made"
           value={formatDateTime(snapshot.generated_at_utc)}
-          note="Regenerated from committed reports"
+          note="Built from saved research reports"
           tone="positive"
         />
         <StatusItem
-          label="Ranking artifact"
+          label="Stock ranking date"
           value={formatDate(ranking.signal_date)}
-          note={`${ranking.count} names · committed · not live`}
+          note={`${ranking.count} stocks · saved research · not live`}
         />
         <StatusItem
-          label="Candidate artifact"
+          label="Watchlist date"
           value={formatDate(candidate.as_of_date)}
-          note={`${candidate.count} monitored names · not live`}
+          note={`${candidate.count} stocks · not live`}
         />
         <StatusItem
-          label="Execution status"
-          value="Research only"
-          note="No brokerage connection or live order routing"
+          label="Trading status"
+          value="No live trading"
+          note="No broker connection or order placement"
           tone="risk"
         />
       </div>

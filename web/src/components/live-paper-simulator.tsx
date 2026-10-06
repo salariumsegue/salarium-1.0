@@ -126,9 +126,9 @@ export default function LivePaperSimulator(props: Props) {
       <section className="card overflow-hidden">
         <div className="flex flex-col justify-between gap-5 p-6 sm:flex-row sm:items-start">
           <div>
-            <p className="eyebrow">SIMULATED POSITIONS / FRACTIONAL PAPER FILLS</p>
-            <h2 className="mt-3 text-2xl">Governed portfolio mark</h2>
-            <p className="mt-2 text-sm text-white/40">Signal {props.signalDate} · rebalance {props.lastRebalanceDate} · next review in {props.sessionsUntilNextRebalance} sessions</p>
+            <p className="eyebrow">PAPER HOLDINGS / FRACTIONAL SHARES</p>
+            <h2 className="mt-3 text-2xl">Paper portfolio value</h2>
+            <p className="mt-2 text-sm text-white/40">Rankings dated {props.signalDate} · holdings last changed {props.lastRebalanceDate} · next scheduled review in {props.sessionsUntilNextRebalance} trading sessions</p>
           </div>
           <button type="button" className="button-secondary" onClick={() => void refreshQuotes()}>Refresh delayed quotes</button>
         </div>

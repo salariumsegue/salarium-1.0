@@ -113,8 +113,8 @@ export function DisclosurePanel({ items }: { items: string[] }) {
     <section className="border border-red-400/20 bg-red-400/[0.025] p-6 sm:p-8">
       <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
         <div>
-          <p className="eyebrow text-red-300">RESEARCH DISCLOSURE</p>
-          <p className="mt-3 text-sm leading-6 text-white/35">What the numbers do—and do not—mean.</p>
+          <p className="eyebrow text-red-300">READ THE LIMITS</p>
+          <p className="mt-3 text-sm leading-6 text-white/35">What these figures include, and what they leave out.</p>
         </div>
         <div className="grid gap-3 md:grid-cols-2">
           {items.map((item) => (

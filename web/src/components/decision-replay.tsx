@@ -114,7 +114,7 @@ export default function DecisionReplay({
           </table>
         </div>
         <details className="research-panel">
-          <summary>Recorded rankings and provenance</summary>
+          <summary>Rankings and source details</summary>
           <div className="research-table-wrap">
             <table className="research-table">
               <thead>

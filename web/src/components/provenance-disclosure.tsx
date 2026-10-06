@@ -1,6 +1,6 @@
 import type { ProvenanceRecord } from "@/lib/site-types";
 
-export default function ProvenanceDisclosure({ record, label = "Inspect provenance" }: { record: ProvenanceRecord; label?: string }) {
+export default function ProvenanceDisclosure({ record, label = "See source and model details" }: { record: ProvenanceRecord; label?: string }) {
   return (
     <details className="provenance-disclosure">
       <summary>{label}<span aria-hidden="true">＋</span></summary>

@@ -18,13 +18,13 @@ export default function CourtroomPage() {
       <section className="site-container">
         <p className="eyebrow">MODEL COURTROOM / CASE 001</p>
         <h1>
-          The oil hedge
+          Oil cut the drawdown.
           <br />
-          on trial.
+          It failed the recovery test.
         </h1>
         <p className="research-lead">
-          A 20% oil sleeve reduced simulated drawdown. It still did not earn a
-          place in the released model.
+          In this historical test, a 20% oil sleeve reduced the largest loss but
+          missed the required improvement in recovery time. It remains experimental.
         </p>
         <div className="verdict-banner">
           <strong>
@@ -39,7 +39,7 @@ export default function CourtroomPage() {
         <div className="court-columns">
           <article className="research-panel">
             <p className="eyebrow">THE CASE FOR</p>
-            <h2>A smaller loss in the tested sample.</h2>
+            <h2>The portfolio fell less.</h2>
             <p>
               Maximum drawdown improved by{" "}
               {(row.drawdown_absolute_improvement * 100).toFixed(1)} percentage
@@ -54,7 +54,7 @@ export default function CourtroomPage() {
           </article>
           <article className="research-panel objection">
             <p className="eyebrow">THE CASE AGAINST</p>
-            <h2>Recovery barely changed.</h2>
+            <h2>It did not recover much faster.</h2>
             <p>
               The longest recovery shortened by{" "}
               {percent(row.maximum_recovery_days_relative_reduction)}, below the

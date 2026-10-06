@@ -17,16 +17,15 @@ export default function DashboardPage() {
   return (
     <main id="main-content" className="site-main research-page">
       <section className="site-container">
-        <p className="eyebrow">FORWARD RESEARCH / FOUR PAPER ACCOUNTS</p>
+        <p className="eyebrow">FOUR PAPER ACCOUNTS / SAME START DATE</p>
         <h1>
-          Same market.
+          One market.
           <br />
           Four portfolio policies.
         </h1>
         <p className="research-lead">
-          Core, Defensive, Drawdown Control, and Oil Diversifier. Compare
-          independent accounts on the same dates, then inspect their positions,
-          costs, and decisions.
+          Core, Defensive, Drawdown Control, and experimental Oil Diversifier.
+          Compare their holdings, costs, and results from the same market closes.
         </p>
         <PortfolioDashboard data={data} />
       </section>

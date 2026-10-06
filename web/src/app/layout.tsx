@@ -13,11 +13,11 @@ import { loadReleaseSnapshot } from "@/lib/site-data";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Salarium — Open Quantitative Research",
+    default: "Salarium — Open Stock Research",
     template: "%s | Salarium",
   },
   description:
-    "An open-source systematic equity research platform combining walk-forward machine learning, concentrated portfolio construction, covariance-aware weighting, and governed risk controls.",
+    "An open stock model with out-of-sample rankings, four paper portfolios, published results, and source code.",
   applicationName: "Salarium",
   authors: [{ name: "Niall Gillen" }],
   creator: "Niall Gillen",
@@ -43,16 +43,16 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Salarium",
-    title: "Salarium — Open Quantitative Research",
+    title: "Salarium — Open Stock Research",
     description:
-      "Transparent quantitative equity research from governed data to signal-aware portfolio construction.",
+      "See the stock rankings, paper portfolios, model rules, and historical results.",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Salarium — Open Quantitative Research",
+    title: "Salarium — Open Stock Research",
     description:
-      "Transparent quantitative equity research from governed data to signal-aware portfolio construction.",
+      "See the stock rankings, paper portfolios, model rules, and historical results.",
     images: ["/opengraph-image"],
   },
   robots: {

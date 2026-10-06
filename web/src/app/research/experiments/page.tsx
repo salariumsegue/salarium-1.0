@@ -6,8 +6,8 @@ import { formatDateTime, percent } from "@/lib/format";
 import { loadCrisisDiversifierResearch, loadReleaseSnapshot } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Experiment Archive",
-  description: "Accepted, rejected, and active Salarium research hypotheses with evidence, decisions, and provenance.",
+  title: "Research experiments",
+  description: "See which portfolio ideas passed, which failed, and the results behind each decision.",
   alternates: { canonical: "/research/experiments" },
 };
 
@@ -39,7 +39,7 @@ export default function ExperimentsPage() {
   return (
     <main id="main-content" className="site-main">
       <section className="page-section">
-        <div className="research-panel"><Link className="research-link" href="/research/courtroom">Read the oil sleeve case ↗</Link><span className="mx-3">·</span><Link className="research-link" href="/dashboard">Track the experimental oil account ↗</Link></div><PageIntro eyebrow="EXPERIMENT ARCHIVE" title="The experiment record" muted="including rejected hypotheses." description="Salarium preserves attractive hypotheses that failed governance alongside the decisions that shaped the locked release. Nothing is promoted because one aggregate number looks good." />
+        <div className="research-panel"><Link className="research-link" href="/research/courtroom">Read why the oil sleeve failed ↗</Link><span className="mx-3">·</span><Link className="research-link" href="/dashboard">See the paper oil account ↗</Link></div><PageIntro eyebrow="TESTS AND DECISIONS" title="Which ideas held up?" muted="And which did not." description="The archive shows the portfolio changes we tested, the results we measured, and the decisions that followed. A single strong metric is not enough to change the released model." />
 
         <section className="crisis-research mt-12" aria-labelledby="crisis-title">
           <header className="crisis-research-header">

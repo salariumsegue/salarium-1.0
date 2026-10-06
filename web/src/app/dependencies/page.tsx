@@ -10,27 +10,25 @@ export default function DependenciesPage() {
   return (
     <main id="main-content" className="site-main research-page">
       <section className="site-container">
-        <p className="eyebrow">PORTFOLIO / BUSINESS DEPENDENCIES</p>
+        <p className="eyebrow">HOLDINGS / SHARED BUSINESS RISKS</p>
         <h1>
-          Business dependencies
+          Shared business risks
           <br />
-          in the paper portfolio.
+          across the portfolio.
         </h1>
         <p className="research-lead">
-          A first map of business relationships inside the paper portfolio.
-          Select a theme to inspect its holdings, allocation, and source
-          material.
+          Different stocks can rely on the same customers, suppliers, or economic trends. Select a theme to see the holdings, portfolio weight, and sources behind it.
         </p>
         {forward.status === "available" ? (
           <>
             <p className="research-muted">
-              Signal date {forward.data.latest_signal_state.date} · holdings
-              from {forward.data.forward_portfolio.last_rebalance_date}
+              Rankings dated {forward.data.latest_signal_state.date} · holdings
+              last changed {forward.data.forward_portfolio.last_rebalance_date}
             </p>
             <DependencyMap snapshot={forward.data} />
           </>
         ) : (
-          <p>Current portfolio unavailable: {forward.reason}</p>
+          <p>The portfolio data is unavailable: {forward.reason}</p>
         )}
       </section>
     </main>

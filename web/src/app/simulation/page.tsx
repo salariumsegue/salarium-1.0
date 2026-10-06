@@ -6,8 +6,8 @@ import { PageIntro, StatusBadge } from "@/components/ui";
 import { loadForwardPaperSnapshot } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Live Paper Simulator",
-  description: "Follow Salarium's governed portfolio with delayed public quotes and a local $100,000 paper account.",
+  title: "Paper account simulator",
+  description: "Try a $100,000 paper account using delayed public prices. No broker is connected.",
   alternates: { canonical: "/simulation" },
 };
 
@@ -19,12 +19,12 @@ export default function SimulationPage() {
       <section className="page-section">
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
           <PageIntro
-            eyebrow="LIVE PAPER SIMULATOR"
-            title="A separate paper account"
-            muted="in this browser."
-            description="A browser-local $100,000 paper account marks the current governed Salarium portfolio with delayed best-effort public quotes. Simulated fills, costs, cash, positions, P&L, drawdown, and an append-only event history remain separated from brokerage infrastructure."
+            eyebrow="PAPER ACCOUNT / BROWSER ONLY"
+            title="Try the portfolio with paper money"
+            muted="Using delayed prices."
+            description="Start with $100,000 and follow the current paper portfolio. Prices may be delayed, and simulated trades do not include every cost of a real trade. Nothing connects to a broker."
           />
-          <StatusBadge tone="neutral">DELAYED / SIMULATED</StatusBadge>
+          <StatusBadge tone="neutral">DELAYED PRICES · SIMULATED TRADES</StatusBadge>
         </div>
 
         <div className="mt-10">
@@ -44,8 +44,8 @@ export default function SimulationPage() {
               sessionsUntilNextRebalance={snapshot.data.forward_portfolio.sessions_until_next_rebalance}
             />
           ) : (
-            <UnavailableState title="The paper simulator is gated." artifact="web/public/data/forward_paper_snapshot.json">
-              {snapshot.reason} A simulated account is created only from a valid governed forward-paper snapshot.
+            <UnavailableState title="The paper account is unavailable." artifact="web/public/data/forward_paper_snapshot.json">
+              {snapshot.reason} The simulator needs a current paper portfolio snapshot.
             </UnavailableState>
           )}
         </div>

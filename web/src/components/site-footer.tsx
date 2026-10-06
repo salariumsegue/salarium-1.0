@@ -19,9 +19,9 @@ export default function SiteFooter({
         <div>
           <SalariumLogo />
           <p className="mt-5 max-w-sm text-sm leading-6 text-white/40">
-            Open-source systematic equity research: governed data, out-of-sample rankings, concentrated portfolio construction, and auditable risk decisions.
+            A stock model, four paper portfolios, and the results and rules behind them.
           </p>
-          <p className="mt-4 text-xs leading-5 text-white/25">Research only. Not investment advice. No live order execution.</p>
+          <p className="mt-4 text-xs leading-5 text-white/25">For research and education. No live trading or personal investment advice.</p>
         </div>
 
         <FooterGroup title="Explore">
