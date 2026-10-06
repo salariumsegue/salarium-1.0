@@ -15,7 +15,6 @@ const ROUTES = new Map([
   ["/research/courtroom", "src/app/research/courtroom/page.tsx"],
   ["/", "src/app/page.tsx"],
   ["/rankings", "src/app/rankings/page.tsx"],
-  ["/portfolio", "src/app/portfolio/page.tsx"],
   ["/simulation", "src/app/simulation/page.tsx"],
   ["/methodology", "src/app/methodology/page.tsx"],
   ["/candidates", "src/app/candidates/page.tsx"],
@@ -26,7 +25,7 @@ const ROUTES = new Map([
   ["/about", "src/app/about/page.tsx"],
   ["/disclosures", "src/app/disclosures/page.tsx"],
 ]);
-const PRIMARY_NAV_ROUTES = ["/rankings", "/portfolio", "/simulation", "/research", "/methodology", "/architecture"];
+const PRIMARY_NAV_ROUTES = ["/dashboard", "/rankings", "/simulation", "/research", "/methodology", "/architecture"];
 
 const ALLOWED_INTERNAL = new Set([
   ...ROUTES.keys(),
@@ -136,6 +135,10 @@ for (const [route, relativePage] of ROUTES) {
   if (!fs.readFileSync(filename, "utf8").includes('id="main-content"')) {
     errors.push(`Route ${route} does not expose id=\"main-content\" for the skip link`);
   }
+}
+
+if (!read("src/app/portfolio/page.tsx").includes('redirect("/dashboard")')) {
+  errors.push("Legacy /portfolio URL must redirect to the four-account dashboard");
 }
 
 for (const artifact of REQUIRED_ARTIFACTS) {

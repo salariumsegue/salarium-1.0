@@ -8,7 +8,7 @@ if (!RAW_URL) {
 }
 
 const BASE_URL = /^https?:\/\//i.test(RAW_URL) ? RAW_URL.replace(/\/$/, "") : `https://${RAW_URL.replace(/\/$/, "")}`;
-const HTML_ROUTES = ["/dashboard","/replay", "/dependencies", "/research/courtroom", "/", "/rankings", "/portfolio", "/simulation", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about", "/disclosures"];
+const HTML_ROUTES = ["/dashboard","/replay", "/dependencies", "/research/courtroom", "/", "/rankings", "/simulation", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about", "/disclosures"];
 const DATA_ROUTES = ["/data/paper_portfolios.json","/api/evidence-bundle", "/data/decision_archive.json", "/api/simulation/quotes", "/data/release_snapshot.json", "/data/release_rankings_snapshot.json", "/data/candidate_funnel_snapshot.json", "/data/hypothetical_account_snapshot.json", "/data/crisis_diversifier_research.json", "/data/drawdown_budget_research.json"];
 const DISCOVERY_ROUTES = ["/manifest.webmanifest", "/robots.txt", "/sitemap.xml", "/opengraph-image", "/salarium-mark.svg", "/salarium-edge-glyph.svg", "/salarium-logo.svg", "/salarium-roman-bust.png"];
 
@@ -41,6 +41,11 @@ function assertHeaders(route, response) {
 const discovered = new Set();
 
 try {
+  const legacyPortfolio = await fetch(`${BASE_URL}/portfolio`, { redirect: "manual" });
+  if (![307, 308].includes(legacyPortfolio.status) || !legacyPortfolio.headers.get("location")?.endsWith("/dashboard")) {
+    throw new Error(`/portfolio did not redirect to /dashboard (${legacyPortfolio.status})`);
+  }
+
   for (const route of HTML_ROUTES) {
     const response = await fetch(`${BASE_URL}${route}`, { redirect: "follow" });
     if (response.status !== 200) throw new Error(`${route} returned ${response.status}`);
