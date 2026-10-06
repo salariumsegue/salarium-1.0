@@ -82,7 +82,7 @@ export default function ResearchPage() {
       <section className="page-section research-index-intro">
         <div>
           <p className="eyebrow">SALARIUM / RESEARCH RECORD</p>
-          <h1>What the model did, what it cost, and where it failed.</h1>
+          <h1>What we tested. What worked. What failed.</h1>
           <p>
             Compare the paper portfolios, read why the oil hedge failed its test,
             and check the historical results against their assumptions. The returns

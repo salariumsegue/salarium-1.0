@@ -39,7 +39,7 @@ export default function ExperimentsPage() {
   return (
     <main id="main-content" className="site-main">
       <section className="page-section">
-        <div className="research-panel"><Link className="research-link" href="/research/courtroom">Read why the oil sleeve failed ↗</Link><span className="mx-3">·</span><Link className="research-link" href="/dashboard">See the paper oil account ↗</Link></div><PageIntro eyebrow="TESTS AND DECISIONS" title="Which ideas held up?" muted="And which did not." description="The archive shows the portfolio changes we tested, the results we measured, and the decisions that followed. A single strong metric is not enough to change the released model." />
+        <div className="research-panel"><Link className="research-link" href="/research/courtroom">Read why the oil sleeve failed ↗</Link><span className="mx-3">·</span><Link className="research-link" href="/dashboard">See the paper oil account ↗</Link></div><PageIntro eyebrow="TESTS AND DECISIONS" title="What each test found" muted="And what we changed." description="Each entry links to the idea, the results, and the decision. A single strong metric does not justify a change to the released model." />
 
         <section className="crisis-research mt-12" aria-labelledby="crisis-title">
           <header className="crisis-research-header">
