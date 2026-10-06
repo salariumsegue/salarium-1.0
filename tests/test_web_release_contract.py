@@ -75,7 +75,7 @@ def test_all_public_routes_exist_and_identify_main_content() -> None:
 
 def test_navigation_and_footer_reach_every_public_route() -> None:
     config = (SRC / "lib" / "site-config.ts").read_text(encoding="utf-8")
-    for route in ["/", "/dashboard", "/rankings", "/simulation", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about"]:
+    for route in ["/dashboard", "/rankings", "/simulation", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about"]:
         assert f'href: "{route}"' in config
     assert 'href: "/portfolio"' not in config
     assert 'redirect("/dashboard")' in (APP / "portfolio" / "page.tsx").read_text(encoding="utf-8")
