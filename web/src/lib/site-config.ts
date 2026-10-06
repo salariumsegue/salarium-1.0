@@ -35,6 +35,49 @@ export const NAV_LINKS = [
 
 ] as const;
 
+export const NAV_GROUPS = [
+  { label: "Dashboard", href: "/dashboard" },
+  {
+    label: "Rankings",
+    href: "/rankings",
+    items: [
+      { href: "/rankings", label: "Current rankings" },
+      { href: "/candidates", label: "Research candidates" },
+    ],
+  },
+  {
+    label: "Portfolio",
+    href: "/portfolio",
+    items: [
+      { href: "/dashboard", label: "Four paper portfolios" },
+      { href: "/portfolio", label: "Earlier paper account" },
+      { href: "/dependencies", label: "Business dependencies" },
+      { href: "/replay", label: "Decision archive" },
+    ],
+  },
+  { label: "Simulation", href: "/simulation" },
+  {
+    label: "Research",
+    href: "/research",
+    items: [
+      { href: "/research", label: "Research overview" },
+      { href: "/research/courtroom", label: "Oil sleeve case" },
+      { href: "/research/experiments", label: "Experiments" },
+      { href: "/research/performance", label: "Historical results" },
+    ],
+  },
+  {
+    label: "Project",
+    href: "/methodology",
+    items: [
+      { href: "/methodology", label: "Methodology" },
+      { href: "/architecture", label: "Architecture" },
+      { href: "/about", label: "About Salarium" },
+      { href: "/disclosures", label: "Disclosures" },
+    ],
+  },
+] as const;
+
 export const RESEARCH_LINKS = [
   { href: "/research/courtroom", label: "Model courtroom" },
   { href: "/replay", label: "Decision replay" },

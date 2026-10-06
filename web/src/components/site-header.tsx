@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { SalariumLogo } from "@/components/edge-glyph";
 import { CloseIcon, GitHubIcon, MenuIcon } from "@/components/icons";
-import { GITHUB_URL, NAV_LINKS } from "@/lib/site-config";
+import { GITHUB_URL, NAV_GROUPS } from "@/lib/site-config";
 
 export default function SiteHeader({
   version,
@@ -17,8 +17,35 @@ export default function SiteHeader({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [activeGroup, setActiveGroup] = useState<string | null>(null);
+  const [mobileGroup, setMobileGroup] = useState<string | null>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const desktopNavRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const dismiss = (event: PointerEvent) => {
+      if (!desktopNavRef.current?.contains(event.target as Node)) setActiveGroup(null);
+    };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || !activeGroup) return;
+      const group = activeGroup;
+      setActiveGroup(null);
+      desktopNavRef.current?.querySelector<HTMLButtonElement>(`[data-nav-group="${group}"]`)?.focus();
+    };
+    document.addEventListener("pointerdown", dismiss);
+    document.addEventListener("keydown", escape);
+    return () => {
+      document.removeEventListener("pointerdown", dismiss);
+      document.removeEventListener("keydown", escape);
+    };
+  }, [activeGroup]);
+
+  const closeNavigation = () => {
+    setOpen(false);
+    setActiveGroup(null);
+    setMobileGroup(null);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -40,17 +67,29 @@ export default function SiteHeader({
   return (
     <header className="site-header">
       <div className="site-container flex h-20 items-center justify-between gap-6">
-        <Link href="/" className="group" onClick={() => setOpen(false)} aria-label="Salarium home">
+        <Link href="/" className="group" onClick={closeNavigation} aria-label="Salarium home">
           <SalariumLogo />
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
-          {NAV_LINKS.map((link) => {
-            const active = pathname.startsWith(link.href);
-            return (
-              <Link key={link.href} href={link.href} className={`nav-link ${active ? "nav-link-active" : ""}`} aria-current={active ? "page" : undefined}>
-                {link.label}
+        <nav ref={desktopNavRef} className="hidden items-center gap-1 xl:flex" aria-label="Primary navigation">
+          {NAV_GROUPS.map((group) => {
+            const active = pathname === group.href || ("items" in group && group.items.some((item) => pathname === item.href && item.href !== "/dashboard"));
+            if (!("items" in group)) return (
+              <Link key={group.href} href={group.href} className={`nav-link ${active ? "nav-link-active" : ""}`} aria-current={pathname === group.href ? "page" : undefined} onClick={() => setActiveGroup(null)}>
+                {group.label}
               </Link>
+            );
+            return (
+              <div key={group.label} className="nav-group" onMouseEnter={() => setActiveGroup(group.label)} onMouseLeave={() => setActiveGroup(null)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setActiveGroup(null); }}>
+                <button type="button" className={`nav-link nav-group-toggle ${active ? "nav-link-active" : ""}`} data-nav-group={group.label} aria-expanded={activeGroup === group.label} aria-controls={`nav-menu-${group.label.toLowerCase()}`} onClick={() => setActiveGroup(group.label)}>
+                  {group.label}<span className="nav-chevron" aria-hidden="true">⌄</span>
+                </button>
+                {activeGroup === group.label && (
+                  <div id={`nav-menu-${group.label.toLowerCase()}`} className="nav-dropdown">
+                    {group.items.map((item) => <Link key={item.href} href={item.href} className="nav-dropdown-link" aria-current={pathname === item.href ? "page" : undefined} onClick={closeNavigation}>{item.label}<span aria-hidden="true">↗</span></Link>)}
+                  </div>
+                )}
+              </div>
             );
           })}
         </nav>
@@ -62,7 +101,6 @@ export default function SiteHeader({
             <span className="text-white/15">/</span>
             <span>{status.replaceAll("_", " ").toUpperCase()}</span>
           </div>
-          <Link href="/replay" className="nav-link hidden xl:inline-flex">Replay</Link>
           <a
             href={GITHUB_URL}
             target="_blank"
@@ -75,7 +113,7 @@ export default function SiteHeader({
           <button
             ref={toggleRef}
             type="button"
-            className="icon-button lg:hidden"
+            className="icon-button xl:hidden"
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
             aria-controls="mobile-navigation"
@@ -87,27 +125,15 @@ export default function SiteHeader({
       </div>
 
       {open && (
-        <div id="mobile-navigation" className="border-t border-white/10 bg-black/95 lg:hidden">
-          <nav className="site-container grid gap-1 py-4" aria-label="Mobile navigation">
-            {NAV_LINKS.map((link) => {
-              const active = pathname.startsWith(link.href);
-              return (
-                <Link
-                  ref={link === NAV_LINKS[0] ? firstLinkRef : undefined}
-                  key={link.href}
-                  href={link.href}
-                  className={`flex items-center justify-between border px-4 py-4 text-sm tracking-[0.12em] transition ${
-                    active
-                      ? "border-emerald-400/30 bg-emerald-400/[0.06] text-emerald-300"
-                      : "border-white/8 text-white/55 hover:border-white/20 hover:text-white"
-                  }`}
-                  onClick={() => setOpen(false)}
-                  aria-current={active ? "page" : undefined}
-                >
-                  {link.label.toUpperCase()}
-                  <span aria-hidden="true">→</span>
-                </Link>
-              );
+        <div id="mobile-navigation" className="border-t border-white/10 bg-black/95 xl:hidden">
+          <nav className="site-container mobile-nav" aria-label="Mobile navigation">
+            {NAV_GROUPS.map((group, index) => {
+              const active = pathname === group.href || ("items" in group && group.items.some((item) => pathname === item.href && item.href !== "/dashboard"));
+              if (!("items" in group)) return <Link ref={index === 0 ? firstLinkRef : undefined} key={group.label} href={group.href} className={`mobile-nav-row ${active ? "mobile-nav-active" : ""}`} aria-current={active ? "page" : undefined} onClick={closeNavigation}>{group.label}<span aria-hidden="true">→</span></Link>;
+              return <div key={group.label} className="mobile-nav-group">
+                <button type="button" className={`mobile-nav-row ${active ? "mobile-nav-active" : ""}`} aria-expanded={mobileGroup === group.label} aria-controls={`mobile-menu-${group.label.toLowerCase()}`} onClick={() => setMobileGroup(mobileGroup === group.label ? null : group.label)}>{group.label}<span aria-hidden="true">{mobileGroup === group.label ? "−" : "+"}</span></button>
+                {mobileGroup === group.label && <div id={`mobile-menu-${group.label.toLowerCase()}`} className="mobile-nav-submenu">{group.items.map((item) => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined} onClick={closeNavigation}>{item.label}<span aria-hidden="true">↗</span></Link>)}</div>}
+              </div>;
             })}
             <a
               href={GITHUB_URL}
