@@ -15,7 +15,6 @@ const ROUTES = new Map([
   ["/research/courtroom", "src/app/research/courtroom/page.tsx"],
   ["/", "src/app/page.tsx"],
   ["/rankings", "src/app/rankings/page.tsx"],
-  ["/simulation", "src/app/simulation/page.tsx"],
   ["/methodology", "src/app/methodology/page.tsx"],
   ["/candidates", "src/app/candidates/page.tsx"],
   ["/architecture", "src/app/architecture/page.tsx"],
@@ -25,7 +24,7 @@ const ROUTES = new Map([
   ["/about", "src/app/about/page.tsx"],
   ["/disclosures", "src/app/disclosures/page.tsx"],
 ]);
-const PRIMARY_NAV_ROUTES = ["/dashboard", "/rankings", "/simulation", "/research", "/methodology", "/architecture"];
+const PRIMARY_NAV_ROUTES = ["/dashboard", "/rankings", "/research", "/methodology", "/architecture"];
 
 const ALLOWED_INTERNAL = new Set([
   ...ROUTES.keys(),
@@ -139,6 +138,9 @@ for (const [route, relativePage] of ROUTES) {
 
 if (!read("src/app/portfolio/page.tsx").includes('redirect("/dashboard")')) {
   errors.push("Legacy /portfolio URL must redirect to the four-account dashboard");
+}
+if (!read("src/app/simulation/page.tsx").includes('redirect("/dashboard")')) {
+  errors.push("Retired /simulation URL must redirect to the four-account dashboard");
 }
 
 for (const artifact of REQUIRED_ARTIFACTS) {

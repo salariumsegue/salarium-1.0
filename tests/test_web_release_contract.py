@@ -20,7 +20,6 @@ ROUTES = {
     "/research/courtroom": APP / "research" / "courtroom" / "page.tsx",
     "/": APP / "page.tsx",
     "/rankings": APP / "rankings" / "page.tsx",
-    "/simulation": APP / "simulation" / "page.tsx",
     "/methodology": APP / "methodology" / "page.tsx",
     "/candidates": APP / "candidates" / "page.tsx",
     "/architecture": APP / "architecture" / "page.tsx",
@@ -75,10 +74,12 @@ def test_all_public_routes_exist_and_identify_main_content() -> None:
 
 def test_navigation_and_footer_reach_every_public_route() -> None:
     config = (SRC / "lib" / "site-config.ts").read_text(encoding="utf-8")
-    for route in ["/dashboard", "/rankings", "/simulation", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about"]:
+    for route in ["/dashboard", "/rankings", "/methodology", "/candidates", "/architecture", "/research", "/research/performance", "/research/experiments", "/about"]:
         assert f'href: "{route}"' in config
     assert 'href: "/portfolio"' not in config
+    assert 'href: "/simulation"' not in config
     assert 'redirect("/dashboard")' in (APP / "portfolio" / "page.tsx").read_text(encoding="utf-8")
+    assert 'redirect("/dashboard")' in (APP / "simulation" / "page.tsx").read_text(encoding="utf-8")
     footer = (SRC / "components" / "site-footer.tsx").read_text(encoding="utf-8")
     assert 'href="/disclosures"' in footer
 
@@ -125,25 +126,10 @@ def test_every_button_has_a_real_click_handler() -> None:
     assert not violations, "Buttons without handlers:\n" + "\n".join(violations)
 
 
-def test_live_paper_simulator_preserves_non_execution_boundary() -> None:
-    page = (APP / "simulation" / "page.tsx").read_text(encoding="utf-8")
-    client = (SRC / "components" / "live-paper-simulator.tsx").read_text(encoding="utf-8")
-    quote_route = (APP / "api" / "simulation" / "quotes" / "route.ts").read_text(encoding="utf-8")
-    engine = (SRC / "lib" / "paper-simulation.ts").read_text(encoding="utf-8")
-    combined = "\n".join([page, client, quote_route, engine])
-
-    assert 'canonical: "/simulation"' in page
-    assert "STARTING_BALANCE = 100_000" in engine
-    assert "TRANSACTION_COST_BPS = 10" in engine
-    assert "localStorage" in client
-    assert "ACCOUNT_FUNDED" in engine and "SIMULATED_FILL" in engine and "PORTFOLIO_MARK" in engine
-    assert "rebalanceSimulationAccount" in engine and "lastRebalanceDate" in client
-    assert "brokerageConnection: false" in quote_route
-    assert "orderSubmission: false" in quote_route
-    assert "liveCapital: false" in quote_route
-    assert "query1.finance.yahoo.com/v8/finance/chart" in quote_route
-    assert "governed_reference_fallback" in combined
-    assert "Paper-account execution settings" in client
+def test_retired_simulator_has_no_ui_engine_or_quote_endpoint() -> None:
+    assert not (SRC / "components" / "live-paper-simulator.tsx").exists()
+    assert not (SRC / "lib" / "paper-simulation.ts").exists()
+    assert not (APP / "api" / "simulation" / "quotes" / "route.ts").exists()
 
 
 def test_website_has_complete_automated_release_gate() -> None:

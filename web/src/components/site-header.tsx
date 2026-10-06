@@ -20,7 +20,7 @@ export default function SiteHeader({
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const [mobileGroup, setMobileGroup] = useState<string | null>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const firstNavControlRef = useRef<HTMLButtonElement>(null);
   const desktopNavRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function SiteHeader({
     };
     window.addEventListener("keydown", onKeyDown);
     document.body.style.overflow = "hidden";
-    firstLinkRef.current?.focus();
+    firstNavControlRef.current?.focus();
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
@@ -73,12 +73,7 @@ export default function SiteHeader({
 
         <nav ref={desktopNavRef} className="hidden items-center gap-1 xl:flex" aria-label="Primary navigation">
           {NAV_GROUPS.map((group) => {
-            const active = pathname === group.href || ("items" in group && group.items.some((item) => pathname === item.href && item.href !== "/dashboard"));
-            if (!("items" in group)) return (
-              <Link key={group.href} href={group.href} className={`nav-link ${active ? "nav-link-active" : ""}`} aria-current={pathname === group.href ? "page" : undefined} onClick={() => setActiveGroup(null)}>
-                {group.label}
-              </Link>
-            );
+            const active = pathname === group.href || group.items.some((item) => pathname === item.href && item.href !== "/dashboard");
             return (
               <div key={group.label} className="nav-group" onMouseEnter={() => setActiveGroup(group.label)} onMouseLeave={() => setActiveGroup(null)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setActiveGroup(null); }}>
                 <button type="button" className={`nav-link nav-group-toggle ${active ? "nav-link-active" : ""}`} data-nav-group={group.label} aria-expanded={activeGroup === group.label} aria-controls={`nav-menu-${group.label.toLowerCase()}`} onClick={() => setActiveGroup(group.label)}>
@@ -127,11 +122,10 @@ export default function SiteHeader({
       {open && (
         <div id="mobile-navigation" className="border-t border-white/10 bg-black/95 xl:hidden">
           <nav className="site-container mobile-nav" aria-label="Mobile navigation">
-            {NAV_GROUPS.map((group, index) => {
-              const active = pathname === group.href || ("items" in group && group.items.some((item) => pathname === item.href && item.href !== "/dashboard"));
-              if (!("items" in group)) return <Link ref={index === 0 ? firstLinkRef : undefined} key={group.label} href={group.href} className={`mobile-nav-row ${active ? "mobile-nav-active" : ""}`} aria-current={active ? "page" : undefined} onClick={closeNavigation}>{group.label}<span aria-hidden="true">→</span></Link>;
+            {NAV_GROUPS.map((group) => {
+              const active = pathname === group.href || group.items.some((item) => pathname === item.href && item.href !== "/dashboard");
               return <div key={group.label} className="mobile-nav-group">
-                <button type="button" className={`mobile-nav-row ${active ? "mobile-nav-active" : ""}`} aria-expanded={mobileGroup === group.label} aria-controls={`mobile-menu-${group.label.toLowerCase()}`} onClick={() => setMobileGroup(mobileGroup === group.label ? null : group.label)}>{group.label}<span aria-hidden="true">{mobileGroup === group.label ? "−" : "+"}</span></button>
+                <button ref={group === NAV_GROUPS[0] ? firstNavControlRef : undefined} type="button" className={`mobile-nav-row ${active ? "mobile-nav-active" : ""}`} aria-expanded={mobileGroup === group.label} aria-controls={`mobile-menu-${group.label.toLowerCase()}`} onClick={() => setMobileGroup(mobileGroup === group.label ? null : group.label)}>{group.label}<span aria-hidden="true">{mobileGroup === group.label ? "−" : "+"}</span></button>
                 {mobileGroup === group.label && <div id={`mobile-menu-${group.label.toLowerCase()}`} className="mobile-nav-submenu">{group.items.map((item) => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined} onClick={closeNavigation}>{item.label}<span aria-hidden="true">↗</span></Link>)}</div>}
               </div>;
             })}

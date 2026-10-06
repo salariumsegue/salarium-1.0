@@ -42,7 +42,6 @@ export const NAV_GROUPS = [
       { href: "/replay", label: "Decision archive" },
     ],
   },
-  { label: "Simulation", href: "/simulation" },
   {
     label: "Research",
     href: "/research",
