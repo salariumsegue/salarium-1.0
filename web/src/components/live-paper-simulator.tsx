@@ -181,7 +181,7 @@ export default function LivePaperSimulator(props: Props) {
 
         <aside className="card p-6">
           <p className="eyebrow">SIMULATION BOUNDARY</p>
-          <h2 className="mt-3 text-2xl">No path to live capital.</h2>
+          <h2 className="mt-3 text-2xl">Paper-account execution settings</h2>
           <dl className="mt-7 space-y-5 text-sm">
             <Rule label="Starting balance" value={money.format(STARTING_BALANCE)} />
             <Rule label="Modeled transaction cost" value={`${TRANSACTION_COST_BPS} bps`} />

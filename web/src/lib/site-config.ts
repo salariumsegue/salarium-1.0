@@ -25,13 +25,14 @@ export const RELEASE_NOTES_URL =
   `${GITHUB_URL}/blob/main/docs/RELEASE_NOTES_1_0.md`;
 
 export const NAV_LINKS = [
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/rankings", label: "Rankings" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/simulation", label: "Simulation" },
   { href: "/research", label: "Research" },
   { href: "/methodology", label: "Methodology" },
   { href: "/architecture", label: "Architecture" },
-  { href: "/about", label: "About" },
+
 ] as const;
 
 export const RESEARCH_LINKS = [
@@ -43,12 +44,14 @@ export const RESEARCH_LINKS = [
 ] as const;
 
 export const SECONDARY_LINKS = [
+  { href: "/about", label: "About" },
   { href: "/", label: "Overview" },
   { href: "/candidates", label: "Candidates" },
   { href: "/disclosures", label: "Disclosures" },
 ] as const;
 
 export const DATA_LINKS = [
+  { href: "/data/paper_portfolios.json", label: "Four paper accounts" },
   { href: "/data/forward_paper_snapshot.json", label: "Forward paper snapshot" },
   { href: "/data/release_snapshot.json", label: "Release snapshot" },
   { href: "/data/release_rankings_snapshot.json", label: "20D release rankings" },

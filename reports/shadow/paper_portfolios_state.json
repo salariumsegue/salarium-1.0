@@ -1,0 +1,116 @@
+{
+  "benchmark": [],
+  "config_sha256": "abaeaa3750f19d80c5c40b37f42da5065cd1b1869e7fb17c2282101bdac8471a",
+  "generated_at": "2026-10-06T19:22:31.363098+00:00",
+  "launch_after": "2026-10-05",
+  "message": "All four accounts begin together at the first governed close after October 5, 2026. No historical outcomes are backfilled.",
+  "paper_only": true,
+  "policy_config": {
+    "benchmark": "SPY",
+    "cash_proxy": "BIL",
+    "launch_after_signal_date": "2026-10-05",
+    "paper_only": true,
+    "portfolios": [
+      {
+        "anchor": "shrinkage_max_diversification",
+        "controller": false,
+        "description": "Maximum-diversification equity weights with a 25% signal blend and a neutral 75% equity baseline.",
+        "key": "core",
+        "name": "Core",
+        "oil_budget": 0,
+        "signal_blend": 0.25
+      },
+      {
+        "anchor": "shrinkage_min_variance",
+        "controller": false,
+        "description": "Minimum-variance equity weights at the same baseline exposure. No signal weighting blend.",
+        "key": "defensive",
+        "name": "Defensive",
+        "oil_budget": 0,
+        "signal_blend": 0
+      },
+      {
+        "anchor": "shrinkage_max_diversification",
+        "controller": true,
+        "description": "Core equity weights with a 78% high-water-mark soft floor and a 3\u00d7 cushion controller.",
+        "key": "drawdown",
+        "name": "Drawdown Control",
+        "oil_budget": 0,
+        "signal_blend": 0.25
+      },
+      {
+        "anchor": "shrinkage_max_diversification",
+        "controller": false,
+        "description": "The tested strategic sleeve: 20% USO, 80% of Core equity exposure, and the residual in BIL. Experimental; not promoted.",
+        "experimental": true,
+        "key": "oil",
+        "name": "Oil Diversifier",
+        "oil_budget": 0.2,
+        "signal_blend": 0.25
+      }
+    ],
+    "rebalance_sessions": 10,
+    "schema_version": "1.0",
+    "starting_capital": 100000,
+    "transaction_cost_bps": 10
+  },
+  "portfolios": [
+    {
+      "anchor": "shrinkage_max_diversification",
+      "controller": false,
+      "description": "Maximum-diversification equity weights with a 25% signal blend and a neutral 75% equity baseline.",
+      "key": "core",
+      "maximum_drawdown": 0,
+      "name": "Core",
+      "observations": [],
+      "oil_budget": 0,
+      "signal_blend": 0.25,
+      "status": "awaiting_launch",
+      "total_costs": 0
+    },
+    {
+      "anchor": "shrinkage_min_variance",
+      "controller": false,
+      "description": "Minimum-variance equity weights at the same baseline exposure. No signal weighting blend.",
+      "key": "defensive",
+      "maximum_drawdown": 0,
+      "name": "Defensive",
+      "observations": [],
+      "oil_budget": 0,
+      "signal_blend": 0,
+      "status": "awaiting_launch",
+      "total_costs": 0
+    },
+    {
+      "anchor": "shrinkage_max_diversification",
+      "controller": true,
+      "description": "Core equity weights with a 78% high-water-mark soft floor and a 3\u00d7 cushion controller.",
+      "key": "drawdown",
+      "maximum_drawdown": 0,
+      "name": "Drawdown Control",
+      "observations": [],
+      "oil_budget": 0,
+      "signal_blend": 0.25,
+      "status": "awaiting_launch",
+      "total_costs": 0
+    },
+    {
+      "anchor": "shrinkage_max_diversification",
+      "controller": false,
+      "description": "The tested strategic sleeve: 20% USO, 80% of Core equity exposure, and the residual in BIL. Experimental; not promoted.",
+      "experimental": true,
+      "key": "oil",
+      "maximum_drawdown": 0,
+      "name": "Oil Diversifier",
+      "observations": [],
+      "oil_budget": 0.2,
+      "signal_blend": 0.25,
+      "status": "awaiting_launch",
+      "total_costs": 0
+    }
+  ],
+  "schema_version": "1.0",
+  "signal_date": null,
+  "starting_capital": 100000,
+  "status": "awaiting_launch"
+}

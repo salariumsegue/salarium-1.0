@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 
+import ResearchNavigation from "@/components/research-navigation";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import { SITE_URL } from "@/lib/site-config";
@@ -93,6 +94,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <a href="#main-content" className="skip-link">Skip to content</a>
         <div className="relative z-10 flex min-h-screen flex-col">
           <SiteHeader version={release.release.version} status={release.release.status} />
+          <ResearchNavigation />
           <div className="flex-1">{children}</div>
           <SiteFooter commit={release.provenance.git_commit} generatedAt={release.generated_at_utc} />
         </div>

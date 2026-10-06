@@ -47,6 +47,9 @@ jobs:
       - name: Score the latest eligible close
         run: python scripts/run_forward_paper_snapshot.py --provider yahoo
 
+      - name: Update the four independent paper accounts
+        run: python scripts/run_paper_portfolios.py
+
       - name: Preserve any new rebalance decision
         run: python scripts/export_decision_archive.py --include-working
 
@@ -89,6 +92,8 @@ jobs:
           git add -- \
             reports/shadow/drawdown_budget_shadow_ledger.csv \
             reports/shadow/drawdown_budget_shadow_state.json \
+            reports/shadow/paper_portfolios_state.json \
+            web/public/data/paper_portfolios.json \
             web/public/data/decision_archive.json \
             web/public/data/forward_paper_snapshot.json
           git diff --cached --check

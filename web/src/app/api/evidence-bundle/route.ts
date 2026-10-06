@@ -10,6 +10,7 @@ export function GET() {
     "crisis_diversifier_research.json",
     "decision_archive.json",
     "research_return_stream.json",
+    "paper_portfolios.json",
   ];
   const artifacts = filenames.map((name) => {
     const bytes = fs.readFileSync(

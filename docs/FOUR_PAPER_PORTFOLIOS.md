@@ -1,0 +1,11 @@
+# Four-account forward comparison
+
+The `/dashboard` comparison uses four independent $100,000 accounts: Core, Defensive, Drawdown Control and the experimental Oil Diversifier. Launch occurs at the first governed signal date after October 5, 2026. No earlier returns are backfilled. The original drawdown-control account remains on `/portfolio` with its earlier history.
+
+Core uses the existing frozen 20D equity rankings, buffered Top-10 selection, 60-session covariance lookback and 25% signal blend. Its forward exposure uses the configured neutral 75% baseline. Defensive substitutes the shrinkage minimum-variance constructor with no signal blend. Drawdown Control uses Core weights with the 78% high-water-mark floor and 3× cushion rule. Oil preserves the historical strategic-single allocation: a 20% USO budget multiplies Core equity exposure by 0.8; residual wealth goes to BIL. Oil remains experimental and does not change the canonical release.
+
+All policies share selection and rebalance dates. Every purchase and sale, including BIL and USO, pays the same modeled 10 bp cost on absolute dollars traded. Post-cost NAV is solved to preserve self-financing. Adjusted-close prices mark fractional positions, and BIL captures cash-proxy income. Each account has its own positions, high-water mark, costs, recorded-close history and attribution. Attribution reconciles equity + oil + BIL + costs to NAV changes. SPY begins on the same date with the same initial purchase-cost assumption.
+
+The dashboard provides account selection, holdings, cumulative attribution, sourced qualitative dependencies, recorded-close replay and evidence downloads. Missing prices or failed rebalance construction halt publication. Configuration changes require a new account version; the publisher does not rewrite an existing record. No orders, brokerage connection or live capital are introduced.
+
+The scheduled forward-paper workflow runs `scripts/run_paper_portfolios.py` after publishing the governed signal in its working tree. State is committed in `reports/shadow/paper_portfolios_state.json`; the public mirror is `web/public/data/paper_portfolios.json`. Updates on the same close are idempotent. The runner uses the shared portfolio engine in `src/multi_portfolio.py`.

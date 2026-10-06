@@ -1,4 +1,7 @@
 import Link from "next/link";
+import fs from "node:fs";
+import path from "node:path";
+import type { PaperPortfolios } from "@/lib/paper-portfolios";
 import HistoricalAccountChart from "@/components/historical-account-chart";
 import EvidencePassport from "@/components/evidence-passport";
 import {
@@ -8,6 +11,12 @@ import {
 } from "@/lib/site-data";
 import { percent, formatDate } from "@/lib/format";
 export default function HomePage() {
+  const comparison = JSON.parse(
+    fs.readFileSync(
+      path.join(process.cwd(), "public/data/paper_portfolios.json"),
+      "utf8",
+    ),
+  ) as PaperPortfolios;
   const release = loadReleaseSnapshot(),
     forward = loadForwardPaperSnapshot(),
     account = loadHypotheticalAccountSnapshot();
@@ -58,7 +67,7 @@ export default function HomePage() {
               you can reopen, question, and follow as new evidence arrives.
             </p>
             <div className="observatory-actions">
-              <Link href="/replay">Reopen a decision ↗</Link>
+              <Link href="/dashboard">Compare four portfolios ↗</Link>
               <Link href="/research/courtroom">Read the oil hedge case</Link>
             </div>
             <p className="research-muted">
@@ -89,8 +98,46 @@ export default function HomePage() {
       <section className="site-container paper-record">
         <div className="section-heading">
           <div>
+            <p className="eyebrow">FOUR INDEPENDENT PAPER ACCOUNTS</p>
+            <h2>Compare the portfolio policies.</h2>
+          </div>
+          <Link href="/dashboard">Open dashboard ↗</Link>
+        </div>
+        <div className="portfolio-account-grid">
+          {comparison.portfolios.map((account) => (
+            <Link
+              className="portfolio-account"
+              href="/dashboard"
+              key={account.key}
+            >
+              <span>
+                {account.name}
+                {account.experimental ? " / EXPERIMENTAL" : ""}
+              </span>
+              <strong>
+                {money(
+                  account.observations.at(-1)?.nav ??
+                    comparison.starting_capital,
+                )}
+              </strong>
+              <small>
+                {account.observations.length
+                  ? "Forward paper NAV"
+                  : "Starting capital · launch pending"}
+              </small>
+            </Link>
+          ))}
+        </div>
+        <p className="research-muted">
+          The four accounts share a common launch date. The
+          earlier paper account below retains its separate history.
+        </p>
+      </section>
+      <section className="site-container paper-record">
+        <div className="section-heading">
+          <div>
             <p className="eyebrow">THE FORWARD RECORD</p>
-            <h2>What the paper account shows today.</h2>
+            <h2>The earlier paper account.</h2>
           </div>
           <Link href="/portfolio">Inspect holdings ↗</Link>
         </div>

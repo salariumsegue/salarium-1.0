@@ -28,6 +28,7 @@ export default function SiteFooter({
           {NAV_LINKS.map((link) => <Link key={link.href} href={link.href} className="footer-link">{link.label}</Link>)}
           {RESEARCH_LINKS.map((link) => <Link key={link.href} href={link.href} className="footer-link">{link.label}</Link>)}
           <Link href="/candidates" className="footer-link">Candidates</Link>
+          <Link href="/about" className="footer-link">About</Link>
           <Link href="/disclosures" className="footer-link">Disclosures</Link>
         </FooterGroup>
 

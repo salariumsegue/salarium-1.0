@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import process from "node:process";
 import { spawn } from "node:child_process";
 
-const HTML_ROUTES = [
+const HTML_ROUTES = ["/dashboard",
   "/replay",
   "/dependencies",
   "/research/courtroom",
@@ -20,7 +20,7 @@ const HTML_ROUTES = [
   "/about",
   "/disclosures",
 ];
-const DATA_ROUTES = [
+const DATA_ROUTES = ["/data/paper_portfolios.json",
   "/api/evidence-bundle",
   "/data/decision_archive.json",
   "/api/simulation/quotes",

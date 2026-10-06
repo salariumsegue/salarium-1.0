@@ -26,7 +26,7 @@ export default function AboutPage() {
               <span className="block text-white/32">quantitative research project.</span>
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-7 text-white/48">
-              Modern investment research is fragmented across data acquisition, signal generation, model validation, portfolio construction, and risk management. Salarium explores whether those layers can be unified into a governed research system.
+              Salarium combines a frozen equity-ranking model, portfolio construction, risk controls, and paper accounting. The website publishes its research results and records decisions as new market data arrives.
             </p>
           </div>
 
@@ -107,7 +107,7 @@ export default function AboutPage() {
 
           <div className="border border-white/10 bg-white/[0.018] p-6 sm:p-8">
             <p className="eyebrow">For non-technical visitors</p>
-            <h2 className="mt-4 text-2xl font-medium">The simple version.</h2>
+            <h2 className="mt-4 text-2xl font-medium">What Salarium does</h2>
             <ol className="mt-6 grid gap-4 text-sm leading-6 text-white/44">
               <li><span className="mr-3 font-mono text-emerald-300">01</span>Salarium scores a governed list of liquid stocks.</li>
               <li><span className="mr-3 font-mono text-emerald-300">02</span>It keeps only the strongest research candidates.</li>

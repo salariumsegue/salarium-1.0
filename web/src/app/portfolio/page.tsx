@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 import { UnavailableState } from "@/components/data-state";
@@ -29,10 +30,11 @@ export default function PortfolioPage() {
         <PageIntro
           eyebrow="FORWARD PAPER PORTFOLIO"
           title="Inside the paper portfolio"
-          muted="No orders behind them."
+          muted="The earlier drawdown-control account."
           description="A ranking is not a holding. This page shows the governed paper portfolio only when fresh prices, frozen-model scoring, covariance construction, exposure control, and provenance gates all pass."
         />
 
+        <div className="research-panel mt-10"><h2>Four comparable accounts are on the dashboard</h2><p>This page preserves the original drawdown-control history. The new Core, Defensive, Drawdown Control, and Oil Diversifier accounts launch together.</p><Link className="research-link" href="/dashboard">Open the four-account dashboard ↗</Link></div>
         <div className="mt-10">
           {forward.status === "available" ? (
             <div className="card overflow-hidden">

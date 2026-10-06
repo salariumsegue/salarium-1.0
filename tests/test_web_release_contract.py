@@ -14,6 +14,7 @@ SRC = WEB / "src"
 APP = SRC / "app"
 
 ROUTES = {
+    "/dashboard": APP / "dashboard" / "page.tsx",
     "/replay": APP / "replay" / "page.tsx",
     "/dependencies": APP / "dependencies" / "page.tsx",
     "/research/courtroom": APP / "research" / "courtroom" / "page.tsx",
@@ -32,6 +33,7 @@ ROUTES = {
 }
 
 ALLOWED_INTERNAL = set(ROUTES) | {
+    "/data/paper_portfolios.json",
     "/api/evidence-bundle",
     "/data/decision_archive.json",
     "/data/release_snapshot.json",
@@ -140,7 +142,7 @@ def test_live_paper_simulator_preserves_non_execution_boundary() -> None:
     assert "liveCapital: false" in quote_route
     assert "query1.finance.yahoo.com/v8/finance/chart" in quote_route
     assert "governed_reference_fallback" in combined
-    assert "No path to live capital" in client
+    assert "Paper-account execution settings" in client
 
 
 def test_website_has_complete_automated_release_gate() -> None:

@@ -64,7 +64,7 @@ export default function RankingsPage() {
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <p className="eyebrow text-emerald-300">FROM RANK TO PORTFOLIO</p>
-              <h2 className="mt-4 text-2xl font-semibold tracking-[-0.035em]">Rankings are an input—not the final product.</h2>
+              <h2 className="mt-4 text-2xl font-semibold tracking-[-0.035em]">How rankings become portfolio holdings</h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/42">The release architecture uses a Top-{release.architecture.top_n} selection, rank-{release.architecture.buffer_rank} persistence buffer, {release.architecture.covariance_lookback_days}-day shrinkage covariance, and a {Math.round(release.architecture.signal_blend * 100)}% signal-aware blend before exposure control.</p>
             </div>
             <div className="flex flex-wrap gap-3"><InternalCta href="/architecture">See construction</InternalCta><InternalCta href="/candidates" secondary>Open candidate research</InternalCta></div>

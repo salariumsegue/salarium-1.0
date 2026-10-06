@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 import { PageIntro, StatusBadge } from "@/components/ui";
@@ -38,7 +39,7 @@ export default function ExperimentsPage() {
   return (
     <main id="main-content" className="site-main">
       <section className="page-section">
-        <PageIntro eyebrow="EXPERIMENT ARCHIVE" title="The experiment record" muted="including rejected hypotheses." description="Salarium preserves attractive hypotheses that failed governance alongside the decisions that shaped the locked release. Nothing is promoted because one aggregate number looks good." />
+        <div className="research-panel"><Link className="research-link" href="/research/courtroom">Read the oil sleeve case ↗</Link><span className="mx-3">·</span><Link className="research-link" href="/dashboard">Track the experimental oil account ↗</Link></div><PageIntro eyebrow="EXPERIMENT ARCHIVE" title="The experiment record" muted="including rejected hypotheses." description="Salarium preserves attractive hypotheses that failed governance alongside the decisions that shaped the locked release. Nothing is promoted because one aggregate number looks good." />
 
         <section className="crisis-research mt-12" aria-labelledby="crisis-title">
           <header className="crisis-research-header">

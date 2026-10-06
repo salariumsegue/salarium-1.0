@@ -22,8 +22,8 @@ export default function CandidatesPage() {
       <section className="site-container site-section">
         <PageIntro
           eyebrow="EVIDENCE-GOVERNED RESEARCH FUNNEL"
-          title="From broad discovery"
-          muted="to monitored conviction."
+          title="Equity research candidates"
+          muted="outside the portfolio universe."
           description="The candidate layer is separate from the release portfolio. It compresses a broad discovery universe through quantitative, advanced-model, evidence, catalyst, and risk review so the strongest research questions receive deeper attention."
           aside={<div className="card min-w-64 p-5"><p className="eyebrow">CANDIDATE DATE</p><p className="mt-3 font-mono text-xl text-emerald-300">{formatDate(snapshot.as_of_date)}</p><div className="mt-4"><StatusBadge>RESEARCH SNAPSHOT</StatusBadge></div></div>}
         />
@@ -31,7 +31,7 @@ export default function CandidatesPage() {
         <section className="mt-10">
           <SectionHeading
             eyebrow="FUNNEL ARCHITECTURE"
-            title="Every stage earns the next layer of cost."
+            title="Candidate screening stages"
             description="Cheap quantitative screening comes first. Higher-cost evidence and qualitative review are reserved for a much smaller set."
           />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
@@ -63,7 +63,7 @@ export default function CandidatesPage() {
         <section className="mt-10">
           <SectionHeading
             eyebrow="CANDIDATE INTELLIGENCE"
-            title="Every name carries its evidence and uncertainty."
+            title="Evidence available for each candidate"
             description="Search or filter the governed stack. Expand a candidate to inspect the thesis, risk review, catalyst treatment, score layers, liquidity, and source types."
           />
           <CandidateExplorer candidates={snapshot.candidates} />

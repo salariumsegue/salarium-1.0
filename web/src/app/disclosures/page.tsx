@@ -67,11 +67,11 @@ export default function DisclosuresPage() {
         <div className="max-w-4xl">
           <p className="eyebrow text-red-300">Research boundaries</p>
           <h1 className="mt-5 text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
-            Read the limitations
-            <span className="block text-white/32">before the metrics.</span>
+            Research limitations
+            <span className="block text-white/32">and data disclosures.</span>
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-7 text-white/48">
-            Salarium is designed to make risk and uncertainty visible. These disclosures define what the system is, what its evidence represents, and what no visitor should infer from the interface.
+            This page explains the data sources, simulation assumptions, research biases, and execution limits behind the published numbers.
           </p>
         </div>
       </section>
@@ -96,7 +96,7 @@ export default function DisclosuresPage() {
       <section className="page-section border-y border-white/8 bg-white/[0.012]">
         <div className="max-w-3xl">
           <p className="eyebrow">Artifact freshness</p>
-          <h2 className="mt-4 text-4xl font-medium tracking-tight">The public data is versioned, not streamed.</h2>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">Publication dates and data sources</h2>
           <p className="mt-5 text-sm leading-7 text-white/42">
             Dates below identify the precise artifacts displayed by the site. The forward paper file refreshes after eligible market closes; it is not an exchange-grade real-time feed or brokerage record.
           </p>
@@ -113,7 +113,7 @@ export default function DisclosuresPage() {
         <div className="grid gap-6 lg:grid-cols-[1fr_0.72fr]">
           <div className="border border-red-400/25 bg-red-400/[0.03] p-6 sm:p-9">
             <p className="eyebrow text-red-300">Bottom line</p>
-            <h2 className="mt-4 text-3xl font-medium">Do not make a financial decision from one model output.</h2>
+            <h2 className="mt-4 text-3xl font-medium">Limits on use of this research</h2>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-white/45">
               Independent due diligence, professional advice where appropriate, and a clear understanding of loss tolerance are necessary before any real capital decision. A transparent model can still be wrong.
             </p>

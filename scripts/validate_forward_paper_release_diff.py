@@ -13,6 +13,8 @@ ALLOWED_RELEASE_PATHS = frozenset(
         "reports/shadow/drawdown_budget_shadow_state.json",
         "web/public/data/forward_paper_snapshot.json",
         "web/public/data/decision_archive.json",
+        "web/public/data/paper_portfolios.json",
+        "reports/shadow/paper_portfolios_state.json",
     }
 )
 REQUIRED_PUBLICATION_PATH = "web/public/data/forward_paper_snapshot.json"

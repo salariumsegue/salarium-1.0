@@ -53,6 +53,11 @@ export default function ResearchPage() {
         </div>
       </section>
 
+      <section className="site-container research-portals" aria-label="Research tools">
+        <Link href="/dashboard"><span>FORWARD PAPER</span><h2>Compare four portfolios</h2><p>Separate accounts, the same launch date, and a shared market-close feed.</p></Link>
+        <Link href="/research/courtroom"><span>OIL SLEEVE RESEARCH</span><h2>The 20% oil case</h2><p>Inspect the tested allocation, its drawdown improvement, and its failed recovery gate.</p></Link>
+        <Link href="/research/experiments"><span>EXPERIMENT RECORD</span><h2>Tests behind the release</h2><p>Accepted and rejected hypotheses with their original evidence.</p></Link>
+      </section>
       <DataStatusStrip snapshot={release} />
 
       <section className="page-section">
