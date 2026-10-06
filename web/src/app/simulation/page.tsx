@@ -20,8 +20,8 @@ export default function SimulationPage() {
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
           <PageIntro
             eyebrow="LIVE PAPER SIMULATOR"
-            title="Market motion."
-            muted="No market access."
+            title="A separate paper account"
+            muted="in this browser."
             description="A browser-local $100,000 paper account marks the current governed Salarium portfolio with delayed best-effort public quotes. Simulated fills, costs, cash, positions, P&L, drawdown, and an append-only event history remain separated from brokerage infrastructure."
           />
           <StatusBadge tone="neutral">DELAYED / SIMULATED</StatusBadge>

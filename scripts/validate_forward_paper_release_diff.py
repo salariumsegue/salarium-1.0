@@ -12,6 +12,7 @@ ALLOWED_RELEASE_PATHS = frozenset(
         "reports/shadow/drawdown_budget_shadow_ledger.csv",
         "reports/shadow/drawdown_budget_shadow_state.json",
         "web/public/data/forward_paper_snapshot.json",
+        "web/public/data/decision_archive.json",
     }
 )
 REQUIRED_PUBLICATION_PATH = "web/public/data/forward_paper_snapshot.json"

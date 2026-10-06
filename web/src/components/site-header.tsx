@@ -62,6 +62,7 @@ export default function SiteHeader({
             <span className="text-white/15">/</span>
             <span>{status.replaceAll("_", " ").toUpperCase()}</span>
           </div>
+          <Link href="/replay" className="nav-link hidden xl:inline-flex">Replay</Link>
           <a
             href={GITHUB_URL}
             target="_blank"

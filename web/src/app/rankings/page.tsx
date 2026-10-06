@@ -26,7 +26,7 @@ export default function RankingsPage() {
       <section className="site-container site-section">
         <PageIntro
           eyebrow={isForward ? "FORWARD PAPER / MARKET CLOSE" : "OUT-OF-SAMPLE MODEL OUTPUT"}
-          title="Ranked securities."
+          title="The latest equity rankings"
           muted="Full context, no false precision."
           description={`Explore the top ${snapshot.latest_signal_state.count} names from the frozen ${snapshot.architecture.model_horizon_days}D model's latest ${isForward ? "paper" : "committed"} ${snapshot.latest_signal_state.universe_count}-security cross-section. Scores express relative conviction; they are not price targets, recommendations, or guaranteed expected returns.`}
           aside={<div className="card min-w-64 p-5"><p className="eyebrow">SIGNAL DATE</p><p className="mt-3 font-mono text-xl text-emerald-300">{formatDate(snapshot.latest_signal_state.date)}</p><div className="mt-4"><StatusBadge tone={isForward ? "positive" : "neutral"}>{isForward ? "PAPER / NO ORDERS" : "NOT LIVE"}</StatusBadge></div></div>}

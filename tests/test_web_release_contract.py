@@ -14,6 +14,9 @@ SRC = WEB / "src"
 APP = SRC / "app"
 
 ROUTES = {
+    "/replay": APP / "replay" / "page.tsx",
+    "/dependencies": APP / "dependencies" / "page.tsx",
+    "/research/courtroom": APP / "research" / "courtroom" / "page.tsx",
     "/": APP / "page.tsx",
     "/rankings": APP / "rankings" / "page.tsx",
     "/portfolio": APP / "portfolio" / "page.tsx",
@@ -29,6 +32,8 @@ ROUTES = {
 }
 
 ALLOWED_INTERNAL = set(ROUTES) | {
+    "/api/evidence-bundle",
+    "/data/decision_archive.json",
     "/data/release_snapshot.json",
     "/data/forward_paper_snapshot.json",
     "/data/release_rankings_snapshot.json",
@@ -173,7 +178,7 @@ def test_release_metadata_discovery_error_and_loading_surfaces_exist() -> None:
         assert path.is_file(), f"Missing production web artifact: {path.relative_to(ROOT)}"
 
     layout = (APP / "layout.tsx").read_text(encoding="utf-8")
-    assert "Autonomous Investment Research" in layout
+    assert "Open Quantitative Research" in layout
     assert "application/ld+json" in layout
     assert "SiteHeader" in layout and "SiteFooter" in layout
     assert 'href="#main-content"' in layout

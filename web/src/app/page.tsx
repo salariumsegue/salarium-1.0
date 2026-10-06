@@ -1,160 +1,236 @@
 import Link from "next/link";
-
-import { EdgeGlyph } from "@/components/edge-glyph";
 import HistoricalAccountChart from "@/components/historical-account-chart";
-import { InternalCta } from "@/components/ui";
-import { formatDate, percent } from "@/lib/format";
-import { loadForwardPaperSnapshot, loadHypotheticalAccountSnapshot, loadRankingSnapshot, loadReleaseSnapshot } from "@/lib/site-data";
-
-const currency = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
-
+import EvidencePassport from "@/components/evidence-passport";
+import {
+  loadForwardPaperSnapshot,
+  loadHypotheticalAccountSnapshot,
+  loadReleaseSnapshot,
+} from "@/lib/site-data";
+import { percent, formatDate } from "@/lib/format";
 export default function HomePage() {
-  const release = loadReleaseSnapshot();
-  const committedRanking = loadRankingSnapshot();
-  const forward = loadForwardPaperSnapshot();
-  const ranking = forward.status === "available" ? forward.data : committedRanking;
-  const paper = forward.status === "available" ? forward.data : null;
-  const account = loadHypotheticalAccountSnapshot();
-  const architecture = release.architecture;
-  const core = release.results.core_balanced;
-
+  const release = loadReleaseSnapshot(),
+    forward = loadForwardPaperSnapshot(),
+    account = loadHypotheticalAccountSnapshot();
+  const snapshot = forward.status === "available" ? forward.data : null,
+    p = snapshot?.forward_portfolio;
+  const money = (n: number) =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    }).format(n);
+  const common = {
+    category: "Forward paper / indicative mark",
+    source: "/data/forward_paper_snapshot.json",
+    generated: snapshot?.generated_at_utc ?? "Unavailable",
+    model: "Frozen 20D model / drawdown-budget paper control",
+    commit: snapshot?.provenance.git_commit ?? "Unavailable",
+    hash: snapshot?.provenance.model_sha256,
+    exclusions:
+      "Delayed research prices; no live execution. Soft floor cannot prevent gap losses. Indicative marks differ from completed rebalance NAV.",
+  };
   return (
-    <main id="main-content" className="site-main home-cinematic">
-      <section className="hero-shell hero-shell-cinematic">
-        <div className="site-container hero-grid">
-          <div className="hero-statement">
-            <p className="roman-inscription">SALARIUM / MMXXVI</p>
+    <main id="main-content" className="site-main home-observatory">
+      <section className="observatory-hero site-container">
+        <div className="observatory-status">
+          <span className="status-dot" /> FORWARD PAPER{" "}
+          <span>
+            {snapshot
+              ? `SIGNALS / ${formatDate(snapshot.latest_signal_state.date)}`
+              : "SNAPSHOT UNAVAILABLE"}
+          </span>
+          <span>NO LIVE ORDERS</span>
+        </div>
+        <div className="observatory-grid">
+          <div>
+            <p className="eyebrow">
+              SALARIUM / INDEPENDENT QUANTITATIVE RESEARCH
+            </p>
             <h1>
-              Research the edge.
-              <span>Govern the risk.</span>
+              A portfolio
+              <br />
+              with an
+              <br />
+              <em>open record.</em>
             </h1>
-            <p className="hero-copy hero-copy-short">Systematic equity research for liquid markets.</p>
-            <div className="hero-actions">
-              <InternalCta href="/rankings">Explore Rankings</InternalCta>
-              <InternalCta href="/methodology" secondary>Inspect Method</InternalCta>
+            <p className="observatory-copy">
+              Five hundred stocks. Ten holdings. A frozen model whose decisions
+              you can reopen, question, and follow as new evidence arrives.
+            </p>
+            <div className="observatory-actions">
+              <Link href="/replay">Reopen a decision ↗</Link>
+              <Link href="/research/courtroom">Read the oil hedge case</Link>
             </div>
-            <p className="hero-disclaimer">PAPER SIGNALS · NO LIVE EXECUTION</p>
+            <p className="research-muted">
+              Built by Niall Gillen. Educational research using simulated
+              capital and delayed market data.
+            </p>
           </div>
-
-          <aside className="system-status" aria-label="Current Salarium research system status">
-            <header><span>SALARIUM / RESEARCH SYSTEM</span><i>{paper ? "FORWARD PAPER" : "COMMITTED SNAPSHOT"}</i></header>
-            <div className="system-status-mark">
-              <EdgeGlyph title="Salarium Imperial Edge Glyph" />
-              <p>{paper ? `PAPER NAV ${currency.format(paper.forward_portfolio.indicative_nav)} / ${percent(paper.data_quality.feature_coverage, 1)} COVERAGE` : "MARKET-EDGE RING / PROPRIETARY SIGNAL MARK"}</p>
+          <aside className="signal-instrument">
+            <div className="instrument-orbits" aria-hidden="true">
+              <i />
+              <i />
+              <i />
             </div>
-            <dl>
-              <div><dt>Model</dt><dd>{architecture.model_horizon_days}D</dd></div>
-              <div><dt>Universe</dt><dd>{architecture.universe.toUpperCase()}</dd></div>
-              <div><dt>Release</dt><dd>{release.release.version}</dd></div>
-              <div><dt>Snapshot</dt><dd>{formatDate(ranking.latest_signal_state.date)}</dd></div>
-              <div className="system-status-state"><dt>Status</dt><dd><span />{paper ? "Paper / no orders" : "Committed / not live"}</dd></div>
-            </dl>
+            <div className="instrument-center">
+              <span>MODEL HORIZON</span>
+              <strong>20D</strong>
+              <span>FROZEN BETWEEN RELEASES</span>
+            </div>
+            <div className="instrument-label top">
+              LIQUID-500 / EQUITY UNIVERSE
+            </div>
+            <div className="instrument-label bottom">
+              TOP 10 / COVARIANCE-AWARE WEIGHTS
+            </div>
           </aside>
         </div>
       </section>
-
-      <section className="account-stage">
-        <div className="site-container">
-          <header className="account-stage-heading">
-            <div>
-              <p className="roman-inscription">HYPOTHETICAL ACCOUNT / MARKET COMPARISON</p>
-              <h2>$100,000, system versus market.</h2>
-            </div>
-            <div className="account-ending-values">
-              <div className="account-ending-value account-ending-model">
-                <span>SALARIUM / SIMULATED</span>
-                <strong>{currency.format(account.ending_balance)}</strong>
-              </div>
-              <div className="account-ending-value account-ending-benchmark">
-                <span>S&amp;P 500 / SPY PROXY</span>
-                <strong>{currency.format(account.benchmark.ending_balance)}</strong>
-              </div>
-            </div>
-          </header>
-
-          <HistoricalAccountChart snapshot={account} />
-
-          <dl className="account-ledger">
-            <div><dt>Holding period</dt><dd>{monthYear(account.period.start)} — {monthYear(account.period.end)}</dd></div>
-            <div><dt>Annualized</dt><dd><b>Salarium {percent(account.statistics.annualized_net_return)}</b><small>SPY {percent(account.benchmark.statistics.annualized_total_return)}</small></dd></div>
-            <div><dt>Maximum drawdown</dt><dd><b className="negative-value">Salarium {percent(account.statistics.max_drawdown)}</b><small>SPY {percent(account.benchmark.statistics.max_drawdown)}</small></dd></div>
-            <div><dt>Observations</dt><dd>{account.statistics.rebalances} rebalances</dd></div>
-          </dl>
-          <p className="account-disclosure">Both lines begin with a hypothetical $100,000 on identical dates. Salarium compounds the governed out-of-sample portfolio stream after modeled transaction costs; the market comparison is a buy-and-hold SPY adjusted-close total-return proxy. Taxes, capacity limits, additional market impact, and the benchmark&apos;s initial trade cost are excluded. Simulated research—not live performance.</p>
+      <section className="site-container paper-record">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">THE FORWARD RECORD</p>
+            <h2>What the paper account shows today.</h2>
+          </div>
+          <Link href="/portfolio">Inspect holdings ↗</Link>
+        </div>
+        <div className="passport-grid">
+          {p && (
+            <>
+              <EvidencePassport
+                evidence={{
+                  ...common,
+                  label: "Indicative paper NAV",
+                  value: money(p.indicative_nav),
+                  calculation: `Published forward_portfolio.indicative_nav. Last completed rebalance NAV: ${money(p.last_completed_nav)}.`,
+                }}
+              />
+              <EvidencePassport
+                evidence={{
+                  ...common,
+                  label: "Current drawdown",
+                  value: percent(p.current_drawdown),
+                  calculation: `NAV / high-water mark − 1. ${p.indicative_nav.toFixed(2)} / ${p.high_water_mark.toFixed(2)} − 1.`,
+                }}
+              />
+              <EvidencePassport
+                evidence={{
+                  ...common,
+                  label: "Equity exposure",
+                  value: percent(p.shadow_equity_exposure),
+                  calculation:
+                    "Sum of current holdings’ paper_weight. The remainder is allocated to the cash proxy.",
+                }}
+              />
+            </>
+          )}
+          {!p && (
+            <p>
+              Forward paper snapshot unavailable. Historical returns are not
+              substituted here.
+            </p>
+          )}
         </div>
       </section>
-
-      <section className="system-showcase site-container">
-        <header className="showcase-heading">
-          <p className="roman-inscription">THE RESEARCH CHAIN / II</p>
-          <h2>One signal. Six controls.</h2>
-        </header>
-        <div className="pipeline-row pipeline-roman">
-          {[
-            ["I", "Universe", "500"],
-            ["II", "Alpha", "20D"],
-            ["III", "Rank", "01—500"],
-            ["IV", "Select", "Top 10"],
-            ["V", "Construct", "Covariance"],
-            ["VI", "Govern", "Exposure"],
-          ].map(([index, title, detail]) => (
-            <div key={index}><span>{index}</span><strong>{title}</strong><small>{detail}</small></div>
-          ))}
-        </div>
+      <section className="site-container research-destinations">
+        <Link href="/research/courtroom">
+          <span>01 / MODEL COURTROOM</span>
+          <h2>
+            Why the oil hedge
+            <br />
+            was rejected.
+          </h2>
+          <p>The argument, the objection, and the test it failed.</p>
+          <b>Open case ↗</b>
+        </Link>
+        <Link href="/replay">
+          <span>02 / DECISION REPLAY</span>
+          <h2>
+            {p ? formatDate(p.last_rebalance_date) : "Recorded rebalance"}
+            <br />
+            Reopen the file.
+          </h2>
+          <p>Original rankings, recorded weights, and risk limits.</p>
+          <b>View the archive ↗</b>
+        </Link>
+        <Link href="/dependencies">
+          <span>03 / DEPENDENCY MAP</span>
+          <h2>
+            What these holdings
+            <br />
+            have in common.
+          </h2>
+          <p>Business themes, measured allocation, and gaps in coverage.</p>
+          <b>Inspect relationships ↗</b>
+        </Link>
       </section>
-
-      <section className="ranking-stage">
-        <div className="site-container ranking-stage-grid">
-          <header>
-            <p className="roman-inscription">{paper ? "FORWARD PAPER SIGNAL / III" : "LATEST SIGNAL / III"}</p>
-            <h2>Ranked now.</h2>
-            <p>{formatDate(ranking.latest_signal_state.date)}</p>
-            <InternalCta href="/rankings" secondary>Open all rankings</InternalCta>
-          </header>
-          <div className="ranking-preview ranking-preview-large">
-            {ranking.latest_signal_state.rankings.slice(0, 5).map((row) => (
-              <Link href="/rankings" key={row.ticker}>
-                <span>{String(row.rank).padStart(2, "0")}</span>
-                <strong>{row.ticker}</strong>
-                <em>{row.score.toFixed(6)}</em>
-                <small>{percent(row.score_percentile, 1)}</small>
-              </Link>
-            ))}
+      <section className="site-container historical-evidence">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">
+              HISTORICAL SIMULATION / {account.period.start} —{" "}
+              {account.period.end}
+            </p>
+            <h2>The backtest has a different story.</h2>
+            <p className="research-muted">
+              Historical model selection and simulated trading. Separate from
+              the forward account above.
+            </p>
           </div>
         </div>
-      </section>
-
-      <section className="evidence-strip" aria-label="Selected simulated research evidence">
-        <div className="site-container">
-          <div><span>NET RETURN</span><strong>{percent(core.annualized_net_return)}</strong></div>
-          <div><span>NET SHARPE</span><strong>{core.net_sharpe.toFixed(2)}</strong></div>
-          <div><span>MAX DRAWDOWN</span><strong className="negative-value">{percent(core.max_drawdown)}</strong></div>
-          <div><span>AVG EXPOSURE</span><strong>{core.avg_exposure.toFixed(2)}x</strong></div>
+        <div className="passport-grid">
+          <EvidencePassport
+            evidence={{
+              label: "Annualized simulated net return",
+              value: percent(account.statistics.annualized_net_return),
+              category: "Historical simulation / out-of-sample research",
+              source: "/data/hypothetical_account_snapshot.json",
+              generated: release.generated_at_utc,
+              model: account.model.base_policy,
+              commit: release.provenance.git_commit,
+              calculation:
+                "product(1 + net_return) ** ((252 / 10) / 139) − 1. Full-precision returns are included in the research bundle. Chart values are rounded.",
+              exclusions:
+                "Model-selection bias, universe-selection risk, taxes, capacity limits, additional market impact, and live execution.",
+            }}
+          />
+          <EvidencePassport
+            evidence={{
+              label: "Historical maximum drawdown",
+              value: percent(account.statistics.max_drawdown),
+              category: "Historical simulation / out-of-sample research",
+              source: "/data/hypothetical_account_snapshot.json",
+              generated: release.generated_at_utc,
+              model: account.model.base_policy,
+              commit: release.provenance.git_commit,
+              calculation:
+                "Minimum historical NAV / running NAV peak − 1, using the full-precision research stream.",
+              exclusions:
+                "Historical losses do not bound future losses. Rounded chart values can differ from underlying calculations.",
+            }}
+          />
         </div>
+        <HistoricalAccountChart snapshot={account} />
+        <p className="research-muted">
+          Both curves begin at $100,000. SPY is an adjusted-close total-return
+          proxy. Modeled Salarium transaction costs are included; taxes,
+          capacity, additional impact, and the benchmark’s initial trade cost
+          are excluded.
+        </p>
+        <Link className="research-link" href="/research/performance">
+          Read the full performance record ↗
+        </Link>
       </section>
-
-      <section className="home-portals site-container">
-        {[
-          ["IV", "Evidence", "/research/performance"],
-          ["V", "Rejected ideas", "/research/experiments"],
-          ["VI", "Architecture", "/architecture"],
-          ["VII", "Methodology", "/methodology"],
-        ].map(([index, label, href]) => (
-          <Link href={href} key={href}><span>{index}</span><strong>{label}</strong><i>↗</i></Link>
-        ))}
+      <section className="site-container research-closing">
+        <h2>Inspect the work behind the website.</h2>
+        <div>
+          <Link href="/rankings">Equity rankings ↗</Link>
+          <Link href="/methodology">Model specification ↗</Link>
+          <Link href="/api/evidence-bundle" download>
+            Download research bundle ↓
+          </Link>
+        </div>
       </section>
     </main>
   );
-}
-
-function monthYear(value: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${value}T00:00:00Z`)).toUpperCase();
 }

@@ -13,7 +13,7 @@ import { loadReleaseSnapshot } from "@/lib/site-data";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Salarium — Autonomous Investment Research",
+    default: "Salarium — Open Quantitative Research",
     template: "%s | Salarium",
   },
   description:
@@ -43,14 +43,14 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Salarium",
-    title: "Salarium — Autonomous Investment Research",
+    title: "Salarium — Open Quantitative Research",
     description:
       "Transparent quantitative equity research from governed data to signal-aware portfolio construction.",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Salarium — Autonomous Investment Research",
+    title: "Salarium — Open Quantitative Research",
     description:
       "Transparent quantitative equity research from governed data to signal-aware portfolio construction.",
     images: ["/opengraph-image"],

@@ -28,7 +28,7 @@ export default function PortfolioPage() {
       <section className="page-section">
         <PageIntro
           eyebrow="FORWARD PAPER PORTFOLIO"
-          title="Weights you can inspect."
+          title="Inside the paper portfolio"
           muted="No orders behind them."
           description="A ranking is not a holding. This page shows the governed paper portfolio only when fresh prices, frozen-model scoring, covariance construction, exposure control, and provenance gates all pass."
         />

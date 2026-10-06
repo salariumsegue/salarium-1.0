@@ -9,6 +9,9 @@ const SRC = path.join(ROOT, "src");
 const DATA = path.join(ROOT, "public", "data");
 
 const ROUTES = new Map([
+  ["/replay", "src/app/replay/page.tsx"],
+  ["/dependencies", "src/app/dependencies/page.tsx"],
+  ["/research/courtroom", "src/app/research/courtroom/page.tsx"],
   ["/", "src/app/page.tsx"],
   ["/rankings", "src/app/rankings/page.tsx"],
   ["/portfolio", "src/app/portfolio/page.tsx"],
@@ -26,6 +29,8 @@ const PRIMARY_NAV_ROUTES = ["/rankings", "/portfolio", "/simulation", "/research
 
 const ALLOWED_INTERNAL = new Set([
   ...ROUTES.keys(),
+  "/api/evidence-bundle",
+  "/data/decision_archive.json",
   "/data/release_snapshot.json",
   "/data/forward_paper_snapshot.json",
   "/data/release_rankings_snapshot.json",

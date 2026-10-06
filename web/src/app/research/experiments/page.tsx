@@ -38,7 +38,7 @@ export default function ExperimentsPage() {
   return (
     <main id="main-content" className="site-main">
       <section className="page-section">
-        <PageIntro eyebrow="EXPERIMENT ARCHIVE" title="Failure is signal." muted="The gate stays closed." description="Salarium preserves attractive hypotheses that failed governance alongside the decisions that shaped the locked release. Nothing is promoted because one aggregate number looks good." />
+        <PageIntro eyebrow="EXPERIMENT ARCHIVE" title="The experiment record" muted="including rejected hypotheses." description="Salarium preserves attractive hypotheses that failed governance alongside the decisions that shaped the locked release. Nothing is promoted because one aggregate number looks good." />
 
         <section className="crisis-research mt-12" aria-labelledby="crisis-title">
           <header className="crisis-research-header">
@@ -66,8 +66,8 @@ export default function ExperimentsPage() {
               })}
             </div>
             <div className="crisis-verdict">
-              <p className="roman-inscription">DECISION / NON PROMOVETUR</p>
-              <h3>Promising sample.<br />Insufficient hedge.</h3>
+              <p className="roman-inscription">DECISION / NOT PROMOTED</p>
+              <h3>Improved drawdown.<br />Failed recovery test.</h3>
               <p>The leading 20% oil comparator improved maximum drawdown by {percent(leadingGate.drawdown_absolute_improvement)} and Sharpe by {leadingGate.sharpe_delta.toFixed(3)}, but reduced the longest recovery by only {percent(leadingGate.maximum_recovery_days_relative_reduction)} against a frozen 20% requirement.</p>
               <p>Its strength is concentrated in the inflationary sample. It is not reliable enough to alter the release architecture.</p>
             </div>

@@ -35,6 +35,9 @@ export const NAV_LINKS = [
 ] as const;
 
 export const RESEARCH_LINKS = [
+  { href: "/research/courtroom", label: "Model courtroom" },
+  { href: "/replay", label: "Decision replay" },
+  { href: "/dependencies", label: "Dependencies" },
   { href: "/research/performance", label: "Performance" },
   { href: "/research/experiments", label: "Experiments" },
 ] as const;

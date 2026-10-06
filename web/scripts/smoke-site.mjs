@@ -1,8 +1,12 @@
 import net from "node:net";
+import { createHash } from "node:crypto";
 import process from "node:process";
 import { spawn } from "node:child_process";
 
 const HTML_ROUTES = [
+  "/replay",
+  "/dependencies",
+  "/research/courtroom",
   "/",
   "/rankings",
   "/portfolio",
@@ -17,6 +21,8 @@ const HTML_ROUTES = [
   "/disclosures",
 ];
 const DATA_ROUTES = [
+  "/api/evidence-bundle",
+  "/data/decision_archive.json",
   "/api/simulation/quotes",
   "/data/release_snapshot.json",
   "/data/release_rankings_snapshot.json",
@@ -44,7 +50,9 @@ function availablePort() {
     server.listen(0, "127.0.0.1", () => {
       const address = server.address();
       if (!address || typeof address === "string") {
-        server.close(() => reject(new Error("Unable to allocate a smoke-test port")));
+        server.close(() =>
+          reject(new Error("Unable to allocate a smoke-test port")),
+        );
         return;
       }
       server.close(() => resolve(address.port));
@@ -60,7 +68,9 @@ async function waitForServer(baseUrl, child, logs) {
   const deadline = Date.now() + 60_000;
   while (Date.now() < deadline) {
     if (child.exitCode !== null) {
-      throw new Error(`Next.js exited before becoming ready (code ${child.exitCode}).\n${logs.join("")}`);
+      throw new Error(
+        `Next.js exited before becoming ready (code ${child.exitCode}).\n${logs.join("")}`,
+      );
     }
     try {
       const response = await fetch(baseUrl, { redirect: "manual" });
@@ -106,7 +116,9 @@ function assertSecurityHeaders(route, response) {
   };
   for (const [header, expected] of Object.entries(required)) {
     if (response.headers.get(header) !== expected) {
-      throw new Error(`${route} missing security header ${header}: ${response.headers.get(header)}`);
+      throw new Error(
+        `${route} missing security header ${header}: ${response.headers.get(header)}`,
+      );
     }
   }
 }
@@ -114,12 +126,20 @@ function assertSecurityHeaders(route, response) {
 const port = Number(process.env.SALARIUM_SMOKE_PORT || (await availablePort()));
 const baseUrl = `http://127.0.0.1:${port}`;
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-const child = spawn(npm, ["run", "start", "--", "-H", "127.0.0.1", "-p", String(port)], {
-  cwd: process.cwd(),
-  detached: process.platform !== "win32",
-  env: { ...process.env, NODE_ENV: "production", NEXT_TELEMETRY_DISABLED: "1" },
-  stdio: ["ignore", "pipe", "pipe"],
-});
+const child = spawn(
+  npm,
+  ["run", "start", "--", "-H", "127.0.0.1", "-p", String(port)],
+  {
+    cwd: process.cwd(),
+    detached: process.platform !== "win32",
+    env: {
+      ...process.env,
+      NODE_ENV: "production",
+      NEXT_TELEMETRY_DISABLED: "1",
+    },
+    stdio: ["ignore", "pipe", "pipe"],
+  },
+);
 const logs = [];
 child.stdout.on("data", (chunk) => logs.push(chunk.toString()));
 child.stderr.on("data", (chunk) => logs.push(chunk.toString()));
@@ -130,28 +150,69 @@ try {
   const discovered = new Set();
   for (const route of HTML_ROUTES) {
     const response = await fetch(`${baseUrl}${route}`, { redirect: "manual" });
-    if (response.status !== 200) throw new Error(`${route} returned ${response.status}; expected 200`);
+    if (response.status !== 200)
+      throw new Error(`${route} returned ${response.status}; expected 200`);
     assertSecurityHeaders(route, response);
     const contentType = response.headers.get("content-type") || "";
-    if (!contentType.includes("text/html")) throw new Error(`${route} did not return HTML (${contentType})`);
+    if (!contentType.includes("text/html"))
+      throw new Error(`${route} did not return HTML (${contentType})`);
     const body = await response.text();
-    if (!body.toUpperCase().includes("SALARIUM")) throw new Error(`${route} rendered without the Salarium product shell`);
-    if (!body.includes('id="main-content"')) throw new Error(`${route} rendered without the main-content landmark`);
+    if (!body.toUpperCase().includes("SALARIUM"))
+      throw new Error(`${route} rendered without the Salarium product shell`);
+    if (!body.includes('id="main-content"'))
+      throw new Error(`${route} rendered without the main-content landmark`);
     for (const link of internalLinks(body)) discovered.add(link);
   }
 
   for (const route of DATA_ROUTES) {
     const response = await fetch(`${baseUrl}${route}`, { redirect: "manual" });
-    if (response.status !== 200) throw new Error(`${route} returned ${response.status}; expected 200`);
+    if (response.status !== 200)
+      throw new Error(`${route} returned ${response.status}; expected 200`);
     assertSecurityHeaders(route, response);
     const contentType = response.headers.get("content-type") || "";
-    if (!contentType.includes("application/json")) throw new Error(`${route} did not return JSON (${contentType})`);
-    await response.json();
+    if (!contentType.includes("application/json"))
+      throw new Error(`${route} did not return JSON (${contentType})`);
+    const data = await response.json();
+    if (route === "/api/evidence-bundle") {
+      for (const artifact of data.artifacts) {
+        if (
+          createHash("sha256").update(artifact.raw_utf8).digest("hex") !==
+          artifact.sha256
+        )
+          throw new Error(`Bundle hash mismatch: ${artifact.name}`);
+        if (
+          JSON.stringify(JSON.parse(artifact.raw_utf8)) !==
+          JSON.stringify(artifact.data)
+        )
+          throw new Error(`Bundle bytes mismatch: ${artifact.name}`);
+      }
+      const stream = data.artifacts.find(
+        (a) => a.name === "research_return_stream.json",
+      ).data;
+      const account = data.artifacts.find(
+        (a) => a.name === "hypothetical_account_snapshot.json",
+      ).data;
+      const growth = stream.observations.reduce(
+        (p, r) => p * (1 + r.net_return),
+        1,
+      );
+      const annualized =
+        growth **
+          (252 /
+            stream.model.rebalance_every_days /
+            stream.observations.length) -
+        1;
+      if (
+        Math.abs(annualized - account.statistics.annualized_net_return) > 1e-10
+      )
+        throw new Error("Annualized return does not reproduce from bundle");
+    }
   }
 
   for (const route of DISCOVERY_ROUTES) {
     const response = await fetch(`${baseUrl}${route}`, { redirect: "manual" });
-    if (response.status !== 200) throw new Error(`${route} returned ${response.status}; expected 200`);
+    if (response.status !== 200)
+      throw new Error(`${route} returned ${response.status}; expected 200`);
     assertSecurityHeaders(route, response);
   }
 
@@ -160,12 +221,17 @@ try {
     const route = pathOnly(raw);
     const response = await fetch(`${baseUrl}${route}`, { redirect: "manual" });
     if (response.status !== 200) {
-      throw new Error(`Rendered internal link ${raw} returned ${response.status}`);
+      throw new Error(
+        `Rendered internal link ${raw} returned ${response.status}`,
+      );
     }
   }
 
-  const missing = await fetch(`${baseUrl}/definitely-not-a-salarium-route`, { redirect: "manual" });
-  if (missing.status !== 404) throw new Error(`Unknown route returned ${missing.status}; expected 404`);
+  const missing = await fetch(`${baseUrl}/definitely-not-a-salarium-route`, {
+    redirect: "manual",
+  });
+  if (missing.status !== 404)
+    throw new Error(`Unknown route returned ${missing.status}; expected 404`);
 
   console.log("SALARIUM_SITE_SMOKE=PASS");
   console.log(`HTML routes served: ${HTML_ROUTES.length}`);

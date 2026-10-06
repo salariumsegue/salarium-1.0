@@ -33,8 +33,8 @@ export default function ResearchPage() {
           <div>
             <p className="eyebrow">Research record</p>
             <h1 className="mt-5 text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
-              Evidence first.
-              <span className="block text-white/32">Rejected ideas included.</span>
+              The research behind Salarium
+              <span className="block text-white/32">Results, revisions, and rejected ideas.</span>
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-7 text-white/48">
               The release architecture is the result of controlled walk-forward experiments—not a collection of parameters chosen because they looked sophisticated. This page shows what improved, what failed, and what remains uncertain.
@@ -59,7 +59,7 @@ export default function ResearchPage() {
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow">Three operating mandates</p>
-            <h2 className="mt-4 text-4xl font-medium tracking-tight">One alpha engine, different risk choices.</h2>
+            <h2 className="mt-4 text-4xl font-medium tracking-tight">Portfolio policies compared on the same rankings</h2>
           </div>
           <Link href="/architecture" className="text-link">Trace the architecture <span aria-hidden="true">→</span></Link>
         </div>
@@ -81,7 +81,7 @@ export default function ResearchPage() {
       <section className="page-section border-y border-white/8 bg-white/[0.012]">
         <div className="max-w-3xl">
           <p className="eyebrow">Annual out-of-sample record</p>
-          <h2 className="mt-4 text-4xl font-medium tracking-tight">No single aggregate number gets the final word.</h2>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">Results by year and portfolio policy</h2>
           <p className="mt-5 text-sm leading-7 text-white/42">
             Annual expanding-window fits produce a year-by-year view of the same locked architecture. This helps expose whether the result depends on one unusually favorable regime.
           </p>
@@ -98,7 +98,7 @@ export default function ResearchPage() {
       <section className="page-section">
         <div className="max-w-3xl">
           <p className="eyebrow">Controlled decisions</p>
-          <h2 className="mt-4 text-4xl font-medium tracking-tight">The path to the locked release.</h2>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">Experiments behind the current release</h2>
           <p className="mt-5 text-sm leading-7 text-white/42">
             Every decision below corresponds to a committed comparison. Failed hypotheses stay visible because a credible research platform records what did not work.
           </p>
@@ -112,7 +112,7 @@ export default function ResearchPage() {
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <p className="eyebrow">Covariance constructor</p>
-            <h2 className="mt-4 text-3xl font-medium">Joint risk improved the Top-10.</h2>
+            <h2 className="mt-4 text-3xl font-medium">Covariance-aware weights for ten holdings</h2>
             <p className="mt-4 max-w-xl text-sm leading-7 text-white/42">
               The 60-day shrinkage covariance tournament compared the original inverse-volatility baseline with minimum-variance and maximum-diversification portfolios while holding the upstream alpha signal fixed.
             </p>
@@ -123,7 +123,7 @@ export default function ResearchPage() {
 
           <div>
             <p className="eyebrow">Signal-aware weighting</p>
-            <h2 className="mt-4 text-3xl font-medium">Conviction helps—until it dominates risk.</h2>
+            <h2 className="mt-4 text-3xl font-medium">How much influence should the signal have?</h2>
             <p className="mt-4 max-w-xl text-sm leading-7 text-white/42">
               A 25% signal blend gives model conviction a meaningful vote while preserving the covariance engine as the primary portfolio-risk anchor.
             </p>
@@ -137,7 +137,7 @@ export default function ResearchPage() {
       <section className="page-section">
         <div className="max-w-3xl">
           <p className="eyebrow">Robustness</p>
-          <h2 className="mt-4 text-4xl font-medium tracking-tight">Stability matters more than one winning cell.</h2>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">Sensitivity to changes in the configuration</h2>
           <p className="mt-5 text-sm leading-7 text-white/42">
             The selected blend is evaluated against the same-anchor 0% signal baseline across six annual test periods. The record is mixed rather than universal, which is why the signal share remains governed at 25%.
           </p>
@@ -152,7 +152,7 @@ export default function ResearchPage() {
         <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
           <div>
             <p className="eyebrow text-red-300">Research limitations</p>
-            <h2 className="mt-4 text-3xl font-medium">Strong evidence is not certainty.</h2>
+            <h2 className="mt-4 text-3xl font-medium">Limitations of the research record</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <Limit title="Simulated returns" body="All displayed performance is historical research, not live account performance." />

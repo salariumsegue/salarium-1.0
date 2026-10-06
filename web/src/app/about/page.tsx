@@ -22,8 +22,8 @@ export default function AboutPage() {
           <div>
             <p className="eyebrow">Why Salarium exists</p>
             <h1 className="mt-5 text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
-              Build research that
-              <span className="block text-white/32">can survive questions.</span>
+              A student-built
+              <span className="block text-white/32">quantitative research project.</span>
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-7 text-white/48">
               Modern investment research is fragmented across data acquisition, signal generation, model validation, portfolio construction, and risk management. Salarium explores whether those layers can be unified into a governed research system.
@@ -71,7 +71,7 @@ export default function AboutPage() {
       <section className="page-section border-y border-white/8 bg-white/[0.012]">
         <div className="max-w-3xl">
           <p className="eyebrow">What makes the work credible</p>
-          <h2 className="mt-4 text-4xl font-medium tracking-tight">Not one model. A governed research chain.</h2>
+          <h2 className="mt-4 text-4xl font-medium tracking-tight">What the project includes</h2>
         </div>
         <div className="mt-9 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Pillar number="01" title="Point-in-time discipline" body="The research process uses annual expanding-window fits and preserves out-of-sample score artifacts." />
@@ -94,7 +94,7 @@ export default function AboutPage() {
         <div className="grid gap-8 lg:grid-cols-[1fr_0.85fr]">
           <div>
             <p className="eyebrow">For technical reviewers</p>
-            <h2 className="mt-4 text-3xl font-medium">Inspect the implementation, not just the interface.</h2>
+            <h2 className="mt-4 text-3xl font-medium">Source code and release documentation</h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-white/42">
               The repository contains model-generation scripts, portfolio evaluators, experiment reports, release-snapshot exporters, governance tests, and the Next.js public product. The public interface is intentionally linked back to committed source evidence.
             </p>

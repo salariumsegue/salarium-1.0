@@ -30,5 +30,5 @@ export function EdgeGlyph({ className, variant = "color", title = "Salarium Clas
 }
 
 export function SalariumLogo({ compact = false, className = "" }: { compact?: boolean; className?: string }) {
-  return <span className={`salarium-logo ${className}`}><EdgeGlyph className={compact ? "h-9 w-9" : "h-11 w-11"} />{!compact && <span className="salarium-wordmark"><span>SALARIUM</span><small>AUTONOMOUS INVESTMENT RESEARCH</small></span>}</span>;
+  return <span className={`salarium-logo ${className}`}><EdgeGlyph className={compact ? "h-9 w-9" : "h-11 w-11"} />{!compact && <span className="salarium-wordmark"><span>SALARIUM</span><small>OPEN QUANTITATIVE RESEARCH</small></span>}</span>;
 }

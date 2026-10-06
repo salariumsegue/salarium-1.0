@@ -278,6 +278,8 @@ export type CrisisDiversifierResearch = {
     title: string;
     status: string;
     hypothesis: string;
+    protocol_frozen_before_evaluation: boolean;
+    frozen_at_utc: string;
   };
   period: {
     start: string;

@@ -17,7 +17,7 @@ export default function OpenGraphImage() {
             <path d="M18 34l8 4m-10 14 9 1" stroke="#42d98b" strokeWidth="4" />
             <path d="M102 34l-8 4m10 14-9 1" stroke="#e26363" strokeWidth="4" />
           </svg>
-          <div style={{ display:"flex", flexDirection:"column" }}><div style={{ fontSize: 28, letterSpacing: "8px", fontWeight: 700 }}>SALARIUM</div><div style={{marginTop:6,fontSize:9,letterSpacing:3,color:"#858b87"}}>AUTONOMOUS INVESTMENT RESEARCH</div></div>
+          <div style={{ display:"flex", flexDirection:"column" }}><div style={{ fontSize: 28, letterSpacing: "8px", fontWeight: 700 }}>SALARIUM</div><div style={{marginTop:6,fontSize:9,letterSpacing:3,color:"#858b87"}}>OPEN QUANTITATIVE RESEARCH</div></div>
         </div>
         <div style={{ fontSize: 16, letterSpacing: "4px", color: "#6ee7b7" }}>1.0 RELEASE CANDIDATE</div>
       </div>

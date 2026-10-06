@@ -49,7 +49,7 @@ export default function SiteFooter({
       <div className="border-t border-white/8">
         <div className="site-container flex flex-col gap-2 py-5 font-mono text-[10px] tracking-[0.12em] text-white/25 md:flex-row md:items-center md:justify-between">
           <span>COMMIT {commit.slice(0, 12)}</span>
-          <span>SNAPSHOT {formatDateTime(generatedAt).toUpperCase()}</span>
+          <span>MODEL RELEASE SNAPSHOT {formatDateTime(generatedAt).toUpperCase()}</span>
           <span>© 2026 NIALL GILLEN · MIT LICENSE</span>
         </div>
       </div>
