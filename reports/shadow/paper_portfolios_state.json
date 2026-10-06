@@ -1,9 +1,16 @@
 {
-  "benchmark": [],
+  "benchmark": [
+    {
+      "date": "2026-10-06",
+      "nav": 99900.09990009993
+    }
+  ],
+  "benchmark_units": 128.2184177707478,
   "config_sha256": "abaeaa3750f19d80c5c40b37f42da5065cd1b1869e7fb17c2282101bdac8471a",
-  "generated_at": "2026-10-06T19:22:31.363098+00:00",
-  "launch_after": "2026-10-05",
-  "message": "All four accounts begin together at the first governed close after October 5, 2026. No historical outcomes are backfilled.",
+  "generated_at": "2026-10-06T20:07:59.483861+00:00",
+  "launch_date": "2026-10-06",
+  "market_data_sha256": "7591174f8c6aec96ca5d706b997b6e6d70d8b59fda8c5c239371793692456d80",
+  "message": "Four independent paper accounts. The earlier drawdown account remains a separate legacy record. USO uses ETF adjusted-close prices, not contract-level futures execution.",
   "paper_only": true,
   "policy_config": {
     "benchmark": "SPY",
@@ -56,61 +63,1872 @@
   },
   "portfolios": [
     {
-      "anchor": "shrinkage_max_diversification",
-      "controller": false,
+      "config_sha256": "abaeaa3750f19d80c5c40b37f42da5065cd1b1869e7fb17c2282101bdac8471a",
+      "days_underwater": 1,
       "description": "Maximum-diversification equity weights with a 25% signal blend and a neutral 75% equity baseline.",
+      "experimental": false,
+      "high_water_mark": 100000,
       "key": "core",
-      "maximum_drawdown": 0,
+      "last_prices": {
+        "BIL": 91.44770050048828,
+        "COHR": 338.489990234375,
+        "CRDO": 220.8300018310547,
+        "CTVA": 13.908499717712402,
+        "DOCN": 131.06399536132812,
+        "HUT": 92.22000122070312,
+        "LUNR": 15.0600004196167,
+        "MARA": 10.970000267028809,
+        "MDB": 360.7099914550781,
+        "RBLX": 45.58000183105469,
+        "SWKS": 82.79000091552734
+      },
+      "last_rebalance_date": "2026-10-06",
+      "launch_date": "2026-10-06",
+      "maximum_days_underwater": 1,
+      "maximum_drawdown": -0.0009990009990008542,
       "name": "Core",
-      "observations": [],
-      "oil_budget": 0,
-      "signal_blend": 0.25,
-      "status": "awaiting_launch",
-      "total_costs": 0
+      "observations": [
+        {
+          "attribution": {
+            "cash": 0.0,
+            "cost": -99.90009990008548,
+            "equity": 0.0,
+            "oil": 0.0
+          },
+          "cost": 99.90009990008548,
+          "date": "2026-10-06",
+          "drawdown": -0.0009990009990008542,
+          "holdings": [
+            {
+              "price": 91.44770050048828,
+              "shares": 273.1071950233634,
+              "ticker": "BIL",
+              "value": 24975.02497502498,
+              "weight": 0.25
+            },
+            {
+              "price": 338.489990234375,
+              "shares": 18.973221939068306,
+              "ticker": "COHR",
+              "value": 6422.24570886986,
+              "weight": 0.06428667954578729
+            },
+            {
+              "price": 220.8300018310547,
+              "shares": 28.24330578804981,
+              "ticker": "CRDO",
+              "value": 6236.969268890077,
+              "weight": 0.06243206238158966
+            },
+            {
+              "price": 13.908499717712402,
+              "shares": 718.3192518274188,
+              "ticker": "CTVA",
+              "value": 9990.74311126904,
+              "weight": 0.10000733854380307
+            },
+            {
+              "price": 131.06399536132812,
+              "shares": 52.682374480748926,
+              "ticker": "DOCN",
+              "value": 6904.762484568629,
+              "weight": 0.06911667247053196
+            },
+            {
+              "price": 92.22000122070312,
+              "shares": 69.26425927311689,
+              "ticker": "HUT",
+              "value": 6387.550074717938,
+              "weight": 0.06393937624792655
+            },
+            {
+              "price": 15.0600004196167,
+              "shares": 418.5598630181941,
+              "ticker": "LUNR",
+              "value": 6303.511712688712,
+              "weight": 0.063098152244014
+            },
+            {
+              "price": 10.970000267028809,
+              "shares": 586.7296455737682,
+              "ticker": "MARA",
+              "value": 6436.424368617955,
+              "weight": 0.06442860792986572
+            },
+            {
+              "price": 360.7099914550781,
+              "shares": 24.143101142992194,
+              "ticker": "MDB",
+              "value": 8708.657806987801,
+              "weight": 0.08717366464794787
+            },
+            {
+              "price": 45.58000183105469,
+              "shares": 194.11168518866972,
+              "ticker": "RBLX",
+              "value": 8847.610966328677,
+              "weight": 0.08856458577295004
+            },
+            {
+              "price": 82.79000091552734,
+              "shares": 104.92329177528825,
+              "ticker": "SWKS",
+              "value": 8686.599422136256,
+              "weight": 0.08695286021558392
+            }
+          ],
+          "nav": 99900.09990009991,
+          "rankings": [
+            {
+              "company_name": "Corteva, Inc. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 1,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.11245809265650189,
+              "score_percentile": 1.0,
+              "ticker": "CTVA",
+              "volatility_20d": 0.19056872204560507
+            },
+            {
+              "company_name": "Hut 8 Corp. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 2,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04540292965864683,
+              "score_percentile": 0.9979919678714859,
+              "ticker": "HUT",
+              "volatility_20d": 0.048525375895572626
+            },
+            {
+              "company_name": "Credo Technology Group Holding Ltd - Ordinary Shares",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 3,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04390184956927376,
+              "score_percentile": 0.9959839357429718,
+              "ticker": "CRDO",
+              "volatility_20d": 0.047165738078155016
+            },
+            {
+              "company_name": "DigitalOcean Holdings, Inc. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 4,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04379294610301888,
+              "score_percentile": 0.9939759036144579,
+              "ticker": "DOCN",
+              "volatility_20d": 0.04439986189841099
+            },
+            {
+              "company_name": "Skyworks Solutions, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 5,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04316793864384657,
+              "score_percentile": 0.9919678714859438,
+              "ticker": "SWKS",
+              "volatility_20d": 0.05308875310445584
+            },
+            {
+              "company_name": "Roblox Corporation Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 6,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04311684700521266,
+              "score_percentile": 0.9899598393574297,
+              "ticker": "RBLX",
+              "volatility_20d": 0.04642194768224946
+            },
+            {
+              "company_name": "MARA Holdings, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 7,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04300333238627925,
+              "score_percentile": 0.9879518072289156,
+              "ticker": "MARA",
+              "volatility_20d": 0.043516883245867714
+            },
+            {
+              "company_name": "Intuitive Machines, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 8,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04289519933438532,
+              "score_percentile": 0.9859437751004017,
+              "ticker": "LUNR",
+              "volatility_20d": 0.047886225499134696
+            },
+            {
+              "company_name": "MongoDB, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 9,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04285535143258738,
+              "score_percentile": 0.9839357429718876,
+              "ticker": "MDB",
+              "volatility_20d": 0.052162344624278004
+            },
+            {
+              "company_name": "Coherent Corp. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 10,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04257293872339866,
+              "score_percentile": 0.9819277108433735,
+              "ticker": "COHR",
+              "volatility_20d": 0.05204139109239408
+            },
+            {
+              "company_name": "Coinbase Global, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 11,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.042370445936518876,
+              "score_percentile": 0.9799196787148594,
+              "ticker": "COIN",
+              "volatility_20d": 0.04780460803911283
+            },
+            {
+              "company_name": "Oklo Inc. Class A common stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 12,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04225540368089541,
+              "score_percentile": 0.9779116465863453,
+              "ticker": "OKLO",
+              "volatility_20d": 0.045062132423145676
+            },
+            {
+              "company_name": "Applied Optoelectronics, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 13,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.042168097325787385,
+              "score_percentile": 0.9759036144578314,
+              "ticker": "AAOI",
+              "volatility_20d": 0.04822968414624063
+            },
+            {
+              "company_name": "Seagate Technology Holdings PLC - Ordinary Shares (Ireland)",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 14,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04201896543537581,
+              "score_percentile": 0.9738955823293173,
+              "ticker": "STX",
+              "volatility_20d": 0.0431586059216907
+            },
+            {
+              "company_name": "Corning Incorporated Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 15,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.0420051794405,
+              "score_percentile": 0.9718875502008032,
+              "ticker": "GLW",
+              "volatility_20d": 0.044309504094692316
+            },
+            {
+              "company_name": "Applied Digital Corporation - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 16,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.0419962645211793,
+              "score_percentile": 0.9698795180722891,
+              "ticker": "APLD",
+              "volatility_20d": 0.04512604258631433
+            },
+            {
+              "company_name": "Intel Corporation - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 17,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041734720354799054,
+              "score_percentile": 0.9678714859437751,
+              "ticker": "INTC",
+              "volatility_20d": 0.04497358021144897
+            },
+            {
+              "company_name": "Zscaler, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 18,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04165223305905878,
+              "score_percentile": 0.9658634538152611,
+              "ticker": "ZS",
+              "volatility_20d": 0.04759907443103944
+            },
+            {
+              "company_name": "AXT Inc - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 19,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041650413179373534,
+              "score_percentile": 0.963855421686747,
+              "ticker": "AXTI",
+              "volatility_20d": 0.06296678237007103
+            },
+            {
+              "company_name": "Ciena Corporation Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 20,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04156466966612652,
+              "score_percentile": 0.9618473895582329,
+              "ticker": "CIEN",
+              "volatility_20d": 0.04619170801196233
+            },
+            {
+              "company_name": "Okta, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 21,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041524744481579265,
+              "score_percentile": 0.9598393574297188,
+              "ticker": "OKTA",
+              "volatility_20d": 0.037002190526902345
+            },
+            {
+              "company_name": "Tempus AI, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 22,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04151313946272865,
+              "score_percentile": 0.9578313253012049,
+              "ticker": "TEM",
+              "volatility_20d": 0.06479380773233333
+            },
+            {
+              "company_name": "Astera Labs, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 23,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04145193400238725,
+              "score_percentile": 0.9558232931726908,
+              "ticker": "ALAB",
+              "volatility_20d": 0.05435988918566383
+            },
+            {
+              "company_name": "Bloom Energy Corporation Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 24,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041001576582920765,
+              "score_percentile": 0.9538152610441767,
+              "ticker": "BE",
+              "volatility_20d": 0.05180468705574109
+            },
+            {
+              "company_name": "Moderna, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 25,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04099640675930677,
+              "score_percentile": 0.9518072289156626,
+              "ticker": "MRNA",
+              "volatility_20d": 0.04952710124560101
+            }
+          ],
+          "rebalance": true,
+          "recorded_at": "2026-10-06T20:07:59.483861+00:00",
+          "return": -0.0009990009990008542,
+          "source_sha256": "2b3b95e3b4aa188896c64cabfaeead7d3cd880177645b0dd98d20cd57acf5620",
+          "trades": [
+            {
+              "dollars": 24975.02497502498,
+              "ticker": "BIL"
+            },
+            {
+              "dollars": 6422.24570886986,
+              "ticker": "COHR"
+            },
+            {
+              "dollars": 6236.969268890077,
+              "ticker": "CRDO"
+            },
+            {
+              "dollars": 9990.74311126904,
+              "ticker": "CTVA"
+            },
+            {
+              "dollars": 6904.762484568629,
+              "ticker": "DOCN"
+            },
+            {
+              "dollars": 6387.550074717938,
+              "ticker": "HUT"
+            },
+            {
+              "dollars": 6303.511712688712,
+              "ticker": "LUNR"
+            },
+            {
+              "dollars": 6436.424368617955,
+              "ticker": "MARA"
+            },
+            {
+              "dollars": 8708.657806987801,
+              "ticker": "MDB"
+            },
+            {
+              "dollars": 8847.610966328677,
+              "ticker": "RBLX"
+            },
+            {
+              "dollars": 8686.599422136256,
+              "ticker": "SWKS"
+            }
+          ]
+        }
+      ],
+      "positions": {
+        "BIL": 273.1071950233634,
+        "COHR": 18.973221939068306,
+        "CRDO": 28.24330578804981,
+        "CTVA": 718.3192518274188,
+        "DOCN": 52.682374480748926,
+        "HUT": 69.26425927311689,
+        "LUNR": 418.5598630181941,
+        "MARA": 586.7296455737682,
+        "MDB": 24.143101142992194,
+        "RBLX": 194.11168518866972,
+        "SWKS": 104.92329177528825
+      },
+      "starting_capital": 100000,
+      "status": "active_paper",
+      "total_costs": 99.90009990008548
     },
     {
-      "anchor": "shrinkage_min_variance",
-      "controller": false,
+      "config_sha256": "abaeaa3750f19d80c5c40b37f42da5065cd1b1869e7fb17c2282101bdac8471a",
+      "days_underwater": 1,
       "description": "Minimum-variance equity weights at the same baseline exposure. No signal weighting blend.",
+      "experimental": false,
+      "high_water_mark": 100000,
       "key": "defensive",
-      "maximum_drawdown": 0,
+      "last_prices": {
+        "BIL": 91.44770050048828,
+        "COHR": 338.489990234375,
+        "CRDO": 220.8300018310547,
+        "CTVA": 13.908499717712402,
+        "DOCN": 131.06399536132812,
+        "HUT": 92.22000122070312,
+        "LUNR": 15.0600004196167,
+        "MARA": 10.970000267028809,
+        "MDB": 360.7099914550781,
+        "RBLX": 45.58000183105469,
+        "SWKS": 82.79000091552734
+      },
+      "last_rebalance_date": "2026-10-06",
+      "launch_date": "2026-10-06",
+      "maximum_days_underwater": 1,
+      "maximum_drawdown": -0.0009990009990008542,
       "name": "Defensive",
-      "observations": [],
-      "oil_budget": 0,
-      "signal_blend": 0,
-      "status": "awaiting_launch",
-      "total_costs": 0
+      "observations": [
+        {
+          "attribution": {
+            "cash": 0.0,
+            "cost": -99.90009990008548,
+            "equity": 0.0,
+            "oil": 0.0
+          },
+          "cost": 99.90009990008548,
+          "date": "2026-10-06",
+          "drawdown": -0.0009990009990008542,
+          "holdings": [
+            {
+              "price": 91.44770050048828,
+              "shares": 273.1071950233634,
+              "ticker": "BIL",
+              "value": 24975.02497502498,
+              "weight": 0.25
+            },
+            {
+              "price": 338.489990234375,
+              "shares": 17.515668868045594,
+              "ticker": "COHR",
+              "value": 5928.8785840933,
+              "weight": 0.05934807462677392
+            },
+            {
+              "price": 220.8300018310547,
+              "shares": 26.257238114670056,
+              "ticker": "CRDO",
+              "value": 5798.385940941027,
+              "weight": 0.05804184326881967
+            },
+            {
+              "price": 13.908499717712402,
+              "shares": 514.6670474409017,
+              "ticker": "CTVA",
+              "value": 7158.246484047657,
+              "weight": 0.07165404730531703
+            },
+            {
+              "price": 131.06399536132812,
+              "shares": 53.82429638464495,
+              "ticker": "DOCN",
+              "value": 7054.427331683856,
+              "weight": 0.0706148175901554
+            },
+            {
+              "price": 92.22000122070312,
+              "shares": 64.56069629812171,
+              "ticker": "HUT",
+              "value": 5953.787491422228,
+              "weight": 0.059597412789136495
+            },
+            {
+              "price": 15.0600004196167,
+              "shares": 437.8877489591484,
+              "ticker": "LUNR",
+              "value": 6594.589683069787,
+              "weight": 0.06601184272752855
+            },
+            {
+              "price": 10.970000267028809,
+              "shares": 588.966272417259,
+              "ticker": "MARA",
+              "value": 6460.960165688293,
+              "weight": 0.06467421125853981
+            },
+            {
+              "price": 360.7099914550781,
+              "shares": 27.241391574921195,
+              "ticker": "MDB",
+              "value": 9826.242122214262,
+              "weight": 0.09836068364336475
+            },
+            {
+              "price": 45.58000183105469,
+              "shares": 217.3412080265188,
+              "ticker": "RBLX",
+              "value": 9906.412659812366,
+              "weight": 0.09916319072472177
+            },
+            {
+              "price": 82.79000091552734,
+              "shares": 123.72441537418874,
+              "ticker": "SWKS",
+              "value": 10243.144462102171,
+              "weight": 0.10253387606564272
+            }
+          ],
+          "nav": 99900.09990009991,
+          "rankings": [
+            {
+              "company_name": "Corteva, Inc. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 1,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.11245809265650189,
+              "score_percentile": 1.0,
+              "ticker": "CTVA",
+              "volatility_20d": 0.19056872204560507
+            },
+            {
+              "company_name": "Hut 8 Corp. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 2,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04540292965864683,
+              "score_percentile": 0.9979919678714859,
+              "ticker": "HUT",
+              "volatility_20d": 0.048525375895572626
+            },
+            {
+              "company_name": "Credo Technology Group Holding Ltd - Ordinary Shares",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 3,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04390184956927376,
+              "score_percentile": 0.9959839357429718,
+              "ticker": "CRDO",
+              "volatility_20d": 0.047165738078155016
+            },
+            {
+              "company_name": "DigitalOcean Holdings, Inc. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 4,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04379294610301888,
+              "score_percentile": 0.9939759036144579,
+              "ticker": "DOCN",
+              "volatility_20d": 0.04439986189841099
+            },
+            {
+              "company_name": "Skyworks Solutions, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 5,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04316793864384657,
+              "score_percentile": 0.9919678714859438,
+              "ticker": "SWKS",
+              "volatility_20d": 0.05308875310445584
+            },
+            {
+              "company_name": "Roblox Corporation Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 6,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04311684700521266,
+              "score_percentile": 0.9899598393574297,
+              "ticker": "RBLX",
+              "volatility_20d": 0.04642194768224946
+            },
+            {
+              "company_name": "MARA Holdings, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 7,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04300333238627925,
+              "score_percentile": 0.9879518072289156,
+              "ticker": "MARA",
+              "volatility_20d": 0.043516883245867714
+            },
+            {
+              "company_name": "Intuitive Machines, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 8,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04289519933438532,
+              "score_percentile": 0.9859437751004017,
+              "ticker": "LUNR",
+              "volatility_20d": 0.047886225499134696
+            },
+            {
+              "company_name": "MongoDB, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 9,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04285535143258738,
+              "score_percentile": 0.9839357429718876,
+              "ticker": "MDB",
+              "volatility_20d": 0.052162344624278004
+            },
+            {
+              "company_name": "Coherent Corp. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 10,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04257293872339866,
+              "score_percentile": 0.9819277108433735,
+              "ticker": "COHR",
+              "volatility_20d": 0.05204139109239408
+            },
+            {
+              "company_name": "Coinbase Global, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 11,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.042370445936518876,
+              "score_percentile": 0.9799196787148594,
+              "ticker": "COIN",
+              "volatility_20d": 0.04780460803911283
+            },
+            {
+              "company_name": "Oklo Inc. Class A common stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 12,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04225540368089541,
+              "score_percentile": 0.9779116465863453,
+              "ticker": "OKLO",
+              "volatility_20d": 0.045062132423145676
+            },
+            {
+              "company_name": "Applied Optoelectronics, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 13,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.042168097325787385,
+              "score_percentile": 0.9759036144578314,
+              "ticker": "AAOI",
+              "volatility_20d": 0.04822968414624063
+            },
+            {
+              "company_name": "Seagate Technology Holdings PLC - Ordinary Shares (Ireland)",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 14,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04201896543537581,
+              "score_percentile": 0.9738955823293173,
+              "ticker": "STX",
+              "volatility_20d": 0.0431586059216907
+            },
+            {
+              "company_name": "Corning Incorporated Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 15,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.0420051794405,
+              "score_percentile": 0.9718875502008032,
+              "ticker": "GLW",
+              "volatility_20d": 0.044309504094692316
+            },
+            {
+              "company_name": "Applied Digital Corporation - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 16,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.0419962645211793,
+              "score_percentile": 0.9698795180722891,
+              "ticker": "APLD",
+              "volatility_20d": 0.04512604258631433
+            },
+            {
+              "company_name": "Intel Corporation - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 17,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041734720354799054,
+              "score_percentile": 0.9678714859437751,
+              "ticker": "INTC",
+              "volatility_20d": 0.04497358021144897
+            },
+            {
+              "company_name": "Zscaler, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 18,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04165223305905878,
+              "score_percentile": 0.9658634538152611,
+              "ticker": "ZS",
+              "volatility_20d": 0.04759907443103944
+            },
+            {
+              "company_name": "AXT Inc - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 19,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041650413179373534,
+              "score_percentile": 0.963855421686747,
+              "ticker": "AXTI",
+              "volatility_20d": 0.06296678237007103
+            },
+            {
+              "company_name": "Ciena Corporation Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 20,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04156466966612652,
+              "score_percentile": 0.9618473895582329,
+              "ticker": "CIEN",
+              "volatility_20d": 0.04619170801196233
+            },
+            {
+              "company_name": "Okta, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 21,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041524744481579265,
+              "score_percentile": 0.9598393574297188,
+              "ticker": "OKTA",
+              "volatility_20d": 0.037002190526902345
+            },
+            {
+              "company_name": "Tempus AI, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 22,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04151313946272865,
+              "score_percentile": 0.9578313253012049,
+              "ticker": "TEM",
+              "volatility_20d": 0.06479380773233333
+            },
+            {
+              "company_name": "Astera Labs, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 23,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04145193400238725,
+              "score_percentile": 0.9558232931726908,
+              "ticker": "ALAB",
+              "volatility_20d": 0.05435988918566383
+            },
+            {
+              "company_name": "Bloom Energy Corporation Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 24,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041001576582920765,
+              "score_percentile": 0.9538152610441767,
+              "ticker": "BE",
+              "volatility_20d": 0.05180468705574109
+            },
+            {
+              "company_name": "Moderna, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 25,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04099640675930677,
+              "score_percentile": 0.9518072289156626,
+              "ticker": "MRNA",
+              "volatility_20d": 0.04952710124560101
+            }
+          ],
+          "rebalance": true,
+          "recorded_at": "2026-10-06T20:07:59.483861+00:00",
+          "return": -0.0009990009990008542,
+          "source_sha256": "2b3b95e3b4aa188896c64cabfaeead7d3cd880177645b0dd98d20cd57acf5620",
+          "trades": [
+            {
+              "dollars": 24975.02497502498,
+              "ticker": "BIL"
+            },
+            {
+              "dollars": 5928.8785840933,
+              "ticker": "COHR"
+            },
+            {
+              "dollars": 5798.385940941027,
+              "ticker": "CRDO"
+            },
+            {
+              "dollars": 7158.246484047657,
+              "ticker": "CTVA"
+            },
+            {
+              "dollars": 7054.427331683856,
+              "ticker": "DOCN"
+            },
+            {
+              "dollars": 5953.787491422228,
+              "ticker": "HUT"
+            },
+            {
+              "dollars": 6594.589683069787,
+              "ticker": "LUNR"
+            },
+            {
+              "dollars": 6460.960165688293,
+              "ticker": "MARA"
+            },
+            {
+              "dollars": 9826.242122214262,
+              "ticker": "MDB"
+            },
+            {
+              "dollars": 9906.412659812366,
+              "ticker": "RBLX"
+            },
+            {
+              "dollars": 10243.144462102171,
+              "ticker": "SWKS"
+            }
+          ]
+        }
+      ],
+      "positions": {
+        "BIL": 273.1071950233634,
+        "COHR": 17.515668868045594,
+        "CRDO": 26.257238114670056,
+        "CTVA": 514.6670474409017,
+        "DOCN": 53.82429638464495,
+        "HUT": 64.56069629812171,
+        "LUNR": 437.8877489591484,
+        "MARA": 588.966272417259,
+        "MDB": 27.241391574921195,
+        "RBLX": 217.3412080265188,
+        "SWKS": 123.72441537418874
+      },
+      "starting_capital": 100000,
+      "status": "active_paper",
+      "total_costs": 99.90009990008548
     },
     {
-      "anchor": "shrinkage_max_diversification",
-      "controller": true,
+      "config_sha256": "abaeaa3750f19d80c5c40b37f42da5065cd1b1869e7fb17c2282101bdac8471a",
+      "days_underwater": 1,
       "description": "Core equity weights with a 78% high-water-mark soft floor and a 3\u00d7 cushion controller.",
+      "experimental": false,
+      "high_water_mark": 100000,
       "key": "drawdown",
-      "maximum_drawdown": 0,
+      "last_prices": {
+        "BIL": 91.44770050048828,
+        "COHR": 338.489990234375,
+        "CRDO": 220.8300018310547,
+        "CTVA": 13.908499717712402,
+        "DOCN": 131.06399536132812,
+        "HUT": 92.22000122070312,
+        "LUNR": 15.0600004196167,
+        "MARA": 10.970000267028809,
+        "MDB": 360.7099914550781,
+        "RBLX": 45.58000183105469,
+        "SWKS": 82.79000091552734
+      },
+      "last_rebalance_date": "2026-10-06",
+      "launch_date": "2026-10-06",
+      "maximum_days_underwater": 1,
+      "maximum_drawdown": -0.0009990009990008542,
       "name": "Drawdown Control",
-      "observations": [],
-      "oil_budget": 0,
-      "signal_blend": 0.25,
-      "status": "awaiting_launch",
-      "total_costs": 0
+      "observations": [
+        {
+          "attribution": {
+            "cash": 0.0,
+            "cost": -99.90009990008548,
+            "equity": 0.0,
+            "oil": 0.0
+          },
+          "cost": 99.90009990008548,
+          "date": "2026-10-06",
+          "drawdown": -0.0009990009990008542,
+          "holdings": [
+            {
+              "price": 91.44770050048828,
+              "shares": 371.42578523177417,
+              "ticker": "BIL",
+              "value": 33966.03396603397,
+              "weight": 0.33999999999999997
+            },
+            {
+              "price": 338.489990234375,
+              "shares": 16.696435306380106,
+              "ticker": "COHR",
+              "value": 5651.576223805476,
+              "weight": 0.056572278000292804
+            },
+            {
+              "price": 220.8300018310547,
+              "shares": 24.85410909348383,
+              "ticker": "CRDO",
+              "value": 5488.532956623268,
+              "weight": 0.0549402148957989
+            },
+            {
+              "price": 13.908499717712402,
+              "shares": 632.1209416081285,
+              "ticker": "CTVA",
+              "value": 8791.853937916754,
+              "weight": 0.0880064579185467
+            },
+            {
+              "price": 131.06399536132812,
+              "shares": 46.36048954305906,
+              "ticker": "DOCN",
+              "value": 6076.1909864203935,
+              "weight": 0.06082267177406813
+            },
+            {
+              "price": 92.22000122070312,
+              "shares": 60.95254816034287,
+              "ticker": "HUT",
+              "value": 5621.044065751786,
+              "weight": 0.056266651098175365
+            },
+            {
+              "price": 15.0600004196167,
+              "shares": 368.33267945601085,
+              "ticker": "LUNR",
+              "value": 5547.090307166067,
+              "weight": 0.05552637397473232
+            },
+            {
+              "price": 10.970000267028809,
+              "shares": 516.3220881049161,
+              "ticker": "MARA",
+              "value": 5664.053444383802,
+              "weight": 0.056697174978281854
+            },
+            {
+              "price": 360.7099914550781,
+              "shares": 21.245929005833133,
+              "ticker": "MDB",
+              "value": 7663.618870149266,
+              "weight": 0.07671282489019414
+            },
+            {
+              "price": 45.58000183105469,
+              "shares": 170.8182829660294,
+              "ticker": "RBLX",
+              "value": 7785.897650369237,
+              "weight": 0.07793683548019606
+            },
+            {
+              "price": 82.79000091552734,
+              "shares": 92.33249676225365,
+              "ticker": "SWKS",
+              "value": 7644.207491479906,
+              "weight": 0.07651851698971385
+            }
+          ],
+          "nav": 99900.09990009991,
+          "rankings": [
+            {
+              "company_name": "Corteva, Inc. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 1,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.11245809265650189,
+              "score_percentile": 1.0,
+              "ticker": "CTVA",
+              "volatility_20d": 0.19056872204560507
+            },
+            {
+              "company_name": "Hut 8 Corp. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 2,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04540292965864683,
+              "score_percentile": 0.9979919678714859,
+              "ticker": "HUT",
+              "volatility_20d": 0.048525375895572626
+            },
+            {
+              "company_name": "Credo Technology Group Holding Ltd - Ordinary Shares",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 3,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04390184956927376,
+              "score_percentile": 0.9959839357429718,
+              "ticker": "CRDO",
+              "volatility_20d": 0.047165738078155016
+            },
+            {
+              "company_name": "DigitalOcean Holdings, Inc. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 4,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04379294610301888,
+              "score_percentile": 0.9939759036144579,
+              "ticker": "DOCN",
+              "volatility_20d": 0.04439986189841099
+            },
+            {
+              "company_name": "Skyworks Solutions, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 5,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04316793864384657,
+              "score_percentile": 0.9919678714859438,
+              "ticker": "SWKS",
+              "volatility_20d": 0.05308875310445584
+            },
+            {
+              "company_name": "Roblox Corporation Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 6,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04311684700521266,
+              "score_percentile": 0.9899598393574297,
+              "ticker": "RBLX",
+              "volatility_20d": 0.04642194768224946
+            },
+            {
+              "company_name": "MARA Holdings, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 7,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04300333238627925,
+              "score_percentile": 0.9879518072289156,
+              "ticker": "MARA",
+              "volatility_20d": 0.043516883245867714
+            },
+            {
+              "company_name": "Intuitive Machines, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 8,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04289519933438532,
+              "score_percentile": 0.9859437751004017,
+              "ticker": "LUNR",
+              "volatility_20d": 0.047886225499134696
+            },
+            {
+              "company_name": "MongoDB, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 9,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04285535143258738,
+              "score_percentile": 0.9839357429718876,
+              "ticker": "MDB",
+              "volatility_20d": 0.052162344624278004
+            },
+            {
+              "company_name": "Coherent Corp. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 10,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04257293872339866,
+              "score_percentile": 0.9819277108433735,
+              "ticker": "COHR",
+              "volatility_20d": 0.05204139109239408
+            },
+            {
+              "company_name": "Coinbase Global, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 11,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.042370445936518876,
+              "score_percentile": 0.9799196787148594,
+              "ticker": "COIN",
+              "volatility_20d": 0.04780460803911283
+            },
+            {
+              "company_name": "Oklo Inc. Class A common stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 12,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04225540368089541,
+              "score_percentile": 0.9779116465863453,
+              "ticker": "OKLO",
+              "volatility_20d": 0.045062132423145676
+            },
+            {
+              "company_name": "Applied Optoelectronics, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 13,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.042168097325787385,
+              "score_percentile": 0.9759036144578314,
+              "ticker": "AAOI",
+              "volatility_20d": 0.04822968414624063
+            },
+            {
+              "company_name": "Seagate Technology Holdings PLC - Ordinary Shares (Ireland)",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 14,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04201896543537581,
+              "score_percentile": 0.9738955823293173,
+              "ticker": "STX",
+              "volatility_20d": 0.0431586059216907
+            },
+            {
+              "company_name": "Corning Incorporated Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 15,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.0420051794405,
+              "score_percentile": 0.9718875502008032,
+              "ticker": "GLW",
+              "volatility_20d": 0.044309504094692316
+            },
+            {
+              "company_name": "Applied Digital Corporation - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 16,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.0419962645211793,
+              "score_percentile": 0.9698795180722891,
+              "ticker": "APLD",
+              "volatility_20d": 0.04512604258631433
+            },
+            {
+              "company_name": "Intel Corporation - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 17,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041734720354799054,
+              "score_percentile": 0.9678714859437751,
+              "ticker": "INTC",
+              "volatility_20d": 0.04497358021144897
+            },
+            {
+              "company_name": "Zscaler, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 18,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04165223305905878,
+              "score_percentile": 0.9658634538152611,
+              "ticker": "ZS",
+              "volatility_20d": 0.04759907443103944
+            },
+            {
+              "company_name": "AXT Inc - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 19,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041650413179373534,
+              "score_percentile": 0.963855421686747,
+              "ticker": "AXTI",
+              "volatility_20d": 0.06296678237007103
+            },
+            {
+              "company_name": "Ciena Corporation Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 20,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04156466966612652,
+              "score_percentile": 0.9618473895582329,
+              "ticker": "CIEN",
+              "volatility_20d": 0.04619170801196233
+            },
+            {
+              "company_name": "Okta, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 21,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041524744481579265,
+              "score_percentile": 0.9598393574297188,
+              "ticker": "OKTA",
+              "volatility_20d": 0.037002190526902345
+            },
+            {
+              "company_name": "Tempus AI, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 22,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04151313946272865,
+              "score_percentile": 0.9578313253012049,
+              "ticker": "TEM",
+              "volatility_20d": 0.06479380773233333
+            },
+            {
+              "company_name": "Astera Labs, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 23,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04145193400238725,
+              "score_percentile": 0.9558232931726908,
+              "ticker": "ALAB",
+              "volatility_20d": 0.05435988918566383
+            },
+            {
+              "company_name": "Bloom Energy Corporation Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 24,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041001576582920765,
+              "score_percentile": 0.9538152610441767,
+              "ticker": "BE",
+              "volatility_20d": 0.05180468705574109
+            },
+            {
+              "company_name": "Moderna, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 25,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04099640675930677,
+              "score_percentile": 0.9518072289156626,
+              "ticker": "MRNA",
+              "volatility_20d": 0.04952710124560101
+            }
+          ],
+          "rebalance": true,
+          "recorded_at": "2026-10-06T20:07:59.483861+00:00",
+          "return": -0.0009990009990008542,
+          "source_sha256": "2b3b95e3b4aa188896c64cabfaeead7d3cd880177645b0dd98d20cd57acf5620",
+          "trades": [
+            {
+              "dollars": 33966.03396603397,
+              "ticker": "BIL"
+            },
+            {
+              "dollars": 5651.576223805477,
+              "ticker": "COHR"
+            },
+            {
+              "dollars": 5488.532956623268,
+              "ticker": "CRDO"
+            },
+            {
+              "dollars": 8791.853937916754,
+              "ticker": "CTVA"
+            },
+            {
+              "dollars": 6076.1909864203935,
+              "ticker": "DOCN"
+            },
+            {
+              "dollars": 5621.044065751786,
+              "ticker": "HUT"
+            },
+            {
+              "dollars": 5547.090307166067,
+              "ticker": "LUNR"
+            },
+            {
+              "dollars": 5664.053444383801,
+              "ticker": "MARA"
+            },
+            {
+              "dollars": 7663.618870149266,
+              "ticker": "MDB"
+            },
+            {
+              "dollars": 7785.8976503692365,
+              "ticker": "RBLX"
+            },
+            {
+              "dollars": 7644.207491479906,
+              "ticker": "SWKS"
+            }
+          ]
+        }
+      ],
+      "positions": {
+        "BIL": 371.42578523177417,
+        "COHR": 16.696435306380106,
+        "CRDO": 24.85410909348383,
+        "CTVA": 632.1209416081285,
+        "DOCN": 46.36048954305906,
+        "HUT": 60.95254816034287,
+        "LUNR": 368.33267945601085,
+        "MARA": 516.3220881049161,
+        "MDB": 21.245929005833133,
+        "RBLX": 170.8182829660294,
+        "SWKS": 92.33249676225365
+      },
+      "starting_capital": 100000,
+      "status": "active_paper",
+      "total_costs": 99.90009990008548
     },
     {
-      "anchor": "shrinkage_max_diversification",
-      "controller": false,
+      "config_sha256": "abaeaa3750f19d80c5c40b37f42da5065cd1b1869e7fb17c2282101bdac8471a",
+      "days_underwater": 1,
       "description": "The tested strategic sleeve: 20% USO, 80% of Core equity exposure, and the residual in BIL. Experimental; not promoted.",
       "experimental": true,
+      "high_water_mark": 100000,
       "key": "oil",
-      "maximum_drawdown": 0,
+      "last_prices": {
+        "BIL": 91.44770050048828,
+        "COHR": 338.489990234375,
+        "CRDO": 220.8300018310547,
+        "CTVA": 13.908499717712402,
+        "DOCN": 131.06399536132812,
+        "HUT": 92.22000122070312,
+        "LUNR": 15.0600004196167,
+        "MARA": 10.970000267028809,
+        "MDB": 360.7099914550781,
+        "RBLX": 45.58000183105469,
+        "SWKS": 82.79000091552734,
+        "USO": 144.9199981689453
+      },
+      "last_rebalance_date": "2026-10-06",
+      "launch_date": "2026-10-06",
+      "maximum_days_underwater": 1,
+      "maximum_drawdown": -0.0009990009990008542,
       "name": "Oil Diversifier",
-      "observations": [],
-      "oil_budget": 0.2,
-      "signal_blend": 0.25,
-      "status": "awaiting_launch",
-      "total_costs": 0
+      "observations": [
+        {
+          "attribution": {
+            "cash": 0.0,
+            "cost": -99.90009990008548,
+            "equity": 0.0,
+            "oil": 0.0
+          },
+          "cost": 99.90009990008548,
+          "date": "2026-10-06",
+          "drawdown": -0.0009990009990008542,
+          "holdings": [
+            {
+              "price": 91.44770050048828,
+              "shares": 218.4857560186906,
+              "ticker": "BIL",
+              "value": 19980.019980019973,
+              "weight": 0.1999999999999999
+            },
+            {
+              "price": 338.489990234375,
+              "shares": 15.178577551254644,
+              "ticker": "COHR",
+              "value": 5137.796567095888,
+              "weight": 0.051429343636629835
+            },
+            {
+              "price": 220.8300018310547,
+              "shares": 22.59464463043985,
+              "ticker": "CRDO",
+              "value": 4989.575415112062,
+              "weight": 0.049945649905271734
+            },
+            {
+              "price": 13.908499717712402,
+              "shares": 574.6554014619351,
+              "ticker": "CTVA",
+              "value": 7992.594489015231,
+              "weight": 0.08000587083504246
+            },
+            {
+              "price": 131.06399536132812,
+              "shares": 42.14589958459915,
+              "ticker": "DOCN",
+              "value": 5523.809987654904,
+              "weight": 0.055293337976425584
+            },
+            {
+              "price": 92.22000122070312,
+              "shares": 55.411407418493525,
+              "ticker": "HUT",
+              "value": 5110.040059774351,
+              "weight": 0.051151500998341246
+            },
+            {
+              "price": 15.0600004196167,
+              "shares": 334.8478904145553,
+              "ticker": "LUNR",
+              "value": 5042.80937015097,
+              "weight": 0.0504785217952112
+            },
+            {
+              "price": 10.970000267028809,
+              "shares": 469.3837164590146,
+              "ticker": "MARA",
+              "value": 5149.139494894364,
+              "weight": 0.05154288634389258
+            },
+            {
+              "price": 360.7099914550781,
+              "shares": 19.31448091439376,
+              "ticker": "MDB",
+              "value": 6966.926245590243,
+              "weight": 0.06973893171835832
+            },
+            {
+              "price": 45.58000183105469,
+              "shares": 155.2893481509358,
+              "ticker": "RBLX",
+              "value": 7078.088773062943,
+              "weight": 0.07085166861836005
+            },
+            {
+              "price": 82.79000091552734,
+              "shares": 83.93863342023062,
+              "ticker": "SWKS",
+              "value": 6949.279537709007,
+              "weight": 0.06956228817246715
+            },
+            {
+              "price": 144.9199981689453,
+              "shares": 137.869308808075,
+              "ticker": "USO",
+              "value": 19980.019980019984,
+              "weight": 0.2
+            }
+          ],
+          "nav": 99900.09990009991,
+          "rankings": [
+            {
+              "company_name": "Corteva, Inc. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 1,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.11245809265650189,
+              "score_percentile": 1.0,
+              "ticker": "CTVA",
+              "volatility_20d": 0.19056872204560507
+            },
+            {
+              "company_name": "Hut 8 Corp. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 2,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04540292965864683,
+              "score_percentile": 0.9979919678714859,
+              "ticker": "HUT",
+              "volatility_20d": 0.048525375895572626
+            },
+            {
+              "company_name": "Credo Technology Group Holding Ltd - Ordinary Shares",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 3,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04390184956927376,
+              "score_percentile": 0.9959839357429718,
+              "ticker": "CRDO",
+              "volatility_20d": 0.047165738078155016
+            },
+            {
+              "company_name": "DigitalOcean Holdings, Inc. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 4,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04379294610301888,
+              "score_percentile": 0.9939759036144579,
+              "ticker": "DOCN",
+              "volatility_20d": 0.04439986189841099
+            },
+            {
+              "company_name": "Skyworks Solutions, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 5,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04316793864384657,
+              "score_percentile": 0.9919678714859438,
+              "ticker": "SWKS",
+              "volatility_20d": 0.05308875310445584
+            },
+            {
+              "company_name": "Roblox Corporation Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 6,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04311684700521266,
+              "score_percentile": 0.9899598393574297,
+              "ticker": "RBLX",
+              "volatility_20d": 0.04642194768224946
+            },
+            {
+              "company_name": "MARA Holdings, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 7,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04300333238627925,
+              "score_percentile": 0.9879518072289156,
+              "ticker": "MARA",
+              "volatility_20d": 0.043516883245867714
+            },
+            {
+              "company_name": "Intuitive Machines, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 8,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04289519933438532,
+              "score_percentile": 0.9859437751004017,
+              "ticker": "LUNR",
+              "volatility_20d": 0.047886225499134696
+            },
+            {
+              "company_name": "MongoDB, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 9,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04285535143258738,
+              "score_percentile": 0.9839357429718876,
+              "ticker": "MDB",
+              "volatility_20d": 0.052162344624278004
+            },
+            {
+              "company_name": "Coherent Corp. Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 10,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04257293872339866,
+              "score_percentile": 0.9819277108433735,
+              "ticker": "COHR",
+              "volatility_20d": 0.05204139109239408
+            },
+            {
+              "company_name": "Coinbase Global, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 11,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.042370445936518876,
+              "score_percentile": 0.9799196787148594,
+              "ticker": "COIN",
+              "volatility_20d": 0.04780460803911283
+            },
+            {
+              "company_name": "Oklo Inc. Class A common stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 12,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04225540368089541,
+              "score_percentile": 0.9779116465863453,
+              "ticker": "OKLO",
+              "volatility_20d": 0.045062132423145676
+            },
+            {
+              "company_name": "Applied Optoelectronics, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 13,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.042168097325787385,
+              "score_percentile": 0.9759036144578314,
+              "ticker": "AAOI",
+              "volatility_20d": 0.04822968414624063
+            },
+            {
+              "company_name": "Seagate Technology Holdings PLC - Ordinary Shares (Ireland)",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 14,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04201896543537581,
+              "score_percentile": 0.9738955823293173,
+              "ticker": "STX",
+              "volatility_20d": 0.0431586059216907
+            },
+            {
+              "company_name": "Corning Incorporated Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 15,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.0420051794405,
+              "score_percentile": 0.9718875502008032,
+              "ticker": "GLW",
+              "volatility_20d": 0.044309504094692316
+            },
+            {
+              "company_name": "Applied Digital Corporation - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 16,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.0419962645211793,
+              "score_percentile": 0.9698795180722891,
+              "ticker": "APLD",
+              "volatility_20d": 0.04512604258631433
+            },
+            {
+              "company_name": "Intel Corporation - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 17,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041734720354799054,
+              "score_percentile": 0.9678714859437751,
+              "ticker": "INTC",
+              "volatility_20d": 0.04497358021144897
+            },
+            {
+              "company_name": "Zscaler, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 18,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04165223305905878,
+              "score_percentile": 0.9658634538152611,
+              "ticker": "ZS",
+              "volatility_20d": 0.04759907443103944
+            },
+            {
+              "company_name": "AXT Inc - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 19,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041650413179373534,
+              "score_percentile": 0.963855421686747,
+              "ticker": "AXTI",
+              "volatility_20d": 0.06296678237007103
+            },
+            {
+              "company_name": "Ciena Corporation Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 20,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04156466966612652,
+              "score_percentile": 0.9618473895582329,
+              "ticker": "CIEN",
+              "volatility_20d": 0.04619170801196233
+            },
+            {
+              "company_name": "Okta, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 21,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041524744481579265,
+              "score_percentile": 0.9598393574297188,
+              "ticker": "OKTA",
+              "volatility_20d": 0.037002190526902345
+            },
+            {
+              "company_name": "Tempus AI, Inc. - Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 22,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04151313946272865,
+              "score_percentile": 0.9578313253012049,
+              "ticker": "TEM",
+              "volatility_20d": 0.06479380773233333
+            },
+            {
+              "company_name": "Astera Labs, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 23,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04145193400238725,
+              "score_percentile": 0.9558232931726908,
+              "ticker": "ALAB",
+              "volatility_20d": 0.05435988918566383
+            },
+            {
+              "company_name": "Bloom Energy Corporation Class A Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 24,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.041001576582920765,
+              "score_percentile": 0.9538152610441767,
+              "ticker": "BE",
+              "volatility_20d": 0.05180468705574109
+            },
+            {
+              "company_name": "Moderna, Inc. - Common Stock",
+              "model_configuration": "governed_technical_hardened_horizon_20d",
+              "rank": 25,
+              "regime_is_confident": false,
+              "risk_state": "neutral",
+              "score": 0.04099640675930677,
+              "score_percentile": 0.9518072289156626,
+              "ticker": "MRNA",
+              "volatility_20d": 0.04952710124560101
+            }
+          ],
+          "rebalance": true,
+          "recorded_at": "2026-10-06T20:07:59.483861+00:00",
+          "return": -0.0009990009990008542,
+          "source_sha256": "2b3b95e3b4aa188896c64cabfaeead7d3cd880177645b0dd98d20cd57acf5620",
+          "trades": [
+            {
+              "dollars": 19980.019980019973,
+              "ticker": "BIL"
+            },
+            {
+              "dollars": 5137.796567095888,
+              "ticker": "COHR"
+            },
+            {
+              "dollars": 4989.575415112062,
+              "ticker": "CRDO"
+            },
+            {
+              "dollars": 7992.594489015231,
+              "ticker": "CTVA"
+            },
+            {
+              "dollars": 5523.809987654904,
+              "ticker": "DOCN"
+            },
+            {
+              "dollars": 5110.040059774351,
+              "ticker": "HUT"
+            },
+            {
+              "dollars": 5042.80937015097,
+              "ticker": "LUNR"
+            },
+            {
+              "dollars": 5149.139494894364,
+              "ticker": "MARA"
+            },
+            {
+              "dollars": 6966.926245590243,
+              "ticker": "MDB"
+            },
+            {
+              "dollars": 7078.088773062943,
+              "ticker": "RBLX"
+            },
+            {
+              "dollars": 6949.279537709007,
+              "ticker": "SWKS"
+            },
+            {
+              "dollars": 19980.019980019984,
+              "ticker": "USO"
+            }
+          ]
+        }
+      ],
+      "positions": {
+        "BIL": 218.4857560186906,
+        "COHR": 15.178577551254644,
+        "CRDO": 22.59464463043985,
+        "CTVA": 574.6554014619351,
+        "DOCN": 42.14589958459915,
+        "HUT": 55.411407418493525,
+        "LUNR": 334.8478904145553,
+        "MARA": 469.3837164590146,
+        "MDB": 19.31448091439376,
+        "RBLX": 155.2893481509358,
+        "SWKS": 83.93863342023062,
+        "USO": 137.869308808075
+      },
+      "starting_capital": 100000,
+      "status": "active_paper",
+      "total_costs": 99.90009990008548
     }
   ],
+  "provider": "yahoo_research_feed",
   "schema_version": "1.0",
-  "signal_date": null,
+  "signal_date": "2026-10-06",
+  "source_sha256": "2b3b95e3b4aa188896c64cabfaeead7d3cd880177645b0dd98d20cd57acf5620",
   "starting_capital": 100000,
-  "status": "awaiting_launch"
+  "status": "active_paper",
+  "transaction_cost_bps": 10
 }
