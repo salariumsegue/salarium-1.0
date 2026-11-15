@@ -77,7 +77,7 @@ export default function PortfolioDashboard({
               </small>
               <small>
                 {last
-                  ? `${p.observations.length} close observations`
+                  ? `${p.observations.length} recorded ${p.observations.length === 1 ? "close" : "closes"}`
                   : "Launch pending"}
               </small>
             </button>
@@ -189,6 +189,21 @@ export default function PortfolioDashboard({
             <p className="eyebrow">SELECTED ACCOUNT</p>
             <h2>{account.name}</h2>
             <p className="research-muted">{account.description}</p>
+            {account.experimental && (
+              <p className="research-muted">
+                Why it is still here: the oil sleeve failed its recovery-time
+                gate and was not promoted. This account keeps a forward paper
+                record of the rejected idea beside Core. It does not feed any
+                other portfolio.
+              </p>
+            )}
+            {account.observations.length === 1 && (
+              <p className="research-muted">
+                Only the opening close is recorded so far. Every account
+                started with the same capital and paid the same entry cost, so
+                the opening values match.
+              </p>
+            )}
           </div>
           <Link href="/research/courtroom">Oil sleeve research ↗</Link>
         </div>

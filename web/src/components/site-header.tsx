@@ -79,8 +79,8 @@ export default function SiteHeader({
                 <button type="button" className={`nav-link nav-group-toggle ${active ? "nav-link-active" : ""}`} data-nav-group={group.label} aria-expanded={activeGroup === group.label} aria-controls={`nav-menu-${group.label.toLowerCase()}`} onClick={() => setActiveGroup(group.label)}>
                   {group.label}<span className="nav-chevron" aria-hidden="true">⌄</span>
                 </button>
-                {activeGroup === group.label && (
-                  <div id={`nav-menu-${group.label.toLowerCase()}`} className="nav-dropdown">
+                {(
+                  <div id={`nav-menu-${group.label.toLowerCase()}`} className="nav-dropdown" hidden={activeGroup !== group.label}>
                     {group.items.map((item) => <Link key={item.href} href={item.href} className="nav-dropdown-link" aria-current={pathname === item.href ? "page" : undefined} onClick={closeNavigation}>{item.label}<span aria-hidden="true">↗</span></Link>)}
                   </div>
                 )}
