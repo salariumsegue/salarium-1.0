@@ -3,7 +3,7 @@ import { loadCrisisDiversifierResearch } from "@/lib/site-data";
 import { evaluateGates } from "@/lib/evidence";
 import { percent } from "@/lib/format";
 export const metadata: Metadata = {
-  title: "Model courtroom",
+  title: "Oil sleeve case",
   alternates: { canonical: "/research/courtroom" },
 };
 export default function CourtroomPage() {
@@ -16,7 +16,7 @@ export default function CourtroomPage() {
   return (
     <main id="main-content" className="site-main research-page">
       <section className="site-container">
-        <p className="eyebrow">MODEL COURTROOM / CASE 001</p>
+        <p className="eyebrow">OIL SLEEVE / CASE 001</p>
         <h1>
           Oil cut the drawdown.
           <br />
@@ -83,13 +83,10 @@ export default function CourtroomPage() {
           ))}
         </div>
         <p className="research-muted">
-          Verdict computed from all nine published gate booleans. Missing or
-          non-true gates fail closed. Clearing gates does not automatically
-          change the release. Arguments are editorial summaries of the stored
-          research, not independent AI testimony.
+          The result uses all nine published tests, and a missing test counts as a fail. Passing all nine would still need a separate release decision. The two summaries above are my reading of the saved research.
         </p>
         <details className="research-panel">
-          <summary>Timing and evidentiary limits</summary>
+          <summary>Timing and limits of the evidence</summary>
           <p>
             The artifact claims a frozen protocol, but its generated timestamp (
             {research.generated_at_utc}) precedes its stated freeze time (
