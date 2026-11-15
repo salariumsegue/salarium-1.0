@@ -46,13 +46,13 @@ export default function ExperimentsPage() {
             <div>
               <p className="roman-inscription">ACTIVE RESEARCH / VII</p>
               <h2 id="crisis-title">Crisis-diversifier sleeve.</h2>
-              <p>Gold, oil, Treasuries, commodities, inflation protection, cash, and cross-asset trend were tested as governed portfolio sleeves.</p>
+              <p>Gold, oil, Treasuries, commodities, inflation protection, cash, and cross-asset trend were each tested as an add-on sleeve to the stock portfolio.</p>
             </div>
             <StatusBadge tone="negative">NOT PROMOTED</StatusBadge>
           </header>
 
           <div className="crisis-result-grid">
-            <div><span>LEADING VARIANT</span><strong>{Math.round(leadingGate.sleeve_budget * 100)}% {leading.policy_label.replace(/^Strategic 10% /, "")}</strong><small>research leader, not selected policy</small></div>
+            <div><span>LEADING VARIANT</span><strong>{Math.round(leadingGate.sleeve_budget * 100)}% {leading.policy_label.replace(/^Strategic 10% /, "")}</strong><small>best result in testing, not adopted</small></div>
             <div><span>ANNUALIZED NET</span><strong>{percent(leading.annualized_net_return)}</strong><small>{percent(comparator.annualized_net_return)} cash-yield comparator</small></div>
             <div><span>MAX DRAWDOWN</span><strong className="positive-number">{percent(leading.max_drawdown)}</strong><small>{percent(comparator.max_drawdown)} comparator</small></div>
             <div><span>NET SHARPE</span><strong>{leading.net_sharpe.toFixed(3)}</strong><small>{comparator.net_sharpe.toFixed(3)} comparator</small></div>
@@ -70,7 +70,7 @@ export default function ExperimentsPage() {
               <p className="roman-inscription">DECISION / NOT PROMOTED</p>
               <h3>Improved drawdown.<br />Failed recovery test.</h3>
               <p>The leading 20% oil comparator improved maximum drawdown by {percent(leadingGate.drawdown_absolute_improvement)} and Sharpe by {leadingGate.sharpe_delta.toFixed(3)}, but reduced the longest recovery by only {percent(leadingGate.maximum_recovery_days_relative_reduction)} against a frozen 20% requirement.</p>
-              <p>Its strength is concentrated in the inflationary sample. It is not reliable enough to alter the release architecture.</p>
+              <p>Most of its benefit came from the inflationary part of the sample. That is not reliable enough to change the released model.</p>
             </div>
           </div>
 
