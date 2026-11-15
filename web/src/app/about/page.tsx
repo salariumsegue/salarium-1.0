@@ -55,7 +55,7 @@ export default function AboutPage() {
               I&apos;m Niall Gillen, a finance student at Indiana University&apos;s Kelley School of Business. I built Salarium to study how a stock-ranking model, portfolio rules, and risk controls work together.
             </p>
             <p>
-              The name comes from the Latin <em>salarium</em>, a word linked to the origin of “salary.” Here it stands for careful decisions about capital.
+              The name comes from the Latin <em>salarium</em>, a word linked to the origin of “salary.” I use it to mean careful decisions about money.
             </p>
           </div>
         </div>
@@ -109,11 +109,11 @@ export default function AboutPage() {
             <p className="eyebrow">In five steps</p>
             <h2 className="mt-4 text-2xl font-medium">How the model works</h2>
             <ol className="mt-6 grid gap-4 text-sm leading-6 text-white/44">
-              <li><span className="mr-3 font-mono text-emerald-300">01</span>Salarium scores a governed list of liquid stocks.</li>
-              <li><span className="mr-3 font-mono text-emerald-300">02</span>It keeps only the strongest research candidates.</li>
+              <li><span className="mr-3 font-mono text-emerald-300">01</span>Salarium scores a fixed list of 500 liquid stocks.</li>
+              <li><span className="mr-3 font-mono text-emerald-300">02</span>It keeps the ten highest-ranked stocks.</li>
               <li><span className="mr-3 font-mono text-emerald-300">03</span>It reduces duplicated risk when several stocks move together.</li>
               <li><span className="mr-3 font-mono text-emerald-300">04</span>It scales exposure down when portfolio risk is elevated.</li>
-              <li><span className="mr-3 font-mono text-emerald-300">05</span>It shows the evidence and limitations instead of hiding them.</li>
+              <li><span className="mr-3 font-mono text-emerald-300">05</span>It publishes the results along with their limits.</li>
             </ol>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function AboutPage() {
 
       <section className="page-section">
         <div className="border border-red-400/20 bg-red-400/[0.025] p-6 sm:p-9">
-          <p className="eyebrow text-red-300">Release boundary</p>
+          <p className="eyebrow text-red-300">What this is not</p>
           <h2 className="mt-4 text-3xl font-medium">This is a research project, not an investment service.</h2>
           <p className="mt-4 max-w-4xl text-sm leading-7 text-white/42">
             Salarium does not connect to a broker, place trades, or give personal investment advice. Simulated returns may not repeat. You can inspect the model, its assumptions, and its results in the linked source files.
