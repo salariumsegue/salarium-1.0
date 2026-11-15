@@ -89,7 +89,7 @@ export default function DependencyMap({
               "All current holdings have at least one reviewed tag."}
           </p>
           <p>
-            Unclassified means unreviewed—not independent. No numerical rate
+            Unclassified means not yet reviewed. It does not mean independent. No numerical rate
             sensitivity or revenue exposure is claimed.
           </p>
         </article>

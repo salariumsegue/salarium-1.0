@@ -12,51 +12,51 @@ export const metadata: Metadata = {
 const destinations = [
   {
     eyebrow: "PAPER ACCOUNTS",
-    title: "Compare four portfolio policies",
+    title: "Compare the four paper portfolios",
     description:
-      "Follow independent Core, Defensive, Drawdown Control, and experimental Oil accounts on the same dates.",
+      "Core, Defensive, Drawdown Control, and the experimental Oil account, tracked on the same dates.",
     href: "/dashboard",
-    action: "Open portfolio dashboard",
+    action: "Open the portfolios",
   },
   {
     eyebrow: "OIL SLEEVE / CASE 001",
-    title: "Read the oil hedge verdict",
+    title: "Why the oil hedge was rejected",
     description:
-      "See the strongest evidence for and against the 20% oil sleeve, its recorded gates, and why it remains experimental.",
+      "The case for and against a 20% oil sleeve, the nine tests it faced, and the one it failed.",
     href: "/research/courtroom",
-    action: "Open the model courtroom",
+    action: "Read the oil sleeve case",
   },
   {
-    eyebrow: "EXPERIMENT RECORD",
-    title: "Inspect accepted and rejected tests",
+    eyebrow: "EXPERIMENTS",
+    title: "Tests that passed and tests that failed",
     description:
-      "Review the hypotheses that changed the release and the evidence attached to each decision.",
+      "Each design question, the result, and the decision it led to.",
     href: "/research/experiments",
-    action: "Browse the experiment archive",
+    action: "See the experiments",
   },
   {
     eyebrow: "HISTORICAL RESULTS",
-    title: "Review performance and risk",
+    title: "Returns and risk",
     description:
-      "Explore walk-forward returns, drawdowns, yearly results, and the separate forward paper record.",
+      "Walk-forward returns, drawdowns, and year-by-year results, plus the separate paper record.",
     href: "/research/performance",
-    action: "View the performance record",
+    action: "See the results",
   },
   {
     eyebrow: "DECISION REPLAY",
-    title: "Reconstruct a past rebalance",
+    title: "Replay a past rebalance",
     description:
-      "Inspect what the model knew, ranked, held, and changed on a recorded decision date.",
+      "What the model ranked, held, and changed on a recorded date.",
     href: "/replay",
-    action: "Open the decision archive",
+    action: "Open the archive",
   },
   {
     eyebrow: "PORTFOLIO RISK",
-    title: "Trace shared dependencies",
+    title: "Where holdings overlap",
     description:
-      "See where holdings overlap through measured exposures and documented business themes.",
+      "Holdings that depend on the same customers, suppliers, or trends.",
     href: "/dependencies",
-    action: "Map portfolio dependencies",
+    action: "See the overlap",
   },
   {
     eyebrow: "MODEL DESIGN",
@@ -89,12 +89,10 @@ export default function ResearchPage() {
     <main id="main-content" className="site-main research-index">
       <section className="page-section research-index-intro">
         <div>
-          <p className="eyebrow">SALARIUM / RESEARCH RECORD</p>
-          <h1>What we tested. What worked. What failed.</h1>
+          <p className="eyebrow">SALARIUM / RESEARCH</p>
+          <h1>What I tested and how it turned out.</h1>
           <p>
-            Compare the paper portfolios, read why the oil hedge failed its test,
-            and check the historical results against their assumptions. The returns
-            are simulated or paper tracked. No money is invested through this site.
+            Compare the paper portfolios, read why the oil hedge was rejected, and check the historical results against their assumptions. Every return here is simulated or paper tracked. No real money is involved.
           </p>
         </div>
         <aside aria-label="Research record scope">
@@ -117,15 +115,15 @@ export default function ResearchPage() {
       </section>
 
       <section className="site-container research-index-note">
-        <p>Evidence standard</p>
-        <span>Each result links to its method, evaluation period, and known limitations. The release candidate’s historical return is not a forecast.</span>
+        <p>How to read these</p>
+        <span>Each result links to its method, test period, and known limits. A historical return is not a forecast.</span>
         <Link href="/disclosures">Read the full disclosures ↗</Link>
       </section>
 
       <section className="site-container research-next">
         <div className="research-next-heading">
-          <div><p className="eyebrow">NEXT / FIVE HYPOTHESES</p><h2>What I would test next.</h2><p>These are proposed research reviews, not scheduled launches. Each idea starts in a separate paper ledger and has to beat the same out-of-sample, cost, and risk gates before it earns a release.</p></div>
-          <aside><span>NON-OIL CAPITAL</span><strong>20% target sleeve</strong><small>Every candidate tests an allocation outside oil. The digital-asset idea is capped at 5% because its drawdowns can dominate a portfolio.</small></aside>
+          <div><p className="eyebrow">NEXT / FIVE IDEAS</p><h2>What I would test next.</h2><p>These are ideas I plan to test, not scheduled launches. Each one starts as its own paper account and has to pass the same out-of-sample, cost, and risk tests before it is added.</p></div>
+          <aside><span>NON-OIL CAPITAL</span><strong>20% target sleeve</strong><small>Each idea tests an allocation outside oil. Bitcoin is capped at 5% because its drawdowns can dominate a portfolio.</small></aside>
         </div>
         <div className="research-next-grid">{nextIdeas.map((idea) => <article className="research-next-card" key={idea.code}>
           <div className="research-next-top"><span>{idea.code} / PROPOSAL</span><time dateTime={idea.date}>{idea.review}</time></div>

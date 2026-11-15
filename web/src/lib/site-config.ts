@@ -24,6 +24,17 @@ export const MODEL_CARD_URL =
 export const RELEASE_NOTES_URL =
   `${GITHUB_URL}/blob/main/docs/RELEASE_NOTES_1_0.md`;
 
+export const LINKEDIN_URL = "https://www.linkedin.com/in/niallgillen";
+
+export const ISSUES_URL = `${GITHUB_URL}/issues/new`;
+
+// Optional public contact address. Set NEXT_PUBLIC_CONTACT_EMAIL once the
+// mailbox actually receives mail; until then the site links LinkedIn and GitHub.
+export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null;
+
+// Captured once when the module loads, i.e. at build time for static pages.
+export const BUILD_TIME_MS = Date.now();
+
 export const NAV_GROUPS = [
   {
     label: "Portfolios",
@@ -39,6 +50,7 @@ export const NAV_GROUPS = [
     href: "/research",
     items: [
       { href: "/research", label: "Research overview" },
+      { href: "/candidates", label: "Research candidates" },
       { href: "/research/courtroom", label: "Oil sleeve case" },
       { href: "/research/experiments", label: "Experiments" },
       { href: "/research/performance", label: "Historical results" },

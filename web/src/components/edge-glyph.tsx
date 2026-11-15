@@ -8,12 +8,12 @@ const marks = Array.from({ length: 12 }, (_, index) => ({
   accent: index === 4 || index === 5 || index === 10 || index === 11,
 }));
 
-export function EdgeGlyph({ className, variant = "color", title = "Salarium Classical Profile Mark", ...props }: SVGProps<SVGSVGElement> & { variant?: GlyphVariant; title?: string }) {
+export function EdgeGlyph({ className, variant = "color", title, ...props }: SVGProps<SVGSVGElement> & { variant?: GlyphVariant; title?: string }) {
   const monochrome = variant !== "color";
   const mono = variant === "dark" ? "#090b0a" : "#f4f6f4";
   return (
-    <svg viewBox="0 0 120 120" role="img" aria-label={title} className={className} {...props}>
-      <title>{title}</title>
+    <svg viewBox="0 0 120 120" className={className} {...(title ? { role: "img", "aria-label": title } : { "aria-hidden": true, focusable: false })} {...props}>
+      {title && <title>{title}</title>}
       <circle cx="60" cy="60" r="52" fill="none" stroke={monochrome ? mono : "#454c47"} strokeWidth="1.5" />
       <circle cx="60" cy="60" r="47" fill="none" stroke={monochrome ? mono : "#26302a"} strokeWidth="0.75" />
       <g aria-hidden="true">

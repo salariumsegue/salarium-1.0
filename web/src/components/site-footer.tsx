@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import { ArrowUpRightIcon, GitHubIcon } from "@/components/icons";
 import { SalariumLogo } from "@/components/edge-glyph";
-import { DATA_LINKS, GITHUB_URL, MODEL_CARD_URL, RELEASE_NOTES_URL } from "@/lib/site-config";
+import { CONTACT_EMAIL, DATA_LINKS, GITHUB_URL, ISSUES_URL, LINKEDIN_URL, MODEL_CARD_URL, RELEASE_NOTES_URL } from "@/lib/site-config";
 import { formatDateTime } from "@/lib/format";
 
 export default function SiteFooter({
@@ -44,6 +44,9 @@ export default function SiteFooter({
           <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="footer-link"><GitHubIcon className="h-3.5 w-3.5" />GitHub repository</a>
           <a href={MODEL_CARD_URL} target="_blank" rel="noreferrer" className="footer-link">Model card<ArrowUpRightIcon className="h-3 w-3" /></a>
           <a href={RELEASE_NOTES_URL} target="_blank" rel="noreferrer" className="footer-link">Release notes<ArrowUpRightIcon className="h-3 w-3" /></a>
+          {CONTACT_EMAIL && <a href={`mailto:${CONTACT_EMAIL}`} className="footer-link">{CONTACT_EMAIL}</a>}
+          <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="footer-link">Contact on LinkedIn<ArrowUpRightIcon className="h-3 w-3" /></a>
+          <a href={ISSUES_URL} target="_blank" rel="noreferrer" className="footer-link">Report an issue<ArrowUpRightIcon className="h-3 w-3" /></a>
         </FooterGroup>
       </div>
 
